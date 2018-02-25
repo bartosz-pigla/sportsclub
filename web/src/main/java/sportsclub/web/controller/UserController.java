@@ -3,9 +3,10 @@ package sportsclub.web.controller;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import sportsclub.api.user.CreateUserCommand;
-import sportsclub.boot.config.RequestMappings;
+import sportsclub.web.config.RequestMappings;
 
 import javax.validation.Valid;
 import java.util.concurrent.CompletableFuture;
@@ -26,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping(RequestMappings.createUser)
-    public CompletableFuture createUser(@Valid CreateUserCommand command) {
+    public CompletableFuture createUser(@RequestBody @Valid CreateUserCommand command) {
         return commandGateway.send(command);
     }
 }

@@ -1,4 +1,4 @@
-package sportsclub.boot.config;
+package sportsclub.web.config;
 
 public class RequestMappings {
     public static final String foo = "/";
