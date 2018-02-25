@@ -4,7 +4,9 @@ import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
+import sportsclub.api.user.command.ActivateUserCommand;
 import sportsclub.api.user.command.CreateUserCommand;
+import sportsclub.api.user.event.UserActivatedEvent;
 import sportsclub.api.user.event.UserCreatedEvent;
 import sportsclub.domain.user.service.CreateUserValidator;
 
@@ -22,6 +24,8 @@ public class User implements Serializable {
 
     private String password;
 
+    private boolean activated;
+
     public User() {
     }
 
@@ -34,5 +38,11 @@ public class User implements Serializable {
     public void on(UserCreatedEvent event) {
         login = event.getLogin();
         password = event.getPassword();
+    }
+
+    @CommandHandler
+    public void on(ActivateUserCommand command) {
+        activated=true;
+        apply(new UserActivatedEvent(command.getLogin()));
     }
 }
