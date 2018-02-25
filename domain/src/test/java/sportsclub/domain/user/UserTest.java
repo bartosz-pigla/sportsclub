@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import sportsclub.api.user.command.CreateUserCommand;
 import sportsclub.api.user.event.UserCreatedEvent;
+import sportsclub.domain.user.exception.UserAlreadyExistsException;
 import sportsclub.domain.user.model.User;
 
 public class UserTest {
@@ -16,9 +17,17 @@ public class UserTest {
     }
 
     @Test
-    public void testCreateUser() throws Exception {
+    public void shouldAddEventWhenCreateNewUser() throws Exception {
         testFixture.givenNoPriorActivity()
                 .when(new CreateUserCommand("login", "password"))
                 .expectEvents(new UserCreatedEvent("login", "password"));
+    }
+
+    @Test
+    public void shouldAddEventWhenCreateUserWithTheSameLogin() throws Exception {
+        UserCreatedEvent event = new UserCreatedEvent("login", "password");
+        testFixture.given(event)
+                .when(new CreateUserCommand("login", "password"))
+                .expectNoEvents();
     }
 }

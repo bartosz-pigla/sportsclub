@@ -6,6 +6,7 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 import sportsclub.api.user.command.CreateUserCommand;
 import sportsclub.api.user.event.UserCreatedEvent;
+import sportsclub.domain.user.service.CreateUserValidator;
 
 import java.io.Serializable;
 
@@ -25,7 +26,7 @@ public class User implements Serializable {
     }
 
     @CommandHandler
-    public User(CreateUserCommand command) {
+    public User(CreateUserCommand command, CreateUserValidator validator) {
         apply(new UserCreatedEvent(command.getLogin(), command.getPassword()));
     }
 
