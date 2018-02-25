@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import sportsclub.api.user.CreateUserCommand;
+import sportsclub.api.user.command.CreateUserCommand;
 import sportsclub.web.config.RequestMappings;
 
 import javax.validation.Valid;

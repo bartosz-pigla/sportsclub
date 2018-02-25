@@ -3,8 +3,8 @@ package sportsclub.domain.user;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.Before;
 import org.junit.Test;
-import sportsclub.api.user.CreateUserCommand;
-import sportsclub.api.user.UserCreatedEvent;
+import sportsclub.api.user.command.CreateUserCommand;
+import sportsclub.api.user.event.UserCreatedEvent;
 import sportsclub.domain.user.model.User;
 
 public class UserTest {

@@ -1,7 +1,7 @@
 package sportsclub.domain.user.service;
 
 import org.springframework.stereotype.Service;
-import sportsclub.api.user.CreateUserCommand;
+import sportsclub.api.user.command.CreateUserCommand;
 
 @Service
 public class CreateUserValidator {
