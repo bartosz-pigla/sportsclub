@@ -5,7 +5,6 @@ import org.axonframework.commandhandling.model.AggregateNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import sportsclub.api.user.command.CreateUserCommand;
-import sportsclub.api.validation.ValidationException;
 import sportsclub.web.config.RequestMappings;
 
 import javax.validation.Valid;
@@ -32,7 +31,7 @@ public class UserController {
 
     @ExceptionHandler(AggregateNotFoundException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public String handle(AggregateNotFoundException e){
+    public String handle(AggregateNotFoundException e) {
         return "USER NOT FOUND";
     }
 }
