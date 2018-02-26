@@ -4,11 +4,12 @@ import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
+import org.springframework.validation.Errors;
 import sportsclub.api.user.command.ActivateUserCommand;
 import sportsclub.api.user.command.CreateUserCommand;
 import sportsclub.api.user.event.UserActivatedEvent;
 import sportsclub.api.user.event.UserCreatedEvent;
-import sportsclub.domain.user.service.CreateUserValidator;
+import sportsclub.domain.user.service.UserValidator;
 
 import java.io.Serializable;
 
@@ -30,8 +31,11 @@ public class User implements Serializable {
     }
 
     @CommandHandler
-    public User(CreateUserCommand command, CreateUserValidator validator) {
-        apply(new UserCreatedEvent(command.getLogin(), command.getPassword()));
+    public User(CreateUserCommand command, UserValidator validator, Errors errors) {
+        validator.validate(command, errors);
+        if (!errors.hasErrors()) {
+            apply(new UserCreatedEvent(command.getLogin(), command.getPassword()));
+        }
     }
 
     @EventSourcingHandler
@@ -41,8 +45,11 @@ public class User implements Serializable {
     }
 
     @CommandHandler
-    public void on(ActivateUserCommand command) {
-        activated=true;
-        apply(new UserActivatedEvent(command.getLogin()));
+    public void on(ActivateUserCommand command, UserValidator validator, Errors errors) {
+        validator.validate(command, errors);
+        if (!errors.hasErrors()) {
+            activated = true;
+            apply(new UserActivatedEvent(command.getLogin()));
+        }
     }
 }

@@ -1,0 +1,4 @@
+/home/bartek/gitRepositories/sportsclub/api/src/main/java/sportsclub/api/user/event/UserActivatedEvent.java
+/home/bartek/gitRepositories/sportsclub/api/src/main/java/sportsclub/api/user/command/CreateUserCommand.java
+/home/bartek/gitRepositories/sportsclub/api/src/main/java/sportsclub/api/user/command/ActivateUserCommand.java
+/home/bartek/gitRepositories/sportsclub/api/src/main/java/sportsclub/api/user/event/UserCreatedEvent.java
