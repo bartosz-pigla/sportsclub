@@ -1,5 +1,6 @@
 package sportsclub.domain.user;
 
+import org.axonframework.commandhandling.model.AggregateNotFoundException;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,5 +80,17 @@ public class UserTest {
                 .given(new UserCreatedEvent("login", "password"))
                 .when(new ActivateUserCommand("login"))
                 .expectEvents(new UserActivatedEvent("login"));
+    }
+
+    @Test
+    public void shouldNotEventWhenActivateUserWithLoginThatNotExists() throws Exception {
+        when(userEntryRepository.findOne("login"))
+                .thenReturn(userEntry);
+        testFixture.setReportIllegalStateChange(false);
+
+        testFixture
+                .givenNoPriorActivity()
+                .when(new ActivateUserCommand("login"))
+                .expectException(AggregateNotFoundException.class);
     }
 }

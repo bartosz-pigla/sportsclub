@@ -35,8 +35,6 @@ public class User implements Serializable {
     public User(CreateUserCommand command, UserValidator validator) {
         Errors errors = validator.validate(command);
         if (errors == null) {
-            login = command.getLogin();
-            password = command.getPassword();
             apply(new UserCreatedEvent(command.getLogin(), command.getPassword()));
         } else {
             throw new ValidationException(errors);
@@ -53,11 +51,15 @@ public class User implements Serializable {
     public void on(ActivateUserCommand command, UserValidator validator) {
         Errors errors = validator.validate(command);
         if (errors == null) {
-            activated = true;
             apply(new UserActivatedEvent(command.getLogin()));
         } else {
             throw new ValidationException(errors);
         }
+    }
+
+    @EventSourcingHandler
+    public void on(UserActivatedEvent event) {
+        activated = true;
     }
 
 }

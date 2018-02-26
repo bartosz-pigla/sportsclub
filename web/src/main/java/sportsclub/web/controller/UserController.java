@@ -1,10 +1,9 @@
 package sportsclub.web.controller;
 
 import org.axonframework.commandhandling.gateway.CommandGateway;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.axonframework.commandhandling.model.AggregateNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import sportsclub.api.user.command.CreateUserCommand;
 import sportsclub.api.validation.ValidationException;
 import sportsclub.web.config.RequestMappings;
@@ -31,8 +30,9 @@ public class UserController {
         commandGateway.sendAndWait(command);
     }
 
-//    @ExceptionHandler(ValidationException.class)
-//    public void handle(ValidationException e){
-//        e.getErrors();
-//    }
+    @ExceptionHandler(AggregateNotFoundException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handle(AggregateNotFoundException e){
+        return "USER NOT FOUND";
+    }
 }
