@@ -7,8 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.Errors;
+import org.springframework.context.MessageSource;
 import sportsclub.api.user.command.ActivateUserCommand;
 import sportsclub.api.user.command.CreateUserCommand;
 import sportsclub.api.user.event.UserActivatedEvent;
@@ -19,7 +18,6 @@ import sportsclub.domain.user.model.UserEntry;
 import sportsclub.domain.user.service.UserEntryRepository;
 import sportsclub.domain.user.service.UserValidator;
 
-import static junit.framework.TestCase.assertFalse;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,7 +27,8 @@ public class UserTest {
     @Mock
     private UserEntryRepository userEntryRepository;
 
-    private Errors errors;
+    @Mock
+    private MessageSource messageSource;
 
     private UserEntry userEntry = UserEntry.builder()
             .login("login")
@@ -39,11 +38,7 @@ public class UserTest {
     @Before
     public void setUp() throws Exception {
         testFixture = new AggregateTestFixture<>(User.class);
-
-        testFixture.registerInjectableResource(new UserValidator(userEntryRepository));
-
-        errors = new BeanPropertyBindingResult(userEntry, "userEntry");
-        testFixture.registerInjectableResource(errors);
+        testFixture.registerInjectableResource(new UserValidator(userEntryRepository, messageSource));
     }
 
     @Test
@@ -54,8 +49,6 @@ public class UserTest {
         testFixture.givenNoPriorActivity()
                 .when(new CreateUserCommand("login", "password"))
                 .expectEvents(new UserCreatedEvent("login", "password"));
-
-        assertFalse(errors.hasErrors());
     }
 
     @Test
