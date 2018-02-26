@@ -1,11 +1,15 @@
 package sportsclub.api.user.command;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.axonframework.commandhandling.TargetAggregateIdentifier;
 
 import javax.validation.constraints.NotNull;
 
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ActivateUserCommand {
     @TargetAggregateIdentifier
     @NotNull

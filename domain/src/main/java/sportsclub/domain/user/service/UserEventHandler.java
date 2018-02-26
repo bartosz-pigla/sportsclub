@@ -1,18 +1,15 @@
 package sportsclub.domain.user.service;
 
 import lombok.AllArgsConstructor;
-import org.axonframework.commandhandling.model.Repository;
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 import sportsclub.api.user.event.UserActivatedEvent;
 import sportsclub.api.user.event.UserCreatedEvent;
-import sportsclub.domain.user.model.User;
 import sportsclub.domain.user.model.UserEntry;
 
 @Component
 @AllArgsConstructor
 public class UserEventHandler {
-    private Repository<User> aggregateRepository;
     private UserEntryRepository userEntryRepository;
 
     @EventHandler

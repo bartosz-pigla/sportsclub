@@ -2,24 +2,27 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="37fd7ba1-0eb5-46a9-acb9-ab75dbb4050a" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/ErrorHandler.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/boot/src/main/resources/messages.properties" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java" />
-      <change beforePath="$PROJECT_DIR$/api/api.iml" afterPath="$PROJECT_DIR$/api/api.iml" />
-      <change beforePath="$PROJECT_DIR$/api/pom.xml" afterPath="$PROJECT_DIR$/api/pom.xml" />
-      <change beforePath="$PROJECT_DIR$/boot/boot.iml" afterPath="$PROJECT_DIR$/boot/boot.iml" />
-      <change beforePath="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/AxonConfiguration.java" afterPath="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/AxonConfiguration.java" />
-      <change beforePath="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/SportsClubApplication.java" afterPath="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/SportsClubApplication.java" />
-      <change beforePath="$PROJECT_DIR$/boot/src/main/resources/application.properties" afterPath="$PROJECT_DIR$/boot/src/main/resources/application.properties" />
-      <change beforePath="$PROJECT_DIR$/domain/domain.iml" afterPath="$PROJECT_DIR$/domain/domain.iml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/api/src/main/java/sportsclub/api/validation/ValidationException.java" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/GlobalControllerExceptionHandler.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/ActivateUserCommand.java" afterPath="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/ActivateUserCommand.java" />
+      <change beforePath="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/CreateUserCommand.java" afterPath="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/CreateUserCommand.java" />
+      <change beforePath="$PROJECT_DIR$/api/target/classes/sportsclub/api/user/command/ActivateUserCommand.class" afterPath="$PROJECT_DIR$/api/target/classes/sportsclub/api/user/command/ActivateUserCommand.class" />
+      <change beforePath="$PROJECT_DIR$/api/target/classes/sportsclub/api/user/command/CreateUserCommand.class" afterPath="$PROJECT_DIR$/api/target/classes/sportsclub/api/user/command/CreateUserCommand.class" />
+      <change beforePath="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/AxonConfiguration.java" afterPath="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/AxonConfiguration.java" />
+      <change beforePath="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/ErrorHandler.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/boot/target/classes/sportsclub/boot/config/axon/AxonConfiguration.class" afterPath="$PROJECT_DIR$/boot/target/classes/sportsclub/boot/config/axon/AxonConfiguration.class" />
+      <change beforePath="$PROJECT_DIR$/boot/target/classes/sportsclub/boot/config/axon/ErrorHandler.class" afterPath="" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java" afterPath="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/CreateUserValidator.java" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEntryRepository.java" afterPath="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEntryRepository.java" />
       <change beforePath="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEventHandler.java" afterPath="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEventHandler.java" />
+      <change beforePath="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java" afterPath="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java" />
       <change beforePath="$PROJECT_DIR$/domain/src/test/java/sportsclub/domain/user/UserTest.java" afterPath="$PROJECT_DIR$/domain/src/test/java/sportsclub/domain/user/UserTest.java" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change beforePath="$PROJECT_DIR$/sportsclub.iml" afterPath="$PROJECT_DIR$/sportsclub.iml" />
-      <change beforePath="$PROJECT_DIR$/web/web.iml" afterPath="$PROJECT_DIR$/web/web.iml" />
+      <change beforePath="$PROJECT_DIR$/domain/target/classes/sportsclub/domain/user/model/User.class" afterPath="$PROJECT_DIR$/domain/target/classes/sportsclub/domain/user/model/User.class" />
+      <change beforePath="$PROJECT_DIR$/domain/target/classes/sportsclub/domain/user/service/UserEventHandler.class" afterPath="$PROJECT_DIR$/domain/target/classes/sportsclub/domain/user/service/UserEventHandler.class" />
+      <change beforePath="$PROJECT_DIR$/domain/target/classes/sportsclub/domain/user/service/UserValidator.class" afterPath="$PROJECT_DIR$/domain/target/classes/sportsclub/domain/user/service/UserValidator.class" />
+      <change beforePath="$PROJECT_DIR$/domain/target/test-classes/sportsclub/domain/user/UserTest.class" afterPath="$PROJECT_DIR$/domain/target/test-classes/sportsclub/domain/user/UserTest.class" />
+      <change beforePath="$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/UserController.java" afterPath="$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/UserController.java" />
+      <change beforePath="$PROJECT_DIR$/web/target/classes/sportsclub/web/controller/UserController.class" afterPath="$PROJECT_DIR$/web/target/classes/sportsclub/web/controller/UserController.class" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -37,26 +40,39 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UserEventHandler.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UserEventHandler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEventHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="29" column="55" lean-forward="false" selection-start-line="29" selection-start-column="55" selection-end-line="29" selection-end-column="55" />
+            <state relative-caret-position="163">
+              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/UserController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="30" column="44" lean-forward="true" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#964#965#0" expanded="true" />
-                <element signature="e#1026#1027#0" expanded="true" />
+                <element signature="e#1024#1025#0" expanded="true" />
+                <element signature="e#1075#1076#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserEntryRepository.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEntryRepository.java">
+      <file leaf-file-name="GlobalControllerExceptionHandler.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/GlobalControllerExceptionHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="14" column="1" lean-forward="false" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
-              <folding />
+            <state relative-caret-position="198">
+              <caret line="11" column="48" lean-forward="false" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="48" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#531#532#0" expanded="true" />
+                <element signature="e#591#592#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -64,50 +80,18 @@
       <file leaf-file-name="UserValidator.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="28" column="9" lean-forward="true" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
+            <state relative-caret-position="120">
+              <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="messages.properties" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/boot/src/main/resources/messages.properties">
+      <file leaf-file-name="AxonConfiguration.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/AxonConfiguration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="1" column="44" lean-forward="false" selection-start-line="1" selection-start-column="44" selection-end-line="1" selection-end-column="44" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserTest.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/domain/src/test/java/sportsclub/domain/user/UserTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="956">
-              <caret line="74" column="50" lean-forward="true" selection-start-line="74" selection-start-column="50" selection-end-line="74" selection-end-column="50" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UserEntry.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/UserEntry.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="18" column="11" lean-forward="false" selection-start-line="18" selection-start-column="11" selection-end-line="18" selection-end-column="11" />
+            <state relative-caret-position="252">
+              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -116,9 +100,31 @@
       <file leaf-file-name="SportsClubApplication.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/SportsClubApplication.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="18" column="6" lean-forward="false" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
+            <state relative-caret-position="-53">
+              <caret line="11" column="16" lean-forward="false" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ActivateUserCommand.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/ActivateUserCommand.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -142,6 +148,9 @@
       <find>@Saga</find>
       <find>SagaEntry</find>
       <find>EventBus</find>
+      <find>ActivateUserCommand</find>
+      <find>Errors</find>
+      <find>BeanPropertyBindingResult</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -172,30 +181,37 @@
         <option value="$PROJECT_DIR$/boot/pom.xml" />
         <option value="$PROJECT_DIR$/domain/pom.xml" />
         <option value="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/CreateUserCommand.java" />
-        <option value="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/CreateUserCommand.java" />
-        <option value="$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/UserController.java" />
         <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserRepository.java" />
         <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/exception/UserAlreadyExistsException.java" />
         <option value="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/event/UserCreatedEvent.java" />
         <option value="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/event/UserActivatedEvent.java" />
-        <option value="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/ActivateUserCommand.java" />
         <option value="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/AxonConfiguration.java" />
         <option value="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/ErrorHandler.java" />
         <option value="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/ErrorHandler.java" />
         <option value="$PROJECT_DIR$/boot/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/UserEntry.java" />
         <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/saga/model/SagaEntry.java" />
-        <option value="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/SportsClubApplication.java" />
-        <option value="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/AxonConfiguration.java" />
         <option value="$PROJECT_DIR$/api/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/boot/src/main/resources/messages.properties" />
         <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/CreateUserValidator.java" />
-        <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java" />
-        <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEventHandler.java" />
         <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEntryRepository.java" />
-        <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java" />
+        <option value="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/SportsClubApplication.java" />
+        <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEventHandler.java" />
+        <option value="$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/AxonConfiguration.java" />
+        <option value="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/ActivateUserCommand.java" />
+        <option value="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/CreateUserCommand.java" />
+        <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/exceptions/UserException.java" />
+        <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/exceptions/UserAlreadyExistsException.java" />
+        <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/exceptions/UserAlreadyActivatedException.java" />
+        <option value="$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/exception/UserException.java" />
+        <option value="$PROJECT_DIR$/api/src/main/java/sportsclub/api/validation/UserException.java" />
+        <option value="$PROJECT_DIR$/api/src/main/java/sportsclub/api/validation/ValidationException.java" />
         <option value="$PROJECT_DIR$/domain/src/test/java/sportsclub/domain/user/UserTest.java" />
+        <option value="$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/GlobalControllerExceptionHandler.java" />
+        <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java" />
+        <option value="$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java" />
+        <option value="$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/UserController.java" />
       </list>
     </option>
   </component>
@@ -230,7 +246,7 @@
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="65" />
-    <option name="y" value="-4" />
+    <option name="y" value="-772" />
     <option name="width" value="1301" />
     <option name="height" value="772" />
   </component>
@@ -272,9 +288,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="AndroidView" />
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -315,6 +330,16 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sportsclub" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sportsclub" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
               <item name="user" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -324,18 +349,19 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="user" type="462c0819:PsiDirectoryNode" />
-              <item name="command" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sportsclub" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sportsclub" type="462c0819:PsiDirectoryNode" />
               <item name="api" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="user" type="462c0819:PsiDirectoryNode" />
               <item name="event" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sportsclub" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sportsclub" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+              <item name="validation" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sportsclub" type="b2602c69:ProjectViewProjectNode" />
@@ -550,6 +576,7 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -563,9 +590,16 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Axon-trader" />
     <property name="ignore_missing_gitignore" value="true" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/bartek/gitRepositories/sportsclub/boot/src/main/java/sportsclub/boot/config/SportsClubApplication.java" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
   </component>
   <component name="RecentsManager">
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="sportsclub.domain.user" />
       <recent name="" />
     </key>
   </component>
@@ -581,7 +615,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.UserTest">
+  <component name="RunManager" selected="Spring Boot.SportsClubApplication">
     <configuration default="true" type="Applet" factoryName="Applet">
       <option name="HTML_USED" value="false" />
       <option name="WIDTH" value="400" />
@@ -804,8 +838,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="JUnit.UserTest" />
-        <item index="1" class="java.lang.String" itemvalue="JUnit.UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" />
+        <item index="0" class="java.lang.String" itemvalue="JUnit.UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.UserTest" />
         <item index="2" class="java.lang.String" itemvalue="JUnit.UserTest.shouldAddEventWhenCreateNewUser" />
         <item index="3" class="java.lang.String" itemvalue="JUnit.UserTest.shouldNotAddEventWhenCreateUserWithTheSameLogin" />
         <item index="4" class="java.lang.String" itemvalue="JUnit.UserTest.shouldAddEventWhenCreateUserWithTheSameLogin" />
@@ -830,7 +864,8 @@
       <workItem from="1519579997959" duration="306000" />
       <workItem from="1519580529075" duration="1907000" />
       <workItem from="1519582478162" duration="6153000" />
-      <workItem from="1519623815310" duration="12921000" />
+      <workItem from="1519623815310" duration="16792000" />
+      <workItem from="1519644331203" duration="4263000" />
     </task>
     <task id="LOCAL-00001" summary="create multi module project&#10;example aggregate, command, event">
       <created>1519579839817</created>
@@ -871,42 +906,42 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="UserTest_shouldAddEventWhenActivateUserWithLoginThatExists - 2018.02.26 at 11h 09m 08s.xml">
+    <history-entry file="UserTest - 2018.02.26 at 13h 33m 48s.xml">
+      <configuration name="UserTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserTest - 2018.02.26 at 13h 35m 05s.xml">
+      <configuration name="UserTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="UserTest_shouldAddEventWhenActivateUserWithLoginThatExists - 2018.02.26 at 13h 35m 23s.xml">
       <configuration name="UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="UserTest_shouldAddEventWhenActivateUserWithLoginThatExists - 2018.02.26 at 11h 09m 39s.xml">
-      <configuration name="UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" configurationId="JUnit" />
+    <history-entry file="UserTest_shouldAddEventWhenCreateNewUser - 2018.02.26 at 13h 31m 19s.xml">
+      <configuration name="UserTest.shouldAddEventWhenCreateNewUser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="UserTest_shouldAddEventWhenActivateUserWithLoginThatExists - 2018.02.26 at 11h 10m 28s.xml">
-      <configuration name="UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" configurationId="JUnit" />
+    <history-entry file="UserTest_shouldAddEventWhenCreateNewUser - 2018.02.26 at 13h 32m 10s.xml">
+      <configuration name="UserTest.shouldAddEventWhenCreateNewUser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="UserTest_shouldAddEventWhenActivateUserWithLoginThatExists - 2018.02.26 at 11h 13m 48s.xml">
-      <configuration name="UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" configurationId="JUnit" />
+    <history-entry file="UserTest_shouldAddEventWhenCreateNewUser - 2018.02.26 at 13h 32m 28s.xml">
+      <configuration name="UserTest.shouldAddEventWhenCreateNewUser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="UserTest_shouldAddEventWhenActivateUserWithLoginThatExists - 2018.02.26 at 11h 14m 07s.xml">
-      <configuration name="UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" configurationId="JUnit" />
+    <history-entry file="UserTest_shouldAddEventWhenCreateNewUser - 2018.02.26 at 13h 33m 42s.xml">
+      <configuration name="UserTest.shouldAddEventWhenCreateNewUser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="UserTest_shouldAddEventWhenActivateUserWithLoginThatExists - 2018.02.26 at 11h 16m 10s.xml">
-      <configuration name="UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" configurationId="JUnit" />
+    <history-entry file="UserTest_shouldAddEventWhenCreateNewUser - 2018.02.26 at 13h 35m 00s.xml">
+      <configuration name="UserTest.shouldAddEventWhenCreateNewUser" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="UserTest_shouldAddEventWhenActivateUserWithLoginThatExists - 2018.02.26 at 11h 16m 51s.xml">
-      <configuration name="UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" configurationId="JUnit" />
+    <history-entry file="UserTest_shouldNotAddEventWhenCreateUserWithTheSameLogin - 2018.02.26 at 13h 29m 02s.xml">
+      <configuration name="UserTest.shouldNotAddEventWhenCreateUserWithTheSameLogin" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="UserTest_shouldAddEventWhenActivateUserWithLoginThatExists - 2018.02.26 at 11h 17m 24s.xml">
-      <configuration name="UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="UserTest_shouldAddEventWhenActivateUserWithLoginThatExists - 2018.02.26 at 11h 18m 07s.xml">
-      <configuration name="UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="UserTest_shouldAddEventWhenActivateUserWithLoginThatExists - 2018.02.26 at 11h 20m 04s.xml">
-      <configuration name="UserTest.shouldAddEventWhenActivateUserWithLoginThatExists" configurationId="JUnit" />
+    <history-entry file="UserTest_shouldNotAddEventWhenCreateUserWithTheSameLogin - 2018.02.26 at 13h 30m 06s.xml">
+      <configuration name="UserTest.shouldNotAddEventWhenCreateUserWithTheSameLogin" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32862000" />
+    <option name="totallyTimeSpent" value="40996000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-4" width="1301" height="772" extended-state="6" />
+    <frame x="65" y="-772" width="1301" height="772" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -918,17 +953,17 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3798799" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3798799" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32882884" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32882884" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.484985" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32882884" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2490392" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" x="2037" y="201" width="403" height="637" />
       <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -971,20 +1006,8 @@
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/UserController.java</url>
-          <line>30</line>
-          <properties />
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java</url>
-          <line>42</line>
-          <properties />
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEventHandler.java</url>
-          <line>19</line>
+          <line>16</line>
           <properties />
           <option name="timeStamp" value="16" />
         </line-breakpoint>
@@ -1001,24 +1024,6 @@
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/ErrorHandler.java</url>
-          <line>7</line>
-          <properties />
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java</url>
-          <line>34</line>
-          <properties />
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java</url>
-          <line>48</line>
-          <properties />
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/domain/src/test/java/sportsclub/domain/user/UserTest.java</url>
           <line>64</line>
           <properties />
@@ -1031,148 +1036,72 @@
           <option name="timeStamp" value="31" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java</url>
-          <line>36</line>
-          <properties />
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java</url>
-          <line>18</line>
+          <line>17</line>
           <properties />
           <option name="timeStamp" value="36" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java</url>
-          <line>19</line>
-          <properties />
-          <option name="timeStamp" value="37" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java</url>
-          <line>25</line>
+          <line>27</line>
           <properties />
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java</url>
-          <line>26</line>
-          <properties />
-          <option name="timeStamp" value="39" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEventHandler.java</url>
-          <line>29</line>
+          <line>26</line>
           <properties />
           <option name="timeStamp" value="40" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java</url>
-          <line>27</line>
-          <properties />
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java</url>
-          <line>49</line>
-          <properties />
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java</url>
-          <line>51</line>
-          <properties />
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/domain/src/test/java/sportsclub/domain/user/UserTest.java</url>
-          <line>78</line>
+          <line>77</line>
           <properties />
           <option name="timeStamp" value="46" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java</url>
+          <line>53</line>
+          <properties />
+          <option name="timeStamp" value="49" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java</url>
+          <line>35</line>
+          <properties />
+          <option name="timeStamp" value="50" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/UserController.java</url>
+          <line>35</line>
+          <properties />
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/GlobalControllerExceptionHandler.java</url>
+          <line>2</line>
+          <properties />
+          <option name="timeStamp" value="52" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/GlobalControllerExceptionHandler.java</url>
+          <line>13</line>
+          <properties />
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="47" />
+      <option name="time" value="56" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/AxonConfiguration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="29" column="2" lean-forward="false" selection-start-line="29" selection-start-column="2" selection-end-line="29" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEntryRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="5" column="48" lean-forward="false" selection-start-line="5" selection-start-column="48" selection-end-line="5" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/SportsClubApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="18" column="0" lean-forward="false" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="18" column="24" lean-forward="false" selection-start-line="18" selection-start-column="24" selection-end-line="18" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="34" lean-forward="false" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/CreateUserCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="6" column="6" lean-forward="false" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/event/UserCreatedEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="6" lean-forward="false" selection-start-line="4" selection-start-column="6" selection-end-line="4" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="21" lean-forward="false" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
           <caret line="19" column="25" lean-forward="true" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1275,13 +1204,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/axonframework/axon-core/3.1.2/axon-core-3.1.2.jar!/org/axonframework/messaging/annotation/WrappedMessageHandlingMember.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/axonframework/axon-core/3.1.2/axon-core-3.1.2.jar!/org/axonframework/commandhandling/model/Repository.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -1292,76 +1214,11 @@
     <entry file="file://$PROJECT_DIR$/query/pom.xml" />
     <entry file="file://$PROJECT_DIR$/query/src/main/java/sportsclub/query/user/UserEntry.java" />
     <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/exception/UserAlreadyExistsException.java" />
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/saga/model/SagaEntry.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="222">
-          <caret line="18" column="18" lean-forward="true" selection-start-line="18" selection-start-column="18" selection-end-line="18" selection-end-column="18" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/saga/model/SagaEntry.java" />
     <entry file="jar://$MAVEN_REPOSITORY$/org/axonframework/axon-spring-boot-autoconfigure/3.1.2/axon-spring-boot-autoconfigure-3.1.2.jar!/org/axonframework/boot/autoconfig/AxonAutoConfiguration.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="104" column="25" lean-forward="false" selection-start-line="104" selection-start-column="17" selection-end-line="104" selection-end-column="25" />
-          <folding>
-            <marker date="1516468577333" expanded="true" signature="0:104" ph="/.../" />
-            <marker date="1516468577333" expanded="false" signature="157:3092" ph="..." />
-            <marker date="1516468577333" expanded="true" signature="3094:3385" ph="@{...}" />
-            <marker date="1516468577333" expanded="true" signature="3650:3723" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="3729:3870" ph="@{...}" />
-            <marker date="1516468577333" expanded="true" signature="3913:4102" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="4108:4143" ph="@{...}" />
-            <marker date="1516468577333" expanded="false" signature="4202:4213" ph=" { " />
-            <marker date="1516468577333" expanded="false" signature="4248:4254" ph=" }" />
-            <marker date="1516468577333" expanded="true" signature="4260:4428" ph="@{...}" />
-            <marker date="1516468577333" expanded="true" signature="4537:4660" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="4666:4701" ph="@{...}" />
-            <marker date="1516468577333" expanded="true" signature="4766:4862" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="4868:4947" ph="@{...}" />
-            <marker date="1516468577333" expanded="true" signature="5016:5132" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="5282:6579" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="5356:6571" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="6083:6137" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="6395:6544" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="6772:7160" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="6975:7112" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="7350:7787" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="7472:7605" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="7662:7736" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="7793:7950" ph="@{...}" />
-            <marker date="1516468577333" expanded="true" signature="8057:8353" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="8359:8478" ph="@{...}" />
-            <marker date="1516468577333" expanded="true" signature="8590:8810" ph="{...}" />
-            <marker date="1516468577333" expanded="true" signature="8816:8960" ph="@{...}" />
-            <marker date="1516468577333" expanded="true" signature="9104:9232" ph="{...}" />
-            <marker date="1516468577333" expanded="false" signature="9293:9304" ph=" { " />
-            <marker date="1516468577333" expanded="false" signature="9339:9345" ph=" }" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/config/RequestMappings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="36">
-          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/UserController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="30" column="44" lean-forward="false" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/boot/src/main/resources/application.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="7" lean-forward="false" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="7" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1389,71 +1246,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/CreateUserCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="11" column="20" lean-forward="true" selection-start-line="11" selection-start-column="20" selection-end-line="11" selection-end-column="20" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/event/UserCreatedEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/event/UserActivatedEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="6" column="6" lean-forward="false" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/ActivateUserCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/AxonConfiguration.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="16" column="48" lean-forward="false" selection-start-line="16" selection-start-column="48" selection-end-line="16" selection-end-column="48" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/ErrorHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/SportsClubApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="18" column="6" lean-forward="false" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.3.14.RELEASE/spring-context-4.3.14.RELEASE.jar!/org/springframework/validation/Errors.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="36">
           <caret line="5" column="8" lean-forward="false" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="38" />
-          <folding>
-            <marker date="1519365583173" expanded="false" signature="0:104" ph="/.../" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1469,7 +1265,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="142">
           <caret line="49" column="0" lean-forward="false" selection-start-line="49" selection-start-column="0" selection-end-line="49" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1477,43 +1272,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="234">
           <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEntryRepository.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="14" column="1" lean-forward="false" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEventHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="29" column="55" lean-forward="false" selection-start-line="29" selection-start-column="55" selection-end-line="29" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#964#965#0" expanded="true" />
-            <element signature="e#1026#1027#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/boot/src/main/resources/messages.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="18">
-          <caret line="1" column="44" lean-forward="false" selection-start-line="1" selection-start-column="44" selection-end-line="1" selection-end-column="44" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="28" column="9" lean-forward="true" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1521,6 +1279,159 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="128">
           <caret line="191" column="0" lean-forward="false" selection-start-line="191" selection-start-column="0" selection-end-line="191" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/boot/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="7" lean-forward="false" selection-start-line="0" selection-start-column="7" selection-end-line="0" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEntryRepository.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="13" column="48" lean-forward="true" selection-start-line="13" selection-start-column="48" selection-end-line="13" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/ErrorHandler.java" />
+    <entry file="file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/config/RequestMappings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="108">
+          <caret line="6" column="31" lean-forward="false" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/axonframework/axon-core/3.1.2/axon-core-3.1.2.jar!/org/axonframework/commandhandling/model/GenericJpaRepository.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/event/UserActivatedEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="6" column="6" lean-forward="false" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/CreateUserCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="9" column="18" lean-forward="false" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/event/UserCreatedEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/axonframework/axon-core/3.1.2/axon-core-3.1.2.jar!/org/axonframework/commandhandling/model/AggregateLifecycle.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="26" column="28" lean-forward="false" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+          <folding>
+            <element signature="e#839#840#0" expanded="true" />
+            <element signature="e#918#919#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.3.14.RELEASE/spring-context-4.3.14.RELEASE.jar!/org/springframework/validation/BeanPropertyBindingResult.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="19" column="11" lean-forward="false" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+          <folding>
+            <element signature="e#733#734#0" expanded="true" />
+            <element signature="e#791#792#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/exception/UserAlreadyActivatedException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/exception/UserAlreadyExistsException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/boot/src/main/resources/messages.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="18">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/validation/ValidationException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="7" column="26" lean-forward="false" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/axonframework/axon-core/3.1.2/axon-core-3.1.2.jar!/org/axonframework/messaging/annotation/WrappedMessageHandlingMember.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/test/java/sportsclub/domain/user/UserTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="76" column="8" lean-forward="true" selection-start-line="76" selection-start-column="8" selection-end-line="76" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/src/main/java/sportsclub/api/user/command/ActivateUserCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/SportsClubApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-53">
+          <caret line="11" column="16" lean-forward="false" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/axonframework/axon-core/3.1.2/axon-core-3.1.2.jar!/org/axonframework/eventhandling/AnnotationEventListenerAdapter.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="30" column="0" lean-forward="true" selection-start-line="30" selection-start-column="0" selection-end-line="30" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1533,21 +1444,60 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java">
+    <entry file="file://$PROJECT_DIR$/boot/src/main/java/sportsclub/boot/config/axon/AxonConfiguration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="45" column="0" lean-forward="true" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
+        <state relative-caret-position="252">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/domain/src/test/java/sportsclub/domain/user/UserTest.java">
+    <entry file="file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/GlobalControllerExceptionHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="956">
-          <caret line="74" column="50" lean-forward="true" selection-start-line="74" selection-start-column="50" selection-end-line="74" selection-end-column="50" />
+        <state relative-caret-position="198">
+          <caret line="11" column="48" lean-forward="false" selection-start-line="11" selection-start-column="48" selection-end-line="11" selection-end-column="48" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#531#532#0" expanded="true" />
+            <element signature="e#591#592#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/src/main/java/sportsclub/web/controller/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="30" column="44" lean-forward="true" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
+          <folding>
+            <element signature="e#1024#1025#0" expanded="true" />
+            <element signature="e#1075#1076#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/model/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserValidator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/domain/src/main/java/sportsclub/domain/user/service/UserEventHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="163">
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

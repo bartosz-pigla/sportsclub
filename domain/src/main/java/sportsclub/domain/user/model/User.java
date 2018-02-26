@@ -9,6 +9,7 @@ import sportsclub.api.user.command.ActivateUserCommand;
 import sportsclub.api.user.command.CreateUserCommand;
 import sportsclub.api.user.event.UserActivatedEvent;
 import sportsclub.api.user.event.UserCreatedEvent;
+import sportsclub.api.validation.ValidationException;
 import sportsclub.domain.user.service.UserValidator;
 
 import java.io.Serializable;
@@ -31,10 +32,14 @@ public class User implements Serializable {
     }
 
     @CommandHandler
-    public User(CreateUserCommand command, UserValidator validator, Errors errors) {
-        validator.validate(command, errors);
-        if (!errors.hasErrors()) {
+    public User(CreateUserCommand command, UserValidator validator) {
+        Errors errors = validator.validate(command);
+        if (errors == null) {
+            login = command.getLogin();
+            password = command.getPassword();
             apply(new UserCreatedEvent(command.getLogin(), command.getPassword()));
+        } else {
+            throw new ValidationException(errors);
         }
     }
 
@@ -45,11 +50,14 @@ public class User implements Serializable {
     }
 
     @CommandHandler
-    public void on(ActivateUserCommand command, UserValidator validator, Errors errors) {
-        validator.validate(command, errors);
-        if (!errors.hasErrors()) {
+    public void on(ActivateUserCommand command, UserValidator validator) {
+        Errors errors = validator.validate(command);
+        if (errors == null) {
             activated = true;
             apply(new UserActivatedEvent(command.getLogin()));
+        } else {
+            throw new ValidationException(errors);
         }
     }
+
 }

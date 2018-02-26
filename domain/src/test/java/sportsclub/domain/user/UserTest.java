@@ -12,13 +12,13 @@ import sportsclub.api.user.command.ActivateUserCommand;
 import sportsclub.api.user.command.CreateUserCommand;
 import sportsclub.api.user.event.UserActivatedEvent;
 import sportsclub.api.user.event.UserCreatedEvent;
+import sportsclub.api.validation.ValidationException;
 import sportsclub.domain.user.model.User;
 import sportsclub.domain.user.model.UserEntry;
 import sportsclub.domain.user.service.UserEntryRepository;
 import sportsclub.domain.user.service.UserValidator;
 
 import static junit.framework.TestCase.assertFalse;
-import static junit.framework.TestCase.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -65,9 +65,8 @@ public class UserTest {
         UserCreatedEvent event = new UserCreatedEvent("login", "password");
         testFixture.given(event)
                 .when(new CreateUserCommand("login", "password"))
-                .expectNoEvents();
-
-        assertTrue(errors.hasErrors());
+                .expectNoEvents()
+                .expectException(ValidationException.class);
     }
 
     @Test
@@ -80,10 +79,5 @@ public class UserTest {
                 .given(new UserCreatedEvent("login", "password"))
                 .when(new ActivateUserCommand("login"))
                 .expectEvents(new UserActivatedEvent("login"));
-
-//        testFixture
-//                .given(new UserCreatedEvent("login", "password"))
-//                .when(new ActivateUserCommand("login"))
-//                .expectEvents(new UserActivatedEvent("login"));
     }
 }

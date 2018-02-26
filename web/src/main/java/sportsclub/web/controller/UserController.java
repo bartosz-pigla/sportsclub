@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import sportsclub.api.user.command.CreateUserCommand;
+import sportsclub.api.validation.ValidationException;
 import sportsclub.web.config.RequestMappings;
 
 import javax.validation.Valid;
-import java.util.concurrent.CompletableFuture;
 
 @RestController
 public class UserController {
@@ -22,12 +22,17 @@ public class UserController {
 
     @GetMapping(RequestMappings.foo)
     public String foo() {
-        commandGateway.send(new CreateUserCommand("login", "password"));
+        commandGateway.sendAndWait(new CreateUserCommand("login", "password"));
         return "foo";
     }
 
     @PostMapping(RequestMappings.createUser)
-    public CompletableFuture createUser(@RequestBody @Valid CreateUserCommand command) {
-        return commandGateway.send(command);
+    public void createUser(@RequestBody @Valid CreateUserCommand command) {
+        commandGateway.sendAndWait(command);
     }
+
+//    @ExceptionHandler(ValidationException.class)
+//    public void handle(ValidationException e){
+//        e.getErrors();
+//    }
 }

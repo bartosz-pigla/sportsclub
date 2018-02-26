@@ -1,11 +1,15 @@
 package sportsclub.api.user.command;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
-@Value
-public final class CreateUserCommand {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CreateUserCommand {
     @NotNull
     String login;
     @NotNull
