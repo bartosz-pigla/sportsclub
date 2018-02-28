@@ -5,7 +5,8 @@ import org.axonframework.eventhandling.EventHandler;
 import org.springframework.stereotype.Component;
 import sportsclub.api.user.event.UserActivatedEvent;
 import sportsclub.api.user.event.UserCreatedEvent;
-import sportsclub.domain.user.model.UserEntry;
+import sportsclub.query.user.model.UserEntry;
+import sportsclub.query.user.service.UserEntryRepository;
 
 @Component
 @AllArgsConstructor

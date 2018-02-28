@@ -8,7 +8,8 @@ import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.Errors;
 import sportsclub.api.user.command.ActivateUserCommand;
 import sportsclub.api.user.command.CreateUserCommand;
-import sportsclub.domain.user.model.UserEntry;
+import sportsclub.query.user.model.UserEntry;
+import sportsclub.query.user.service.UserEntryRepository;
 
 @Service
 @AllArgsConstructor

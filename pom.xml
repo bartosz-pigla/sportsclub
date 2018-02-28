@@ -11,6 +11,7 @@
         <module>web</module>
         <module>domain</module>
         <module>api</module>
+        <module>query</module>
     </modules>
     <packaging>pom</packaging>
 

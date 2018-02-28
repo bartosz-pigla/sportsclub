@@ -16,11 +16,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
         "sportsclub.boot.config"
 })
 @EnableJpaRepositories(value = {
-        "sportsclub.domain",
+        "sportsclub.query",
         "org.axonframework"
 })
 @EntityScan(value = {
-        "sportsclub.domain",
+        "sportsclub.query",
         "org.axonframework"
 })
 public class SportsClubApplication {

@@ -1,4 +1,4 @@
-package sportsclub.domain.user.model;
+package sportsclub.query.user.model;
 
 import lombok.*;
 

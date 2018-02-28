@@ -14,8 +14,8 @@ import sportsclub.api.user.event.UserActivatedEvent;
 import sportsclub.api.user.event.UserCreatedEvent;
 import sportsclub.api.validation.ValidationException;
 import sportsclub.domain.user.model.User;
-import sportsclub.domain.user.model.UserEntry;
-import sportsclub.domain.user.service.UserEntryRepository;
+import sportsclub.query.user.model.UserEntry;
+import sportsclub.query.user.service.UserEntryRepository;
 import sportsclub.domain.user.service.UserValidator;
 
 import static org.mockito.Mockito.when;

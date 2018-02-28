@@ -10,6 +10,7 @@
         <module name="api" />
         <module name="boot" />
         <module name="domain" />
+        <module name="query" />
         <module name="web" />
       </profile>
     </annotationProcessing>
