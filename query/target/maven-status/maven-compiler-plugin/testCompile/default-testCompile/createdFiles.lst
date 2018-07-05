@@ -1,0 +1,4 @@
+query/validation/CityValidatorTest.class
+query/validation/PriceValidatorTest.class
+query/validation/CoordinateValidatorTest.class
+query/validation/PhoneNumberValidatorTest.class

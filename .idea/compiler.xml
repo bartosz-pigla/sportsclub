@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="api" />
         <module name="boot" />
+        <module name="commons" />
         <module name="domain" />
         <module name="query" />
         <module name="web" />
@@ -17,6 +18,7 @@
     <bytecodeTargetLevel>
       <module name="api" target="1.8" />
       <module name="boot" target="1.8" />
+      <module name="commons" target="1.8" />
       <module name="domain" target="1.8" />
       <module name="query" target="1.8" />
       <module name="sportsclub" target="1.8" />

@@ -10,5 +10,16 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>api</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>bartosz.pigla</groupId>
+            <artifactId>query</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.projectlombok</groupId>-->
+        <!--<artifactId>lombok</artifactId>-->
+        <!--</dependency>-->
+    </dependencies>
 
 </project>

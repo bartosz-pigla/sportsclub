@@ -1,0 +1,16 @@
+query/model/Address.class
+query/validation/PhoneNumberValidator.class
+query/model/user/UserEntity.class
+query/validation/ValidationHelper.class
+query/validation/CityValidator.class
+query/model/user/UserType.class
+query/exception/ValueObjectCreationException.class
+query/model/BaseEntity.class
+query/model/common/PhoneNumber.class
+query/model/common/Price.class
+query/model/common/City.class
+query/validation/PriceValidator.class
+query/model/common/Email.class
+query/model/common/Coordinates.class
+query/repository/UserEntityRepository.class
+query/validation/CoordinatesValidator.class

@@ -1,0 +1,16 @@
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/model/common/Email.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/model/common/Price.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/validation/PhoneNumberValidator.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/model/BaseEntity.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/model/common/PhoneNumber.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/model/common/City.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/exception/ValueObjectCreationException.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/validation/ValidationHelper.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/model/Address.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/validation/CoordinatesValidator.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/validation/PriceValidator.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/model/user/UserType.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/repository/UserEntityRepository.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/validation/CityValidator.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/model/user/UserEntity.java
+/home/bartek/gitRepositories/sportsclub/query/src/main/java/query/model/common/Coordinates.java

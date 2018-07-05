@@ -1,5 +1,3 @@
-sportsclub/api/user/event/UserCreatedEvent.class
-sportsclub/api/validation/ValidationException.class
-sportsclub/api/user/command/CreateUserCommand.class
-sportsclub/api/user/event/UserActivatedEvent.class
-sportsclub/api/user/command/ActivateUserCommand.class
+api/user/event/UserCreatedEvent.class
+api/user/command/CreateUserCommand.class
+api/common/DomainValidationException.class
