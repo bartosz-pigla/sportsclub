@@ -1,3 +1,0 @@
-api/user/event/UserCreatedEvent.class
-api/user/command/CreateUserCommand.class
-api/common/DomainValidationException.class
