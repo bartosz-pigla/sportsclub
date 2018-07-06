@@ -1,4 +1,4 @@
-package query.validation;
+package query.model.embeddable.validation;
 
 import org.apache.commons.lang3.Range;
 import org.springframework.validation.Errors;
@@ -16,9 +16,11 @@ public class CoordinatesValidator {
         if (latitude == null) {
             errors.rejectValue("coordinates", "coordinates.latitude.empty");
         }
+
         if (longitude == null) {
             errors.rejectValue("coordinates", "coordinates.longitude.empty");
         }
+
         if (!latitudeRange.contains(latitude)) {
             errors.rejectValue("coordinates", "coordinates.latitude.outOfRange");
         }

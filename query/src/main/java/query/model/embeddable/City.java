@@ -1,6 +1,6 @@
 package query.model.embeddable;
 
-import static query.validation.CityValidator.isInvalid;
+import static query.model.embeddable.validation.CityValidator.isInvalid;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

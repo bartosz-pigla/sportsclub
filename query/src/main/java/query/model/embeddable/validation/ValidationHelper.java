@@ -1,4 +1,4 @@
-package query.validation;
+package query.model.embeddable.validation;
 
 class ValidationHelper {
 

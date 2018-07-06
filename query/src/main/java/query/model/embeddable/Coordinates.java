@@ -1,6 +1,6 @@
 package query.model.embeddable;
 
-import static query.validation.CoordinatesValidator.isInvalid;
+import static query.model.embeddable.validation.CoordinatesValidator.isInvalid;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

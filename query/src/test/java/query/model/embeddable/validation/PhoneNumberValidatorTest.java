@@ -1,4 +1,4 @@
-package query.validation;
+package query.model.embeddable.validation;
 
 import static org.junit.Assert.assertEquals;
 
@@ -7,6 +7,16 @@ import query.exception.ValueObjectCreationException;
 import query.model.embeddable.PhoneNumber;
 
 public class PhoneNumberValidatorTest {
+
+    @Test(expected = ValueObjectCreationException.class)
+    public void shouldRejectWhenPhoneNumberIsEmpty() {
+        new PhoneNumber("");
+    }
+
+    @Test(expected = ValueObjectCreationException.class)
+    public void shouldRejectWhenPhoneNumberIsNull() {
+        new PhoneNumber(null);
+    }
 
     @Test(expected = ValueObjectCreationException.class)
     public void shouldRejectWhenPhoneNumberHasWrongLength() {

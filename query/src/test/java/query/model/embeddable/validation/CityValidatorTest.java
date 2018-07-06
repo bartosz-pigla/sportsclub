@@ -1,4 +1,4 @@
-package query.validation;
+package query.model.embeddable.validation;
 
 import static org.junit.Assert.assertEquals;
 
@@ -22,6 +22,11 @@ public class CityValidatorTest {
     @Test(expected = ValueObjectCreationException.class)
     public void shouldRejectWhenCityIsEmpty() {
         new City("");
+    }
+
+    @Test(expected = ValueObjectCreationException.class)
+    public void shouldRejectWhenCityIsNull() {
+        new City(null);
     }
 
     @Test

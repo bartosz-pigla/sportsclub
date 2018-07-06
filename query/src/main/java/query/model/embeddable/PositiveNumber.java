@@ -1,8 +1,6 @@
 package query.model.embeddable;
 
-import static query.validation.DateRangeValidator.isInvalid;
-
-import java.time.LocalDateTime;
+import static query.model.embeddable.validation.PositiveNumberValidator.isInvalid;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -15,19 +13,16 @@ import query.exception.ValueObjectCreationException;
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DateRange {
+public class PositiveNumber {
 
     @Column
-    private LocalDateTime dateFrom;
-    @Column
-    private LocalDateTime dateTo;
+    private Integer positiveNumber;
 
-    public DateRange(LocalDateTime dateFrom, LocalDateTime dateTo) {
-        if (isInvalid(dateFrom, dateTo)) {
+    public PositiveNumber(Integer positiveNumber) {
+        if (isInvalid(positiveNumber)) {
             throw new ValueObjectCreationException();
         } else {
-            this.dateFrom = dateFrom;
-            this.dateTo = dateTo;
+            this.positiveNumber = positiveNumber;
         }
     }
 }

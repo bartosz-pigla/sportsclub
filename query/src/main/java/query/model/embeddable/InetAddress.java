@@ -1,8 +1,6 @@
 package query.model.embeddable;
 
-import static query.model.embeddable.validation.PriceValidator.isInvalid;
-
-import java.math.BigDecimal;
+import static query.model.embeddable.validation.InetAddressValidator.isInvalid;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -15,18 +13,16 @@ import query.exception.ValueObjectCreationException;
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Price {
-
-    private static final int PRICE_DECIMAL_PLACES = 2;
+public class InetAddress {
 
     @Column
-    private BigDecimal price;
+    private String inetAddress;
 
-    public Price(BigDecimal price) {
-        if (isInvalid(price)) {
+    public InetAddress(String inetAddress) {
+        if (isInvalid(inetAddress)) {
             throw new ValueObjectCreationException();
         } else {
-            this.price = price.setScale(PRICE_DECIMAL_PLACES, BigDecimal.ROUND_CEILING);
+            this.inetAddress = inetAddress;
         }
     }
 }

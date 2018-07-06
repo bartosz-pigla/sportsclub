@@ -1,6 +1,6 @@
 package query.model.embeddable;
 
-import static query.validation.PhoneNumberValidator.isInvalid;
+import static query.model.embeddable.validation.PhoneNumberValidator.isInvalid;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

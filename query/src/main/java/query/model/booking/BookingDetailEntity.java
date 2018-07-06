@@ -1,27 +1,25 @@
-package query.model.sportobject;
+package query.model.booking;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import query.model.BaseEntity;
 import query.model.embeddable.DateTimeRange;
-import query.model.embeddable.Price;
+import query.model.sportobject.SportObjectPositionEntity;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class OpeningHoursEntity extends BaseEntity {
+public class BookingDetailEntity extends BaseEntity {
 
     @Embedded
-    private DateTimeRange dateRange;
-    @Embedded
-    private Price price;
-    @ManyToOne(fetch = FetchType.LAZY)
-    private SportObjectEntity sportObject;
+    private DateTimeRange dateTimeRange;
+    @OneToOne(fetch = FetchType.LAZY)
+    private SportObjectPositionEntity position;
 }

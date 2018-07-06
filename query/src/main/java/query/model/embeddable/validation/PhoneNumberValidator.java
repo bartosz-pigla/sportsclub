@@ -1,4 +1,4 @@
-package query.validation;
+package query.model.embeddable.validation;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNumeric;

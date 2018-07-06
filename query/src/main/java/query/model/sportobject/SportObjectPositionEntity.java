@@ -9,19 +9,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import query.model.BaseEntity;
-import query.model.embeddable.DateTimeRange;
-import query.model.embeddable.Price;
+import query.model.embeddable.PositiveNumber;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class OpeningHoursEntity extends BaseEntity {
+public class SportObjectPositionEntity extends BaseEntity {
 
+    private String name;
+    private String description;
     @Embedded
-    private DateTimeRange dateRange;
-    @Embedded
-    private Price price;
+    private PositiveNumber positionsCount;
     @ManyToOne(fetch = FetchType.LAZY)
     private SportObjectEntity sportObject;
+
 }

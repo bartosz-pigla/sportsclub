@@ -1,4 +1,4 @@
-package query.validation;
+package query.model.embeddable.validation;
 
 import java.time.LocalDateTime;
 
@@ -14,9 +14,11 @@ public class DateRangeValidator {
         if (dateFrom == null) {
             errors.rejectValue("dateRange", "dateRange.dateFrom.empty");
         }
+
         if (dateTo == null) {
             errors.rejectValue("dateRange", "dateRange.dateTo.empty");
         }
+
         if (dateFrom != null && dateTo != null && !dateTo.isAfter(dateFrom)) {
             errors.rejectValue("dateRange", "dateRange.invalid");
         }

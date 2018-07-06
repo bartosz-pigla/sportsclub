@@ -23,4 +23,5 @@ public class UserEntity extends BaseEntity {
     private Email email;
     @Embedded
     private PhoneNumber phoneNumber;
+    private boolean activated;
 }

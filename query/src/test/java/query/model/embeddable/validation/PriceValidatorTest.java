@@ -1,4 +1,4 @@
-package query.validation;
+package query.model.embeddable.validation;
 
 import static org.junit.Assert.assertEquals;
 
