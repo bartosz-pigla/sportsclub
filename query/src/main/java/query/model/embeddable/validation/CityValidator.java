@@ -16,14 +16,14 @@ public class CityValidator {
     public static void validate(String city, Errors errors) {
         if (isBlank(city)) {
             errors.rejectValue("city", "city.empty");
-        }
+        } else {
+            if (ValidationHelper.hasInvalidLength(city, 0, CITY_MAX_LENGTH)) {
+                errors.rejectValue("city", "city.maxLength");
+            }
 
-        if (ValidationHelper.hasInvalidLength(city, 0, CITY_MAX_LENGTH)) {
-            errors.rejectValue("city", "city.maxLength");
-        }
-
-        if (!isAlpha(city)) {
-            errors.rejectValue("city", "city.isNotAlpha");
+            if (!isAlpha(city)) {
+                errors.rejectValue("city", "city.isNotAlpha");
+            }
         }
     }
 }

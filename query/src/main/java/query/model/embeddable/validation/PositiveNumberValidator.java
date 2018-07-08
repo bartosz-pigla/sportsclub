@@ -11,9 +11,7 @@ public class PositiveNumberValidator {
     public static void validate(Integer positiveNumber, Errors errors) {
         if (positiveNumber == null) {
             errors.rejectValue("positiveNumber", "positiveNumber.empty");
-        }
-
-        if (positiveNumber != null && positiveNumber <= 0) {
+        } else if (positiveNumber <= 0) {
             errors.rejectValue("positiveNumber", "positiveNumber.notPositive");
         }
     }

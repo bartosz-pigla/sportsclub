@@ -15,17 +15,13 @@ public class CoordinatesValidator {
     public static void validate(Double latitude, Double longitude, Errors errors) {
         if (latitude == null) {
             errors.rejectValue("coordinates", "coordinates.latitude.empty");
+        } else if (!latitudeRange.contains(latitude)) {
+            errors.rejectValue("coordinates", "coordinates.latitude.outOfRange");
         }
 
         if (longitude == null) {
             errors.rejectValue("coordinates", "coordinates.longitude.empty");
-        }
-
-        if (!latitudeRange.contains(latitude)) {
-            errors.rejectValue("coordinates", "coordinates.latitude.outOfRange");
-        }
-
-        if (!longitudeRange.contains(longitude)) {
+        } else if (!longitudeRange.contains(longitude)) {
             errors.rejectValue("coordinates", "coordinates.longitude.outOfRange");
         }
     }

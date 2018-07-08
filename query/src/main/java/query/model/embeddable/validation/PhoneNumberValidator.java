@@ -20,18 +20,18 @@ public class PhoneNumberValidator {
     public static void validate(String phoneNumber, Errors errors) {
         if (isBlank(phoneNumber)) {
             errors.rejectValue("phoneNumber", "phoneNumber.empty");
-        }
+        } else {
+            if (phoneNumber.length() != PHONE_NUMBER_MAX_LENGTH) {
+                errors.rejectValue("phoneNumber", "phoneNumber.maxLength");
+            }
 
-        if (phoneNumber.length() != PHONE_NUMBER_MAX_LENGTH) {
-            errors.rejectValue("phoneNumber", "phoneNumber.maxLength");
-        }
+            if (areaCodeIsInvalid(phoneNumber)) {
+                errors.rejectValue("phoneNumber", "phoneNumber.areaCode.invalid");
+            }
 
-        if (areaCodeIsInvalid(phoneNumber)) {
-            errors.rejectValue("phoneNumber", "phoneNumber.areaCode.notValid");
-        }
-
-        if (lineNumberIsInvalid(phoneNumber)) {
-            errors.rejectValue("phoneNumber", "phoneNumber.lineNumber.notValid");
+            if (lineNumberIsInvalid(phoneNumber)) {
+                errors.rejectValue("phoneNumber", "phoneNumber.lineNumber.invalid");
+            }
         }
     }
 

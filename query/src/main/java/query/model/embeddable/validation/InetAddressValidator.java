@@ -14,10 +14,8 @@ public class InetAddressValidator {
     public static void validate(String inetAddress, Errors errors) {
         if (isBlank(inetAddress)) {
             errors.rejectValue("inetAddress", "inetAddress.empty");
-        }
-
-        if (!getInstance().isValid(inetAddress)) {
-            errors.rejectValue("inetAddress", "inetAddress.notValid");
+        } else if (!getInstance().isValid(inetAddress)) {
+            errors.rejectValue("inetAddress", "inetAddress.invalid");
         }
     }
 }
