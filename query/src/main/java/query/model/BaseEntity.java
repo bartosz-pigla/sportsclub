@@ -15,5 +15,5 @@ import lombok.Data;
 public abstract class BaseEntity {
 
     @Id
-    protected UUID id;
+    protected UUID id = UUID.randomUUID();
 }

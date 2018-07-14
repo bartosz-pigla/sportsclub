@@ -3,6 +3,7 @@ package query.model.embeddable;
 import static query.model.embeddable.validation.DateRangeValidator.isInvalid;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -17,6 +18,8 @@ import query.exception.ValueObjectCreationException;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateTimeRange {
 
+    private static final int DEFAULT_DAYS_DIFFERENCE = 1;
+
     @Column
     private LocalDateTime dateFrom;
     @Column
@@ -29,5 +32,14 @@ public class DateTimeRange {
             this.dateFrom = dateFrom;
             this.dateTo = dateTo;
         }
+    }
+
+    public static DateTimeRange create() {
+        LocalDateTime now = LocalDateTime.now();
+        return new DateTimeRange(now, now.plusDays(DEFAULT_DAYS_DIFFERENCE));
+    }
+
+    public long getDayDifference() {
+        return ChronoUnit.DAYS.between(dateFrom, dateTo);
     }
 }

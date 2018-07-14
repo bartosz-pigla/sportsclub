@@ -11,7 +11,7 @@ public class UserValidator {
 
     private UserEntityRepository userEntityRepository;
 
-    public void validate(CreateUserCommand command) {
+    void validate(CreateUserCommand command) {
         if (userEntityRepository.existsByUsername(command.getUsername())) {
             throw new UserCreationException(command);
         }

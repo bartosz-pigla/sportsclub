@@ -1,7 +1,5 @@
 package boot;
 
-import java.util.UUID;
-
 import javax.annotation.PostConstruct;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +19,6 @@ public class UserEntityPopulator {
     @PostConstruct
     public void foo() {
         UserEntity userEntity = new UserEntity();
-        userEntity.setId(UUID.randomUUID());
         userEntity.setUserType(UserType.CUSTOMER);
         userEntity.setEmail(new Email("bartek217a@wp.pl"));
         userEntity.setPhoneNumber(new PhoneNumber("+48664220607"));

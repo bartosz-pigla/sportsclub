@@ -8,30 +8,19 @@ import static web.common.RequestMappings.SIGN_UP;
 import java.util.List;
 import java.util.Optional;
 
-import boot.SportsClubApplication;
 import integrationTest.IntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 import query.model.user.UserEntity;
 import query.repository.UserEntityRepository;
 import web.signUp.CreateCustomerCommand;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes = SportsClubApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ActiveProfiles("it")
-public class CreateCustomerItTest extends IntegrationTest {
+public final class CreateCustomerItTest extends IntegrationTest {
 
-    @Autowired
-    private TestRestTemplate restTemplate;
     @Autowired
     private UserEntityRepository userEntityRepository;
     private CreateCustomerCommand commandToPost;

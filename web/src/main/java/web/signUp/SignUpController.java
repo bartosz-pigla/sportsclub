@@ -23,7 +23,7 @@ import web.common.BaseController;
 import web.common.FieldErrorDto;
 import web.common.ValidationResponseService;
 
-@RestController
+@RestController(SIGN_UP)
 final class SignUpController extends BaseController {
 
     private CreateCustomerValidator validator;
@@ -40,7 +40,7 @@ final class SignUpController extends BaseController {
         binder.setValidator(validator);
     }
 
-    @PostMapping(SIGN_UP)
+    @PostMapping
     ResponseEntity<?> signUpCustomer(@RequestBody @Validated CreateCustomerCommand customer, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return validationResponseService.getResponse(bindingResult);

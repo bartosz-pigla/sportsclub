@@ -1,9 +1,11 @@
 package query.model.user;
 
-import java.util.UUID;
+import java.io.Serializable;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +17,18 @@ import query.model.embeddable.DateTimeRange;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ActivationLinkEntry extends BaseEntity {
+public class ActivationLinkEntry extends BaseEntity implements Serializable {
 
-    private UUID key;
+    private static final long serialVersionUID = 7388807433862162994L;
+
     @Embedded
     private DateTimeRange activationDeadlineRange;
+    @OneToOne(fetch = FetchType.LAZY)
+    private UserEntity user;
+    private boolean activated;
+
+    public ActivationLinkEntry(DateTimeRange activationDeadlineRange, UserEntity user) {
+        this.activationDeadlineRange = activationDeadlineRange;
+        this.user = user;
+    }
 }
