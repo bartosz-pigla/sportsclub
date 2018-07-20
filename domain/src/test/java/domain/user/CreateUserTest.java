@@ -3,19 +3,16 @@ package domain.user;
 import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.matches;
 import static org.axonframework.test.matchers.Matchers.sequenceOf;
-import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 import api.user.event.UserCreatedEvent;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.junit.MockitoJUnitRunner;
 
-@RunWith(MockitoJUnitRunner.class)
 public final class CreateUserTest extends UserTest {
 
     @Test
     public void shouldNotCreateUserWhenAlreadyExists() {
-        doThrow(new UserCreationException()).when(userValidator).validate(createUserCommand);
+        when(userRepository.existsByUsername(createUserCommand.getUsername())).thenReturn(true);
 
         testFixture.given(userCreatedEvent)
                 .when(createUserCommand)

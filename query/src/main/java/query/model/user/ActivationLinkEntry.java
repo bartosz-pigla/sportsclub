@@ -1,6 +1,7 @@
 package query.model.user;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -25,9 +26,9 @@ public class ActivationLinkEntry extends BaseEntity implements Serializable {
     private DateTimeRange activationDeadlineRange;
     @OneToOne(fetch = FetchType.LAZY)
     private UserEntity user;
-    private boolean activated;
 
-    public ActivationLinkEntry(DateTimeRange activationDeadlineRange, UserEntity user) {
+    public ActivationLinkEntry(UUID activationId, DateTimeRange activationDeadlineRange, UserEntity user) {
+        this.id = activationId;
         this.activationDeadlineRange = activationDeadlineRange;
         this.user = user;
     }

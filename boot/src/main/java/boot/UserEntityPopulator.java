@@ -4,6 +4,7 @@ import javax.annotation.PostConstruct;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import query.model.embeddable.Email;
 import query.model.embeddable.PhoneNumber;
 import query.model.user.UserEntity;
@@ -15,6 +16,7 @@ import query.repository.UserEntityRepository;
 public class UserEntityPopulator {
 
     private UserEntityRepository userEntityRepository;
+    private PasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void foo() {
@@ -23,7 +25,8 @@ public class UserEntityPopulator {
         userEntity.setEmail(new Email("bartek217a@wp.pl"));
         userEntity.setPhoneNumber(new PhoneNumber("+48664220607"));
         userEntity.setUsername("customer1");
-        userEntity.setPassword("password1");
+        userEntity.setPassword(passwordEncoder.encode("password1"));
+        userEntity.setActivated(true);
         userEntityRepository.save(userEntity);
 
         userEntityRepository.findAll().forEach(u -> System.out.println(u.getUsername()));

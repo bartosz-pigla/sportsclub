@@ -10,8 +10,9 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 @Data
 @AllArgsConstructor
 @Builder
-public final class SendActivationLinkCommand {
+public final class ActivateCustomerCommand {
 
     @TargetAggregateIdentifier
     private UUID customerId;
+    private UUID activationKey;
 }

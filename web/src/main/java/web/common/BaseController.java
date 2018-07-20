@@ -1,9 +1,10 @@
 package web.common;
 
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 import org.axonframework.commandhandling.gateway.CommandGateway;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@AllArgsConstructor
+@Setter(onMethod_ = { @Autowired })
 public abstract class BaseController {
 
     protected CommandGateway commandGateway;

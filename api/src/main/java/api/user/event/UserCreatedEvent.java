@@ -17,7 +17,7 @@ import query.model.user.UserType;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserCreatedEvent extends DomainEvent implements Serializable {
+public final class UserCreatedEvent extends DomainEvent implements Serializable {
 
     private static final long serialVersionUID = -507401947375378352L;
 

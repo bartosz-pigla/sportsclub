@@ -8,18 +8,15 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import query.model.embeddable.DateTimeRange;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public final class ActivationLinkSentEvent extends DomainEvent implements Serializable {
+public final class CustomerActivatedEvent extends DomainEvent implements Serializable {
 
-    private static final long serialVersionUID = -8820120540436741716L;
+    private static final long serialVersionUID = -6807130905841516796L;
 
     private UUID customerId;
-    private UUID activationKey;
-    private DateTimeRange dateTimeRange;
 }

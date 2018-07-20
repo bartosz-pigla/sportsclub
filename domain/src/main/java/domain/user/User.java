@@ -7,9 +7,11 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import api.user.command.ActivateCustomerCommand;
 import api.user.command.CreateUserCommand;
 import api.user.command.SendActivationLinkCommand;
 import api.user.event.ActivationLinkSentEvent;
+import api.user.event.CustomerActivatedEvent;
 import api.user.event.UserCreatedEvent;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -21,7 +23,6 @@ import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 import query.model.embeddable.DateTimeRange;
 import query.model.user.UserType;
-import query.repository.UserEntityRepository;
 
 @Aggregate
 @Getter
@@ -36,16 +37,11 @@ public class User implements Serializable {
     private UserType userType;
     private LocalDateTime activationDeadline;
     private UUID activationKey;
-
-    private UserValidator userValidator;
-    private UserEntityRepository userRepository;
+    private boolean activated;
 
     @CommandHandler
-    public User(CreateUserCommand command, UserValidator userValidator, UserEntityRepository userRepository) {
-        this.userValidator = userValidator;
-        this.userRepository = userRepository;
-        this.userValidator.validate(command);
-
+    public User(CreateUserCommand command, UserValidator userValidator) {
+        userValidator.validate(command);
         UserCreatedEvent event = new UserCreatedEvent();
         copyProperties(command, event);
         event.setUserId(UUID.randomUUID());
@@ -64,7 +60,18 @@ public class User implements Serializable {
 
     @EventSourcingHandler
     public void on(ActivationLinkSentEvent event) {
-        this.activationDeadline = event.getDateTimeRange().getDateTo();
-        this.activationKey = event.getActivationKey();
+        activationDeadline = event.getDateTimeRange().getDateTo();
+        activationKey = event.getActivationKey();
+    }
+
+    @CommandHandler
+    public void activateCustomer(ActivateCustomerCommand command, UserValidator userValidator) {
+        userValidator.validate(command, this);
+        apply(new CustomerActivatedEvent(command.getCustomerId()));
+    }
+
+    @EventSourcingHandler
+    public void on(CustomerActivatedEvent event) {
+        activated = true;
     }
 }

@@ -1,12 +1,12 @@
-package domain.common;
+package domain.common.exception;
 
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public class EntityException extends RuntimeException {
 
     protected Class entityClass;

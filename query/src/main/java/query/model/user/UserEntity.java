@@ -2,6 +2,8 @@ package query.model.user;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,4 +26,6 @@ public class UserEntity extends BaseEntity {
     @Embedded
     private PhoneNumber phoneNumber;
     private boolean activated;
+    @OneToOne(fetch = FetchType.LAZY)
+    private ActivationLinkEntry activationLink;
 }

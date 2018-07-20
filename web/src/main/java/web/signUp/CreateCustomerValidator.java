@@ -13,12 +13,12 @@ class CreateCustomerValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return CreateCustomerCommand.class.equals(aClass);
+        return CreateCustomerWebCommand.class.equals(aClass);
     }
 
     @Override
     public void validate(Object obj, Errors errors) {
-        CreateCustomerCommand command = (CreateCustomerCommand) obj;
+        CreateCustomerWebCommand command = (CreateCustomerWebCommand) obj;
         validateUsername(command.getUsername(), errors);
         validatePassword(command.getPassword(), errors);
         EmailValidator.validate(command.getEmail(), errors);

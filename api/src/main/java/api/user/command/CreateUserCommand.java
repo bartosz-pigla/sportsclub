@@ -10,7 +10,7 @@ import query.model.user.UserType;
 @Data
 @AllArgsConstructor
 @Builder
-public class CreateUserCommand {
+public final class CreateUserCommand {
 
     private String username;
     private String password;
