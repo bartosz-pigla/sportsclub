@@ -1,4 +1,4 @@
-package web.signIn;
+package web.signIn.dto;
 
 import java.util.Collection;
 import java.util.Collections;

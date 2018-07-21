@@ -12,6 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import web.signIn.dto.JwtAuthenticationResponse;
+import web.signIn.dto.SignInWebCommand;
+import web.signIn.service.JwtTokenProvider;
 
 @RestController
 @Setter(onMethod_ = { @Autowired })

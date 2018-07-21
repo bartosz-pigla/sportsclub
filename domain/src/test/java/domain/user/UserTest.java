@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import api.user.command.CreateUserCommand;
 import api.user.event.UserCreatedEvent;
+import domain.user.activateCustomer.validator.ActivateCustomerValidator;
+import domain.user.createUser.validator.CreateUserValidator;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -38,7 +40,8 @@ abstract class UserTest {
     private void createAggregateTestFixture() {
         testFixture = new AggregateTestFixture<>(User.class);
         testFixture.setReportIllegalStateChange(false);
-        testFixture.registerInjectableResource(new UserValidator(userRepository));
+        testFixture.registerInjectableResource(new CreateUserValidator(userRepository));
+        testFixture.registerInjectableResource(new ActivateCustomerValidator());
         testFixture.registerInjectableResource(userRepository);
     }
 

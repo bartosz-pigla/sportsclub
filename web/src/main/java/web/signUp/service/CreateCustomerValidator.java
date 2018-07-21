@@ -1,4 +1,4 @@
-package web.signUp;
+package web.signUp.service;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -7,9 +7,10 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import query.model.embeddable.validation.EmailValidator;
 import query.model.embeddable.validation.PhoneNumberValidator;
+import web.signUp.dto.CreateCustomerWebCommand;
 
 @Service
-class CreateCustomerValidator implements Validator {
+public class CreateCustomerValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {

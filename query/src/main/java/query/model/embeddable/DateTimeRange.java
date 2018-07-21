@@ -18,7 +18,7 @@ import query.exception.ValueObjectCreationException;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateTimeRange {
 
-    private static final int DEFAULT_DAYS_DIFFERENCE = 1;
+    public static final int DEFAULT_DAYS_DIFFERENCE = 1;
 
     @Column
     private LocalDateTime dateFrom;

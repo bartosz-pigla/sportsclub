@@ -1,4 +1,6 @@
-package web.signIn;
+package web.signIn.service;
+
+import static org.slf4j.LoggerFactory.getLogger;
 
 import java.util.Date;
 
@@ -9,27 +11,27 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import web.signIn.dto.UserPrincipal;
 
 @Component
 public final class JwtTokenProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
+    private static final Logger logger = getLogger(JwtTokenProvider.class);
 
-    @Value("${app.jwtSecret}")
+    @Value("${security.token.secret}")
     private String jwtSecret;
 
-    @Value("${app.jwtExpirationInMin}")
-    private int jwtExpirationInMin;
+    @Value("${security.token.maxAgeMinutes}")
+    private int jwtMaxAgeMinutes;
 
     public String generateToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
 
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationInMin * 60 * 1000);
+        Date expiryDate = new Date(now.getTime() + jwtMaxAgeMinutes * 60 * 1000);
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getId())

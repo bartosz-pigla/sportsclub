@@ -4,7 +4,7 @@ import static web.common.RequestMappings.SIGN_UP;
 
 import api.user.command.CreateUserCommand;
 import api.user.command.SendActivationLinkCommand;
-import domain.user.UserCreationException;
+import domain.user.createUser.exception.UserCreationException;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +25,8 @@ import query.model.user.UserType;
 import query.repository.UserEntityRepository;
 import web.common.BaseController;
 import web.common.FieldErrorDto;
+import web.signUp.dto.CreateCustomerWebCommand;
+import web.signUp.service.CreateCustomerValidator;
 
 @RestController
 @Setter(onMethod_ = { @Autowired })
@@ -60,10 +62,9 @@ final class SignUpController extends BaseController {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(UserCreationException.class)
-    public ResponseEntity<?> handleUserAlreadyExistsConflict(UserCreationException e) {
+    public ResponseEntity<?> handleUserAlreadyExistsConflict() {
         return validationResponseService.getResponse(
                 HttpStatus.CONFLICT,
-                new FieldErrorDto("username", "alreadyExists"),
-                new FieldErrorDto("username", e.getCommand().getUsername()));
+                new FieldErrorDto("username", "alreadyExists"));
     }
 }

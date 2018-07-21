@@ -10,9 +10,9 @@ import java.util.UUID;
 import api.user.command.ActivateCustomerCommand;
 import api.user.event.ActivationLinkSentEvent;
 import api.user.event.CustomerActivatedEvent;
-import domain.user.exception.ActivationKeyInvalidException;
-import domain.user.exception.ActivationLinkExpiredException;
-import domain.user.exception.AlreadyActivatedException;
+import domain.user.activateCustomer.exception.ActivationKeyInvalidException;
+import domain.user.activateCustomer.exception.ActivationLinkExpiredException;
+import domain.user.activateCustomer.exception.AlreadyActivatedException;
 import org.junit.Test;
 import query.model.embeddable.DateTimeRange;
 

@@ -1,4 +1,4 @@
-package web.signUp;
+package web.signIn.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
-public class ActivateCustomerWebCommand {
+public final class SignInWebCommand {
 
-    private String activationKey;
+    private String username;
+    private String password;
 }

@@ -6,6 +6,7 @@ import static org.axonframework.test.matchers.Matchers.sequenceOf;
 import static org.mockito.Mockito.when;
 
 import api.user.event.UserCreatedEvent;
+import domain.user.createUser.exception.UserCreationException;
 import org.junit.Test;
 
 public final class CreateUserTest extends UserTest {

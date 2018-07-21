@@ -7,7 +7,6 @@ import static web.common.RequestMappings.getAntMatcher;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,7 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import query.model.user.UserType;
-import web.signIn.JwtTokenProvider;
+import web.signIn.service.JwtTokenProvider;
 
 @Configuration
 @EnableWebSecurity
@@ -74,7 +73,7 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(getAntMatcher(AUTH))
                 .permitAll()
 
-                .antMatchers(HttpMethod.GET, CUSTOMER_ACTIVATION)
+                .antMatchers(getAntMatcher(CUSTOMER_ACTIVATION))
                 .permitAll()
 
                 .anyRequest()

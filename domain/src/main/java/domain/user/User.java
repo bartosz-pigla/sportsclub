@@ -13,6 +13,8 @@ import api.user.command.SendActivationLinkCommand;
 import api.user.event.ActivationLinkSentEvent;
 import api.user.event.CustomerActivatedEvent;
 import api.user.event.UserCreatedEvent;
+import domain.user.activateCustomer.validator.ActivateCustomerValidator;
+import domain.user.createUser.validator.CreateUserValidator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,8 +42,8 @@ public class User implements Serializable {
     private boolean activated;
 
     @CommandHandler
-    public User(CreateUserCommand command, UserValidator userValidator) {
-        userValidator.validate(command);
+    public User(CreateUserCommand command, CreateUserValidator validator) {
+        validator.validate(command);
         UserCreatedEvent event = new UserCreatedEvent();
         copyProperties(command, event);
         event.setUserId(UUID.randomUUID());
@@ -65,8 +67,8 @@ public class User implements Serializable {
     }
 
     @CommandHandler
-    public void activateCustomer(ActivateCustomerCommand command, UserValidator userValidator) {
-        userValidator.validate(command, this);
+    public void activateCustomer(ActivateCustomerCommand command, ActivateCustomerValidator validator) {
+        validator.validate(command, this);
         apply(new CustomerActivatedEvent(command.getCustomerId()));
     }
 

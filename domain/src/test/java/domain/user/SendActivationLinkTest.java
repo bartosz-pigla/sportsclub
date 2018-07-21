@@ -3,6 +3,7 @@ package domain.user;
 import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.matches;
 import static org.axonframework.test.matchers.Matchers.sequenceOf;
+import static query.model.embeddable.DateTimeRange.DEFAULT_DAYS_DIFFERENCE;
 
 import java.util.UUID;
 
@@ -33,7 +34,7 @@ public final class SendActivationLinkTest extends UserTest {
                 .when(command)
                 .expectEventsMatching(sequenceOf(matches(p -> {
                     ActivationLinkSentEvent event = (ActivationLinkSentEvent) p.getPayload();
-                    return event.getDateTimeRange().getDayDifference() == 1;
+                    return event.getDateTimeRange().getDayDifference() == DEFAULT_DAYS_DIFFERENCE;
                 }), andNoMore()));
     }
 }

@@ -1,16 +1,16 @@
-package web.signIn;
+package web.signIn.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-final class JwtAuthenticationResponse {
+public final class JwtAuthenticationResponse {
 
     private String accessToken;
     private String tokenType = "Bearer";
 
-    JwtAuthenticationResponse(String accessToken) {
+    public JwtAuthenticationResponse(String accessToken) {
         this.accessToken = accessToken;
     }
 }

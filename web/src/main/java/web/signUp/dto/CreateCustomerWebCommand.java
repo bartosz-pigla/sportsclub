@@ -1,4 +1,4 @@
-package web.signUp;
+package web.signUp.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
