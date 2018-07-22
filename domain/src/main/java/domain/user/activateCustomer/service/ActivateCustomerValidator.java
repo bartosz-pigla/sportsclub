@@ -1,4 +1,4 @@
-package domain.user.activateCustomer.validator;
+package domain.user.activateCustomer.service;
 
 import static org.slf4j.LoggerFactory.getLogger;
 

@@ -6,8 +6,8 @@ import java.util.UUID;
 
 import api.user.command.CreateUserCommand;
 import api.user.event.UserCreatedEvent;
-import domain.user.activateCustomer.validator.ActivateCustomerValidator;
-import domain.user.createUser.validator.CreateUserValidator;
+import domain.user.activateCustomer.service.ActivateCustomerValidator;
+import domain.user.createUser.service.CreateUserValidator;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.Before;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package integrationTest.user;
+package integrationTest.user.customer;
 
 import static org.junit.Assert.assertEquals;
 import static web.common.RequestMappings.CUSTOMER_ACTIVATION;
@@ -6,6 +6,7 @@ import static web.common.RequestMappings.SIGN_UP;
 
 import java.util.UUID;
 
+import integrationTest.user.AbstractUserItTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,9 +16,9 @@ import query.model.user.ActivationLinkEntry;
 import query.model.user.UserEntity;
 import query.repository.ActivationLinkEntryRepository;
 import web.signUp.dto.ActivateCustomerWebCommand;
-import web.signUp.dto.CreateCustomerWebCommand;
+import web.signUp.dto.CreateUserWebCommand;
 
-public final class ActivateCustomerItTest extends AbstractCustomerItTest {
+public final class ActivateCustomerItTest extends AbstractUserItTest {
 
     @Autowired
     private ActivationLinkEntryRepository activationRepository;
@@ -25,11 +26,11 @@ public final class ActivateCustomerItTest extends AbstractCustomerItTest {
     @Test
     @DirtiesContext
     public void shouldActivateCustomerWhenActivationLinkIsValid() {
-        ResponseEntity<CreateCustomerWebCommand> createCustomerResponse = restTemplate.postForEntity(
-                SIGN_UP, createCustomerCommand, CreateCustomerWebCommand.class);
+        ResponseEntity<CreateUserWebCommand> createCustomerResponse = restTemplate.postForEntity(
+                SIGN_UP, createUserWebCommand, CreateUserWebCommand.class);
         assertEquals(createCustomerResponse.getStatusCode(), HttpStatus.OK);
 
-        UserEntity customer = userRepository.findByUsername(createCustomerCommand.getUsername()).get();
+        UserEntity customer = userRepository.findByUsername(createUserWebCommand.getUsername()).get();
         ActivationLinkEntry activationLink = activationRepository.findByUser(customer);
 
         ActivateCustomerWebCommand activateCustomerCommand = ActivateCustomerWebCommand.builder()
@@ -42,8 +43,8 @@ public final class ActivateCustomerItTest extends AbstractCustomerItTest {
     @Test
     @DirtiesContext
     public void shouldNotActivateCustomerWhenActivationLinkIsInvalid() {
-        ResponseEntity<CreateCustomerWebCommand> createCustomerResponse = restTemplate.postForEntity(
-                SIGN_UP, createCustomerCommand, CreateCustomerWebCommand.class);
+        ResponseEntity<CreateUserWebCommand> createCustomerResponse = restTemplate.postForEntity(
+                SIGN_UP, createUserWebCommand, CreateUserWebCommand.class);
         assertEquals(createCustomerResponse.getStatusCode(), HttpStatus.OK);
 
         ActivateCustomerWebCommand activateCustomerCommand = ActivateCustomerWebCommand.builder()

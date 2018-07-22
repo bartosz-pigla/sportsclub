@@ -9,6 +9,7 @@ import api.user.event.ActivationLinkSentEvent;
 import api.user.event.CustomerActivatedEvent;
 import api.user.event.UserCreatedEvent;
 import domain.common.exception.EntityNotExistsException;
+import domain.user.createUser.service.ActivationLinkService;
 import lombok.AllArgsConstructor;
 import org.axonframework.eventhandling.EventHandler;
 import org.slf4j.Logger;
@@ -26,6 +27,7 @@ public class UserEventHandler {
 
     private UserEntityRepository userRepository;
     private ActivationLinkEntryRepository activationLinkRepository;
+    private ActivationLinkService activationLinkService;
 
     @EventHandler
     public void on(UserCreatedEvent event) {
@@ -43,7 +45,7 @@ public class UserEventHandler {
         UserEntity user = userRepository.getOne(event.getCustomerId());
         ActivationLinkEntry activationLink = new ActivationLinkEntry(event.getActivationKey(), event.getDateTimeRange(), user);
         activationLinkRepository.save(activationLink);
-        System.out.println(activationLink.getId());
+        activationLinkService.send(user.getEmail(), activationLink.getId());
     }
 
     @EventHandler

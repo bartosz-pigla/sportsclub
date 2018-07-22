@@ -30,6 +30,4 @@ public class SportsClubApplication {
     public static void main(String[] args) {
         SpringApplication.run(SportsClubApplication.class, args);
     }
-
-
 }

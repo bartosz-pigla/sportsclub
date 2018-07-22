@@ -1,4 +1,4 @@
-package domain.user.createUser.validator;
+package domain.user.createUser.service;
 
 import static org.slf4j.LoggerFactory.getLogger;
 

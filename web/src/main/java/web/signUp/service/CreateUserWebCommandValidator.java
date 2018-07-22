@@ -7,19 +7,19 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import query.model.embeddable.validation.EmailValidator;
 import query.model.embeddable.validation.PhoneNumberValidator;
-import web.signUp.dto.CreateCustomerWebCommand;
+import web.signUp.dto.CreateUserWebCommand;
 
 @Service
-public class CreateCustomerValidator implements Validator {
+public class CreateUserWebCommandValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return CreateCustomerWebCommand.class.equals(aClass);
+        return CreateUserWebCommand.class.equals(aClass);
     }
 
     @Override
     public void validate(Object obj, Errors errors) {
-        CreateCustomerWebCommand command = (CreateCustomerWebCommand) obj;
+        CreateUserWebCommand command = (CreateUserWebCommand) obj;
         validateUsername(command.getUsername(), errors);
         validatePassword(command.getPassword(), errors);
         EmailValidator.validate(command.getEmail(), errors);

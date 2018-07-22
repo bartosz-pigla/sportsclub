@@ -1,0 +1,33 @@
+package web.signUp;
+
+import static web.common.RequestMappings.SIGN_UP;
+
+import api.user.command.SendActivationLinkCommand;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import query.model.user.UserType;
+import web.signUp.dto.CreateUserWebCommand;
+
+@RestController
+@Setter(onMethod_ = { @Autowired })
+final class SignUpCustomerController extends AbstractSignUpController {
+
+    @PostMapping(SIGN_UP)
+    ResponseEntity<?> signUpCustomer(@RequestBody @Validated CreateUserWebCommand customer, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return validationResponseService.getResponse(bindingResult);
+        }
+
+        signUpUser(customer, UserType.CUSTOMER);
+        userRepository.findByUsername(customer.getUsername()).ifPresent(c ->
+                commandGateway.sendAndWait(SendActivationLinkCommand.builder().customerId(c.getId()).build()));
+
+        return ResponseEntity.ok(customer);
+    }
+}

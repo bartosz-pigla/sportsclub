@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
-public class CreateCustomerWebCommand {
+public class CreateUserWebCommand {
 
     private String username;
     private String password;

@@ -2,6 +2,8 @@ package boot.security;
 
 import static web.common.RequestMappings.AUTH;
 import static web.common.RequestMappings.CUSTOMER_ACTIVATION;
+import static web.common.RequestMappings.DIRECTOR;
+import static web.common.RequestMappings.RECEPTIONIST;
 import static web.common.RequestMappings.getAntMatcher;
 
 import lombok.AllArgsConstructor;
@@ -23,7 +25,7 @@ import web.signIn.service.JwtTokenProvider;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
-class SecurityConfig extends WebSecurityConfigurerAdapter {
+class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private CustomUserDetailsService customUserDetailsService;
     private JwtAuthenticationEntryPoint unauthorizedHandler;
@@ -76,13 +78,19 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(getAntMatcher(CUSTOMER_ACTIVATION))
                 .permitAll()
 
+                .antMatchers(getAntMatcher(DIRECTOR))
+                .hasAuthority(getAuthorityName(UserType.DIRECTOR))
+
+                .antMatchers(getAntMatcher(RECEPTIONIST))
+                .hasAuthority(getAuthorityName(UserType.DIRECTOR))
+
                 .anyRequest()
                 .authenticated();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    private String getRoleName(UserType userType) {
+    private String getAuthorityName(UserType userType) {
         return userType.name();
     }
 }
