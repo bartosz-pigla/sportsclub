@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import api.user.command.SendActivationLinkCommand;
 import api.user.event.ActivationLinkSentEvent;
+import domain.user.deleteUser.exception.UserAlreadyDeletedException;
 import org.axonframework.commandhandling.model.AggregateNotFoundException;
 import org.junit.Test;
 
@@ -23,6 +24,17 @@ public final class SendActivationLinkTest extends UserTest {
                 .when(command)
                 .expectNoEvents()
                 .expectException(AggregateNotFoundException.class);
+    }
+
+    @Test
+    public void shouldNotSendActivationLinkWhenUserIsDeleted() {
+        SendActivationLinkCommand command = SendActivationLinkCommand.builder()
+                .customerId(userCreatedEvent.getUserId()).build();
+
+        testFixture.given(userCreatedEvent, userDeletedEvent)
+                .when(command)
+                .expectNoEvents()
+                .expectException(UserAlreadyDeletedException.class);
     }
 
     @Test

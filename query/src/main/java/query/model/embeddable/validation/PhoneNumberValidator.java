@@ -3,6 +3,7 @@ package query.model.embeddable.validation;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isNumeric;
 
+import commons.ErrorCode;
 import org.springframework.validation.Errors;
 
 public class PhoneNumberValidator {
@@ -19,18 +20,18 @@ public class PhoneNumberValidator {
 
     public static void validate(String phoneNumber, Errors errors) {
         if (isBlank(phoneNumber)) {
-            errors.rejectValue("phoneNumber", "phoneNumber.empty");
+            errors.rejectValue("phoneNumber", ErrorCode.EMPTY.getCode());
         } else {
             if (phoneNumber.length() != PHONE_NUMBER_MAX_LENGTH) {
-                errors.rejectValue("phoneNumber", "phoneNumber.maxLength");
+                errors.rejectValue("phoneNumber", ErrorCode.MAX_LENGTH.getCode());
             }
 
             if (areaCodeIsInvalid(phoneNumber)) {
-                errors.rejectValue("phoneNumber", "phoneNumber.areaCode.invalid");
+                errors.rejectValue("phoneNumber", ErrorCode.INVALID.getCodeWithPrefix("areaCode"));
             }
 
             if (lineNumberIsInvalid(phoneNumber)) {
-                errors.rejectValue("phoneNumber", "phoneNumber.lineNumber.invalid");
+                errors.rejectValue("phoneNumber", ErrorCode.INVALID.getCodeWithPrefix("lineNumber"));
             }
         }
     }

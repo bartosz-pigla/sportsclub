@@ -25,11 +25,11 @@ public class ActivationLinkEntry extends BaseEntity implements Serializable {
     @Embedded
     private DateTimeRange activationDeadlineRange;
     @OneToOne(fetch = FetchType.LAZY)
-    private UserEntity user;
+    private UserEntity customer;
 
-    public ActivationLinkEntry(UUID activationId, DateTimeRange activationDeadlineRange, UserEntity user) {
+    public ActivationLinkEntry(UUID activationId, DateTimeRange activationDeadlineRange, UserEntity customer) {
         this.id = activationId;
         this.activationDeadlineRange = activationDeadlineRange;
-        this.user = user;
+        this.customer = customer;
     }
 }

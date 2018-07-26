@@ -17,7 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import web.signIn.service.JwtTokenProvider;
+import web.publicApi.signIn.service.JwtTokenProvider;
 
 @AllArgsConstructor
 final class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -42,7 +42,7 @@ final class JwtAuthenticationFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
-            logger.error("Could not set user authentication in security context", ex);
+            logger.error("Could not set customer authentication in security context", ex);
         }
 
         filterChain.doFilter(request, response);

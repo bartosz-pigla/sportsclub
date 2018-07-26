@@ -7,6 +7,7 @@ import static org.junit.Assert.assertFalse;
 import java.util.List;
 import java.util.Optional;
 
+import commons.ErrorCode;
 import integrationTest.IntegrationTest;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import query.model.user.UserEntity;
 import query.repository.UserEntityRepository;
-import web.signUp.dto.CreateUserWebCommand;
+import web.common.dto.CreateUserWebCommand;
 
 public abstract class AbstractUserItTest extends IntegrationTest {
 
@@ -36,11 +37,10 @@ public abstract class AbstractUserItTest extends IntegrationTest {
         List responseBody = responseEntity.getBody();
 
         assertEquals(responseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertField("username", "username.empty", responseBody);
-        assertField("password", "password.empty", responseBody);
-        assertField("email", "email.empty", responseBody);
-        assertField("phoneNumber", "phoneNumber.empty", responseBody);
-        assertTrue(true);
+        assertField("username", ErrorCode.EMPTY.getCode(), responseBody);
+        assertField("password", ErrorCode.EMPTY.getCode(), responseBody);
+        assertField("email", ErrorCode.EMPTY.getCode(), responseBody);
+        assertField("phoneNumber", ErrorCode.EMPTY.getCode(), responseBody);
     }
 
     protected void shouldSaveUserWhenAllFieldsAreValid(String userRequestMapping) {
@@ -55,17 +55,15 @@ public abstract class AbstractUserItTest extends IntegrationTest {
         Optional<UserEntity> userEntityOptional = userRepository.findByUsername(createUserWebCommand.getUsername());
         assertTrue(userEntityOptional.isPresent());
         assertFalse(userEntityOptional.get().isActivated());
-        assertTrue(true);
     }
 
-    public void shouldNotSaveUserWhenUserWithGivenUsernameAlreadyExists(String userRequestMapping) {
+    protected void shouldNotSaveUserWhenUserWithGivenUsernameAlreadyExists(String userRequestMapping) {
         ResponseEntity<List> responseEntity = restTemplate.postForEntity(
                 userRequestMapping, createUserWebCommand, List.class);
         assertEquals(responseEntity.getStatusCode(), HttpStatus.CONFLICT);
 
         List responseBody = responseEntity.getBody();
         assertField("username", "alreadyExists", responseBody);
-        assertTrue(true);
     }
 
 }

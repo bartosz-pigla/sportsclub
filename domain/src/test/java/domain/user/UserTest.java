@@ -5,9 +5,13 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 import java.util.UUID;
 
 import api.user.command.CreateUserCommand;
+import api.user.command.DeleteUserCommand;
 import api.user.event.UserCreatedEvent;
+import api.user.event.UserDeletedEvent;
 import domain.user.activateCustomer.service.ActivateCustomerValidator;
+import domain.user.activateCustomer.service.SendActivationLinkValidator;
 import domain.user.createUser.service.CreateUserValidator;
+import domain.user.deleteUser.service.DeleteUserValidator;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.Before;
 import org.junit.runner.RunWith;
@@ -25,27 +29,33 @@ abstract class UserTest {
     protected AggregateTestFixture<User> testFixture;
     protected CreateUserCommand createUserCommand;
     protected UserCreatedEvent userCreatedEvent;
+    protected DeleteUserCommand deleteUserCommand;
+    protected UserDeletedEvent userDeletedEvent;
     @Mock
     protected UserEntityRepository userRepository;
     protected UserEntity user;
 
     @Before
     public void setUp() {
-        createAggregateTestFixture();
-        createCommand();
-        createEvent();
+        setUpAggregateTestFixture();
+        setUpCreateUserCommand();
+        setUpUserCreatedEvent();
         createEntity();
+        setUpDeleteUserCommand();
+        setUpUserDeletedEvent();
     }
 
-    private void createAggregateTestFixture() {
+    private void setUpAggregateTestFixture() {
         testFixture = new AggregateTestFixture<>(User.class);
         testFixture.setReportIllegalStateChange(false);
         testFixture.registerInjectableResource(new CreateUserValidator(userRepository));
         testFixture.registerInjectableResource(new ActivateCustomerValidator());
+        testFixture.registerInjectableResource(new SendActivationLinkValidator());
+        testFixture.registerInjectableResource(new DeleteUserValidator());
         testFixture.registerInjectableResource(userRepository);
     }
 
-    private void createCommand() {
+    private void setUpCreateUserCommand() {
         createUserCommand = CreateUserCommand.builder()
                 .username("username")
                 .password("password")
@@ -54,7 +64,7 @@ abstract class UserTest {
                 .phoneNumber(new PhoneNumber("+48664220607")).build();
     }
 
-    private void createEvent() {
+    private void setUpUserCreatedEvent() {
         userCreatedEvent = new UserCreatedEvent();
         copyProperties(createUserCommand, userCreatedEvent);
         userCreatedEvent.setUserId(UUID.randomUUID());
@@ -64,5 +74,15 @@ abstract class UserTest {
         user = new UserEntity();
         copyProperties(userCreatedEvent, user);
         user.setId(userCreatedEvent.getUserId());
+    }
+
+    private void setUpDeleteUserCommand() {
+        deleteUserCommand = DeleteUserCommand.builder()
+                .userId(userCreatedEvent.getUserId()).build();
+    }
+
+    private void setUpUserDeletedEvent() {
+        userDeletedEvent = UserDeletedEvent.builder()
+                .userId(deleteUserCommand.getUserId()).build();
     }
 }

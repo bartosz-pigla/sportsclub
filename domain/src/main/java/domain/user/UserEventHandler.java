@@ -8,6 +8,7 @@ import java.util.UUID;
 import api.user.event.ActivationLinkSentEvent;
 import api.user.event.CustomerActivatedEvent;
 import api.user.event.UserCreatedEvent;
+import api.user.event.UserDeletedEvent;
 import domain.common.exception.EntityNotExistsException;
 import domain.user.createUser.service.ActivationLinkService;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,7 @@ public class UserEventHandler {
 
     @EventHandler
     public void on(UserCreatedEvent event) {
-        logger.info("Saving user to database");
+        logger.info("Saving customer to database");
         UserEntity userEntity = new UserEntity();
         copyProperties(event, userEntity);
         userEntity.setId(event.getUserId());
@@ -50,10 +51,19 @@ public class UserEventHandler {
 
     @EventHandler
     public void on(CustomerActivatedEvent event) {
-        logger.info("Activating user");
+        logger.info("Activating customer");
         UUID customerId = event.getCustomerId();
         UserEntity user = userRepository.findById(customerId).orElseThrow(() -> new EntityNotExistsException(UserEntity.class, customerId));
         user.setActivated(true);
+        userRepository.save(user);
+    }
+
+    @EventHandler
+    public void on(UserDeletedEvent event) {
+        logger.info("Deleting customer");
+        UUID userId = event.getUserId();
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new EntityNotExistsException(UserEntity.class, userId));
+        user.setDeleted(true);
         userRepository.save(user);
     }
 }

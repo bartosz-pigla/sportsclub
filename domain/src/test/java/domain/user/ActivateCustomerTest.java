@@ -13,6 +13,7 @@ import api.user.event.CustomerActivatedEvent;
 import domain.user.activateCustomer.exception.ActivationKeyInvalidException;
 import domain.user.activateCustomer.exception.ActivationLinkExpiredException;
 import domain.user.activateCustomer.exception.AlreadyActivatedException;
+import domain.user.deleteUser.exception.UserAlreadyDeletedException;
 import org.junit.Test;
 import query.model.embeddable.DateTimeRange;
 
@@ -62,6 +63,18 @@ public final class ActivateCustomerTest extends UserTest {
                 .expectException(AlreadyActivatedException.class);
     }
 
+    @Test
+    public void shouldNotActivateCustomerWhenCustomerIsDeleted() {
+        ActivationLinkSentEvent activationLinkSentEvent = getActivationLinkSentEvent(userCreatedEvent.getUserId());
+        ActivateCustomerCommand command = ActivateCustomerCommand.builder()
+                .customerId(activationLinkSentEvent.getCustomerId())
+                .activationKey(activationLinkSentEvent.getActivationKey()).build();
+
+        testFixture.given(userCreatedEvent, activationLinkSentEvent, userDeletedEvent)
+                .when(command)
+                .expectNoEvents()
+                .expectException(UserAlreadyDeletedException.class);
+    }
 
     @Test
     public void shouldActivateCustomerWhenActivationKeyIsValidAndDeadlineIsNotExpired() {

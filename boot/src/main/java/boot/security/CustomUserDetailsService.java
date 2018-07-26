@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import query.model.user.UserEntity;
 import query.repository.UserEntityRepository;
-import web.signIn.dto.UserPrincipal;
+import web.publicApi.signIn.dto.UserPrincipal;
 
 @Service
 @AllArgsConstructor

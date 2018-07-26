@@ -9,12 +9,16 @@ import java.util.UUID;
 
 import api.user.command.ActivateCustomerCommand;
 import api.user.command.CreateUserCommand;
+import api.user.command.DeleteUserCommand;
 import api.user.command.SendActivationLinkCommand;
 import api.user.event.ActivationLinkSentEvent;
 import api.user.event.CustomerActivatedEvent;
 import api.user.event.UserCreatedEvent;
+import api.user.event.UserDeletedEvent;
 import domain.user.activateCustomer.service.ActivateCustomerValidator;
+import domain.user.activateCustomer.service.SendActivationLinkValidator;
 import domain.user.createUser.service.CreateUserValidator;
+import domain.user.deleteUser.service.DeleteUserValidator;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +44,7 @@ public class User implements Serializable {
     private LocalDateTime activationDeadline;
     private UUID activationKey;
     private boolean activated;
+    private boolean deleted;
 
     @CommandHandler
     public User(CreateUserCommand command, CreateUserValidator validator) {
@@ -56,7 +61,8 @@ public class User implements Serializable {
     }
 
     @CommandHandler
-    public void sendActivationLink(SendActivationLinkCommand command) {
+    public void sendActivationLink(SendActivationLinkCommand command, SendActivationLinkValidator validator) {
+        validator.validate(this);
         apply(new ActivationLinkSentEvent(command.getCustomerId(), UUID.randomUUID(), DateTimeRange.create()));
     }
 
@@ -75,5 +81,16 @@ public class User implements Serializable {
     @EventSourcingHandler
     public void on(CustomerActivatedEvent event) {
         activated = true;
+    }
+
+    @CommandHandler
+    public void deleteUser(DeleteUserCommand command, DeleteUserValidator validator) {
+        validator.validate(this);
+        apply(new UserDeletedEvent(command.getUserId()));
+    }
+
+    @EventSourcingHandler
+    public void on(UserDeletedEvent event) {
+        deleted = true;
     }
 }

@@ -1,5 +1,6 @@
 package query.model.embeddable.validation;
 
+import commons.ErrorCode;
 import org.springframework.validation.Errors;
 
 public class PositiveNumberValidator {
@@ -10,9 +11,9 @@ public class PositiveNumberValidator {
 
     public static void validate(Integer positiveNumber, Errors errors) {
         if (positiveNumber == null) {
-            errors.rejectValue("positiveNumber", "positiveNumber.empty");
+            errors.rejectValue("positiveNumber", ErrorCode.EMPTY.getCode());
         } else if (positiveNumber <= 0) {
-            errors.rejectValue("positiveNumber", "positiveNumber.notPositive");
+            errors.rejectValue("positiveNumber", ErrorCode.NOT_POSITIVE.getCode());
         }
     }
 }

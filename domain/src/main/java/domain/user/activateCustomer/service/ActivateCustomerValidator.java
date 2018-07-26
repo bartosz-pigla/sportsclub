@@ -9,6 +9,7 @@ import domain.user.User;
 import domain.user.activateCustomer.exception.ActivationKeyInvalidException;
 import domain.user.activateCustomer.exception.ActivationLinkExpiredException;
 import domain.user.activateCustomer.exception.AlreadyActivatedException;
+import domain.user.deleteUser.exception.UserAlreadyDeletedException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -20,14 +21,21 @@ public final class ActivateCustomerValidator {
     private static final Logger logger = getLogger(ActivateCustomerValidator.class);
 
     public void validate(ActivateCustomerCommand command, User customer) {
+        if (customer.isDeleted()) {
+            logger.error("Customer already deleted with id: {}", customer.getUserId());
+            throw new UserAlreadyDeletedException();
+        }
+
         if (LocalDateTime.now().isAfter(customer.getActivationDeadline())) {
             logger.error("Activation link {} expired. Activation deadline: {}", command.getActivationKey(), customer.getActivationDeadline());
             throw new ActivationLinkExpiredException();
         }
+
         if (!customer.getActivationKey().equals(command.getActivationKey())) {
             logger.error("Activation link {} invalid", command.getActivationKey());
             throw new ActivationKeyInvalidException();
         }
+
         if (customer.isActivated()) {
             logger.error("Customer {0} already activated", customer.getUserId());
             throw new AlreadyActivatedException();

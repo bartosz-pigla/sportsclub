@@ -2,6 +2,7 @@ package query.model.embeddable.validation;
 
 import java.math.BigDecimal;
 
+import commons.ErrorCode;
 import org.springframework.validation.Errors;
 
 public class PriceValidator {
@@ -12,9 +13,9 @@ public class PriceValidator {
 
     public static void validate(BigDecimal price, Errors errors) {
         if (price == null) {
-            errors.rejectValue("price", "price.empty");
+            errors.rejectValue("price", ErrorCode.EMPTY.getCode());
         } else if (isNegative(price)) {
-            errors.rejectValue("price", "price.notPositive");
+            errors.rejectValue("price", ErrorCode.NOT_POSITIVE.getCode());
         }
     }
 

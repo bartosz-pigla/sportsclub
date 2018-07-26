@@ -1,29 +1,33 @@
 package integrationTest.user.staff;
 
-import static web.common.RequestMappings.DIRECTOR;
-import static web.common.RequestMappings.RECEPTIONIST;
+import static web.common.RequestMappings.ADMIN_CONSOLE_RECEPTIONIST;
 import static web.common.RequestMappings.SIGN_UP;
 
+import integrationTest.user.AbstractUserItTest;
 import org.junit.Test;
 import org.springframework.test.annotation.DirtiesContext;
 
-public class CreateReceptionistItTest extends AbstractStaffItTest {
+public class CreateReceptionistItTest extends AbstractUserItTest {
 
     @Test
+    @DirtiesContext
     public void shouldSendErrorMessageWhenCreateReceptionistIsEmpty() {
-        shouldSendErrorMessageWhenCreateUserIsEmpty(RECEPTIONIST);
+        signIn("superuser", "password");
+        shouldSendErrorMessageWhenCreateUserIsEmpty(ADMIN_CONSOLE_RECEPTIONIST);
     }
 
     @Test
     @DirtiesContext
     public void shouldNotSaveReceptionistWhenReceptionistWithGivenUsernameAlreadyExists() {
-        shouldSaveUserWhenAllFieldsAreValid(DIRECTOR);
+        signIn("superuser", "password");
+        shouldSaveUserWhenAllFieldsAreValid(ADMIN_CONSOLE_RECEPTIONIST);
         shouldNotSaveUserWhenUserWithGivenUsernameAlreadyExists(SIGN_UP);
     }
 
     @Test
     @DirtiesContext
     public void shouldSaveReceptionistWhenAllFieldsAreValid() {
-        shouldSaveUserWhenAllFieldsAreValid(DIRECTOR);
+        signIn("superuser", "password");
+        shouldSaveUserWhenAllFieldsAreValid(ADMIN_CONSOLE_RECEPTIONIST);
     }
 }

@@ -15,8 +15,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import query.model.user.ActivationLinkEntry;
 import query.model.user.UserEntity;
 import query.repository.ActivationLinkEntryRepository;
-import web.signUp.dto.ActivateCustomerWebCommand;
-import web.signUp.dto.CreateUserWebCommand;
+import web.common.dto.CreateUserWebCommand;
+import web.publicApi.signUp.dto.ActivateCustomerWebCommand;
 
 public final class ActivateCustomerItTest extends AbstractUserItTest {
 
@@ -31,7 +31,7 @@ public final class ActivateCustomerItTest extends AbstractUserItTest {
         assertEquals(createCustomerResponse.getStatusCode(), HttpStatus.OK);
 
         UserEntity customer = userRepository.findByUsername(createUserWebCommand.getUsername()).get();
-        ActivationLinkEntry activationLink = activationRepository.findByUser(customer);
+        ActivationLinkEntry activationLink = activationRepository.findByCustomer(customer);
 
         ActivateCustomerWebCommand activateCustomerCommand = ActivateCustomerWebCommand.builder()
                 .activationKey(activationLink.getId().toString()).build();

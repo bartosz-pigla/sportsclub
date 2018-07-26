@@ -1,9 +1,9 @@
 package boot.security;
 
+import static web.common.RequestMappings.ADMIN_CONSOLE_DIRECTOR;
+import static web.common.RequestMappings.ADMIN_CONSOLE_RECEPTIONIST;
 import static web.common.RequestMappings.AUTH;
 import static web.common.RequestMappings.CUSTOMER_ACTIVATION;
-import static web.common.RequestMappings.DIRECTOR;
-import static web.common.RequestMappings.RECEPTIONIST;
 import static web.common.RequestMappings.getAntMatcher;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import query.model.user.UserType;
-import web.signIn.service.JwtTokenProvider;
+import web.publicApi.signIn.service.JwtTokenProvider;
 
 @Configuration
 @EnableWebSecurity
@@ -78,10 +78,10 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(getAntMatcher(CUSTOMER_ACTIVATION))
                 .permitAll()
 
-                .antMatchers(getAntMatcher(DIRECTOR))
+                .antMatchers(getAntMatcher(ADMIN_CONSOLE_DIRECTOR))
                 .hasAuthority(getAuthorityName(UserType.DIRECTOR))
 
-                .antMatchers(getAntMatcher(RECEPTIONIST))
+                .antMatchers(getAntMatcher(ADMIN_CONSOLE_RECEPTIONIST))
                 .hasAuthority(getAuthorityName(UserType.DIRECTOR))
 
                 .anyRequest()
