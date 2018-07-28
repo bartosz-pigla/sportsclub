@@ -6,8 +6,9 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 import java.util.UUID;
 
 import api.user.event.ActivationLinkSentEvent;
-import api.user.event.CustomerActivatedEvent;
+import api.user.event.UserActivatedEvent;
 import api.user.event.UserCreatedEvent;
+import api.user.event.UserDeactivatedEvent;
 import api.user.event.UserDeletedEvent;
 import domain.common.exception.EntityNotExistsException;
 import domain.user.createUser.service.ActivationLinkService;
@@ -32,7 +33,7 @@ public class UserEventHandler {
 
     @EventHandler
     public void on(UserCreatedEvent event) {
-        logger.info("Saving customer to database");
+        logger.info("Saving user to database");
         UserEntity userEntity = new UserEntity();
         copyProperties(event, userEntity);
         userEntity.setId(event.getUserId());
@@ -50,11 +51,20 @@ public class UserEventHandler {
     }
 
     @EventHandler
-    public void on(CustomerActivatedEvent event) {
-        logger.info("Activating customer");
-        UUID customerId = event.getCustomerId();
-        UserEntity user = userRepository.findById(customerId).orElseThrow(() -> new EntityNotExistsException(UserEntity.class, customerId));
-        user.setActivated(true);
+    public void on(UserActivatedEvent event) {
+        logger.info("Activating user");
+        changeUserActivation(event.getUserId(), true);
+    }
+
+    @EventHandler
+    public void on(UserDeactivatedEvent event) {
+        logger.info("Deactivation user");
+        changeUserActivation(event.getUserId(), false);
+    }
+
+    private void changeUserActivation(UUID userId, boolean isActivated) {
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new EntityNotExistsException(UserEntity.class, userId));
+        user.setActivated(isActivated);
         userRepository.save(user);
     }
 

@@ -1,8 +1,9 @@
 package boot.populator;
 
-import javax.annotation.PostConstruct;
-
+import api.user.command.ActivateUserCommand;
+import api.user.command.CreateUserCommand;
 import lombok.AllArgsConstructor;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import query.model.embeddable.Email;
@@ -13,20 +14,24 @@ import query.repository.UserEntityRepository;
 
 @Service
 @AllArgsConstructor
-final class DirectorPopulator {
+public final class DirectorPopulator {
 
+    private CommandGateway commandGateway;
     private UserEntityRepository userRepository;
     private PasswordEncoder passwordEncoder;
 
-    @PostConstruct
     public void initializeDirector() {
-        UserEntity director = new UserEntity();
-        director.setUserType(UserType.DIRECTOR);
-        director.setEmail(new Email("bartek217a@wp.pl"));
-        director.setPhoneNumber(new PhoneNumber("+48664220607"));
-        director.setUsername("superuser");
-        director.setPassword(passwordEncoder.encode("password"));
-        director.setActivated(true);
-        userRepository.save(director);
+        if (!userRepository.existsByUsername("superuser")) {
+            commandGateway.sendAndWait(CreateUserCommand.builder()
+                    .username("superuser")
+                    .password(passwordEncoder.encode("password"))
+                    .userType(UserType.DIRECTOR)
+                    .email(new Email("bartek217a@wp.pl"))
+                    .phoneNumber(new PhoneNumber("+48664220607")).build());
+
+            UserEntity user = userRepository.findByUsername("superuser").get();
+            commandGateway.sendAndWait(ActivateUserCommand.builder()
+                    .userId(user.getId()).build());
+        }
     }
 }

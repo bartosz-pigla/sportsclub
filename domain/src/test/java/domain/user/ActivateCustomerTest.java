@@ -9,11 +9,11 @@ import java.util.UUID;
 
 import api.user.command.ActivateCustomerCommand;
 import api.user.event.ActivationLinkSentEvent;
-import api.user.event.CustomerActivatedEvent;
-import domain.user.activateCustomer.exception.ActivationKeyInvalidException;
-import domain.user.activateCustomer.exception.ActivationLinkExpiredException;
-import domain.user.activateCustomer.exception.AlreadyActivatedException;
-import domain.user.deleteUser.exception.UserAlreadyDeletedException;
+import api.user.event.UserActivatedEvent;
+import domain.common.exception.AlreadyDeletedException;
+import domain.user.activation.common.exception.AlreadyActivatedException;
+import domain.user.activation.customer.exception.ActivationLinkExpiredException;
+import domain.user.activation.customer.exception.ActivationLinkInvalidException;
 import org.junit.Test;
 import query.model.embeddable.DateTimeRange;
 
@@ -45,7 +45,7 @@ public final class ActivateCustomerTest extends UserTest {
         testFixture.given(userCreatedEvent, activationLinkSentEvent)
                 .when(command)
                 .expectNoEvents()
-                .expectException(ActivationKeyInvalidException.class);
+                .expectException(ActivationLinkInvalidException.class);
     }
 
     @Test
@@ -54,8 +54,8 @@ public final class ActivateCustomerTest extends UserTest {
         ActivateCustomerCommand command = ActivateCustomerCommand.builder()
                 .customerId(activationLinkSentEvent.getCustomerId())
                 .activationKey(activationLinkSentEvent.getActivationKey()).build();
-        CustomerActivatedEvent customerActivatedEvent = CustomerActivatedEvent.builder()
-                .customerId(command.getCustomerId()).build();
+        UserActivatedEvent customerActivatedEvent = UserActivatedEvent.builder()
+                .userId(command.getCustomerId()).build();
 
         testFixture.given(userCreatedEvent, activationLinkSentEvent, customerActivatedEvent)
                 .when(command)
@@ -73,7 +73,7 @@ public final class ActivateCustomerTest extends UserTest {
         testFixture.given(userCreatedEvent, activationLinkSentEvent, userDeletedEvent)
                 .when(command)
                 .expectNoEvents()
-                .expectException(UserAlreadyDeletedException.class);
+                .expectException(AlreadyDeletedException.class);
     }
 
     @Test
@@ -86,8 +86,8 @@ public final class ActivateCustomerTest extends UserTest {
         testFixture.given(userCreatedEvent, activationLinkSentEvent)
                 .when(command)
                 .expectEventsMatching(sequenceOf(matches(p -> {
-                    CustomerActivatedEvent event = (CustomerActivatedEvent) p.getPayload();
-                    return event.getCustomerId().equals(command.getCustomerId());
+                    UserActivatedEvent event = (UserActivatedEvent) p.getPayload();
+                    return event.getUserId().equals(command.getCustomerId());
                 }), andNoMore()));
     }
 

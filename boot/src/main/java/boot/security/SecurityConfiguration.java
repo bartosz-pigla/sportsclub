@@ -1,7 +1,9 @@
 package boot.security;
 
+import static web.common.RequestMappings.ADMIN_CONSOLE_CUSTOMER;
 import static web.common.RequestMappings.ADMIN_CONSOLE_DIRECTOR;
 import static web.common.RequestMappings.ADMIN_CONSOLE_RECEPTIONIST;
+import static web.common.RequestMappings.ADMIN_CONSOLE_USER_ACTIVATION;
 import static web.common.RequestMappings.AUTH;
 import static web.common.RequestMappings.CUSTOMER_ACTIVATION;
 import static web.common.RequestMappings.getAntMatcher;
@@ -77,6 +79,12 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(getAntMatcher(CUSTOMER_ACTIVATION))
                 .permitAll()
+
+                .antMatchers(getAntMatcher(ADMIN_CONSOLE_USER_ACTIVATION))
+                .hasAuthority(getAuthorityName(UserType.DIRECTOR))
+
+                .antMatchers(getAntMatcher(ADMIN_CONSOLE_CUSTOMER))
+                .hasAuthority(getAuthorityName(UserType.DIRECTOR))
 
                 .antMatchers(getAntMatcher(ADMIN_CONSOLE_DIRECTOR))
                 .hasAuthority(getAuthorityName(UserType.DIRECTOR))

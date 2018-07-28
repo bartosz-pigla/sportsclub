@@ -5,7 +5,7 @@ import static org.axonframework.test.matchers.Matchers.matches;
 import static org.axonframework.test.matchers.Matchers.sequenceOf;
 
 import api.user.event.UserDeletedEvent;
-import domain.user.deleteUser.exception.UserAlreadyDeletedException;
+import domain.common.exception.AlreadyDeletedException;
 import org.axonframework.commandhandling.model.AggregateNotFoundException;
 import org.junit.Test;
 
@@ -24,7 +24,7 @@ public final class DeleteUserTest extends UserTest {
         testFixture.given(userCreatedEvent, userDeletedEvent)
                 .when(deleteUserCommand)
                 .expectNoEvents()
-                .expectException(UserAlreadyDeletedException.class);
+                .expectException(AlreadyDeletedException.class);
     }
 
     @Test

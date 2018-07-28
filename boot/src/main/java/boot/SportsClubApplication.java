@@ -1,9 +1,11 @@
 package boot;
 
+import boot.populator.DirectorPopulator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
@@ -28,6 +30,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class SportsClubApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SportsClubApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(SportsClubApplication.class, args);
+        context.getBean(DirectorPopulator.class).initializeDirector();
     }
 }

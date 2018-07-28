@@ -7,9 +7,9 @@ import java.util.UUID;
 
 import api.user.command.ActivateCustomerCommand;
 import commons.ErrorCode;
-import domain.user.activateCustomer.exception.ActivationKeyInvalidException;
-import domain.user.activateCustomer.exception.ActivationLinkExpiredException;
-import domain.user.activateCustomer.exception.AlreadyActivatedException;
+import domain.user.activation.common.exception.AlreadyActivatedException;
+import domain.user.activation.customer.exception.ActivationLinkExpiredException;
+import domain.user.activation.customer.exception.ActivationLinkInvalidException;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RestController;
 import query.model.user.ActivationLinkEntry;
 import query.model.user.UserEntity;
 import query.repository.ActivationLinkEntryRepository;
-import web.common.BaseController;
+import web.common.UserBaseController;
 import web.publicApi.signUp.dto.ActivateCustomerWebCommand;
 
 @RestController
 @Setter(onMethod_ = { @Autowired })
-final class CustomerActivationController extends BaseController {
+final class CustomerActivationController extends UserBaseController {
 
     private ActivationLinkEntryRepository activationLinkRepository;
 
@@ -54,7 +54,7 @@ final class CustomerActivationController extends BaseController {
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(ActivationKeyInvalidException.class)
+    @ExceptionHandler(ActivationLinkInvalidException.class)
     public ResponseEntity<?> handleActivationKeyInvalidConflict() {
         return validationResponseService.getOneFieldErrorResponse("activationKey", ErrorCode.INVALID);
     }

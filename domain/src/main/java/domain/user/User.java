@@ -8,15 +8,20 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import api.user.command.ActivateCustomerCommand;
+import api.user.command.ActivateUserCommand;
 import api.user.command.CreateUserCommand;
+import api.user.command.DeactivateUserCommand;
 import api.user.command.DeleteUserCommand;
 import api.user.command.SendActivationLinkCommand;
 import api.user.event.ActivationLinkSentEvent;
-import api.user.event.CustomerActivatedEvent;
+import api.user.event.UserActivatedEvent;
 import api.user.event.UserCreatedEvent;
+import api.user.event.UserDeactivatedEvent;
 import api.user.event.UserDeletedEvent;
-import domain.user.activateCustomer.service.ActivateCustomerValidator;
-import domain.user.activateCustomer.service.SendActivationLinkValidator;
+import domain.user.activation.customer.service.ActivateCustomerValidator;
+import domain.user.activation.customer.service.SendActivationLinkValidator;
+import domain.user.activation.user.service.ActivateUserValidator;
+import domain.user.activation.user.service.DeactivateUserValidator;
 import domain.user.createUser.service.CreateUserValidator;
 import domain.user.deleteUser.service.DeleteUserValidator;
 import lombok.AccessLevel;
@@ -75,12 +80,29 @@ public class User implements Serializable {
     @CommandHandler
     public void activateCustomer(ActivateCustomerCommand command, ActivateCustomerValidator validator) {
         validator.validate(command, this);
-        apply(new CustomerActivatedEvent(command.getCustomerId()));
+        apply(new UserActivatedEvent(command.getCustomerId()));
+    }
+
+    @CommandHandler
+    public void activateUser(ActivateUserCommand command, ActivateUserValidator validator) {
+        validator.validate(command, this);
+        apply(new UserActivatedEvent(command.getUserId()));
     }
 
     @EventSourcingHandler
-    public void on(CustomerActivatedEvent event) {
+    public void on(UserActivatedEvent event) {
         activated = true;
+    }
+
+    @CommandHandler
+    public void deactivateUser(DeactivateUserCommand command, DeactivateUserValidator validator) {
+        validator.validate(command, this);
+        apply(new UserDeactivatedEvent(command.getUserId()));
+    }
+
+    @EventSourcingHandler
+    public void on(UserDeactivatedEvent event) {
+        activated = false;
     }
 
     @CommandHandler

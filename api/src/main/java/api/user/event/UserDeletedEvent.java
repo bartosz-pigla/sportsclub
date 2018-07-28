@@ -3,6 +3,7 @@ package api.user.event;
 import java.io.Serializable;
 import java.util.UUID;
 
+import api.common.DomainEvent;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

@@ -3,34 +3,27 @@ package web.publicApi.signUp;
 import static web.common.RequestMappings.SIGN_UP;
 
 import api.user.command.SendActivationLinkCommand;
-import commons.ErrorCode;
-import domain.user.createUser.exception.UserCreationException;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import query.model.user.UserType;
-import query.repository.UserEntityRepository;
-import web.common.BaseController;
+import web.common.UserBaseController;
 import web.common.dto.CreateUserWebCommand;
 import web.common.service.CreateUserService;
 import web.common.service.CreateUserWebCommandValidator;
 
 @RestController
 @Setter(onMethod_ = { @Autowired })
-final class SignUpController extends BaseController {
+final class SignUpController extends UserBaseController {
 
     private CreateUserWebCommandValidator validator;
-    private UserEntityRepository userRepository;
     private CreateUserService createUserService;
 
     @InitBinder
@@ -49,11 +42,5 @@ final class SignUpController extends BaseController {
                 commandGateway.sendAndWait(SendActivationLinkCommand.builder().customerId(c.getId()).build()));
 
         return ResponseEntity.ok(customer);
-    }
-
-    @ResponseStatus(HttpStatus.CONFLICT)
-    @ExceptionHandler(UserCreationException.class)
-    public ResponseEntity<?> handleUserAlreadyExistsConflict() {
-        return validationResponseService.getOneFieldErrorResponse("username", ErrorCode.ALREADY_EXISTS);
     }
 }

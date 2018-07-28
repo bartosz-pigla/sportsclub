@@ -3,7 +3,7 @@ package domain.user.createUser.service;
 import static org.slf4j.LoggerFactory.getLogger;
 
 import api.user.command.CreateUserCommand;
-import domain.user.createUser.exception.UserCreationException;
+import domain.common.exception.AlreadyCreatedException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public final class CreateUserValidator {
     public void validate(CreateUserCommand command) {
         if (userEntityRepository.existsByUsername(command.getUsername())) {
             logger.error("User already exists with username: {}", command.getUsername());
-            throw new UserCreationException();
+            throw new AlreadyCreatedException();
         }
     }
 }

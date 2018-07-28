@@ -15,6 +15,8 @@ public final class RequestMappings {
     //ADMIN CONSOLE
     private static final String ADMIN_CONSOLE = API + "/adminConsole";
 
+    public static final String ADMIN_CONSOLE_USER_ACTIVATION = ADMIN_CONSOLE + "/user-activation";
+
     public static final String ADMIN_CONSOLE_CUSTOMER = ADMIN_CONSOLE + "/customer";
     public static final String ADMIN_CONSOLE_CUSTOMER_BY_USERNAME = ADMIN_CONSOLE_CUSTOMER + USERNAME_PARAMETER;
 

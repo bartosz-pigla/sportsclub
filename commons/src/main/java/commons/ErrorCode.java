@@ -11,6 +11,7 @@ public enum ErrorCode {
     ALREADY_EXISTS("alreadyExists"),
     NOT_EXISTS("notExists"),
     ALREADY_ACTIVATED("alreadyActivated"),
+    ALREADY_DEACTIVATED("alreadyDeactivated"),
     ALREADY_DELETED("alreadyDeleted"),
     EXPIRED("expired"),
     EMPTY("empty"),

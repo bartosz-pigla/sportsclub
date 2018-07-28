@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import boot.SportsClubApplication;
+import boot.populator.DirectorPopulator;
+import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +27,13 @@ public abstract class IntegrationTest {
 
     @Autowired
     protected TestRestTemplate restTemplate;
+    @Autowired
+    private DirectorPopulator directorPopulator;
+
+    @Before
+    public void setUp() {
+        directorPopulator.initializeDirector();
+    }
 
     protected void assertField(String field, String value, List dto) {
         assertTrue(((List<HashMap<String, String>>) dto).stream().anyMatch(
