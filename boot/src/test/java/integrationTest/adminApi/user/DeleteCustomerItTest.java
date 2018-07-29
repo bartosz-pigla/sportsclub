@@ -14,7 +14,6 @@ import api.user.command.DeleteUserCommand;
 import api.user.command.SendActivationLinkCommand;
 import commons.ErrorCode;
 import integrationTest.AbstractUserItTest;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -37,8 +36,6 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
     private ActivationLinkEntryRepository activationRepository;
     @Autowired
     private UserEntityRepository userRepository;
-    @Autowired
-    private CommandGateway commandGateway;
     @Autowired
     private PasswordEncoder passwordEncoder;
 

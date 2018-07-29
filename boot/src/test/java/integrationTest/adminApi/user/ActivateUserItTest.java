@@ -10,7 +10,6 @@ import api.user.command.ActivateUserCommand;
 import api.user.command.CreateUserCommand;
 import commons.ErrorCode;
 import integrationTest.AbstractUserItTest;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,8 +25,6 @@ import web.common.dto.UserDto;
 
 public final class ActivateUserItTest extends AbstractUserItTest {
 
-    @Autowired
-    private CommandGateway commandGateway;
     @Autowired
     private UserEntityRepository userRepository;
 

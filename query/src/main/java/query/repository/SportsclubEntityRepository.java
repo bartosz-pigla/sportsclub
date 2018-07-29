@@ -3,10 +3,10 @@ package query.repository;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 import query.model.sportsclub.SportsclubEntity;
 
-public interface SportsclubEntityRepository extends CrudRepository<SportsclubEntity, UUID> {
+public interface SportsclubEntityRepository extends JpaRepository<SportsclubEntity, UUID> {
 
     Optional<SportsclubEntity> findByName(String name);
 

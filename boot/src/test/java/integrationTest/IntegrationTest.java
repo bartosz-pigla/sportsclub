@@ -9,6 +9,7 @@ import java.util.List;
 
 import boot.SportsClubApplication;
 import boot.populator.DirectorPopulator;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public abstract class IntegrationTest {
     protected TestRestTemplate restTemplate;
     @Autowired
     private DirectorPopulator directorPopulator;
+    @Autowired
+    protected CommandGateway commandGateway;
 
     @Before
     public void setUp() {

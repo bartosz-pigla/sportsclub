@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,8 +29,8 @@ public class SportsclubEntity extends BaseEntity {
     private Address address;
     @OneToMany(mappedBy = "sportsclub")
     private List<SportsclubAnnouncementEntity> announcements;
-    @OneToMany(mappedBy = "sportsclub")
-    private List<StatuteEntity> statutes;
+    @OneToOne(mappedBy = "sportsclub")
+    private StatuteEntity statute;
     @OneToMany(mappedBy = "headquarter")
     private Set<SportObjectEntity> sportObjects;
 }

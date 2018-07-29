@@ -26,6 +26,8 @@ public final class RequestMappings {
     public static final String ADMIN_CONSOLE_RECEPTIONIST = ADMIN_CONSOLE + "/receptionist";
     public static final String ADMIN_CONSOLE_RECEPTIONIST_BY_USERNAME = ADMIN_CONSOLE_RECEPTIONIST + USERNAME_PARAMETER;
 
+    public static final String ADMIN_CONSOLE_STATUTE = ADMIN_CONSOLE + "statute";
+
     public static String getAntMatcher(String requestMapping) {
         return requestMapping + "/**";
     }

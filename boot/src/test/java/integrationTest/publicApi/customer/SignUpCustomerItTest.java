@@ -4,7 +4,6 @@ import static web.common.RequestMappings.SIGN_UP;
 
 import api.user.command.CreateUserCommand;
 import integrationTest.AbstractUserItTest;
-import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,8 +14,6 @@ import query.model.user.UserType;
 
 public final class SignUpCustomerItTest extends AbstractUserItTest {
 
-    @Autowired
-    private CommandGateway commandGateway;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
