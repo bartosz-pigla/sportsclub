@@ -10,4 +10,8 @@ public abstract class BaseController {
 
     protected CommandGateway commandGateway;
     protected ValidationResponseService validationResponseService;
+
+    protected boolean isInvalidUUID(String uuid) {
+        return uuid.split("-").length != 5;
+    }
 }

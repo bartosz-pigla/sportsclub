@@ -1,5 +1,6 @@
 package domain.sportsclub;
 
+import domain.sportsclub.service.AnnouncementValidator;
 import domain.sportsclub.service.CreateSportsclubValidator;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.Before;
@@ -20,6 +21,7 @@ abstract class SportsclubTest {
         testFixture = new AggregateTestFixture<>(Sportsclub.class);
         testFixture.setReportIllegalStateChange(false);
         testFixture.registerInjectableResource(new CreateSportsclubValidator(sportsclubRepository));
+        testFixture.registerInjectableResource(new AnnouncementValidator());
         testFixture.registerInjectableResource(sportsclubRepository);
     }
 }

@@ -1,5 +1,7 @@
 package web.common;
 
+import static web.common.RequestParameters.ANNOUNCEMENT_ID_PARAMETER;
+import static web.common.RequestParameters.SPORTSCLUB_NAME_PARAMETER;
 import static web.common.RequestParameters.USERNAME_PARAMETER;
 
 public final class RequestMappings {
@@ -13,7 +15,7 @@ public final class RequestMappings {
     public static final String CUSTOMER_ACTIVATION = AUTH + "/customer-activation";
 
     //ADMIN CONSOLE
-    private static final String ADMIN_CONSOLE = API + "/adminConsole";
+    private static final String ADMIN_CONSOLE = API + "/admin-console";
 
     public static final String ADMIN_CONSOLE_USER_ACTIVATION = ADMIN_CONSOLE + "/user-activation";
 
@@ -26,13 +28,19 @@ public final class RequestMappings {
     public static final String ADMIN_CONSOLE_RECEPTIONIST = ADMIN_CONSOLE + "/receptionist";
     public static final String ADMIN_CONSOLE_RECEPTIONIST_BY_USERNAME = ADMIN_CONSOLE_RECEPTIONIST + USERNAME_PARAMETER;
 
-    public static final String ADMIN_CONSOLE_STATUTE = ADMIN_CONSOLE + "statute";
+    public static final String ADMIN_CONSOLE_SPORTSCLUB = ADMIN_CONSOLE + "/sportsclub";
+    public static final String ADMIN_CONSOLE_SPORTSCLUB_BY_NAME = ADMIN_CONSOLE_SPORTSCLUB + SPORTSCLUB_NAME_PARAMETER;
+
+    public static final String ADMIN_CONSOLE_STATUTE = ADMIN_CONSOLE_SPORTSCLUB_BY_NAME + "/statute";
+
+    public static final String ADMIN_CONSOLE_ANNOUNCEMENT = ADMIN_CONSOLE_SPORTSCLUB_BY_NAME + "/announcement";
+    public static final String ADMIN_CONSOLE_SPORTSCLUB_ANNOUNCEMENT_BY_ID = ADMIN_CONSOLE_ANNOUNCEMENT + ANNOUNCEMENT_ID_PARAMETER;
 
     public static String getAntMatcher(String requestMapping) {
         return requestMapping + "/**";
     }
 
-    public static String getParameteredRequestMapping(String requestMapping, String parameterKey, String parameterValue) {
-        return requestMapping.replace(parameterKey, "/" + parameterValue);
-    }
+//    public static String getParameteredRequestMapping(String requestMapping, String parameterKey, String parameterValue) {
+//        return requestMapping.replace(parameterKey, "/" + parameterValue);
+//    }
 }

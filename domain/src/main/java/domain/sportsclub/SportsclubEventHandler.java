@@ -5,6 +5,9 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 
 import java.util.UUID;
 
+import api.sportsclub.event.AnnouncementCreatedEvent;
+import api.sportsclub.event.AnnouncementDeletedEvent;
+import api.sportsclub.event.AnnouncementUpdatedEvent;
 import api.sportsclub.event.SportsclubCreatedEvent;
 import api.sportsclub.event.StatuteAddedEvent;
 import api.sportsclub.event.StatuteUpdatedEvent;
@@ -13,8 +16,10 @@ import lombok.AllArgsConstructor;
 import org.axonframework.eventhandling.EventHandler;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
+import query.model.announcement.SportsclubAnnouncementEntity;
 import query.model.sportsclub.SportsclubEntity;
 import query.model.statute.StatuteEntity;
+import query.repository.SportsclubAnnouncementEntityRepository;
 import query.repository.SportsclubEntityRepository;
 import query.repository.StatuteEntityRepository;
 
@@ -26,6 +31,7 @@ public class SportsclubEventHandler {
 
     private SportsclubEntityRepository sportsclubRepository;
     private StatuteEntityRepository statuteRepository;
+    private SportsclubAnnouncementEntityRepository announcementRepository;
 
     @EventHandler
     public void on(SportsclubCreatedEvent event) {
@@ -53,5 +59,33 @@ public class SportsclubEventHandler {
         StatuteEntity statute = statuteRepository.findById(statuteId).orElseThrow(() -> new EntityNotExistsException(StatuteEntity.class, statuteId));
         copyProperties(event, statute);
         statuteRepository.save(statute);
+    }
+
+    @EventHandler
+    public void on(AnnouncementCreatedEvent event) {
+        logger.info("Saving announcement with title: {} to database", event.getTitle());
+        SportsclubEntity sportsclub = sportsclubRepository.getOne(event.getSportsclubId());
+        SportsclubAnnouncementEntity announcement = new SportsclubAnnouncementEntity();
+        copyProperties(event, announcement);
+        announcement.setLastModificationDate(event.getCreatedOn());
+        announcement.setSportsclub(sportsclub);
+        announcement.setId(event.getAnnouncementId());
+        announcementRepository.save(announcement);
+    }
+
+    @EventHandler
+    public void on(AnnouncementUpdatedEvent event) {
+        UUID announcementId = event.getAnnouncementId();
+        logger.info("Updating announcement with title: {} to database", event.getTitle());
+        SportsclubAnnouncementEntity announcement = announcementRepository.findById(announcementId).orElseThrow(() -> new EntityNotExistsException(SportsclubAnnouncementEntity.class, announcementId));
+        copyProperties(event, announcement);
+        announcement.setLastModificationDate(event.getCreatedOn());
+        announcementRepository.save(announcement);
+    }
+
+    @EventHandler
+    public void on(AnnouncementDeletedEvent event) {
+        logger.info("Deleting announcement with id: {} from database", event.getAnnouncementId());
+        announcementRepository.deleteById(event.getAnnouncementId());
     }
 }

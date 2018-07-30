@@ -1,4 +1,4 @@
-package web.adminApi.sportsclub.dto;
+package web.adminApi.announcement.dto;
 
 import java.time.LocalDateTime;
 
@@ -15,9 +15,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
-public final class StatuteDto {
+public final class AnnouncementDto {
 
+    private String id;
     private String title;
-    private String description;
+    private String content;
     private LocalDateTime lastModificationDate;
 }

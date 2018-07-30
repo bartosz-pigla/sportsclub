@@ -15,6 +15,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -54,5 +58,31 @@ public abstract class IntegrationTest {
                             .add("Authorization", jwtResponse.toString());
                     return execution.execute(request, body);
                 }));
+    }
+
+    public <T, U> ResponseEntity<U> put(String path, T requestBody, Class<U> responseType, Object... pathParameters) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<T> entity = new HttpEntity<>(requestBody, headers);
+
+        return restTemplate.exchange(
+                path,
+                HttpMethod.PUT,
+                entity,
+                responseType,
+                pathParameters);
+    }
+
+    public <T> ResponseEntity<T> delete(String path, Class<T> responseType, Object... pathParameters) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<T> entity = new HttpEntity<>(null, headers);
+
+        return restTemplate.exchange(
+                path,
+                HttpMethod.DELETE,
+                entity,
+                responseType,
+                pathParameters);
     }
 }

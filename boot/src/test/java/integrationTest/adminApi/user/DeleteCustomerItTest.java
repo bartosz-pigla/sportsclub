@@ -2,8 +2,6 @@ package integrationTest.adminApi.user;
 
 import static org.junit.Assert.assertEquals;
 import static web.common.RequestMappings.ADMIN_CONSOLE_CUSTOMER_BY_USERNAME;
-import static web.common.RequestMappings.getParameteredRequestMapping;
-import static web.common.RequestParameters.USERNAME_PARAMETER;
 
 import java.util.List;
 import java.util.UUID;
@@ -47,10 +45,11 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
 
         signIn("superuser", "password");
         ResponseEntity<DeleteUserWebCommand> deleteCustomerResponse = restTemplate.exchange(
-                getParameteredRequestMapping(ADMIN_CONSOLE_CUSTOMER_BY_USERNAME, USERNAME_PARAMETER, createCustomerCommand.getUsername()),
+                ADMIN_CONSOLE_CUSTOMER_BY_USERNAME,
                 HttpMethod.DELETE,
                 null,
-                DeleteUserWebCommand.class);
+                DeleteUserWebCommand.class,
+                createCustomerCommand.getUsername());
 
         assertEquals(deleteCustomerResponse.getStatusCode(), HttpStatus.OK);
 
@@ -69,10 +68,11 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
 
         signIn("superuser", "password");
         ResponseEntity<List> deleteCustomerResponse = restTemplate.exchange(
-                getParameteredRequestMapping(ADMIN_CONSOLE_CUSTOMER_BY_USERNAME, USERNAME_PARAMETER, createCustomerCommand.getUsername()),
+                ADMIN_CONSOLE_CUSTOMER_BY_USERNAME,
                 HttpMethod.DELETE,
                 null,
-                List.class);
+                List.class,
+                createCustomerCommand.getUsername());
 
         assertEquals(deleteCustomerResponse.getStatusCode(), HttpStatus.CONFLICT);
 
@@ -85,10 +85,11 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
     public void shouldNotDeleteWhenCustomerNotExists() {
         signIn("superuser", "password");
         ResponseEntity<List> deleteCustomerResponse = restTemplate.exchange(
-                getParameteredRequestMapping(ADMIN_CONSOLE_CUSTOMER_BY_USERNAME, USERNAME_PARAMETER, "notExistingCustomerUsername"),
+                ADMIN_CONSOLE_CUSTOMER_BY_USERNAME,
                 HttpMethod.DELETE,
                 null,
-                List.class);
+                List.class,
+                "notExistingCustomerUsername");
 
         assertEquals(deleteCustomerResponse.getStatusCode(), HttpStatus.CONFLICT);
 

@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public final class AnnouncementRemovedEvent extends DomainEvent implements Serializable {
+public final class AnnouncementDeletedEvent extends DomainEvent implements Serializable {
 
     private static final long serialVersionUID = -5030159438785887863L;
 

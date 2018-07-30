@@ -10,7 +10,7 @@ import org.axonframework.commandhandling.TargetAggregateIdentifier;
 @Data
 @AllArgsConstructor
 @Builder
-public final class AddAnnouncementCommand {
+public final class CreateAnnouncementCommand {
 
     @TargetAggregateIdentifier
     private UUID sportsclubId;

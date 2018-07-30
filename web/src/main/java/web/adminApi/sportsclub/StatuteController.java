@@ -5,10 +5,10 @@ import static web.common.RequestMappings.ADMIN_CONSOLE_STATUTE;
 import java.util.Optional;
 
 import api.sportsclub.command.UpdateStatuteCommand;
-import commons.ErrorCode;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,13 +19,13 @@ import web.common.BaseController;
 
 @RestController
 @Setter(onMethod_ = { @Autowired })
-final class UpdateStatuteController extends BaseController {
+final class StatuteController extends BaseController {
 
     private SportsclubEntityRepository sportsclubRepository;
 
     @PostMapping(ADMIN_CONSOLE_STATUTE)
-    ResponseEntity<?> saveOrUpdateStatute(@RequestBody StatuteDto statute) {
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(statute.getSportsclubName());
+    ResponseEntity<?> createOrUpdateStatute(@PathVariable String sportsclubName, @RequestBody StatuteDto statute) {
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
         if (sportsclubOptional.isPresent()) {
             SportsclubEntity sportsclub = sportsclubOptional.get();
             commandGateway.sendAndWait(UpdateStatuteCommand.builder()
@@ -34,7 +34,7 @@ final class UpdateStatuteController extends BaseController {
                     .description(statute.getDescription()).build());
             return ResponseEntity.ok(statute);
         } else {
-            return validationResponseService.getOneFieldErrorResponse("sportsclubName", ErrorCode.NOT_EXISTS);
+            return ResponseEntity.badRequest().build();
         }
     }
 }

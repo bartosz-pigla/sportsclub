@@ -20,5 +20,5 @@ public class BaseAnnouncementEntity extends BaseEntity {
 
     protected String title;
     protected String content;
-    protected LocalDateTime dateOfPublication;
+    protected LocalDateTime lastModificationDate;
 }

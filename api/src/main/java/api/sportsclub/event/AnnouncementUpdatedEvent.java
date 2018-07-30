@@ -1,6 +1,7 @@
 package api.sportsclub.event;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import api.common.DomainEvent;
@@ -15,11 +16,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public final class AnnouncementChangedEvent extends DomainEvent implements Serializable {
+public final class AnnouncementUpdatedEvent extends DomainEvent implements Serializable {
 
     private static final long serialVersionUID = -6643491314243482660L;
 
     private UUID announcementId;
     private String title;
     private String content;
+    private LocalDateTime createdOn = LocalDateTime.now();
 }
