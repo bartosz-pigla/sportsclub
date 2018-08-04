@@ -18,7 +18,7 @@ public final class CreateUserValidator {
     private UserEntityRepository userEntityRepository;
 
     public void validate(CreateUserCommand command) {
-        if (userEntityRepository.existsByUsername(command.getUsername())) {
+        if (userEntityRepository.existsByUsernameAndDeletedFalse(command.getUsername())) {
             logger.error("User already exists with username: {}", command.getUsername());
             throw new AlreadyCreatedException();
         }

@@ -28,7 +28,7 @@ import query.model.user.UserType;
 import query.repository.UserEntityRepository;
 
 @RunWith(MockitoJUnitRunner.class)
-abstract class UserTest {
+abstract class AbstractUserTest {
 
     protected AggregateTestFixture<User> testFixture;
     protected CreateUserCommand createUserCommand;

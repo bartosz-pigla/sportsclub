@@ -25,9 +25,9 @@ import query.repository.StatuteEntityRepository;
 
 @Component
 @AllArgsConstructor
-public class SportsclubEventHandler {
+public class SportsclubEntityEventHandler {
 
-    private static final Logger logger = getLogger(SportsclubEventHandler.class);
+    private static final Logger logger = getLogger(SportsclubEntityEventHandler.class);
 
     private SportsclubEntityRepository sportsclubRepository;
     private StatuteEntityRepository statuteRepository;

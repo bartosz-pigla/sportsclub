@@ -7,7 +7,6 @@ import static web.common.RequestMappings.ADMIN_CONSOLE_RECEPTIONIST_BY_USERNAME;
 import java.util.Optional;
 
 import api.user.command.DeleteUserCommand;
-import commons.ErrorCode;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +37,7 @@ final class DeleteUserController extends UserBaseController {
     }
 
     private ResponseEntity<?> deleteUser(String username) {
-        Optional<UserEntity> userOptional = userRepository.findByUsername(username);
+        Optional<UserEntity> userOptional = userRepository.findByUsernameAndDeletedFalse(username);
 
         if (userOptional.isPresent()) {
             UserEntity user = userOptional.get();
@@ -50,7 +49,7 @@ final class DeleteUserController extends UserBaseController {
                     .email(user.getEmail().getEmail())
                     .phoneNumber(user.getPhoneNumber().getPhoneNumber()).build());
         } else {
-            return validationResponseService.getOneFieldErrorResponse("username", ErrorCode.NOT_EXISTS);
+            return ResponseEntity.badRequest().build();
         }
     }
 }

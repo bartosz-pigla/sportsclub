@@ -17,7 +17,7 @@ import domain.user.activation.customer.exception.ActivationLinkInvalidException;
 import org.junit.Test;
 import query.model.embeddable.DateTimeRange;
 
-public final class ActivateCustomerTest extends UserTest {
+public final class ActivateCustomerTest extends AbstractUserTest {
 
     @Test
     public void shouldNotActivateCustomerWhenActivationDeadlineExpired() {

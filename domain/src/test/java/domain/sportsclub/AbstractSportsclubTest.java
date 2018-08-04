@@ -10,7 +10,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import query.repository.SportsclubEntityRepository;
 
 @RunWith(MockitoJUnitRunner.class)
-abstract class SportsclubTest {
+abstract class AbstractSportsclubTest {
 
     protected AggregateTestFixture<Sportsclub> testFixture;
     @Mock

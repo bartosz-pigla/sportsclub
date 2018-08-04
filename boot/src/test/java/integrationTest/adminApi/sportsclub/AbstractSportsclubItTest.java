@@ -14,7 +14,7 @@ import query.repository.SportsclubEntityRepository;
 public abstract class AbstractSportsclubItTest extends IntegrationTest {
 
     @Autowired
-    private SportsclubEntityRepository sportsclubRepository;
+    protected SportsclubEntityRepository sportsclubRepository;
 
     protected CreateSportsclubCommand createSportsclub() {
         CreateSportsclubCommand command = CreateSportsclubCommand.builder()

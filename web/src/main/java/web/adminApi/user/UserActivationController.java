@@ -31,7 +31,7 @@ final class UserActivationController extends UserBaseController {
 
     @PostMapping(ADMIN_CONSOLE_USER_ACTIVATION)
     ResponseEntity<?> activateOrDeactivateUser(@RequestBody UserActivationWebCommand userActivationCommand) {
-        Optional<UserEntity> userOptional = userRepository.findByUsername(userActivationCommand.getUsername());
+        Optional<UserEntity> userOptional = userRepository.findByUsernameAndDeletedFalse(userActivationCommand.getUsername());
 
         if (userOptional.isPresent()) {
             UserEntity userEntity = userOptional.get();

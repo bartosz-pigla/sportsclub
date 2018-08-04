@@ -21,7 +21,7 @@ import web.publicApi.signUp.dto.ActivateCustomerWebCommand;
 public final class ActivateCustomerItTest extends AbstractUserItTest {
 
     @Autowired
-    private ActivationLinkEntryRepository activationRepository;
+    private ActivationLinkEntryRepository activationLinkRepository;
 
     @Test
     @DirtiesContext
@@ -30,8 +30,8 @@ public final class ActivateCustomerItTest extends AbstractUserItTest {
                 SIGN_UP, createUserWebCommand, CreateUserWebCommand.class);
         assertEquals(createCustomerResponse.getStatusCode(), HttpStatus.OK);
 
-        UserEntity customer = userRepository.findByUsername(createUserWebCommand.getUsername()).get();
-        ActivationLinkEntry activationLink = activationRepository.findByCustomer(customer);
+        UserEntity customer = userRepository.findByUsernameAndDeletedFalse(createUserWebCommand.getUsername()).get();
+        ActivationLinkEntry activationLink = activationLinkRepository.findByCustomerAndDeletedFalse(customer);
 
         ActivateCustomerWebCommand activateCustomerCommand = ActivateCustomerWebCommand.builder()
                 .activationKey(activationLink.getId().toString()).build();

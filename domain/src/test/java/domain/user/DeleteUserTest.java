@@ -9,7 +9,7 @@ import domain.common.exception.AlreadyDeletedException;
 import org.axonframework.commandhandling.model.AggregateNotFoundException;
 import org.junit.Test;
 
-public final class DeleteUserTest extends UserTest {
+public final class DeleteUserTest extends AbstractUserTest {
 
     @Test
     public void shouldNotDeleteUserWhenNotExists() {

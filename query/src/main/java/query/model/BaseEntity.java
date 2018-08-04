@@ -16,4 +16,5 @@ public abstract class BaseEntity {
 
     @Id
     protected UUID id = UUID.randomUUID();
+    private boolean deleted;
 }

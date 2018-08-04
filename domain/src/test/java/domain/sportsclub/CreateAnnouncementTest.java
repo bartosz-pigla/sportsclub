@@ -11,7 +11,7 @@ import api.sportsclub.event.AnnouncementCreatedEvent;
 import api.sportsclub.event.SportsclubCreatedEvent;
 import org.junit.Test;
 
-public final class CreateAnnouncementTest extends SportsclubTest {
+public final class CreateAnnouncementTest extends AbstractSportsclubTest {
 
     private static SportsclubCreatedEvent createdEvent = SportsclubCreatedEvent.builder()
             .sportsclubId(UUID.randomUUID())

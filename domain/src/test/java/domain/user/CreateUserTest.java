@@ -9,11 +9,11 @@ import api.user.event.UserCreatedEvent;
 import domain.common.exception.AlreadyCreatedException;
 import org.junit.Test;
 
-public final class CreateUserTest extends UserTest {
+public final class CreateUserTest extends AbstractUserTest {
 
     @Test
     public void shouldNotCreateUserWhenAlreadyExists() {
-        when(userRepository.existsByUsername(createUserCommand.getUsername())).thenReturn(true);
+        when(userRepository.existsByUsernameAndDeletedFalse(createUserCommand.getUsername())).thenReturn(true);
 
         testFixture.given(userCreatedEvent)
                 .when(createUserCommand)

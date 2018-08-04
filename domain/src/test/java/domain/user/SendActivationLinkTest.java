@@ -13,7 +13,7 @@ import domain.common.exception.AlreadyDeletedException;
 import org.axonframework.commandhandling.model.AggregateNotFoundException;
 import org.junit.Test;
 
-public final class SendActivationLinkTest extends UserTest {
+public final class SendActivationLinkTest extends AbstractUserTest {
 
     @Test
     public void shouldNotSendActivationLinkWhenUserNotExists() {

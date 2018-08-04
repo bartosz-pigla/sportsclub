@@ -14,7 +14,7 @@ import api.sportsclub.event.SportsclubCreatedEvent;
 import domain.common.exception.NotExistsException;
 import org.junit.Test;
 
-public final class UpdateAnnouncementTest extends SportsclubTest {
+public final class UpdateAnnouncementTest extends AbstractSportsclubTest {
 
     private static SportsclubCreatedEvent createdEvent = SportsclubCreatedEvent.builder()
             .sportsclubId(UUID.randomUUID())

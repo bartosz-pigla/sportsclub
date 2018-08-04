@@ -12,7 +12,7 @@ import api.sportsclub.event.SportsclubCreatedEvent;
 import domain.common.exception.AlreadyCreatedException;
 import org.junit.Test;
 
-public final class CreateSportsclubTest extends SportsclubTest {
+public final class CreateSportsclubTest extends AbstractSportsclubTest {
 
     private static SportsclubCreatedEvent createdEvent = SportsclubCreatedEvent.builder()
             .sportsclubId(UUID.randomUUID())

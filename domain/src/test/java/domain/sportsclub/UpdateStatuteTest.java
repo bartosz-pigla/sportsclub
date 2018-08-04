@@ -13,7 +13,7 @@ import api.sportsclub.event.StatuteUpdatedEvent;
 import org.axonframework.commandhandling.model.AggregateNotFoundException;
 import org.junit.Test;
 
-public final class UpdateStatuteTest extends SportsclubTest {
+public final class UpdateStatuteTest extends AbstractSportsclubTest {
 
     private static SportsclubCreatedEvent sportsclubCreatedEvent = SportsclubCreatedEvent.builder()
             .sportsclubId(UUID.randomUUID())

@@ -23,5 +23,4 @@ public class SportObjectPositionEntity extends BaseEntity {
     private PositiveNumber positionsCount;
     @ManyToOne(fetch = FetchType.LAZY)
     private SportObjectEntity sportObject;
-
 }

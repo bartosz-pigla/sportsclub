@@ -38,7 +38,7 @@ final class SignUpController extends UserBaseController {
         }
 
         createUserService.create(customer, UserType.CUSTOMER);
-        userRepository.findByUsername(customer.getUsername()).ifPresent(c ->
+        userRepository.findByUsernameAndDeletedFalse(customer.getUsername()).ifPresent(c ->
                 commandGateway.sendAndWait(SendActivationLinkCommand.builder().customerId(c.getId()).build()));
 
         return ResponseEntity.ok(customer);

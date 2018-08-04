@@ -8,5 +8,5 @@ import query.model.user.UserEntity;
 
 public interface ActivationLinkEntryRepository extends CrudRepository<ActivationLinkEntry, UUID> {
 
-    ActivationLinkEntry findByCustomer(UserEntity customer);
+    ActivationLinkEntry findByCustomerAndDeletedFalse(UserEntity customer);
 }

@@ -28,5 +28,4 @@ public class UserEntity extends BaseEntity {
     private boolean activated;
     @OneToOne(fetch = FetchType.LAZY)
     private ActivationLinkEntry activationLink;
-    private boolean deleted;
 }

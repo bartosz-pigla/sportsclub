@@ -8,7 +8,7 @@ import query.model.user.UserEntity;
 
 public interface UserEntityRepository extends JpaRepository<UserEntity, UUID> {
 
-    boolean existsByUsername(String username);
+    boolean existsByUsernameAndDeletedFalse(String username);
 
-    Optional<UserEntity> findByUsername(String username);
+    Optional<UserEntity> findByUsernameAndDeletedFalse(String username);
 }

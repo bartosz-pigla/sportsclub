@@ -43,7 +43,7 @@ public abstract class AbstractUserItTest extends IntegrationTest {
     }
 
     protected void shouldSaveUserWhenAllFieldsAreValid(String userRequestMapping) {
-        assertFalse(userRepository.existsByUsername(createUserWebCommand.getUsername()));
+        assertFalse(userRepository.existsByUsernameAndDeletedFalse(createUserWebCommand.getUsername()));
 
         ResponseEntity<CreateUserWebCommand> responseEntity = restTemplate.postForEntity(
                 userRequestMapping, createUserWebCommand, CreateUserWebCommand.class);
@@ -51,7 +51,7 @@ public abstract class AbstractUserItTest extends IntegrationTest {
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
         assertEquals(responseEntity.getBody(), createUserWebCommand);
 
-        Optional<UserEntity> userEntityOptional = userRepository.findByUsername(createUserWebCommand.getUsername());
+        Optional<UserEntity> userEntityOptional = userRepository.findByUsernameAndDeletedFalse(createUserWebCommand.getUsername());
         assertTrue(userEntityOptional.isPresent());
         assertFalse(userEntityOptional.get().isActivated());
     }

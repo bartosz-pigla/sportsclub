@@ -9,17 +9,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import query.model.BaseEntity;
-import query.model.embeddable.DateTimeRange;
+import query.model.embeddable.OpeningTimeRange;
 import query.model.embeddable.Price;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class OpeningHoursEntity extends BaseEntity {
+public class OpeningTimeEntity extends BaseEntity {
 
     @Embedded
-    private DateTimeRange dateRange;
+    private OpeningTimeRange dateRange;
     @Embedded
     private Price price;
     @ManyToOne(fetch = FetchType.LAZY)

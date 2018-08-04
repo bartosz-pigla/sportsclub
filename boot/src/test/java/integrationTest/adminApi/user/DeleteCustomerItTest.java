@@ -10,7 +10,6 @@ import api.user.command.ActivateCustomerCommand;
 import api.user.command.CreateUserCommand;
 import api.user.command.DeleteUserCommand;
 import api.user.command.SendActivationLinkCommand;
-import commons.ErrorCode;
 import integrationTest.AbstractUserItTest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,7 @@ import web.common.dto.DeleteUserWebCommand;
 public final class DeleteCustomerItTest extends AbstractUserItTest {
 
     @Autowired
-    private ActivationLinkEntryRepository activationRepository;
+    private ActivationLinkEntryRepository activationLinkRepository;
     @Autowired
     private UserEntityRepository userRepository;
     @Autowired
@@ -64,7 +63,7 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
     public void shouldNotDeleteAlreadyDeletedCustomer() {
         CreateUserCommand createCustomerCommand = createCustomer();
         activateCustomer(createCustomerCommand);
-        deleteCustomer(userRepository.findByUsername(createCustomerCommand.getUsername()).get().getId());
+        deleteCustomer(userRepository.findByUsernameAndDeletedFalse(createCustomerCommand.getUsername()).get().getId());
 
         signIn("superuser", "password");
         ResponseEntity<List> deleteCustomerResponse = restTemplate.exchange(
@@ -74,10 +73,7 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
                 List.class,
                 createCustomerCommand.getUsername());
 
-        assertEquals(deleteCustomerResponse.getStatusCode(), HttpStatus.CONFLICT);
-
-        List errors = deleteCustomerResponse.getBody();
-        assertField("username", ErrorCode.ALREADY_DELETED.getCode(), errors);
+        assertEquals(deleteCustomerResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 
     @Test
@@ -91,10 +87,7 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
                 List.class,
                 "notExistingCustomerUsername");
 
-        assertEquals(deleteCustomerResponse.getStatusCode(), HttpStatus.CONFLICT);
-
-        List errors = deleteCustomerResponse.getBody();
-        assertField("username", ErrorCode.NOT_EXISTS.getCode(), errors);
+        assertEquals(deleteCustomerResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 
     private CreateUserCommand createCustomer() {
@@ -109,13 +102,13 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
     }
 
     private ActivateCustomerCommand activateCustomer(CreateUserCommand command) {
-        UserEntity customer = userRepository.findByUsername(command.getUsername()).get();
+        UserEntity customer = userRepository.findByUsernameAndDeletedFalse(command.getUsername()).get();
 
         SendActivationLinkCommand sendActivationLinkCommand = SendActivationLinkCommand.builder()
                 .customerId(customer.getId()).build();
         commandGateway.sendAndWait(sendActivationLinkCommand);
 
-        ActivationLinkEntry activationLink = activationRepository.findByCustomer(customer);
+        ActivationLinkEntry activationLink = activationLinkRepository.findByCustomerAndDeletedFalse(customer);
         ActivateCustomerCommand activateCustomerCommand = ActivateCustomerCommand.builder()
                 .activationKey(activationLink.getId())
                 .customerId(activationLink.getCustomer().getId()).build();

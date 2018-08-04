@@ -21,7 +21,7 @@ public final class DirectorPopulator {
     private PasswordEncoder passwordEncoder;
 
     public void initializeDirector() {
-        if (!userRepository.existsByUsername("superuser")) {
+        if (!userRepository.existsByUsernameAndDeletedFalse("superuser")) {
             commandGateway.sendAndWait(CreateUserCommand.builder()
                     .username("superuser")
                     .password(passwordEncoder.encode("password"))
@@ -29,7 +29,7 @@ public final class DirectorPopulator {
                     .email(new Email("bartek217a@wp.pl"))
                     .phoneNumber(new PhoneNumber("+48664220607")).build());
 
-            UserEntity user = userRepository.findByUsername("superuser").get();
+            UserEntity user = userRepository.findByUsernameAndDeletedFalse("superuser").get();
             commandGateway.sendAndWait(ActivateUserCommand.builder()
                     .userId(user.getId()).build());
         }

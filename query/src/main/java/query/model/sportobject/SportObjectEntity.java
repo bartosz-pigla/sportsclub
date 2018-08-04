@@ -1,5 +1,6 @@
 package query.model.sportobject;
 
+import java.net.URL;
 import java.util.List;
 
 import javax.persistence.Embedded;
@@ -25,8 +26,9 @@ public class SportObjectEntity extends BaseEntity {
     private String description;
     @Embedded
     private Address address;
+    private URL image;
     @ManyToOne(fetch = FetchType.LAZY)
     private SportsclubEntity headquarter;
     @OneToMany
-    private List<OpeningHoursEntity> openingHours;
+    private List<OpeningTimeEntity> openingHours;
 }

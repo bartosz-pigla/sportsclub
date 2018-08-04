@@ -49,7 +49,7 @@ public final class ActivateUserItTest extends AbstractUserItTest {
         assertEquals(createCommand.getUsername(), responseBody.getUsername());
         assertEquals(createCommand.getUserType().name(), responseBody.getUserType());
 
-        assertTrue(userRepository.findByUsername(createCommand.getUsername()).get().isActivated());
+        assertTrue(userRepository.findByUsernameAndDeletedFalse(createCommand.getUsername()).get().isActivated());
     }
 
     @Test
@@ -89,7 +89,7 @@ public final class ActivateUserItTest extends AbstractUserItTest {
         List errors = activateUserResponse.getBody();
         assertField("username", ErrorCode.ALREADY_ACTIVATED.getCode(), errors);
 
-        assertTrue(userRepository.findByUsername(createCommand.getUsername()).get().isActivated());
+        assertTrue(userRepository.findByUsernameAndDeletedFalse(createCommand.getUsername()).get().isActivated());
 
     }
 
@@ -105,7 +105,7 @@ public final class ActivateUserItTest extends AbstractUserItTest {
     }
 
     private void activateUser(CreateUserCommand createCommand) {
-        UserEntity user = userRepository.findByUsername(createCommand.getUsername()).get();
+        UserEntity user = userRepository.findByUsernameAndDeletedFalse(createCommand.getUsername()).get();
         ActivateUserCommand activateCommand = ActivateUserCommand.builder()
                 .userId(user.getId()).build();
         commandGateway.sendAndWait(activateCommand);

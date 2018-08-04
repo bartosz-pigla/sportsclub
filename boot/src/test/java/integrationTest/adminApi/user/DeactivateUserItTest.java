@@ -51,7 +51,7 @@ public final class DeactivateUserItTest extends AbstractUserItTest {
         assertEquals(createCommand.getUsername(), responseBody.getUsername());
         assertEquals(createCommand.getUserType().name(), responseBody.getUserType());
 
-        assertFalse(userRepository.findByUsername(createCommand.getUsername()).get().isActivated());
+        assertFalse(userRepository.findByUsernameAndDeletedFalse(createCommand.getUsername()).get().isActivated());
     }
 
     @Test
@@ -90,7 +90,7 @@ public final class DeactivateUserItTest extends AbstractUserItTest {
         List errors = deactivateUserResponse.getBody();
         assertField("username", ErrorCode.ALREADY_DEACTIVATED.getCode(), errors);
 
-        assertFalse(userRepository.findByUsername(createCommand.getUsername()).get().isActivated());
+        assertFalse(userRepository.findByUsernameAndDeletedFalse(createCommand.getUsername()).get().isActivated());
 
     }
 
@@ -106,14 +106,14 @@ public final class DeactivateUserItTest extends AbstractUserItTest {
     }
 
     private void activateUser(CreateUserCommand createCommand) {
-        UserEntity user = userRepository.findByUsername(createCommand.getUsername()).get();
+        UserEntity user = userRepository.findByUsernameAndDeletedFalse(createCommand.getUsername()).get();
         ActivateUserCommand activateCommand = ActivateUserCommand.builder()
                 .userId(user.getId()).build();
         commandGateway.sendAndWait(activateCommand);
     }
 
     private void deactivateUser(CreateUserCommand createCommand) {
-        UserEntity user = userRepository.findByUsername(createCommand.getUsername()).get();
+        UserEntity user = userRepository.findByUsernameAndDeletedFalse(createCommand.getUsername()).get();
         DeactivateUserCommand activateCommand = DeactivateUserCommand.builder()
                 .userId(user.getId()).build();
         commandGateway.sendAndWait(activateCommand);

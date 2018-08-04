@@ -10,7 +10,7 @@ import domain.common.exception.AlreadyDeletedException;
 import domain.user.activation.common.exception.AlreadyDeactivatedException;
 import org.junit.Test;
 
-public final class DeactivateUserTest extends UserTest {
+public final class DeactivateUserTest extends AbstractUserTest {
 
     @Test
     public void shouldNotDeactivateWhenIsAlreadyDeactivated() {

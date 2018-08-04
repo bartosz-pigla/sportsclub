@@ -9,7 +9,7 @@ import domain.common.exception.AlreadyDeletedException;
 import domain.user.activation.common.exception.AlreadyActivatedException;
 import org.junit.Test;
 
-public final class ActivateUserTest extends UserTest {
+public final class ActivateUserTest extends AbstractUserTest {
 
     @Test
     public void shouldNotActivateWhenIsAlreadyActivated() {

@@ -23,9 +23,9 @@ import query.repository.UserEntityRepository;
 
 @Component
 @AllArgsConstructor
-public class UserEventHandler {
+public class UserEntityEventHandler {
 
-    private static final Logger logger = getLogger(UserEventHandler.class);
+    private static final Logger logger = getLogger(UserEntityEventHandler.class);
 
     private UserEntityRepository userRepository;
     private ActivationLinkEntryRepository activationLinkRepository;
