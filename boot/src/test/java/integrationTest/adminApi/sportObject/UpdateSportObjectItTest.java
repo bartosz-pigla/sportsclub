@@ -2,7 +2,7 @@ package integrationTest.adminApi.sportObject;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORTOBJECT_BY_NAME;
+import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -43,7 +43,7 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
                 .imageUrl("https://www.w3schools.com/w3css/img_lights.jpg").build();
 
         ResponseEntity<SportObjectDto> createSportObjectResponse = put(
-                ADMIN_CONSOLE_SPORTOBJECT_BY_NAME,
+                ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME,
                 sportObject,
                 SportObjectDto.class,
                 sportsclubName, sportObjectName);
@@ -74,7 +74,7 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
                 .imageUrl("https://www.w3schools.com/w3css/img_lights.jpg").build();
 
         ResponseEntity<SportObjectDto> createSportObjectResponse = put(
-                ADMIN_CONSOLE_SPORTOBJECT_BY_NAME,
+                ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME,
                 sportObject,
                 SportObjectDto.class,
                 sportsclubName, sportObjectName);
@@ -100,7 +100,7 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
                 .imageUrl("https://www.w3schools.com/w3css/img_lights.jpg").build();
 
         ResponseEntity<SportObjectDto> createSportObjectResponse = put(
-                ADMIN_CONSOLE_SPORTOBJECT_BY_NAME,
+                ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME,
                 sportObject,
                 SportObjectDto.class,
                 sportsclubName, sportObjectName);
@@ -127,7 +127,7 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
                 .imageUrl("https://www.w3schools.com/w3css/img_lights.jpg").build();
 
         ResponseEntity<List> createSportObjectResponse = put(
-                ADMIN_CONSOLE_SPORTOBJECT_BY_NAME,
+                ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME,
                 sportObject,
                 List.class,
                 sportsclubName, sportObjectName);
@@ -154,7 +154,7 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
                 .imageUrl("https://www.w3schools.com/w3css/img_lights.jpg").build();
 
         ResponseEntity<List> createSportObjectResponse = put(
-                ADMIN_CONSOLE_SPORTOBJECT_BY_NAME,
+                ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME,
                 sportObject,
                 List.class,
                 sportsclubName, sportObjectName);
@@ -188,7 +188,7 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
                 .imageUrl("https://www.w3schools.com/w3css/img_lights.jpg").build();
 
         ResponseEntity<List> createSportObjectResponse = put(
-                ADMIN_CONSOLE_SPORTOBJECT_BY_NAME,
+                ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME,
                 sportObject,
                 List.class,
                 sportsclubName, sportObjectName);

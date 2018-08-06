@@ -16,19 +16,19 @@ public class OpeningTimeRangeValidator {
 
     public static void validate(DayOfWeek dayOfWeek, LocalTime startTime, LocalTime finishTime, Errors errors) {
         if (dayOfWeek == null) {
-            errors.rejectValue("dateRange", ErrorCode.EMPTY.getCodeWithPrefix("dayOfWeek"));
+            errors.rejectValue("openingTimeRange", ErrorCode.EMPTY.getCodeWithPrefix("dayOfWeek"));
         }
 
         if (startTime == null) {
-            errors.rejectValue("dateRange", ErrorCode.EMPTY.getCodeWithPrefix("openingTime"));
+            errors.rejectValue("openingTimeRange", ErrorCode.EMPTY.getCodeWithPrefix("startTime"));
         }
 
         if (finishTime == null) {
-            errors.rejectValue("dateRange", ErrorCode.EMPTY.getCodeWithPrefix("finishTime"));
+            errors.rejectValue("openingTimeRange", ErrorCode.EMPTY.getCodeWithPrefix("finishTime"));
         }
 
         if (startTime != null && finishTime != null && !startTime.isBefore(finishTime)) {
-            errors.rejectValue("dateRange", ErrorCode.INVALID.getCode());
+            errors.rejectValue("openingTimeRange", ErrorCode.INVALID.getCode());
         }
     }
 }

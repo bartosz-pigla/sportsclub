@@ -1,9 +1,9 @@
 package web.common;
 
 import static web.common.RequestParameters.ANNOUNCEMENT_ID_PARAMETER;
-import static web.common.RequestParameters.OPENINGHOURS_ID_PARAMETER;
-import static web.common.RequestParameters.SPORTOBJECT_NAME_PARAMETER;
+import static web.common.RequestParameters.OPENING_TIME_ID_PARAMETER;
 import static web.common.RequestParameters.SPORTSCLUB_NAME_PARAMETER;
+import static web.common.RequestParameters.SPORT_OBJECT_NAME_PARAMETER;
 import static web.common.RequestParameters.USERNAME_PARAMETER;
 
 public final class RequestMappings {
@@ -38,10 +38,10 @@ public final class RequestMappings {
     public static final String ADMIN_CONSOLE_ANNOUNCEMENT = ADMIN_CONSOLE_SPORTSCLUB_BY_NAME + "/announcement";
     public static final String ADMIN_CONSOLE_SPORTSCLUB_ANNOUNCEMENT_BY_ID = ADMIN_CONSOLE_ANNOUNCEMENT + ANNOUNCEMENT_ID_PARAMETER;
 
-    public static final String ADMIN_CONSOLE_SPORTOBJECT = ADMIN_CONSOLE_SPORTSCLUB_BY_NAME + "/sport-object";
-    public static final String ADMIN_CONSOLE_SPORTOBJECT_BY_NAME = ADMIN_CONSOLE_SPORTOBJECT + SPORTOBJECT_NAME_PARAMETER;
-    public static final String ADMIN_CONSOLE_OPENINGHOURS = ADMIN_CONSOLE_SPORTOBJECT_BY_NAME + "/opening-hours";
-    public static final String ADMIN_CONSOLE_OPENINGHOURS_BY_ID = ADMIN_CONSOLE_OPENINGHOURS + OPENINGHOURS_ID_PARAMETER;
+    public static final String ADMIN_CONSOLE_SPORT_OBJECT = ADMIN_CONSOLE_SPORTSCLUB_BY_NAME + "/sport-object";
+    public static final String ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME = ADMIN_CONSOLE_SPORT_OBJECT + SPORT_OBJECT_NAME_PARAMETER;
+    public static final String ADMIN_CONSOLE_OPENING_TIME = ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME + "/opening-time";
+    public static final String ADMIN_CONSOLE_OPENING_TIME_BY_ID = ADMIN_CONSOLE_OPENING_TIME + OPENING_TIME_ID_PARAMETER;
 
     public static String getAntMatcher(String requestMapping) {
         return requestMapping + "/**";

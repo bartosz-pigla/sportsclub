@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import query.model.BaseEntity;
-import query.model.announcement.SportsclubAnnouncementEntity;
+import query.model.announcement.AnnouncementEntity;
 import query.model.embeddable.Address;
 import query.model.sportobject.SportObjectEntity;
 import query.model.statute.StatuteEntity;
@@ -28,7 +28,7 @@ public class SportsclubEntity extends BaseEntity {
     @Embedded
     private Address address;
     @OneToMany(mappedBy = "sportsclub")
-    private List<SportsclubAnnouncementEntity> announcements;
+    private List<AnnouncementEntity> announcements;
     @OneToOne(mappedBy = "sportsclub")
     private StatuteEntity statute;
     @OneToMany(mappedBy = "headquarter")
