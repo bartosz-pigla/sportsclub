@@ -6,7 +6,10 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 import java.util.UUID;
 
 import api.booking.event.BookingCanceledEvent;
+import api.booking.event.BookingConfirmedEvent;
 import api.booking.event.BookingCreatedEvent;
+import api.booking.event.BookingRejectedEvent;
+import api.booking.event.BookingSubmitedEvent;
 import lombok.AllArgsConstructor;
 import org.axonframework.eventhandling.EventHandler;
 import org.slf4j.Logger;
@@ -41,10 +44,31 @@ public class BookingEntityEventHandler {
 
     @EventHandler
     public void on(BookingCanceledEvent event) {
-        UUID bookingId = event.getBookingId();
-        logger.error("Cancelling booking with id: {}", bookingId);
-        BookingEntity booking = bookingRepository.getOne(event.getBookingId());
-        booking.setBookingState(BookingState.CANCELED);
+        changeStateOfBooking(event.getBookingId(), BookingState.CANCELED);
+    }
+
+    @EventHandler
+    public void on(BookingSubmitedEvent event) {
+        changeStateOfBooking(event.getBookingId(), BookingState.SUBMITED);
+    }
+
+    @EventHandler
+    public void on(BookingConfirmedEvent event) {
+        changeStateOfBooking(event.getBookingId(), BookingState.CONFIRMED);
+    }
+
+    @EventHandler
+    public void on(BookingRejectedEvent event) {
+        changeStateOfBooking(event.getBookingId(), BookingState.REJECTED);
+    }
+
+    private void changeStateOfBooking(UUID bookingId, BookingState targetState) {
+        BookingEntity booking = bookingRepository.getOne(bookingId);
+        logger.error("Changing state of booking with id: {} from state: {} to: {}",
+                bookingId,
+                booking.getBookingState().name(),
+                targetState.name());
+        booking.setBookingState(targetState);
         bookingRepository.save(booking);
     }
 }

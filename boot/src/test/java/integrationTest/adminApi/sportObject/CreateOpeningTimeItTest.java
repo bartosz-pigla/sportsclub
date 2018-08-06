@@ -1,6 +1,5 @@
 package integrationTest.adminApi.sportObject;
 
-import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static web.common.RequestMappings.ADMIN_CONSOLE_OPENING_TIME;
