@@ -1,8 +1,8 @@
 package integrationTest.adminApi.sportsclub;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static web.common.RequestMappings.ADMIN_CONSOLE_SPORTSCLUB_ANNOUNCEMENT_BY_ID;
 
 import java.util.UUID;
@@ -14,13 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import query.repository.SportsclubAnnouncementEntityRepository;
+import query.repository.AnnouncementEntityRepository;
 import web.adminApi.announcement.dto.AnnouncementDto;
 
 public final class DeleteAnnouncementItTest extends AbstractSportsclubItTest {
 
     @Autowired
-    private SportsclubAnnouncementEntityRepository announcementRepository;
+    private AnnouncementEntityRepository announcementRepository;
 
     @Test
     @DirtiesContext
@@ -40,8 +40,7 @@ public final class DeleteAnnouncementItTest extends AbstractSportsclubItTest {
         AnnouncementDto response = deleteAnnouncementResponse.getBody();
         assertEquals(createAnnouncementCommand.getTitle(), response.getTitle());
         assertEquals(createAnnouncementCommand.getContent(), response.getContent());
-        assertFalse(newArrayList(announcementRepository.findAll()).stream().anyMatch(a ->
-                a.getTitle().equals(createAnnouncementCommand.getTitle()) && a.getContent().equals(createAnnouncementCommand.getContent())));
+        assertTrue(announcementRepository.findById(announcementId).get().isDeleted());
     }
 
     @Test

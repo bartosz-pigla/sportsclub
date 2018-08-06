@@ -19,9 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import query.model.announcement.SportsclubAnnouncementEntity;
+import query.model.announcement.AnnouncementEntity;
 import query.model.sportsclub.SportsclubEntity;
-import query.repository.SportsclubAnnouncementEntityRepository;
+import query.repository.AnnouncementEntityRepository;
 import query.repository.SportsclubEntityRepository;
 import web.adminApi.announcement.dto.AnnouncementDto;
 import web.common.BaseController;
@@ -31,7 +31,7 @@ import web.common.BaseController;
 final class AnnouncementController extends BaseController {
 
     private SportsclubEntityRepository sportsclubRepository;
-    private SportsclubAnnouncementEntityRepository announcementRepository;
+    private AnnouncementEntityRepository announcementRepository;
 
     @PostMapping(ADMIN_CONSOLE_ANNOUNCEMENT)
     public ResponseEntity<?> createAnnouncement(@PathVariable String sportsclubName, @RequestBody AnnouncementDto announcement) {
@@ -65,18 +65,19 @@ final class AnnouncementController extends BaseController {
                 commandGateway.sendAndWait(new DeleteAnnouncementCommand(sportsclub.getId(), announcement.getId())));
     }
 
-    private ResponseEntity<?> sendCommand(String sportsclubName, String announcementId, BiConsumer<SportsclubEntity, SportsclubAnnouncementEntity> consumer) {
+    private ResponseEntity<?> sendCommand(String sportsclubName, String announcementId, BiConsumer<SportsclubEntity, AnnouncementEntity> consumer) {
         if (isInvalidUUID(announcementId)) {
             return ResponseEntity.badRequest().build();
         }
 
         Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
-        Optional<SportsclubAnnouncementEntity> announcementOptional = announcementRepository.findById(UUID.fromString(announcementId));
+        Optional<AnnouncementEntity> announcementOptional = announcementRepository.findById(UUID.fromString(announcementId));
 
         if (sportsclubOptional.isPresent() && announcementOptional.isPresent()) {
             SportsclubEntity sportsclub = sportsclubOptional.get();
-            SportsclubAnnouncementEntity announcement = announcementOptional.get();
+            AnnouncementEntity announcement = announcementOptional.get();
             consumer.accept(sportsclub, announcement);
+            announcement = announcementRepository.getOne(UUID.fromString(announcementId));
             return ResponseEntity.ok(AnnouncementDto.builder()
                     .id(announcementId)
                     .title(announcement.getTitle())

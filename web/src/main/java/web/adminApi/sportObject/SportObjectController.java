@@ -1,7 +1,7 @@
 package web.adminApi.sportObject;
 
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORTOBJECT;
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORTOBJECT_BY_NAME;
+import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT;
+import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import api.sportObject.command.CreateSportObjectCommand;
+import api.sportObject.command.DeleteSportObjectCommand;
 import api.sportObject.command.UpdateSportObjectCommand;
 import commons.ErrorCode;
 import domain.common.exception.AlreadyCreatedException;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +39,7 @@ import query.model.sportsclub.SportsclubEntity;
 import query.repository.SportObjectEntityRepository;
 import query.repository.SportsclubEntityRepository;
 import web.adminApi.sportObject.dto.SportObjectDto;
+import web.adminApi.sportObject.dto.SportObjectDtoFactory;
 import web.adminApi.sportObject.service.SportObjectDtoValidator;
 import web.common.BaseController;
 import web.common.dto.AddressDto;
@@ -55,7 +58,7 @@ final class SportObjectController extends BaseController {
         binder.setValidator(validator);
     }
 
-    @PostMapping(ADMIN_CONSOLE_SPORTOBJECT)
+    @PostMapping(ADMIN_CONSOLE_SPORT_OBJECT)
     ResponseEntity<?> createSportObject(@PathVariable String sportsclubName, @RequestBody @Validated SportObjectDto sportObject, BindingResult bindingResult) throws MalformedURLException {
         if (bindingResult.hasErrors()) {
             return validationResponseService.getResponse(bindingResult);
@@ -80,7 +83,7 @@ final class SportObjectController extends BaseController {
         }
     }
 
-    @PutMapping(ADMIN_CONSOLE_SPORTOBJECT_BY_NAME)
+    @PutMapping(ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME)
     ResponseEntity<?> updateSportObject(@PathVariable String sportsclubName,
                                         @PathVariable String sportObjectName,
                                         @RequestBody @Validated SportObjectDto sportObjectDto,
@@ -89,13 +92,12 @@ final class SportObjectController extends BaseController {
             return validationResponseService.getResponse(bindingResult);
         }
 
-        Optional<SportsclubEntity> sportsclub = sportsclubRepository.findByName(sportsclubName);
-        Optional<SportObjectEntity> sportObject = sportObjectRepository.findByNameAndDeletedFalse(sportObjectName);
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
+        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findByNameAndDeletedFalse(sportObjectName);
 
-        if (sportsclub.isPresent() && sportObject.isPresent()) {
-            UUID sportsclubId = sportsclub.get().getId();
-            UUID sportObjectId = sportObject.get().getId();
-
+        if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent()) {
+            UUID sportsclubId = sportsclubOptional.get().getId();
+            UUID sportObjectId = sportObjectOptional.get().getId();
             AddressDto address = sportObjectDto.getAddress();
 
             commandGateway.sendAndWait(UpdateSportObjectCommand.builder()
@@ -109,7 +111,24 @@ final class SportObjectController extends BaseController {
                     .image(new URL(sportObjectDto.getImageUrl()))
                     .description(sportObjectDto.getDescription()).build());
 
-            return ResponseEntity.ok(sportObjectDto);
+            SportObjectEntity sportObject = sportObjectRepository.getOne(sportObjectId);
+            return ResponseEntity.ok(SportObjectDtoFactory.create(sportObject));
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    @DeleteMapping(ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME)
+    ResponseEntity<?> deleteSportObject(@PathVariable String sportsclubName,
+                                        @PathVariable String sportObjectName) {
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
+        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findByNameAndDeletedFalse(sportObjectName);
+
+        if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent()) {
+            SportObjectEntity sportObject = sportObjectOptional.get();
+            commandGateway.sendAndWait(DeleteSportObjectCommand.builder()
+                    .sportObjectId(sportObject.getId()).build());
+            return ResponseEntity.ok(SportObjectDtoFactory.create(sportObject));
         } else {
             return ResponseEntity.badRequest().build();
         }
