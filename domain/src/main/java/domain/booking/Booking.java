@@ -24,6 +24,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.commandhandling.model.AggregateIdentifier;
 import org.axonframework.commandhandling.model.AggregateMember;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
@@ -34,6 +35,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Booking {
 
+    @AggregateIdentifier
     private UUID bookingId;
     private boolean canceled;
     private boolean submitted;
@@ -41,11 +43,9 @@ public class Booking {
     private boolean rejected;
     @AggregateMember
     private Set<BookingDetail> bookingDetails;
-    private BookingValidator validator;
 
     @CommandHandler
     public Booking(CreateBookingCommand command, BookingValidator validator) {
-        this.validator = validator;
         validator.validateCreate(command);
         BookingCreatedEvent event = new BookingCreatedEvent();
         copyProperties(command, event);
@@ -61,7 +61,7 @@ public class Booking {
     }
 
     @CommandHandler
-    public void on(CancelBookingCommand command) {
+    public void on(CancelBookingCommand command, BookingValidator validator) {
         validator.assertThatIsNotCancelled(bookingId, canceled);
         validator.assertThatIsNotSubmitted(bookingId, submitted);
         validator.assertThatIsNotConfirmed(bookingId, confirmed);
@@ -75,7 +75,7 @@ public class Booking {
     }
 
     @CommandHandler
-    public void on(SubmitBookingCommand command) {
+    public void on(SubmitBookingCommand command, BookingValidator validator) {
         validator.assertThatIsNotCancelled(bookingId, canceled);
         validator.assertThatIsNotSubmitted(bookingId, submitted);
         validator.assertThatHasAnyBookingDetails(bookingId, bookingDetails);
@@ -90,7 +90,7 @@ public class Booking {
     }
 
     @CommandHandler
-    public void on(ConfirmBookingCommand command) {
+    public void on(ConfirmBookingCommand command, BookingValidator validator) {
         validator.assertThatIsNotCancelled(bookingId, canceled);
         validator.assertThatHasAnyBookingDetails(bookingId, bookingDetails);
         validator.assertThatIsNotConfirmed(bookingId, confirmed);
@@ -104,7 +104,7 @@ public class Booking {
     }
 
     @CommandHandler
-    public void on(RejectBookingCommand command) {
+    public void on(RejectBookingCommand command, BookingValidator validator) {
         validator.assertThatIsNotCancelled(bookingId, canceled);
         validator.assertThatIsNotConfirmed(bookingId, confirmed);
         validator.assertThatIsNotRejected(bookingId, rejected);
