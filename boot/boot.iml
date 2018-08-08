@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" version="4">
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset" name="Spring Application Context" removed="false">
-          <file>file://$MODULE_DIR$/src/main/java/sportsclub/boot/config/AxonConfiguration.java</file>
-        </fileset>
-      </configuration>
+      <configuration />
     </facet>
     <facet type="web" name="Web">
       <configuration>
@@ -29,12 +25,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="query" />
+    <orderEntry type="library" name="Maven: bartosz.pigla:query:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="web" />
     <orderEntry type="module" module-name="api" />
     <orderEntry type="module" module-name="domain" />
     <orderEntry type="module" module-name="commons" />
-    <orderEntry type="library" name="Maven: bartosz.pigla:query:0.0.1-SNAPSHOT" level="project" />
+    <orderEntry type="module" module-name="query" />
     <orderEntry type="library" name="Maven: com.h2database:h2:1.4.197" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.0.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.0.3.RELEASE" level="project" />
