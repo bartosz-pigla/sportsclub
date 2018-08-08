@@ -3,8 +3,8 @@ package query.model.booking;
 public enum BookingState {
 
     CREATED,
-    SUBMITED,
+    SUBMITTED,
     CONFIRMED,
     CANCELED,
-    REJECTED;
+    REJECTED
 }

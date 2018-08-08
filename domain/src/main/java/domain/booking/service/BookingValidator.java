@@ -7,12 +7,13 @@ import java.util.UUID;
 
 import api.booking.command.CreateBookingCommand;
 import domain.booking.BookingDetail;
-import domain.booking.exception.AlreadyCancelledException;
+import domain.booking.exception.AlreadyCanceledException;
 import domain.booking.exception.AlreadyConfirmedException;
 import domain.booking.exception.AlreadyRejectedException;
 import domain.booking.exception.AlreadySubmitedException;
 import domain.booking.exception.CustomerNotExistsException;
 import domain.booking.exception.NotFoundAnyBookingDetailsException;
+import domain.booking.exception.NotSubmitedException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -36,10 +37,10 @@ public final class BookingValidator {
         }
     }
 
-    public void assertThatIsNotCancelled(UUID bookingId, boolean canceled) {
+    public void assertThatIsNotCanceled(UUID bookingId, boolean canceled) {
         if (canceled) {
-            logger.error("Booking with id: {} is already cancelled", bookingId);
-            throw new AlreadyCancelledException();
+            logger.error("Booking with id: {} is already canceled", bookingId);
+            throw new AlreadyCanceledException();
         }
     }
 
@@ -47,6 +48,13 @@ public final class BookingValidator {
         if (submitted) {
             logger.error("Booking with id: {} is already submited", bookingId);
             throw new AlreadySubmitedException();
+        }
+    }
+
+    public void assertThatIsSubmited(UUID bookingId, boolean submitted) {
+        if (!submitted) {
+            logger.error("Booking with id: {} is not submited", bookingId);
+            throw new NotSubmitedException();
         }
     }
 

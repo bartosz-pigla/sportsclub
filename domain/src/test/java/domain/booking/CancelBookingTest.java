@@ -9,7 +9,7 @@ import api.booking.event.BookingCanceledEvent;
 import api.booking.event.BookingConfirmedEvent;
 import api.booking.event.BookingRejectedEvent;
 import api.booking.event.BookingSubmitedEvent;
-import domain.booking.exception.AlreadyCancelledException;
+import domain.booking.exception.AlreadyCanceledException;
 import domain.booking.exception.AlreadyConfirmedException;
 import domain.booking.exception.AlreadyRejectedException;
 import domain.booking.exception.AlreadySubmitedException;
@@ -26,7 +26,7 @@ public final class CancelBookingTest extends AbstractBookingTest {
         testFixture.given(createdEvent, new BookingCanceledEvent(bookingId))
                 .when(cancelCommand)
                 .expectNoEvents()
-                .expectException(AlreadyCancelledException.class);
+                .expectException(AlreadyCanceledException.class);
     }
 
     @Test

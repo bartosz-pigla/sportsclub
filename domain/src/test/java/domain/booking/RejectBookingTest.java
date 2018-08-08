@@ -1,11 +1,17 @@
 package domain.booking;
 
+import static org.axonframework.test.matchers.Matchers.andNoMore;
+import static org.axonframework.test.matchers.Matchers.matches;
+import static org.axonframework.test.matchers.Matchers.sequenceOf;
+
 import api.booking.command.RejectBookingCommand;
+import api.booking.event.BookingCanceledEvent;
 import api.booking.event.BookingConfirmedEvent;
 import api.booking.event.BookingRejectedEvent;
 import api.booking.event.BookingSubmitedEvent;
 import domain.booking.exception.AlreadyConfirmedException;
 import domain.booking.exception.AlreadyRejectedException;
+import domain.booking.exception.AlreadySubmitedException;
 import domain.booking.exception.NotSubmitedException;
 import org.junit.Test;
 
@@ -32,6 +38,14 @@ public final class RejectBookingTest extends AbstractBookingTest {
     }
 
     @Test
+    public void shouldNotRejectWhenIsAlreadyCanceled() {
+        testFixture.given(createdEvent, new BookingCanceledEvent(bookingId))
+                .when(rejectCommand)
+                .expectNoEvents()
+                .expectException(AlreadySubmitedException.class);
+    }
+
+    @Test
     public void shouldNotRejectWhenIsAlreadyConfirmed() {
         testFixture.given(createdEvent, new BookingSubmitedEvent(bookingId), new BookingConfirmedEvent(bookingId))
                 .when(rejectCommand)
@@ -40,5 +54,12 @@ public final class RejectBookingTest extends AbstractBookingTest {
     }
 
     @Test
-    public void shouldNotRejectWhenIs
+    public void shouldReject() {
+        testFixture.given(createdEvent)
+                .when(rejectCommand)
+                .expectEventsMatching(sequenceOf(matches(p -> {
+                    BookingRejectedEvent event = (BookingRejectedEvent) p.getPayload();
+                    return event.getBookingId().equals(bookingId);
+                }), andNoMore()));
+    }
 }

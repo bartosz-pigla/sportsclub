@@ -62,7 +62,7 @@ public class Booking {
 
     @CommandHandler
     public void on(CancelBookingCommand command, BookingValidator validator) {
-        validator.assertThatIsNotCancelled(bookingId, canceled);
+        validator.assertThatIsNotCanceled(bookingId, canceled);
         validator.assertThatIsNotSubmitted(bookingId, submitted);
         validator.assertThatIsNotConfirmed(bookingId, confirmed);
         validator.assertThatIsNotRejected(bookingId, rejected);
@@ -76,8 +76,8 @@ public class Booking {
 
     @CommandHandler
     public void on(SubmitBookingCommand command, BookingValidator validator) {
-        validator.assertThatIsNotCancelled(bookingId, canceled);
         validator.assertThatIsNotSubmitted(bookingId, submitted);
+        validator.assertThatIsNotCanceled(bookingId, canceled);
         validator.assertThatHasAnyBookingDetails(bookingId, bookingDetails);
         validator.assertThatIsNotConfirmed(bookingId, confirmed);
         validator.assertThatIsNotRejected(bookingId, rejected);
@@ -91,9 +91,9 @@ public class Booking {
 
     @CommandHandler
     public void on(ConfirmBookingCommand command, BookingValidator validator) {
-        validator.assertThatIsNotCancelled(bookingId, canceled);
-        validator.assertThatHasAnyBookingDetails(bookingId, bookingDetails);
         validator.assertThatIsNotConfirmed(bookingId, confirmed);
+        validator.assertThatIsNotCanceled(bookingId, canceled);
+        validator.assertThatHasAnyBookingDetails(bookingId, bookingDetails);
         validator.assertThatIsNotRejected(bookingId, rejected);
         apply(new BookingConfirmedEvent(bookingId));
     }
@@ -105,9 +105,10 @@ public class Booking {
 
     @CommandHandler
     public void on(RejectBookingCommand command, BookingValidator validator) {
-        validator.assertThatIsNotCancelled(bookingId, canceled);
-        validator.assertThatIsNotConfirmed(bookingId, confirmed);
         validator.assertThatIsNotRejected(bookingId, rejected);
+        validator.assertThatIsSubmited(bookingId, submitted);
+        validator.assertThatIsNotCanceled(bookingId, canceled);
+        validator.assertThatIsNotConfirmed(bookingId, confirmed);
         apply(new BookingRejectedEvent(bookingId));
     }
 

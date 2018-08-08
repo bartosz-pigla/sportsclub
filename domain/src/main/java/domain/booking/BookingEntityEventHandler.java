@@ -49,7 +49,7 @@ public class BookingEntityEventHandler {
 
     @EventHandler
     public void on(BookingSubmitedEvent event) {
-        changeStateOfBooking(event.getBookingId(), BookingState.SUBMITED);
+        changeStateOfBooking(event.getBookingId(), BookingState.SUBMITTED);
     }
 
     @EventHandler
