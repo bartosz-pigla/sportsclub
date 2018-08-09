@@ -5,9 +5,9 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 
 import java.util.UUID;
 
-import api.sportObject.event.OpeningTimeCreatedEvent;
-import api.sportObject.event.OpeningTimeDeletedEvent;
-import api.sportObject.event.OpeningTimeUpdatedEvent;
+import api.sportObject.openingTime.event.OpeningTimeCreatedEvent;
+import api.sportObject.openingTime.event.OpeningTimeDeletedEvent;
+import api.sportObject.openingTime.event.OpeningTimeUpdatedEvent;
 import lombok.AllArgsConstructor;
 import org.axonframework.eventhandling.EventHandler;
 import org.slf4j.Logger;

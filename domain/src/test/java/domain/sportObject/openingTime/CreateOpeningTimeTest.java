@@ -1,4 +1,4 @@
-package domain.sportObject;
+package domain.sportObject.openingTime;
 
 import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.matches;
@@ -9,8 +9,9 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.UUID;
 
-import api.sportObject.command.CreateOpeningTimeCommand;
-import api.sportObject.event.OpeningTimeCreatedEvent;
+import api.sportObject.openingTime.command.CreateOpeningTimeCommand;
+import api.sportObject.openingTime.event.OpeningTimeCreatedEvent;
+import domain.sportObject.AbstractSportObjectTest;
 import domain.sportObject.exception.OpeningTimeRangeConflictException;
 import org.junit.Test;
 import query.model.embeddable.OpeningTimeRange;
@@ -18,7 +19,7 @@ import query.model.embeddable.Price;
 
 public final class CreateOpeningTimeTest extends AbstractSportObjectTest {
 
-    private static final OpeningTimeCreatedEvent openingTimeCreatedEvent = OpeningTimeCreatedEvent.builder()
+    private OpeningTimeCreatedEvent openingTimeCreatedEvent = OpeningTimeCreatedEvent.builder()
             .openingTimeId(UUID.randomUUID())
             .sportObjectId(sportsclubCreatedEvent.getSportsclubId())
             .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)))

@@ -20,7 +20,7 @@ public final class DeleteUserTest extends AbstractUserTest {
     }
 
     @Test
-    public void shouldNotDeleteUserWhenAlreadyDeleted() {
+    public void shouldNotDeleteUserWhenIsAlreadyDeleted() {
         testFixture.given(userCreatedEvent, userDeletedEvent)
                 .when(deleteUserCommand)
                 .expectNoEvents()

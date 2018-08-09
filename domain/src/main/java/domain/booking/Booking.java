@@ -106,8 +106,8 @@ public class Booking {
     @CommandHandler
     public void on(RejectBookingCommand command, BookingValidator validator) {
         validator.assertThatIsNotRejected(bookingId, rejected);
-        validator.assertThatIsSubmited(bookingId, submitted);
         validator.assertThatIsNotCanceled(bookingId, canceled);
+        validator.assertThatIsSubmited(bookingId, submitted);
         validator.assertThatIsNotConfirmed(bookingId, confirmed);
         apply(new BookingRejectedEvent(bookingId));
     }

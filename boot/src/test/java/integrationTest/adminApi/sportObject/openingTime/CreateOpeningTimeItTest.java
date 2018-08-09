@@ -1,4 +1,4 @@
-package integrationTest.adminApi.sportObject;
+package integrationTest.adminApi.sportObject.openingTime;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -12,6 +12,7 @@ import java.util.List;
 import api.sportObject.command.CreateSportObjectCommand;
 import api.sportsclub.command.CreateSportsclubCommand;
 import commons.ErrorCode;
+import integrationTest.adminApi.sportObject.AbstractSportObjectItTest;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

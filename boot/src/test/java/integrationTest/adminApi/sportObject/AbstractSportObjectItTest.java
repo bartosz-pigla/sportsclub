@@ -7,8 +7,9 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.UUID;
 
-import api.sportObject.command.CreateOpeningTimeCommand;
 import api.sportObject.command.CreateSportObjectCommand;
+import api.sportObject.openingTime.command.CreateOpeningTimeCommand;
+import api.sportObject.sportObjectPosition.command.CreateSportObjectPositionCommand;
 import api.sportsclub.command.CreateSportsclubCommand;
 import integrationTest.adminApi.sportsclub.AbstractSportsclubItTest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
 import query.model.embeddable.OpeningTimeRange;
+import query.model.embeddable.PositiveNumber;
 import query.model.embeddable.Price;
 import query.repository.OpeningTimeEntityRepository;
 import query.repository.SportObjectEntityRepository;
@@ -43,13 +45,24 @@ public abstract class AbstractSportObjectItTest extends AbstractSportsclubItTest
     }
 
     protected CreateOpeningTimeCommand createOpeningTime(UUID sportObjectId) {
-        CreateOpeningTimeCommand createOpeningTimeCommand = CreateOpeningTimeCommand.builder()
+        CreateOpeningTimeCommand command = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectId)
                 .price(new Price(new BigDecimal(12.23d)))
                 .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)))
                 .build();
-        commandGateway.sendAndWait(createOpeningTimeCommand);
-        return createOpeningTimeCommand;
+        commandGateway.sendAndWait(command);
+        return command;
+    }
+
+    protected CreateSportObjectPositionCommand createSportObjectPosition(UUID sportObjectId) {
+        CreateSportObjectPositionCommand command = CreateSportObjectPositionCommand.builder()
+                .sportObjectId(sportObjectId)
+                .name("name1")
+                .description("description1")
+                .positionsCount(new PositiveNumber(11))
+                .build();
+        commandGateway.sendAndWait(command);
+        return command;
     }
 
     protected boolean exists(OpeningTimeRangeDto openingTimeRangeDto) {

@@ -1,4 +1,4 @@
-package api.sportObject.event;
+package api.sportObject.openingTime.event;
 
 import java.io.Serializable;
 import java.util.UUID;

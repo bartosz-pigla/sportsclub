@@ -11,12 +11,12 @@ import org.junit.Test;
 
 public final class DeleteSportObjectTest extends AbstractSportObjectTest {
 
-    private static DeleteSportObjectCommand deleteSportObjectCommand = DeleteSportObjectCommand.builder()
+    private DeleteSportObjectCommand deleteSportObjectCommand = DeleteSportObjectCommand.builder()
             .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
             .build();
 
     @Test
-    public void shouldNotDeleteWhenAlreadyDeleted() {
+    public void shouldNotDeleteWhenIsAlreadyDeleted() {
         SportObjectDeletedEvent sportObjectDeletedEvent = SportObjectDeletedEvent.builder()
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
                 .build();

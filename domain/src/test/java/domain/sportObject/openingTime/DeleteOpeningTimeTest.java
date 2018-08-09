@@ -1,4 +1,4 @@
-package domain.sportObject;
+package domain.sportObject.openingTime;
 
 import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.matches;
@@ -9,12 +9,13 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.UUID;
 
-import api.sportObject.command.DeleteOpeningTimeCommand;
-import api.sportObject.event.OpeningTimeCreatedEvent;
-import api.sportObject.event.OpeningTimeDeletedEvent;
+import api.sportObject.openingTime.command.DeleteOpeningTimeCommand;
+import api.sportObject.openingTime.event.OpeningTimeCreatedEvent;
+import api.sportObject.openingTime.event.OpeningTimeDeletedEvent;
 import api.sportObject.event.SportObjectCreatedEvent;
 import domain.common.exception.AlreadyDeletedException;
 import domain.common.exception.NotExistsException;
+import domain.sportObject.AbstractSportObjectTest;
 import org.junit.Test;
 import query.model.embeddable.Address;
 import query.model.embeddable.City;
@@ -24,7 +25,7 @@ import query.model.embeddable.Price;
 
 public final class DeleteOpeningTimeTest extends AbstractSportObjectTest {
 
-    private static SportObjectCreatedEvent sportObjectCreatedEvent = SportObjectCreatedEvent.builder()
+    private SportObjectCreatedEvent sportObjectCreatedEvent = SportObjectCreatedEvent.builder()
             .address(new Address("street", new City("Wroclaw"), new Coordinates(0d, 0d)))
             .description("description1")
             .name("name1")
@@ -32,7 +33,7 @@ public final class DeleteOpeningTimeTest extends AbstractSportObjectTest {
             .sportsclubId(sportsclubCreatedEvent.getSportsclubId())
             .build();
 
-    private static final OpeningTimeCreatedEvent openingTimeCreatedEvent = OpeningTimeCreatedEvent.builder()
+    private OpeningTimeCreatedEvent openingTimeCreatedEvent = OpeningTimeCreatedEvent.builder()
             .openingTimeId(UUID.randomUUID())
             .sportObjectId(sportsclubCreatedEvent.getSportsclubId())
             .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)))
@@ -53,7 +54,7 @@ public final class DeleteOpeningTimeTest extends AbstractSportObjectTest {
     }
 
     @Test
-    public void shouldNotDeleteWhenAlreadyDeleted() {
+    public void shouldNotDeleteWhenIsAlreadyDeleted() {
         OpeningTimeDeletedEvent openingTimeDeletedEvent = OpeningTimeDeletedEvent.builder()
                 .openingTimeId(openingTimeCreatedEvent.getOpeningTimeId())
                 .sportObjectId(openingTimeCreatedEvent.getSportObjectId())

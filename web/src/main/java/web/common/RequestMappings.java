@@ -4,6 +4,7 @@ import static web.common.RequestParameters.ANNOUNCEMENT_ID_PARAMETER;
 import static web.common.RequestParameters.OPENING_TIME_ID_PARAMETER;
 import static web.common.RequestParameters.SPORTSCLUB_NAME_PARAMETER;
 import static web.common.RequestParameters.SPORT_OBJECT_NAME_PARAMETER;
+import static web.common.RequestParameters.SPORT_OBJECT_POSITION_NAME_PARAMETER;
 import static web.common.RequestParameters.USERNAME_PARAMETER;
 
 public final class RequestMappings {
@@ -42,6 +43,9 @@ public final class RequestMappings {
     public static final String ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME = ADMIN_CONSOLE_SPORT_OBJECT + SPORT_OBJECT_NAME_PARAMETER;
     public static final String ADMIN_CONSOLE_OPENING_TIME = ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME + "/opening-time";
     public static final String ADMIN_CONSOLE_OPENING_TIME_BY_ID = ADMIN_CONSOLE_OPENING_TIME + OPENING_TIME_ID_PARAMETER;
+    public static final String ADMIN_CONSOLE_SPORT_OBJECT_POSITION = ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME + "sport-object-position";
+    public static final String ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME = ADMIN_CONSOLE_SPORT_OBJECT_POSITION + SPORT_OBJECT_POSITION_NAME_PARAMETER;
+
 
     public static String getAntMatcher(String requestMapping) {
         return requestMapping + "/**";

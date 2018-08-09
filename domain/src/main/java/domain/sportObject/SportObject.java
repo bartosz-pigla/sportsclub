@@ -1,26 +1,35 @@
 package domain.sportObject;
 
+import static com.google.common.collect.Sets.newHashSet;
 import static org.axonframework.commandhandling.model.AggregateLifecycle.apply;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
-import api.sportObject.command.CreateOpeningTimeCommand;
 import api.sportObject.command.CreateSportObjectCommand;
-import api.sportObject.command.DeleteOpeningTimeCommand;
 import api.sportObject.command.DeleteSportObjectCommand;
-import api.sportObject.command.UpdateOpeningTimeCommand;
 import api.sportObject.command.UpdateSportObjectCommand;
-import api.sportObject.event.OpeningTimeCreatedEvent;
-import api.sportObject.event.OpeningTimeDeletedEvent;
-import api.sportObject.event.OpeningTimeUpdatedEvent;
 import api.sportObject.event.SportObjectCreatedEvent;
 import api.sportObject.event.SportObjectDeletedEvent;
 import api.sportObject.event.SportObjectUpdatedEvent;
+import api.sportObject.openingTime.command.CreateOpeningTimeCommand;
+import api.sportObject.openingTime.command.DeleteOpeningTimeCommand;
+import api.sportObject.openingTime.command.UpdateOpeningTimeCommand;
+import api.sportObject.openingTime.event.OpeningTimeCreatedEvent;
+import api.sportObject.openingTime.event.OpeningTimeDeletedEvent;
+import api.sportObject.openingTime.event.OpeningTimeUpdatedEvent;
+import api.sportObject.sportObjectPosition.command.CreateSportObjectPositionCommand;
+import api.sportObject.sportObjectPosition.command.DeleteSportObjectPositionCommand;
+import api.sportObject.sportObjectPosition.command.UpdateSportObjectPositionCommand;
+import api.sportObject.sportObjectPosition.event.SportObjectPositionCreatedEvent;
+import api.sportObject.sportObjectPosition.event.SportObjectPositionDeletedEvent;
+import api.sportObject.sportObjectPosition.event.SportObjectPositionUpdatedEvent;
 import domain.sportObject.service.OpeningTimeValidator;
+import domain.sportObject.service.SportObjectPositionValidator;
 import domain.sportObject.service.SportObjectValidator;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -45,6 +54,8 @@ public class SportObject implements Serializable {
     private String name;
     @AggregateMember
     private Set<OpeningTime> openingHours;
+    @AggregateMember
+    private Set<SportObjectPosition> positions;
     private boolean deleted;
 
     @CommandHandler
@@ -61,6 +72,7 @@ public class SportObject implements Serializable {
         sportObjectId = event.getSportObjectId();
         name = event.getName();
         openingHours = new HashSet<>();
+        positions = new HashSet<>();
     }
 
     @CommandHandler
@@ -120,5 +132,48 @@ public class SportObject implements Serializable {
         OpeningTimeDeletedEvent event = new OpeningTimeDeletedEvent();
         copyProperties(command, event);
         apply(event);
+    }
+
+    @CommandHandler
+    public void on(CreateSportObjectPositionCommand command, SportObjectPositionValidator validator) {
+        validator.validate(command, this);
+        SportObjectPositionCreatedEvent event = new SportObjectPositionCreatedEvent();
+        copyProperties(command, event);
+        event.setSportObjectId(UUID.randomUUID());
+        apply(event);
+    }
+
+    @EventSourcingHandler
+    public void on(SportObjectPositionCreatedEvent event) {
+        positions.add(new SportObjectPosition(event.getSportObjectPositionId(), event.getName()));
+    }
+
+    @CommandHandler
+    public void on(DeleteSportObjectPositionCommand command, SportObjectPositionValidator validator) {
+        validator.validate(command, this);
+        SportObjectPositionDeletedEvent event = new SportObjectPositionDeletedEvent(command.getSportObjectPositionId());
+        apply(event);
+    }
+
+    @CommandHandler
+    public void on(UpdateSportObjectPositionCommand command, SportObjectPositionValidator validator) {
+        validator.validate(command, this);
+        SportObjectPositionUpdatedEvent event = new SportObjectPositionUpdatedEvent();
+        copyProperties(command, event);
+        apply(event);
+    }
+
+    public Optional<SportObjectPosition> findPositionById(UUID positionId) {
+        return positions.stream().filter(p -> p.getSportObjectPositionId().equals(positionId)).findFirst();
+    }
+
+    public Optional<SportObjectPosition> findPositionByNameExcept(String name, SportObjectPosition excludedPosition) {
+        Set<SportObjectPosition> positions = newHashSet(this.positions);
+        positions.remove(excludedPosition);
+        return positions.stream().filter(p -> p.getName().equals(name)).findFirst();
+    }
+
+    public Optional<SportObjectPosition> findPositionByName(String name) {
+        return positions.stream().filter(p -> p.getName().equals(name)).findFirst();
     }
 }

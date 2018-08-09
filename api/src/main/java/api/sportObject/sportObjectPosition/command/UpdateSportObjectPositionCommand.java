@@ -1,4 +1,4 @@
-package api.sportObjectPosition.command;
+package api.sportObject.sportObjectPosition.command;
 
 import java.util.UUID;
 

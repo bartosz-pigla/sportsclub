@@ -1,4 +1,4 @@
-package api.sportObject.command;
+package api.sportObject.openingTime.command;
 
 import java.util.UUID;
 

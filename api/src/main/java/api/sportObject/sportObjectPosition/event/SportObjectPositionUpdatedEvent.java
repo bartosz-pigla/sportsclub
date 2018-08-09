@@ -1,4 +1,4 @@
-package api.sportObjectPosition.event;
+package api.sportObject.sportObjectPosition.event;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -18,12 +18,11 @@ import query.model.embeddable.PositiveNumber;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public final class SportObjectPositionCreatedEvent extends DomainEvent implements Serializable {
+public final class SportObjectPositionUpdatedEvent extends DomainEvent implements Serializable {
 
-    private static final long serialVersionUID = -7590982821936492757L;
+    private static final long serialVersionUID = -1593723441200457728L;
 
     private UUID sportObjectPositionId;
-    private UUID sportObjectId;
     private String name;
     private String description;
     @Embedded

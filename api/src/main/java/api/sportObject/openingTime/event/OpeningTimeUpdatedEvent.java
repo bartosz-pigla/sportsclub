@@ -1,4 +1,4 @@
-package api.sportObject.event;
+package api.sportObject.openingTime.event;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -17,11 +17,10 @@ import query.model.embeddable.Price;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public final class OpeningTimeCreatedEvent extends DomainEvent implements Serializable {
+public final class OpeningTimeUpdatedEvent extends DomainEvent implements Serializable {
 
-    private static final long serialVersionUID = -5904813871042691401L;
+    private static final long serialVersionUID = 2585100464875296765L;
 
-    private UUID sportObjectId;
     private UUID openingTimeId;
     private OpeningTimeRange dateRange;
     private Price price;

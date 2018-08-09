@@ -1,4 +1,4 @@
-package integrationTest.adminApi.sportObject;
+package integrationTest.adminApi.sportObject.openingTime;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
@@ -10,8 +10,9 @@ import java.util.List;
 import java.util.UUID;
 
 import api.sportObject.command.CreateSportObjectCommand;
-import api.sportObject.command.DeleteOpeningTimeCommand;
+import api.sportObject.openingTime.command.DeleteOpeningTimeCommand;
 import api.sportsclub.command.CreateSportsclubCommand;
+import integrationTest.adminApi.sportObject.AbstractSportObjectItTest;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,7 +66,7 @@ public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
 
     @Test
     @DirtiesContext
-    public void shouldNotDeleteWhenAlreadyDeleted() throws MalformedURLException {
+    public void shouldNotDeleteWhenIsAlreadyDeleted() throws MalformedURLException {
         CreateSportsclubCommand createSportsclubCommand = createSportsclub();
         CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
         createOpeningTime(sportObjectRepository.findAll().get(0).getId());

@@ -3,8 +3,10 @@ package domain.sportObject;
 import java.util.UUID;
 
 import api.sportObject.event.SportObjectCreatedEvent;
+import api.sportObject.sportObjectPosition.event.SportObjectPositionCreatedEvent;
 import api.sportsclub.event.SportsclubCreatedEvent;
 import domain.sportObject.service.OpeningTimeValidator;
+import domain.sportObject.service.SportObjectPositionValidator;
 import domain.sportObject.service.SportObjectValidator;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.Before;
@@ -14,11 +16,12 @@ import org.mockito.junit.MockitoJUnitRunner;
 import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
+import query.model.embeddable.PositiveNumber;
 import query.repository.SportObjectEntityRepository;
 import query.repository.SportsclubEntityRepository;
 
 @RunWith(MockitoJUnitRunner.class)
-abstract class AbstractSportObjectTest {
+public abstract class AbstractSportObjectTest {
 
     protected AggregateTestFixture<SportObject> testFixture;
     @Mock
@@ -26,18 +29,30 @@ abstract class AbstractSportObjectTest {
     @Mock
     protected SportsclubEntityRepository sportsclubRepository;
 
-    protected static SportsclubCreatedEvent sportsclubCreatedEvent = SportsclubCreatedEvent.builder()
-            .sportsclubId(UUID.randomUUID())
+    protected UUID sportsclubId = UUID.randomUUID();
+    protected UUID sportObjectId = UUID.randomUUID();
+    protected UUID sportObjectPositionId = UUID.randomUUID();
+
+    protected SportsclubCreatedEvent sportsclubCreatedEvent = SportsclubCreatedEvent.builder()
+            .sportsclubId(sportsclubId)
             .name("name1")
             .description("description1")
             .build();
 
-    protected static SportObjectCreatedEvent sportObjectCreatedEvent = SportObjectCreatedEvent.builder()
+    protected SportObjectCreatedEvent sportObjectCreatedEvent = SportObjectCreatedEvent.builder()
             .address(new Address("street", new City("Wroclaw"), new Coordinates(0d, 0d)))
             .description("description1")
             .name("name1")
-            .sportObjectId(UUID.randomUUID())
-            .sportsclubId(sportsclubCreatedEvent.getSportsclubId())
+            .sportObjectId(sportObjectId)
+            .sportsclubId(sportsclubId)
+            .build();
+
+    protected SportObjectPositionCreatedEvent sportObjectPositionCreatedEvent = SportObjectPositionCreatedEvent.builder()
+            .sportObjectPositionId(sportObjectPositionId)
+            .sportObjectId(sportObjectId)
+            .name("name1")
+            .description("description1")
+            .positionsCount(new PositiveNumber(11))
             .build();
 
     @Before
@@ -46,5 +61,6 @@ abstract class AbstractSportObjectTest {
         testFixture.setReportIllegalStateChange(false);
         testFixture.registerInjectableResource(new SportObjectValidator(sportObjectRepository, sportsclubRepository));
         testFixture.registerInjectableResource(new OpeningTimeValidator());
+        testFixture.registerInjectableResource(new SportObjectPositionValidator());
     }
 }

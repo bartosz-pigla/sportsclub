@@ -1,4 +1,4 @@
-package api.sportObjectPosition.event;
+package api.sportObject.sportObjectPosition.event;
 
 import java.io.Serializable;
 import java.util.UUID;

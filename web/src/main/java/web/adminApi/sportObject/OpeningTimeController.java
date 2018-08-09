@@ -9,9 +9,9 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiConsumer;
 
-import api.sportObject.command.CreateOpeningTimeCommand;
-import api.sportObject.command.DeleteOpeningTimeCommand;
-import api.sportObject.command.UpdateOpeningTimeCommand;
+import api.sportObject.openingTime.command.CreateOpeningTimeCommand;
+import api.sportObject.openingTime.command.DeleteOpeningTimeCommand;
+import api.sportObject.openingTime.command.UpdateOpeningTimeCommand;
 import commons.ErrorCode;
 import domain.common.exception.AlreadyDeletedException;
 import domain.sportObject.exception.OpeningTimeRangeConflictException;

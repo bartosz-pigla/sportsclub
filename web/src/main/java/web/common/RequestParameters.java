@@ -1,10 +1,11 @@
 package web.common;
 
-public final class RequestParameters {
+final class RequestParameters {
 
-    public static final String USERNAME_PARAMETER = "/{username}";
-    public static final String SPORTSCLUB_NAME_PARAMETER = "/{sportsclubName}";
-    public static final String ANNOUNCEMENT_ID_PARAMETER = "/{id}";
-    public static final String SPORT_OBJECT_NAME_PARAMETER = "/{sportObjectName}";
-    public static final String OPENING_TIME_ID_PARAMETER = "/{openingTimeId}";
+    static final String USERNAME_PARAMETER = "/{username}";
+    static final String SPORTSCLUB_NAME_PARAMETER = "/{sportsclubName}";
+    static final String ANNOUNCEMENT_ID_PARAMETER = "/{id}";
+    static final String SPORT_OBJECT_NAME_PARAMETER = "/{sportObjectName}";
+    static final String OPENING_TIME_ID_PARAMETER = "/{openingTimeId}";
+    static final String SPORT_OBJECT_POSITION_NAME_PARAMETER = "/{sportObjectPositionName";
 }

@@ -2,8 +2,8 @@ package domain.sportObject;
 
 import java.util.UUID;
 
-import api.sportObject.event.OpeningTimeDeletedEvent;
-import api.sportObject.event.OpeningTimeUpdatedEvent;
+import api.sportObject.openingTime.event.OpeningTimeDeletedEvent;
+import api.sportObject.openingTime.event.OpeningTimeUpdatedEvent;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

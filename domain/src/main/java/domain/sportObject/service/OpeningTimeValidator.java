@@ -6,9 +6,9 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.UUID;
 
-import api.sportObject.command.CreateOpeningTimeCommand;
-import api.sportObject.command.DeleteOpeningTimeCommand;
-import api.sportObject.command.UpdateOpeningTimeCommand;
+import api.sportObject.openingTime.command.CreateOpeningTimeCommand;
+import api.sportObject.openingTime.command.DeleteOpeningTimeCommand;
+import api.sportObject.openingTime.command.UpdateOpeningTimeCommand;
 import domain.common.exception.AlreadyDeletedException;
 import domain.common.exception.NotExistsException;
 import domain.sportObject.OpeningTime;

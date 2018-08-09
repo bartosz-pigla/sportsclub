@@ -9,9 +9,9 @@ import api.booking.event.BookingCanceledEvent;
 import api.booking.event.BookingConfirmedEvent;
 import api.booking.event.BookingRejectedEvent;
 import api.booking.event.BookingSubmitedEvent;
+import domain.booking.exception.AlreadyCanceledException;
 import domain.booking.exception.AlreadyConfirmedException;
 import domain.booking.exception.AlreadyRejectedException;
-import domain.booking.exception.AlreadySubmitedException;
 import domain.booking.exception.NotSubmitedException;
 import org.junit.Test;
 
@@ -42,7 +42,7 @@ public final class RejectBookingTest extends AbstractBookingTest {
         testFixture.given(createdEvent, new BookingCanceledEvent(bookingId))
                 .when(rejectCommand)
                 .expectNoEvents()
-                .expectException(AlreadySubmitedException.class);
+                .expectException(AlreadyCanceledException.class);
     }
 
     @Test
@@ -55,7 +55,7 @@ public final class RejectBookingTest extends AbstractBookingTest {
 
     @Test
     public void shouldReject() {
-        testFixture.given(createdEvent)
+        testFixture.given(createdEvent, new BookingSubmitedEvent(bookingId))
                 .when(rejectCommand)
                 .expectEventsMatching(sequenceOf(matches(p -> {
                     BookingRejectedEvent event = (BookingRejectedEvent) p.getPayload();
