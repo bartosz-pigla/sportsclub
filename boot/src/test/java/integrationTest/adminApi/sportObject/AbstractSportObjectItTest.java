@@ -21,6 +21,7 @@ import query.model.embeddable.PositiveNumber;
 import query.model.embeddable.Price;
 import query.repository.OpeningTimeEntityRepository;
 import query.repository.SportObjectEntityRepository;
+import query.repository.SportObjectPositionEntityRepository;
 import web.adminApi.sportObject.dto.OpeningTimeDto;
 import web.adminApi.sportObject.dto.OpeningTimeRangeDto;
 
@@ -30,6 +31,8 @@ public abstract class AbstractSportObjectItTest extends AbstractSportsclubItTest
     protected SportObjectEntityRepository sportObjectRepository;
     @Autowired
     protected OpeningTimeEntityRepository openingTimeRepository;
+    @Autowired
+    protected SportObjectPositionEntityRepository sportObjectPositionRepository;
 
     protected CreateSportObjectCommand createSportObject(CreateSportsclubCommand createSportsclubCommand) throws MalformedURLException {
         UUID sportsclubId = sportsclubRepository.findByName(createSportsclubCommand.getName()).get().getId();
