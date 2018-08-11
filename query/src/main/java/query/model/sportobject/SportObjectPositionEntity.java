@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import query.model.BaseEntity;
-import query.model.embeddable.PositiveNumber;
+import query.model.embeddable.PositionsCount;
 
 @Entity
 @Getter
@@ -20,7 +20,7 @@ public class SportObjectPositionEntity extends BaseEntity {
     private String name;
     private String description;
     @Embedded
-    private PositiveNumber positionsCount;
+    private PositionsCount positionsCount;
     @ManyToOne(fetch = FetchType.LAZY)
     private SportObjectEntity sportObject;
 }

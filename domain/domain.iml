@@ -23,9 +23,8 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: bartosz.pigla:query:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="api" />
-    <orderEntry type="module" module-name="query" />
+    <orderEntry type="library" name="Maven: bartosz.pigla:query:0.0.1-SNAPSHOT" level="project" />
     <orderEntry type="module" module-name="commons" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.0.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.0.3.RELEASE" level="project" />

@@ -12,8 +12,8 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
-import api.sportObject.openingTime.command.CreateOpeningTimeCommand;
 import api.sportObject.command.CreateSportObjectCommand;
+import api.sportObject.openingTime.command.CreateOpeningTimeCommand;
 import api.sportsclub.command.CreateSportsclubCommand;
 import commons.ErrorCode;
 import integrationTest.adminApi.sportObject.AbstractSportObjectItTest;

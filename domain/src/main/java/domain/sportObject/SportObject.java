@@ -139,7 +139,7 @@ public class SportObject implements Serializable {
         validator.validate(command, this);
         SportObjectPositionCreatedEvent event = new SportObjectPositionCreatedEvent();
         copyProperties(command, event);
-        event.setSportObjectId(UUID.randomUUID());
+        event.setSportObjectPositionId(UUID.randomUUID());
         apply(event);
     }
 

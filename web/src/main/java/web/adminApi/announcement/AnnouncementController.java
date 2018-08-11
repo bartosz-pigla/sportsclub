@@ -51,7 +51,7 @@ final class AnnouncementController extends BaseController {
 
     @PutMapping(ADMIN_CONSOLE_SPORTSCLUB_ANNOUNCEMENT_BY_ID)
     public ResponseEntity<?> updateAnnouncement(@PathVariable String sportsclubName, @PathVariable String id, @RequestBody AnnouncementDto announcementDto) {
-        return sendCommand(sportsclubName, id, (sportsclub, announcement) ->
+        return getResponse(sportsclubName, id, (sportsclub, announcement) ->
                 commandGateway.sendAndWait(UpdateAnnouncementCommand.builder()
                         .announcementId(announcement.getId())
                         .sportsclubId(sportsclub.getId())
@@ -61,11 +61,11 @@ final class AnnouncementController extends BaseController {
 
     @DeleteMapping(ADMIN_CONSOLE_SPORTSCLUB_ANNOUNCEMENT_BY_ID)
     public ResponseEntity<?> deleteAnnouncement(@PathVariable String sportsclubName, @PathVariable String id) {
-        return sendCommand(sportsclubName, id, (sportsclub, announcement) ->
+        return getResponse(sportsclubName, id, (sportsclub, announcement) ->
                 commandGateway.sendAndWait(new DeleteAnnouncementCommand(sportsclub.getId(), announcement.getId())));
     }
 
-    private ResponseEntity<?> sendCommand(String sportsclubName, String announcementId, BiConsumer<SportsclubEntity, AnnouncementEntity> consumer) {
+    private ResponseEntity<?> getResponse(String sportsclubName, String announcementId, BiConsumer<SportsclubEntity, AnnouncementEntity> sendCommand) {
         if (isInvalidUUID(announcementId)) {
             return ResponseEntity.badRequest().build();
         }
@@ -76,7 +76,7 @@ final class AnnouncementController extends BaseController {
         if (sportsclubOptional.isPresent() && announcementOptional.isPresent()) {
             SportsclubEntity sportsclub = sportsclubOptional.get();
             AnnouncementEntity announcement = announcementOptional.get();
-            consumer.accept(sportsclub, announcement);
+            sendCommand.accept(sportsclub, announcement);
             announcement = announcementRepository.getOne(UUID.fromString(announcementId));
             return ResponseEntity.ok(AnnouncementDto.builder()
                     .id(announcementId)

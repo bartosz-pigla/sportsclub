@@ -5,6 +5,7 @@ import static web.common.RequestMappings.ADMIN_CONSOLE_DIRECTOR;
 import static web.common.RequestMappings.ADMIN_CONSOLE_RECEPTIONIST;
 import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT;
 import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_POSITION;
+import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME;
 import static web.common.RequestMappings.ADMIN_CONSOLE_STATUTE;
 import static web.common.RequestMappings.ADMIN_CONSOLE_USER_ACTIVATION;
 import static web.common.RequestMappings.AUTH;
@@ -102,6 +103,9 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .hasAuthority(getAuthorityName(UserType.DIRECTOR))
 
                 .antMatchers(getAntMatcher(ADMIN_CONSOLE_SPORT_OBJECT_POSITION))
+                .hasAuthority(getAuthorityName(UserType.DIRECTOR))
+
+                .antMatchers(getAntMatcher(ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME))
                 .hasAuthority(getAuthorityName(UserType.DIRECTOR))
 
                 .anyRequest()

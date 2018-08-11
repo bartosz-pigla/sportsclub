@@ -11,7 +11,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import query.model.embeddable.PositiveNumber;
+import query.model.embeddable.PositionsCount;
 
 @Getter
 @Setter
@@ -27,5 +27,5 @@ public final class SportObjectPositionCreatedEvent extends DomainEvent implement
     private String name;
     private String description;
     @Embedded
-    private PositiveNumber positionsCount;
+    private PositionsCount positionsCount;
 }

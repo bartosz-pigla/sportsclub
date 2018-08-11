@@ -9,7 +9,7 @@ import api.sportObject.sportObjectPosition.event.SportObjectPositionCreatedEvent
 import domain.sportObject.AbstractSportObjectTest;
 import domain.sportObject.exception.SportObjectPositionNameAlreadyExists;
 import org.junit.Test;
-import query.model.embeddable.PositiveNumber;
+import query.model.embeddable.PositionsCount;
 
 public final class CreateSportObjectPositionTest extends AbstractSportObjectTest {
 
@@ -19,7 +19,7 @@ public final class CreateSportObjectPositionTest extends AbstractSportObjectTest
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
                 .name(sportObjectPositionCreatedEvent.getName())
                 .description("description1")
-                .positionsCount(new PositiveNumber(12))
+                .positionsCount(new PositionsCount(12))
                 .build();
 
         testFixture.given(sportObjectCreatedEvent, sportObjectPositionCreatedEvent)
@@ -34,7 +34,7 @@ public final class CreateSportObjectPositionTest extends AbstractSportObjectTest
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
                 .name("name2")
                 .description("description1")
-                .positionsCount(new PositiveNumber(12))
+                .positionsCount(new PositionsCount(12))
                 .build();
 
         testFixture.given(sportObjectCreatedEvent, sportObjectPositionCreatedEvent)

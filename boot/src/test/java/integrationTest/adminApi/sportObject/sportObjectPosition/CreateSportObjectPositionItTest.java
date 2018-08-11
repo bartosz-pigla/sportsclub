@@ -5,8 +5,10 @@ import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_POSITION;
 
 import java.net.MalformedURLException;
 import java.util.List;
+import java.util.UUID;
 
 import api.sportObject.command.CreateSportObjectCommand;
+import api.sportObject.sportObjectPosition.command.CreateSportObjectPositionCommand;
 import api.sportsclub.command.CreateSportsclubCommand;
 import commons.ErrorCode;
 import integrationTest.adminApi.sportObject.AbstractSportObjectItTest;
@@ -52,11 +54,17 @@ public final class CreateSportObjectPositionItTest extends AbstractSportObjectIt
     public void shouldNotCreateWhenNameAlreadyExists() throws MalformedURLException {
         CreateSportsclubCommand createSportsclubCommand = createSportsclub();
         CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
+        UUID sportObjectId = sportObjectRepository.findByNameAndDeletedFalse(createSportObjectCommand.getName()).get().getId();
+        CreateSportObjectPositionCommand createSportObjectPositionCommand = createSportObjectPosition(sportObjectId);
         signIn("superuser", "password");
 
         String sportsclubName = createSportsclubCommand.getName();
         String sportObjectName = createSportObjectCommand.getName();
-        SportObjectPositionDto position = new SportObjectPositionDto();
+        SportObjectPositionDto position = SportObjectPositionDto.builder()
+                .name(createSportObjectPositionCommand.getName())
+                .description("description1")
+                .positionsCount(12)
+                .build();
 
         ResponseEntity<List> sportObjectPositionDtoResponseEntity = restTemplate.postForEntity(
                 ADMIN_CONSOLE_SPORT_OBJECT_POSITION,

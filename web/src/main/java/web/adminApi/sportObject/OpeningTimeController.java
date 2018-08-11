@@ -103,7 +103,7 @@ final class OpeningTimeController extends BaseController {
         OpeningTimeDto startTime = openingTimeRangeDto.getStartTime();
         OpeningTimeDto finishTime = openingTimeRangeDto.getFinishTime();
 
-        return sendCommand(sportsclubName, sportObjectName, openingTimeId, (sportObject, openingTime) ->
+        return getResponse(sportsclubName, sportObjectName, openingTimeId, (sportObject, openingTime) ->
                 commandGateway.sendAndWait(UpdateOpeningTimeCommand.builder()
                         .openingTimeId(openingTime.getId())
                         .sportObjectId(sportObject.getId())
@@ -122,22 +122,22 @@ final class OpeningTimeController extends BaseController {
             return ResponseEntity.badRequest().build();
         }
 
-        return sendCommand(sportsclubName, sportObjectName, openingTimeId, (sportObject, openingTime) ->
+        return getResponse(sportsclubName, sportObjectName, openingTimeId, (sportObject, openingTime) ->
                 commandGateway.sendAndWait(DeleteOpeningTimeCommand.builder()
                         .openingTimeId(openingTime.getId())
                         .sportObjectId(sportObject.getId()).build()));
     }
 
-    private ResponseEntity<?> sendCommand(String sportsclubName,
+    private ResponseEntity<?> getResponse(String sportsclubName,
                                           String sportObjectName,
                                           String openingTimeId,
-                                          BiConsumer<SportObjectEntity, OpeningTimeEntity> consumer) {
+                                          BiConsumer<SportObjectEntity, OpeningTimeEntity> sendCommand) {
         Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
         Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findByNameAndDeletedFalse(sportObjectName);
         Optional<OpeningTimeEntity> openingTimeOptional = openingTimeRepository.findByIdAndDeletedFalse(UUID.fromString(openingTimeId));
 
         if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent() && openingTimeOptional.isPresent()) {
-            consumer.accept(sportObjectOptional.get(), openingTimeOptional.get());
+            sendCommand.accept(sportObjectOptional.get(), openingTimeOptional.get());
             return ResponseEntity.ok(OpeningTimeRangeDtoFactory.create(openingTimeRepository.getOne(UUID.fromString(openingTimeId))));
         } else {
             return ResponseEntity.badRequest().build();

@@ -9,10 +9,10 @@ import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.UUID;
 
+import api.sportObject.event.SportObjectCreatedEvent;
 import api.sportObject.openingTime.command.UpdateOpeningTimeCommand;
 import api.sportObject.openingTime.event.OpeningTimeCreatedEvent;
 import api.sportObject.openingTime.event.OpeningTimeUpdatedEvent;
-import api.sportObject.event.SportObjectCreatedEvent;
 import domain.common.exception.NotExistsException;
 import domain.sportObject.AbstractSportObjectTest;
 import domain.sportObject.exception.OpeningTimeRangeConflictException;

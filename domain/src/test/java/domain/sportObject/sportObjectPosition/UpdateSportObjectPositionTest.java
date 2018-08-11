@@ -15,7 +15,7 @@ import domain.common.exception.NotExistsException;
 import domain.sportObject.AbstractSportObjectTest;
 import domain.sportObject.exception.SportObjectPositionNameAlreadyExists;
 import org.junit.Test;
-import query.model.embeddable.PositiveNumber;
+import query.model.embeddable.PositionsCount;
 
 public final class UpdateSportObjectPositionTest extends AbstractSportObjectTest {
 
@@ -24,7 +24,7 @@ public final class UpdateSportObjectPositionTest extends AbstractSportObjectTest
             .sportObjectId(sportObjectId)
             .name("name1")
             .description("description2")
-            .positionsCount(new PositiveNumber(12))
+            .positionsCount(new PositionsCount(12))
             .build();
 
     @Test
@@ -50,7 +50,7 @@ public final class UpdateSportObjectPositionTest extends AbstractSportObjectTest
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
                 .name("name2")
                 .description("description1")
-                .positionsCount(new PositiveNumber(11))
+                .positionsCount(new PositionsCount(11))
                 .build();
 
         testFixture.given(sportObjectCreatedEvent, sportObjectPositionCreatedEvent, otherPositionCreatedEvent)
@@ -59,7 +59,7 @@ public final class UpdateSportObjectPositionTest extends AbstractSportObjectTest
                         .sportObjectId(sportObjectId)
                         .name("name2")
                         .description("description2")
-                        .positionsCount(new PositiveNumber(12))
+                        .positionsCount(new PositionsCount(12))
                         .build())
                 .expectNoEvents()
                 .expectException(SportObjectPositionNameAlreadyExists.class);

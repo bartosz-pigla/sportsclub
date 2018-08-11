@@ -1,6 +1,6 @@
 package query.model.embeddable;
 
-import static query.model.embeddable.validation.PositiveNumberValidator.isInvalid;
+import static query.model.embeddable.validation.PositionsCountValidator.isInvalid;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -13,16 +13,16 @@ import query.exception.ValueObjectCreationException;
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PositiveNumber {
+public class PositionsCount {
 
     @Column
-    private Integer positiveNumber;
+    private Integer positionsCount;
 
-    public PositiveNumber(Integer positiveNumber) {
-        if (isInvalid(positiveNumber)) {
+    public PositionsCount(Integer positionsCount) {
+        if (isInvalid(positionsCount)) {
             throw new ValueObjectCreationException();
         } else {
-            this.positiveNumber = positiveNumber;
+            this.positionsCount = positionsCount;
         }
     }
 }

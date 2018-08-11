@@ -17,7 +17,7 @@ import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
 import query.model.embeddable.OpeningTimeRange;
-import query.model.embeddable.PositiveNumber;
+import query.model.embeddable.PositionsCount;
 import query.model.embeddable.Price;
 import query.repository.OpeningTimeEntityRepository;
 import query.repository.SportObjectEntityRepository;
@@ -62,7 +62,7 @@ public abstract class AbstractSportObjectItTest extends AbstractSportsclubItTest
                 .sportObjectId(sportObjectId)
                 .name("name1")
                 .description("description1")
-                .positionsCount(new PositiveNumber(11))
+                .positionsCount(new PositionsCount(11))
                 .build();
         commandGateway.sendAndWait(command);
         return command;

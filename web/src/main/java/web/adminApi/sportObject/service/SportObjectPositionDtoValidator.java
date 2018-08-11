@@ -6,7 +6,7 @@ import commons.ErrorCode;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import query.model.embeddable.validation.PositiveNumberValidator;
+import query.model.embeddable.validation.PositionsCountValidator;
 import web.adminApi.sportObject.dto.SportObjectPositionDto;
 
 @Service
@@ -21,12 +21,12 @@ public class SportObjectPositionDtoValidator implements Validator {
     public void validate(Object o, Errors errors) {
         SportObjectPositionDto dto = (SportObjectPositionDto) o;
         validateName(dto.getName(), errors);
-        PositiveNumberValidator.validate(dto.getPositionsCount(), errors);
+        PositionsCountValidator.validate(dto.getPositionsCount(), errors);
     }
 
     private void validateName(String name, Errors errors) {
-        if(isBlank(name)) {
-            errors.reject("name", ErrorCode.EMPTY.getCode());
+        if (isBlank(name)) {
+            errors.rejectValue("name", ErrorCode.EMPTY.getCode());
         }
     }
 }

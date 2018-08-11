@@ -19,7 +19,7 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import query.model.embeddable.PositiveNumber;
+import query.model.embeddable.PositionsCount;
 import web.adminApi.sportObject.dto.SportObjectPositionDto;
 
 public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItTest {
@@ -42,17 +42,18 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
                 .positionsCount(2)
                 .build();
 
-        ResponseEntity<List> sportObjectPositionDtoResponseEntity = put(
+        ResponseEntity<SportObjectPositionDto> sportObjectPositionDtoResponseEntity = put(
                 ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME,
                 position,
-                List.class,
+                SportObjectPositionDto.class,
                 sportsclubName, sportObjectName, sportObjectPositionName);
 
-        assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.CONFLICT);
+        assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.OK);
+        SportObjectPositionDto responseBody = sportObjectPositionDtoResponseEntity.getBody();
 
-        List errors = sportObjectPositionDtoResponseEntity.getBody();
-        assertField("name", ErrorCode.EMPTY.getCode(), errors);
-        assertField("positionsCount", ErrorCode.EMPTY.getCode(), errors);
+        assertEquals(position.getName(), responseBody.getName());
+        assertEquals(position.getDescription(), responseBody.getDescription());
+        assertEquals(position.getPositionsCount(), responseBody.getPositionsCount());
         assertTrue(sportObjectPositionRepository.findByNameAndDeletedFalse(position.getName()).isPresent());
     }
 
@@ -69,7 +70,7 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
                 .sportObjectId(sportObjectId)
                 .name("name2")
                 .description("description2")
-                .positionsCount(new PositiveNumber(12))
+                .positionsCount(new PositionsCount(12))
                 .build());
 
         String sportsclubName = createSportsclubCommand.getName();
@@ -119,10 +120,7 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
                 List.class,
                 sportsclubName, sportObjectName, sportObjectPositionName);
 
-        assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.CONFLICT);
-
-        List errors = sportObjectPositionDtoResponseEntity.getBody();
-        assertField("name", ErrorCode.ALREADY_DELETED.getCode(), errors);
+        assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
         assertFalse(sportObjectPositionRepository.findByNameAndDeletedFalse(position.getName()).isPresent());
     }
 
