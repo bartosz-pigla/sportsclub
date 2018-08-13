@@ -7,7 +7,9 @@ import query.model.announcement.QAnnouncementEntity;
 
 public final class AnnouncementQueryExpressions {
 
+    private static final QAnnouncementEntity announcement = QAnnouncementEntity.announcementEntity;
+
     public BooleanExpression titleMatches(String title) {
-        return isNotDeleted().and(QAnnouncementEntity.announcementEntity.title.eq(title));
+        return isNotDeleted(announcement._super).and(announcement.title.eq(title));
     }
 }

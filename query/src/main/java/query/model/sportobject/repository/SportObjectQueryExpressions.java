@@ -12,10 +12,10 @@ public final class SportObjectQueryExpressions {
     private static final QSportObjectEntity sportObject = QSportObjectEntity.sportObjectEntity;
 
     public static BooleanExpression nameMatches(String name) {
-        return isNotDeleted().and(sportObject.name.eq(name));
+        return isNotDeleted(sportObject._super).and(sportObject.name.eq(name));
     }
 
     public static BooleanExpression nameAndIdMatches(String name, UUID id) {
-        return isNotDeleted().and(sportObject.name.eq(name)).and(sportObject.id.eq(id));
+        return isNotDeleted(sportObject._super).and(sportObject.name.eq(name)).and(sportObject.id.eq(id));
     }
 }

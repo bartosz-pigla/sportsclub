@@ -7,7 +7,10 @@ import query.model.sportobject.QSportObjectPositionEntity;
 
 public final class SportObjectPositionQueryExpressions {
 
+    private static final QSportObjectPositionEntity sportObjectPosition =
+            QSportObjectPositionEntity.sportObjectPositionEntity;
+
     public static BooleanExpression nameMatches(String sportObjectName) {
-        return isNotDeleted().and(QSportObjectPositionEntity.sportObjectPositionEntity.name.eq(sportObjectName));
+        return isNotDeleted(sportObjectPosition._super).and(sportObjectPosition.name.eq(sportObjectName));
     }
 }

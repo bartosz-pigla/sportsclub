@@ -2,7 +2,7 @@ package domain.user;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.beans.BeanUtils.copyProperties;
-import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
+import static query.model.user.repository.UserQueryExpressions.idMatches;
 
 import java.util.UUID;
 

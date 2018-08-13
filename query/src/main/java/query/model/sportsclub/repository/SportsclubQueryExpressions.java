@@ -7,7 +7,9 @@ import query.model.sportsclub.QSportsclubEntity;
 
 public final class SportsclubQueryExpressions {
 
+    private static final QSportsclubEntity sportsclub = QSportsclubEntity.sportsclubEntity;
+
     public static BooleanExpression nameMatches(String name) {
-        return isNotDeleted().and(QSportsclubEntity.sportsclubEntity.name.eq(name));
+        return isNotDeleted(sportsclub._super).and(sportsclub.name.eq(name));
     }
 }
