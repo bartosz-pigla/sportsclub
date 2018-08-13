@@ -20,8 +20,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
+import query.model.sportobject.repository.SportObjectQueryExpressions;
+import query.model.sportsclub.repository.SportsclubQueryExpressions;
+import web.adminApi.sportObject.dto.AddressDto;
 import web.adminApi.sportObject.dto.SportObjectDto;
-import web.common.dto.AddressDto;
 
 public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
 
@@ -53,7 +55,9 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
         SportObjectDto response = createSportObjectResponse.getBody();
         assertEquals(response.getName(), sportObject.getName());
         assertEquals(response.getSportsclubName(), sportObject.getSportsclubName());
-        assertTrue(sportObjectRepository.existsByNameAndDeletedFalse(sportObjectName));
+
+        assertTrue(sportObjectRepository.exists(
+                SportObjectQueryExpressions.nameMatches(sportObjectName)));
     }
 
     @Test
@@ -134,7 +138,9 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
 
         assertEquals(createSportObjectResponse.getStatusCode(), HttpStatus.CONFLICT);
         assertField("name", ErrorCode.ALREADY_EXISTS.getCode(), createSportObjectResponse.getBody());
-        assertTrue(sportObjectRepository.existsByNameAndDeletedFalse(sportObjectName));
+
+        assertTrue(sportObjectRepository.exists(
+                SportObjectQueryExpressions.nameMatches(sportObjectName)));
     }
 
     @Test
@@ -161,7 +167,9 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
 
         assertEquals(createSportObjectResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
         assertField("name", ErrorCode.EMPTY.getCode(), createSportObjectResponse.getBody());
-        assertTrue(sportObjectRepository.existsByNameAndDeletedFalse(sportObjectName));
+
+        assertTrue(sportObjectRepository.exists(
+                SportObjectQueryExpressions.nameMatches(sportObjectName)));
     }
 
     @Test
@@ -170,7 +178,9 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
         CreateSportsclubCommand createSportsclubCommand = createSportsclub();
         CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
 
-        UUID sportObjectId = sportObjectRepository.findByNameAndDeletedFalse(createSportObjectCommand.getName()).get().getId();
+        UUID sportObjectId = sportObjectRepository.findOne(
+                SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName())).get().getId();
+
         DeleteSportObjectCommand deleteSportObjectCommand = DeleteSportObjectCommand.builder()
                 .sportObjectId(sportObjectId)
                 .build();
@@ -197,7 +207,8 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
     }
 
     private CreateSportObjectCommand createAnotherSportObject(CreateSportsclubCommand createSportsclubCommand) throws MalformedURLException {
-        UUID sportsclubId = sportsclubRepository.findByName(createSportsclubCommand.getName()).get().getId();
+        UUID sportsclubId = sportsclubRepository.findOne(
+                SportsclubQueryExpressions.nameMatches(createSportsclubCommand.getName())).get().getId();
 
         CreateSportObjectCommand createSportObjectCommand = CreateSportObjectCommand.builder()
                 .sportsclubId(sportsclubId)

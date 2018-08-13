@@ -2,6 +2,7 @@ package domain.sportsclub;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.beans.BeanUtils.copyProperties;
+import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
 
 import java.util.UUID;
 
@@ -17,11 +18,11 @@ import org.axonframework.eventhandling.EventHandler;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 import query.model.announcement.AnnouncementEntity;
+import query.model.announcement.repository.AnnouncementEntityRepository;
 import query.model.sportsclub.SportsclubEntity;
-import query.model.statute.StatuteEntity;
-import query.repository.AnnouncementEntityRepository;
-import query.repository.SportsclubEntityRepository;
-import query.repository.StatuteEntityRepository;
+import query.model.sportsclub.StatuteEntity;
+import query.model.sportsclub.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.StatuteEntityRepository;
 
 @Component
 @AllArgsConstructor
@@ -56,7 +57,7 @@ public class SportsclubEntityEventHandler {
     public void on(StatuteUpdatedEvent event) {
         logger.info("Updating statute to database");
         UUID statuteId = event.getStatuteId();
-        StatuteEntity statute = statuteRepository.findById(statuteId).orElseThrow(() -> new EntityNotExistsException(StatuteEntity.class, statuteId));
+        StatuteEntity statute = statuteRepository.findOne(idMatches(statuteId)).orElseThrow(() -> new EntityNotExistsException(StatuteEntity.class, statuteId));
         copyProperties(event, statute);
         statuteRepository.save(statute);
     }
@@ -77,7 +78,7 @@ public class SportsclubEntityEventHandler {
     public void on(AnnouncementUpdatedEvent event) {
         UUID announcementId = event.getAnnouncementId();
         logger.info("Updating announcement with title: {} to database", event.getTitle());
-        AnnouncementEntity announcement = announcementRepository.findById(announcementId).orElseThrow(() -> new EntityNotExistsException(AnnouncementEntity.class, announcementId));
+        AnnouncementEntity announcement = announcementRepository.findOne(idMatches(announcementId)).orElseThrow(() -> new EntityNotExistsException(AnnouncementEntity.class, announcementId));
         copyProperties(event, announcement);
         announcement.setLastModificationDate(event.getCreatedOn());
         announcementRepository.save(announcement);
@@ -87,7 +88,7 @@ public class SportsclubEntityEventHandler {
     public void on(AnnouncementDeletedEvent event) {
         UUID announcementId = event.getAnnouncementId();
         logger.info("Deleting announcement with id: {} from database", announcementId);
-        AnnouncementEntity announcement = announcementRepository.findById(announcementId).orElseThrow(() -> new EntityNotExistsException(AnnouncementEntity.class, announcementId));
+        AnnouncementEntity announcement = announcementRepository.findOne(idMatches(announcementId)).orElseThrow(() -> new EntityNotExistsException(AnnouncementEntity.class, announcementId));
         announcement.setDeleted(true);
         announcementRepository.save(announcement);
     }

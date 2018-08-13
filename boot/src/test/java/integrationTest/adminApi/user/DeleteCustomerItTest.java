@@ -1,6 +1,8 @@
 package integrationTest.adminApi.user;
 
 import static org.junit.Assert.assertEquals;
+import static query.model.user.repository.ActivationLinkQueryExpressions.customerIdMatches;
+import static query.model.user.repository.UserQueryExpressions.usernameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_CUSTOMER_BY_USERNAME;
 
 import java.util.List;
@@ -21,11 +23,10 @@ import org.springframework.test.annotation.DirtiesContext;
 import query.model.embeddable.Email;
 import query.model.embeddable.PhoneNumber;
 import query.model.user.ActivationLinkEntry;
-import query.model.user.UserEntity;
 import query.model.user.UserType;
-import query.repository.ActivationLinkEntryRepository;
-import query.repository.UserEntityRepository;
-import web.common.dto.DeleteUserWebCommand;
+import query.model.user.dto.UserDto;
+import query.model.user.repository.ActivationLinkEntryRepository;
+import query.model.user.repository.UserEntityRepository;
 
 public final class DeleteCustomerItTest extends AbstractUserItTest {
 
@@ -43,16 +44,16 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
         activateCustomer(createCustomerCommand);
 
         signIn("superuser", "password");
-        ResponseEntity<DeleteUserWebCommand> deleteCustomerResponse = restTemplate.exchange(
+        ResponseEntity<UserDto> deleteCustomerResponse = restTemplate.exchange(
                 ADMIN_CONSOLE_CUSTOMER_BY_USERNAME,
                 HttpMethod.DELETE,
                 null,
-                DeleteUserWebCommand.class,
+                UserDto.class,
                 createCustomerCommand.getUsername());
 
         assertEquals(deleteCustomerResponse.getStatusCode(), HttpStatus.OK);
 
-        DeleteUserWebCommand responseBody = deleteCustomerResponse.getBody();
+        UserDto responseBody = deleteCustomerResponse.getBody();
         assertEquals(createCustomerCommand.getEmail().getEmail(), responseBody.getEmail());
         assertEquals(createCustomerCommand.getPhoneNumber().getPhoneNumber(), responseBody.getPhoneNumber());
         assertEquals(createCustomerCommand.getUsername(), responseBody.getUsername());
@@ -63,7 +64,7 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
     public void shouldNotDeleteAlreadyDeletedCustomer() {
         CreateUserCommand createCustomerCommand = createCustomer();
         activateCustomer(createCustomerCommand);
-        deleteCustomer(userRepository.findByUsernameAndDeletedFalse(createCustomerCommand.getUsername()).get().getId());
+        deleteCustomer(userRepository.findOne(usernameMatches(createCustomerCommand.getUsername())).get().getId());
 
         signIn("superuser", "password");
         ResponseEntity<List> deleteCustomerResponse = restTemplate.exchange(
@@ -102,13 +103,14 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
     }
 
     private ActivateCustomerCommand activateCustomer(CreateUserCommand command) {
-        UserEntity customer = userRepository.findByUsernameAndDeletedFalse(command.getUsername()).get();
+        UUID customerId = userRepository.findOne(usernameMatches(command.getUsername())).get().getId();
 
         SendActivationLinkCommand sendActivationLinkCommand = SendActivationLinkCommand.builder()
-                .customerId(customer.getId()).build();
+                .customerId(customerId).build();
         commandGateway.sendAndWait(sendActivationLinkCommand);
 
-        ActivationLinkEntry activationLink = activationLinkRepository.findByCustomerAndDeletedFalse(customer);
+        ActivationLinkEntry activationLink = activationLinkRepository.findOne(customerIdMatches(customerId)).get();
+
         ActivateCustomerCommand activateCustomerCommand = ActivateCustomerCommand.builder()
                 .activationKey(activationLink.getId())
                 .customerId(activationLink.getCustomer().getId()).build();

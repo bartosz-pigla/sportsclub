@@ -46,7 +46,6 @@ public final class RequestMappings {
     public static final String ADMIN_CONSOLE_SPORT_OBJECT_POSITION = ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME + "sport-object-position";
     public static final String ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME = ADMIN_CONSOLE_SPORT_OBJECT_POSITION + SPORT_OBJECT_POSITION_NAME_PARAMETER;
 
-
     public static String getAntMatcher(String requestMapping) {
         return requestMapping + "/**";
     }

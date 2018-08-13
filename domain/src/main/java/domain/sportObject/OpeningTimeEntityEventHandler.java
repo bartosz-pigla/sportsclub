@@ -14,8 +14,8 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 import query.model.sportobject.OpeningTimeEntity;
 import query.model.sportobject.SportObjectEntity;
-import query.repository.OpeningTimeEntityRepository;
-import query.repository.SportObjectEntityRepository;
+import query.model.sportobject.repository.OpeningTimeEntityRepository;
+import query.model.sportobject.repository.SportObjectEntityRepository;
 
 @Component
 @AllArgsConstructor

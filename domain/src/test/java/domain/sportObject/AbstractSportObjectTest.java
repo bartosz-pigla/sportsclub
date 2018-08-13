@@ -17,8 +17,8 @@ import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
 import query.model.embeddable.PositionsCount;
-import query.repository.SportObjectEntityRepository;
-import query.repository.SportsclubEntityRepository;
+import query.model.sportobject.repository.SportObjectEntityRepository;
+import query.model.sportsclub.repository.SportsclubEntityRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractSportObjectTest {

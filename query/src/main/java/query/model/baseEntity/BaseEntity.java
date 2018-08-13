@@ -1,4 +1,4 @@
-package query.model;
+package query.model.baseEntity;
 
 import java.util.UUID;
 

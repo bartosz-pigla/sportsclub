@@ -10,11 +10,11 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import query.repository.BookingDetailEntityRepository;
-import query.repository.BookingEntityRepository;
-import query.repository.OpeningTimeEntityRepository;
-import query.repository.SportObjectPositionEntityRepository;
-import query.repository.UserEntityRepository;
+import query.model.booking.repository.BookingDetailEntityRepository;
+import query.model.booking.repository.BookingEntityRepository;
+import query.model.sportobject.repository.OpeningTimeEntityRepository;
+import query.model.sportobject.repository.SportObjectPositionEntityRepository;
+import query.model.user.repository.UserEntityRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractBookingTest {

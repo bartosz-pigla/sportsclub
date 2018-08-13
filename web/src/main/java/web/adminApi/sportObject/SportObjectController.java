@@ -35,14 +35,16 @@ import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
 import query.model.sportobject.SportObjectEntity;
+import query.model.sportobject.repository.SportObjectEntityRepository;
+import query.model.sportobject.repository.SportObjectQueryExpressions;
 import query.model.sportsclub.SportsclubEntity;
-import query.repository.SportObjectEntityRepository;
-import query.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.SportsclubQueryExpressions;
+import web.adminApi.sportObject.dto.AddressDto;
 import web.adminApi.sportObject.dto.SportObjectDto;
 import web.adminApi.sportObject.dto.SportObjectDtoFactory;
 import web.adminApi.sportObject.service.SportObjectDtoValidator;
 import web.common.BaseController;
-import web.common.dto.AddressDto;
 import web.common.dto.FieldErrorDto;
 
 @RestController
@@ -64,7 +66,9 @@ final class SportObjectController extends BaseController {
             return validationResponseService.getResponse(bindingResult);
         }
 
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
+                SportsclubQueryExpressions.nameMatches(sportsclubName));
+
         if (sportsclubOptional.isPresent()) {
             SportsclubEntity sportsclub = sportsclubOptional.get();
             AddressDto address = sportObject.getAddress();
@@ -92,8 +96,11 @@ final class SportObjectController extends BaseController {
             return validationResponseService.getResponse(bindingResult);
         }
 
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
-        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findByNameAndDeletedFalse(sportObjectName);
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
+                SportsclubQueryExpressions.nameMatches(sportsclubName));
+
+        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
+                SportObjectQueryExpressions.nameMatches(sportObjectName));
 
         if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent()) {
             UUID sportsclubId = sportsclubOptional.get().getId();
@@ -121,8 +128,11 @@ final class SportObjectController extends BaseController {
     @DeleteMapping(ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME)
     ResponseEntity<?> deleteSportObject(@PathVariable String sportsclubName,
                                         @PathVariable String sportObjectName) {
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
-        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findByNameAndDeletedFalse(sportObjectName);
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
+                SportsclubQueryExpressions.nameMatches(sportsclubName));
+
+        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
+                SportObjectQueryExpressions.nameMatches(sportObjectName));
 
         if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent()) {
             SportObjectEntity sportObject = sportObjectOptional.get();

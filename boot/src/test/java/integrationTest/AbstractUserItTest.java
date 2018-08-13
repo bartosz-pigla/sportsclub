@@ -3,6 +3,7 @@ package integrationTest;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static query.model.user.repository.UserQueryExpressions.usernameMatches;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import query.model.user.UserEntity;
-import query.repository.UserEntityRepository;
-import web.common.dto.CreateUserWebCommand;
+import query.model.user.repository.UserEntityRepository;
+import web.common.user.dto.CreateUserWebCommand;
 
 public abstract class AbstractUserItTest extends IntegrationTest {
 
@@ -43,7 +44,7 @@ public abstract class AbstractUserItTest extends IntegrationTest {
     }
 
     protected void shouldSaveUserWhenAllFieldsAreValid(String userRequestMapping) {
-        assertFalse(userRepository.existsByUsernameAndDeletedFalse(createUserWebCommand.getUsername()));
+        assertFalse(userRepository.exists(usernameMatches(createUserWebCommand.getUsername())));
 
         ResponseEntity<CreateUserWebCommand> responseEntity = restTemplate.postForEntity(
                 userRequestMapping, createUserWebCommand, CreateUserWebCommand.class);
@@ -51,7 +52,7 @@ public abstract class AbstractUserItTest extends IntegrationTest {
         assertEquals(responseEntity.getStatusCode(), HttpStatus.OK);
         assertEquals(responseEntity.getBody(), createUserWebCommand);
 
-        Optional<UserEntity> userEntityOptional = userRepository.findByUsernameAndDeletedFalse(createUserWebCommand.getUsername());
+        Optional<UserEntity> userEntityOptional = userRepository.findOne(usernameMatches(createUserWebCommand.getUsername()));
         assertTrue(userEntityOptional.isPresent());
         assertFalse(userEntityOptional.get().isActivated());
     }

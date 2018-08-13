@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import query.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.SportsclubEntityRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 abstract class AbstractSportsclubTest {

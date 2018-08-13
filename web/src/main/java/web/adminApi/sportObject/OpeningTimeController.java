@@ -1,5 +1,7 @@
 package web.adminApi.sportObject;
 
+import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
+import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_OPENING_TIME;
 import static web.common.RequestMappings.ADMIN_CONSOLE_OPENING_TIME_BY_ID;
 
@@ -35,10 +37,12 @@ import query.model.embeddable.OpeningTimeRange;
 import query.model.embeddable.Price;
 import query.model.sportobject.OpeningTimeEntity;
 import query.model.sportobject.SportObjectEntity;
+import query.model.sportobject.repository.OpeningTimeEntityRepository;
+import query.model.sportobject.repository.SportObjectEntityRepository;
+import query.model.sportobject.repository.SportObjectQueryExpressions;
 import query.model.sportsclub.SportsclubEntity;
-import query.repository.OpeningTimeEntityRepository;
-import query.repository.SportObjectEntityRepository;
-import query.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.SportsclubQueryExpressions;
 import web.adminApi.sportObject.dto.OpeningTimeDto;
 import web.adminApi.sportObject.dto.OpeningTimeRangeDto;
 import web.adminApi.sportObject.dto.OpeningTimeRangeDtoFactory;
@@ -69,8 +73,11 @@ final class OpeningTimeController extends BaseController {
             return validationResponseService.getResponse(bindingResult);
         }
 
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
-        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findByNameAndDeletedFalse(sportObjectName);
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
+                SportsclubQueryExpressions.nameMatches(sportsclubName));
+
+        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
+                SportObjectQueryExpressions.nameMatches(sportObjectName));
 
         if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent()) {
             UUID sportObjectId = sportObjectOptional.get().getId();
@@ -132,9 +139,12 @@ final class OpeningTimeController extends BaseController {
                                           String sportObjectName,
                                           String openingTimeId,
                                           BiConsumer<SportObjectEntity, OpeningTimeEntity> sendCommand) {
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
-        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findByNameAndDeletedFalse(sportObjectName);
-        Optional<OpeningTimeEntity> openingTimeOptional = openingTimeRepository.findByIdAndDeletedFalse(UUID.fromString(openingTimeId));
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(nameMatches(sportsclubName));
+
+        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
+                SportObjectQueryExpressions.nameMatches(sportObjectName));
+
+        Optional<OpeningTimeEntity> openingTimeOptional = openingTimeRepository.findOne(idMatches(UUID.fromString(openingTimeId)));
 
         if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent() && openingTimeOptional.isPresent()) {
             sendCommand.accept(sportObjectOptional.get(), openingTimeOptional.get());

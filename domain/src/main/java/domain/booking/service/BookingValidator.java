@@ -1,6 +1,7 @@
 package domain.booking.service;
 
 import static org.slf4j.LoggerFactory.getLogger;
+import static query.model.user.repository.UserQueryExpressions.idAndUserTypeMatches;
 
 import java.util.Collection;
 import java.util.UUID;
@@ -11,14 +12,14 @@ import domain.booking.exception.AlreadyCanceledException;
 import domain.booking.exception.AlreadyConfirmedException;
 import domain.booking.exception.AlreadyRejectedException;
 import domain.booking.exception.AlreadySubmitedException;
-import domain.booking.exception.CustomerNotExistsException;
 import domain.booking.exception.BookingDetailsNotExistsException;
+import domain.booking.exception.CustomerNotExistsException;
 import domain.booking.exception.NotSubmitedException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import query.model.user.UserType;
-import query.repository.UserEntityRepository;
+import query.model.user.repository.UserEntityRepository;
 
 @Service
 @AllArgsConstructor
@@ -31,7 +32,7 @@ public final class BookingValidator {
     public void validateCreate(CreateBookingCommand command) {
         UUID customerId = command.getCustomerId();
 
-        if (!userRepository.existsByIdAndUserTypeAndDeletedFalse(customerId, UserType.CUSTOMER)) {
+        if (!userRepository.exists(idAndUserTypeMatches(customerId, UserType.CUSTOMER))) {
             logger.error("Customer with id: {} not exists", customerId);
             throw new CustomerNotExistsException();
         }

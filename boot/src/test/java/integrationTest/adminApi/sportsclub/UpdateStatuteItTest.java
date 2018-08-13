@@ -2,6 +2,7 @@ package integrationTest.adminApi.sportsclub;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_STATUTE;
 
 import java.util.UUID;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import query.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.SportsclubEntityRepository;
 import web.adminApi.sportsclub.dto.StatuteDto;
 
 public final class UpdateStatuteItTest extends AbstractSportsclubItTest {
@@ -41,7 +42,7 @@ public final class UpdateStatuteItTest extends AbstractSportsclubItTest {
         StatuteDto response = addStatuteResponse.getBody();
         assertEquals(statute.getTitle(), response.getTitle());
         assertEquals(statute.getDescription(), response.getDescription());
-        assertNotNull(sportsclubRepository.findByName(createSportsclubCommand.getName()).get().getStatute());
+        assertNotNull(sportsclubRepository.findOne(nameMatches(createSportsclubCommand.getName())).get().getStatute());
     }
 
     @Test
@@ -86,9 +87,8 @@ public final class UpdateStatuteItTest extends AbstractSportsclubItTest {
         assertEquals(addStatuteResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 
-
     private UpdateStatuteCommand createStatute(CreateSportsclubCommand createSportsclubCommand) {
-        UUID sportsclubId = sportsclubRepository.findByName(createSportsclubCommand.getName()).get().getId();
+        UUID sportsclubId = sportsclubRepository.findOne(nameMatches(createSportsclubCommand.getName())).get().getId();
 
         UpdateStatuteCommand command = UpdateStatuteCommand.builder()
                 .sportsclubId(sportsclubId)

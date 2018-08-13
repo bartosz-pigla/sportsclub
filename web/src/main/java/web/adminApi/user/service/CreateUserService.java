@@ -1,4 +1,4 @@
-package web.common.service;
+package web.adminApi.user.service;
 
 import api.user.command.CreateUserCommand;
 import lombok.AllArgsConstructor;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import query.model.embeddable.Email;
 import query.model.embeddable.PhoneNumber;
 import query.model.user.UserType;
-import web.common.dto.CreateUserWebCommand;
+import web.common.user.dto.CreateUserWebCommand;
 
 @Service
 @AllArgsConstructor

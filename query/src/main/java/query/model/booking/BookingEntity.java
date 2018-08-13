@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import query.model.BaseEntity;
+import query.model.baseEntity.BaseEntity;
 import query.model.user.UserEntity;
 
 @Entity

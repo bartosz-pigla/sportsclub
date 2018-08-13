@@ -4,6 +4,7 @@ import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.matches;
 import static org.axonframework.test.matchers.Matchers.sequenceOf;
 import static org.mockito.Mockito.when;
+import static query.model.user.repository.UserQueryExpressions.usernameMatches;
 
 import api.user.event.UserCreatedEvent;
 import domain.common.exception.AlreadyCreatedException;
@@ -13,7 +14,7 @@ public final class CreateUserTest extends AbstractUserTest {
 
     @Test
     public void shouldNotCreateUserWhenAlreadyExists() {
-        when(userRepository.existsByUsernameAndDeletedFalse(createUserCommand.getUsername())).thenReturn(true);
+        when(userRepository.exists(usernameMatches(createUserCommand.getUsername()))).thenReturn(true);
 
         testFixture.given(userCreatedEvent)
                 .when(createUserCommand)

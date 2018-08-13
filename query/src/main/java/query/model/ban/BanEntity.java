@@ -9,7 +9,7 @@ import javax.persistence.InheritanceType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import query.model.BaseEntity;
+import query.model.baseEntity.BaseEntity;
 import query.model.embeddable.InetAddress;
 
 @Entity

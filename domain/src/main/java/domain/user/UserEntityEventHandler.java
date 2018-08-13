@@ -2,6 +2,7 @@ package domain.user;
 
 import static org.slf4j.LoggerFactory.getLogger;
 import static org.springframework.beans.BeanUtils.copyProperties;
+import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
 
 import java.util.UUID;
 
@@ -18,8 +19,8 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 import query.model.user.ActivationLinkEntry;
 import query.model.user.UserEntity;
-import query.repository.ActivationLinkEntryRepository;
-import query.repository.UserEntityRepository;
+import query.model.user.repository.ActivationLinkEntryRepository;
+import query.model.user.repository.UserEntityRepository;
 
 @Component
 @AllArgsConstructor
@@ -63,7 +64,7 @@ public class UserEntityEventHandler {
     }
 
     private void changeUserActivation(UUID userId, boolean isActivated) {
-        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new EntityNotExistsException(UserEntity.class, userId));
+        UserEntity user = userRepository.findOne(idMatches(userId)).orElseThrow(() -> new EntityNotExistsException(UserEntity.class, userId));
         user.setActivated(isActivated);
         userRepository.save(user);
     }
@@ -72,7 +73,7 @@ public class UserEntityEventHandler {
     public void on(UserDeletedEvent event) {
         logger.info("Deleting customer");
         UUID userId = event.getUserId();
-        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new EntityNotExistsException(UserEntity.class, userId));
+        UserEntity user = userRepository.findOne(idMatches(userId)).orElseThrow(() -> new EntityNotExistsException(UserEntity.class, userId));
         user.setDeleted(true);
         userRepository.save(user);
     }

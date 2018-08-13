@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import query.repository.AnnouncementEntityRepository;
+import query.model.announcement.repository.AnnouncementEntityRepository;
 import web.adminApi.announcement.dto.AnnouncementDto;
 
 public final class CreateAnnouncementItTest extends AbstractSportsclubItTest {

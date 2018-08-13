@@ -1,5 +1,7 @@
 package web.adminApi.announcement;
 
+import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
+import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_ANNOUNCEMENT;
 import static web.common.RequestMappings.ADMIN_CONSOLE_SPORTSCLUB_ANNOUNCEMENT_BY_ID;
 
@@ -20,9 +22,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import query.model.announcement.AnnouncementEntity;
+import query.model.announcement.repository.AnnouncementEntityRepository;
 import query.model.sportsclub.SportsclubEntity;
-import query.repository.AnnouncementEntityRepository;
-import query.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.SportsclubEntityRepository;
 import web.adminApi.announcement.dto.AnnouncementDto;
 import web.common.BaseController;
 
@@ -35,7 +37,7 @@ final class AnnouncementController extends BaseController {
 
     @PostMapping(ADMIN_CONSOLE_ANNOUNCEMENT)
     public ResponseEntity<?> createAnnouncement(@PathVariable String sportsclubName, @RequestBody AnnouncementDto announcement) {
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(nameMatches(sportsclubName));
 
         if (sportsclubOptional.isPresent()) {
             SportsclubEntity sportsclub = sportsclubOptional.get();
@@ -70,8 +72,8 @@ final class AnnouncementController extends BaseController {
             return ResponseEntity.badRequest().build();
         }
 
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
-        Optional<AnnouncementEntity> announcementOptional = announcementRepository.findById(UUID.fromString(announcementId));
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(nameMatches(sportsclubName));
+        Optional<AnnouncementEntity> announcementOptional = announcementRepository.findOne(idMatches(UUID.fromString(announcementId)));
 
         if (sportsclubOptional.isPresent() && announcementOptional.isPresent()) {
             SportsclubEntity sportsclub = sportsclubOptional.get();

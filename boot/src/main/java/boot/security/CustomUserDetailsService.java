@@ -1,5 +1,8 @@
 package boot.security;
 
+import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
+import static query.model.user.repository.UserQueryExpressions.usernameMatches;
+
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -9,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import query.model.user.UserEntity;
-import query.repository.UserEntityRepository;
+import query.model.user.repository.UserEntityRepository;
 import web.publicApi.signIn.dto.UserPrincipal;
 
 @Service
@@ -22,7 +25,7 @@ class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        UserEntity user = userRepository.findByUsernameAndDeletedFalse(username)
+        UserEntity user = userRepository.findOne(usernameMatches(username))
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
         return new UserPrincipal(user);
@@ -30,7 +33,7 @@ class CustomUserDetailsService implements UserDetailsService {
 
     @Transactional
     public UserDetails loadUserById(String id) {
-        UserEntity user = userRepository.findById(UUID.fromString(id)).orElseThrow(RuntimeException::new);
+        UserEntity user = userRepository.findOne(idMatches(UUID.fromString(id))).orElseThrow(RuntimeException::new);
         return new UserPrincipal(user);
     }
 }

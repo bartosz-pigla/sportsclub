@@ -1,6 +1,7 @@
 package integrationTest.publicApi.customer;
 
 import static org.junit.Assert.assertEquals;
+import static query.model.user.repository.ActivationLinkQueryExpressions.customerNameMatches;
 import static web.common.RequestMappings.CUSTOMER_ACTIVATION;
 import static web.common.RequestMappings.SIGN_UP;
 
@@ -13,9 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import query.model.user.ActivationLinkEntry;
-import query.model.user.UserEntity;
-import query.repository.ActivationLinkEntryRepository;
-import web.common.dto.CreateUserWebCommand;
+import query.model.user.repository.ActivationLinkEntryRepository;
+import web.common.user.dto.CreateUserWebCommand;
 import web.publicApi.signUp.dto.ActivateCustomerWebCommand;
 
 public final class ActivateCustomerItTest extends AbstractUserItTest {
@@ -30,8 +30,7 @@ public final class ActivateCustomerItTest extends AbstractUserItTest {
                 SIGN_UP, createUserWebCommand, CreateUserWebCommand.class);
         assertEquals(createCustomerResponse.getStatusCode(), HttpStatus.OK);
 
-        UserEntity customer = userRepository.findByUsernameAndDeletedFalse(createUserWebCommand.getUsername()).get();
-        ActivationLinkEntry activationLink = activationLinkRepository.findByCustomerAndDeletedFalse(customer);
+        ActivationLinkEntry activationLink = activationLinkRepository.findOne(customerNameMatches(createUserWebCommand.getUsername())).get();
 
         ActivateCustomerWebCommand activateCustomerCommand = ActivateCustomerWebCommand.builder()
                 .activationKey(activationLink.getId().toString()).build();

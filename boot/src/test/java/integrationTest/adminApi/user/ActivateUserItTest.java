@@ -2,6 +2,7 @@ package integrationTest.adminApi.user;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static query.model.user.repository.UserQueryExpressions.usernameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_USER_ACTIVATION;
 
 import java.util.List;
@@ -19,9 +20,9 @@ import query.model.embeddable.Email;
 import query.model.embeddable.PhoneNumber;
 import query.model.user.UserEntity;
 import query.model.user.UserType;
-import query.repository.UserEntityRepository;
+import query.model.user.dto.UserDto;
+import query.model.user.repository.UserEntityRepository;
 import web.adminApi.user.dto.UserActivationWebCommand;
-import web.common.dto.UserDto;
 
 public final class ActivateUserItTest extends AbstractUserItTest {
 
@@ -49,7 +50,7 @@ public final class ActivateUserItTest extends AbstractUserItTest {
         assertEquals(createCommand.getUsername(), responseBody.getUsername());
         assertEquals(createCommand.getUserType().name(), responseBody.getUserType());
 
-        assertTrue(userRepository.findByUsernameAndDeletedFalse(createCommand.getUsername()).get().isActivated());
+        assertTrue(userRepository.findOne(usernameMatches(createCommand.getUsername())).get().isActivated());
     }
 
     @Test
@@ -89,7 +90,7 @@ public final class ActivateUserItTest extends AbstractUserItTest {
         List errors = activateUserResponse.getBody();
         assertField("username", ErrorCode.ALREADY_ACTIVATED.getCode(), errors);
 
-        assertTrue(userRepository.findByUsernameAndDeletedFalse(createCommand.getUsername()).get().isActivated());
+        assertTrue(userRepository.findOne(usernameMatches(createCommand.getUsername())).get().isActivated());
 
     }
 
@@ -105,7 +106,7 @@ public final class ActivateUserItTest extends AbstractUserItTest {
     }
 
     private void activateUser(CreateUserCommand createCommand) {
-        UserEntity user = userRepository.findByUsernameAndDeletedFalse(createCommand.getUsername()).get();
+        UserEntity user = userRepository.findOne(usernameMatches(createCommand.getUsername())).get();
         ActivateUserCommand activateCommand = ActivateUserCommand.builder()
                 .userId(user.getId()).build();
         commandGateway.sendAndWait(activateCommand);

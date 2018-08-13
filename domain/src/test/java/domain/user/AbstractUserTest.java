@@ -25,7 +25,7 @@ import query.model.embeddable.Email;
 import query.model.embeddable.PhoneNumber;
 import query.model.user.UserEntity;
 import query.model.user.UserType;
-import query.repository.UserEntityRepository;
+import query.model.user.repository.UserEntityRepository;
 
 @RunWith(MockitoJUnitRunner.class)
 abstract class AbstractUserTest {

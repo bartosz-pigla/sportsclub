@@ -1,5 +1,6 @@
 package web.adminApi.sportsclub;
 
+import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_STATUTE;
 
 import java.util.Optional;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import query.model.sportsclub.SportsclubEntity;
-import query.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.SportsclubEntityRepository;
 import web.adminApi.sportsclub.dto.StatuteDto;
 import web.common.BaseController;
 
@@ -25,7 +26,8 @@ final class StatuteController extends BaseController {
 
     @PostMapping(ADMIN_CONSOLE_STATUTE)
     ResponseEntity<?> createOrUpdateStatute(@PathVariable String sportsclubName, @RequestBody StatuteDto statute) {
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
+                nameMatches(sportsclubName));
         if (sportsclubOptional.isPresent()) {
             SportsclubEntity sportsclub = sportsclubOptional.get();
             commandGateway.sendAndWait(UpdateStatuteCommand.builder()

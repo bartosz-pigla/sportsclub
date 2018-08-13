@@ -1,4 +1,4 @@
-package web.common;
+package web.common.user;
 
 import commons.ErrorCode;
 import domain.common.exception.AlreadyCreatedException;
@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import query.repository.UserEntityRepository;
+import query.model.user.repository.UserEntityRepository;
+import web.common.BaseController;
 
 @Setter(onMethod_ = { @Autowired })
 public abstract class UserBaseController extends BaseController {

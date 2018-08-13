@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import query.model.BaseEntity;
+import query.model.baseEntity.BaseEntity;
 import query.model.sportsclub.SportsclubEntity;
 
 @Entity

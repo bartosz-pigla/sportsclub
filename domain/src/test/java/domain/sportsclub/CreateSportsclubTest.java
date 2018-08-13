@@ -4,6 +4,7 @@ import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.matches;
 import static org.axonframework.test.matchers.Matchers.sequenceOf;
 import static org.mockito.Mockito.when;
+import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
 
 import java.util.UUID;
 
@@ -26,7 +27,7 @@ public final class CreateSportsclubTest extends AbstractSportsclubTest {
 
     @Test
     public void shouldNotCreateWhenNameAlreadyExists() {
-        when(sportsclubRepository.existsByName(createCommand.getName())).thenReturn(true);
+        when(sportsclubRepository.exists(nameMatches(createCommand.getName()))).thenReturn(true);
 
         testFixture.given(createdEvent)
                 .when(createCommand)

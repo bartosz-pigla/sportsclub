@@ -1,6 +1,9 @@
 package domain.sportObject.service;
 
 import static org.slf4j.LoggerFactory.getLogger;
+import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
+import static query.model.sportobject.repository.SportObjectQueryExpressions.nameAndIdMatches;
+import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
 
 import java.util.UUID;
 
@@ -13,8 +16,8 @@ import domain.sportObject.exception.NotAssignedToAnySportsclubException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
-import query.repository.SportObjectEntityRepository;
-import query.repository.SportsclubEntityRepository;
+import query.model.sportobject.repository.SportObjectEntityRepository;
+import query.model.sportsclub.repository.SportsclubEntityRepository;
 
 @Service
 @AllArgsConstructor
@@ -35,7 +38,7 @@ public final class SportObjectValidator {
         String sportObjectName = command.getName();
         assertThatIsNotDeleted(sportObject.isDeleted(), sportObjectName);
 
-        if (sportObjectRepository.existsByNameAndIdIsNotAndDeletedFalse(sportObjectName, sportObject.getSportObjectId())) {
+        if (sportObjectRepository.exists(nameAndIdMatches(sportObjectName, sportObject.getSportObjectId()))) {
             logger.error("Sport object with name {} already exists", sportObjectName);
             throw new AlreadyCreatedException();
         }
@@ -51,14 +54,14 @@ public final class SportObjectValidator {
     }
 
     private void assertThatNameIsUnique(String sportObjectName) {
-        if (sportObjectRepository.existsByNameAndDeletedFalse(sportObjectName)) {
+        if (sportObjectRepository.exists(nameMatches(sportObjectName))) {
             logger.error("Sport object with name {} already exists", sportObjectName);
             throw new AlreadyCreatedException();
         }
     }
 
     private void assertThatIsAssignedToExistingSportsclub(UUID sportsclubId, String sportObjectName) {
-        if (!sportsclubRepository.existsById(sportsclubId)) {
+        if (!sportsclubRepository.exists(idMatches(sportsclubId))) {
             logger.error("Sport object with name {} is not assigned to any sportsclub", sportObjectName);
             throw new NotAssignedToAnySportsclubException();
         }

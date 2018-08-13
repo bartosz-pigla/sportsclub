@@ -2,6 +2,7 @@ package integrationTest.adminApi.sportObject;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME;
 
 import java.net.MalformedURLException;
@@ -36,7 +37,7 @@ public final class DeleteSportObjectItTest extends AbstractSportObjectItTest {
         SportObjectDto sportObjectDto = deleteSportObjectResponse.getBody();
         assertEquals(sportObjectDto.getSportsclubName(), sportsclubName);
         assertEquals(sportObjectDto.getName(), sportObjectName);
-        assertFalse(sportObjectRepository.existsByNameAndDeletedFalse(sportObjectName));
+        assertFalse(sportObjectRepository.exists(nameMatches(sportObjectName)));
     }
 
     @Test

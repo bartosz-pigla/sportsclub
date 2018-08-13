@@ -16,9 +16,9 @@ import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 import query.model.booking.BookingEntity;
 import query.model.booking.BookingState;
+import query.model.booking.repository.BookingEntityRepository;
 import query.model.user.UserEntity;
-import query.repository.BookingEntityRepository;
-import query.repository.UserEntityRepository;
+import query.model.user.repository.UserEntityRepository;
 
 @Component
 @AllArgsConstructor

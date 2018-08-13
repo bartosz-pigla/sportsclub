@@ -4,6 +4,7 @@ import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.matches;
 import static org.axonframework.test.matchers.Matchers.sequenceOf;
 import static org.mockito.Mockito.when;
+import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,6 +18,7 @@ import org.junit.Test;
 import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
+import query.model.sportobject.repository.SportObjectQueryExpressions;
 
 public final class CreateSportObjectTest extends AbstractSportObjectTest {
 
@@ -28,8 +30,10 @@ public final class CreateSportObjectTest extends AbstractSportObjectTest {
                 .image(new URL("https://www.w3schools.com/w3css/img_lights.jpg"))
                 .name("name1").build();
 
-        when(sportObjectRepository.existsByNameAndDeletedFalse(createSportObjectCommand.getName())).thenReturn(false);
-        when(sportsclubRepository.existsById(createSportObjectCommand.getSportsclubId())).thenReturn(false);
+        when(sportObjectRepository.exists(
+                SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName()))).thenReturn(false);
+
+        when(sportsclubRepository.exists(idMatches(createSportObjectCommand.getSportsclubId()))).thenReturn(false);
 
         testFixture.given(sportsclubCreatedEvent)
                 .when(createSportObjectCommand)
@@ -46,8 +50,10 @@ public final class CreateSportObjectTest extends AbstractSportObjectTest {
                 .image(new URL("https://www.w3schools.com/w3css/img_lights.jpg"))
                 .name("name1").build();
 
-        when(sportObjectRepository.existsByNameAndDeletedFalse(createSportObjectCommand.getName())).thenReturn(false);
-        when(sportsclubRepository.existsById(createSportObjectCommand.getSportsclubId())).thenReturn(false);
+        when(sportObjectRepository.exists(
+                SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName()))).thenReturn(false);
+
+        when(sportsclubRepository.exists(idMatches(createSportObjectCommand.getSportsclubId()))).thenReturn(false);
 
         testFixture.given(sportsclubCreatedEvent)
                 .when(createSportObjectCommand)
@@ -63,7 +69,8 @@ public final class CreateSportObjectTest extends AbstractSportObjectTest {
                 .image(new URL("https://www.w3schools.com/w3css/img_lights.jpg"))
                 .name("name1").build();
 
-        when(sportObjectRepository.existsByNameAndDeletedFalse(createSportObjectCommand.getName())).thenReturn(true);
+        when(sportObjectRepository.exists(
+                SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName()))).thenReturn(true);
 
         testFixture.given(sportsclubCreatedEvent)
                 .when(createSportObjectCommand)
@@ -80,8 +87,10 @@ public final class CreateSportObjectTest extends AbstractSportObjectTest {
                 .image(new URL("https://www.w3schools.com/w3css/img_lights.jpg"))
                 .name("name1").build();
 
-        when(sportObjectRepository.existsByNameAndDeletedFalse(createSportObjectCommand.getName())).thenReturn(false);
-        when(sportsclubRepository.existsById(createSportObjectCommand.getSportsclubId())).thenReturn(true);
+        when(sportObjectRepository.exists(
+                SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName()))).thenReturn(false);
+
+        when(sportsclubRepository.exists(idMatches(createSportObjectCommand.getSportsclubId()))).thenReturn(true);
 
         testFixture.given(sportsclubCreatedEvent)
                 .when(createSportObjectCommand)

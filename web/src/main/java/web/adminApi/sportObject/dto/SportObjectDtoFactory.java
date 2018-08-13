@@ -1,7 +1,6 @@
 package web.adminApi.sportObject.dto;
 
 import query.model.sportobject.SportObjectEntity;
-import web.common.dto.AddressDto;
 
 public final class SportObjectDtoFactory {
 

@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import query.model.user.UserType;
-import web.common.UserBaseController;
-import web.common.dto.CreateUserWebCommand;
-import web.common.service.CreateUserService;
-import web.common.service.CreateUserWebCommandValidator;
+import web.adminApi.user.service.CreateUserService;
+import web.common.user.UserBaseController;
+import web.common.user.dto.CreateUserWebCommand;
+import web.common.user.service.CreateUserWebCommandValidator;
 
 @RestController
 @AllArgsConstructor

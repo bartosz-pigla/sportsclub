@@ -32,10 +32,13 @@ import org.springframework.web.bind.annotation.RestController;
 import query.model.embeddable.PositionsCount;
 import query.model.sportobject.SportObjectEntity;
 import query.model.sportobject.SportObjectPositionEntity;
+import query.model.sportobject.repository.SportObjectEntityRepository;
+import query.model.sportobject.repository.SportObjectPositionEntityRepository;
+import query.model.sportobject.repository.SportObjectPositionQueryExpressions;
+import query.model.sportobject.repository.SportObjectQueryExpressions;
 import query.model.sportsclub.SportsclubEntity;
-import query.repository.SportObjectEntityRepository;
-import query.repository.SportObjectPositionEntityRepository;
-import query.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.SportsclubQueryExpressions;
 import web.adminApi.sportObject.dto.SportObjectPositionDto;
 import web.adminApi.sportObject.dto.SportObjectPositionDtoFactory;
 import web.adminApi.sportObject.service.SportObjectPositionDtoValidator;
@@ -65,8 +68,11 @@ final class SportObjectPositionController extends BaseController {
             return validationResponseService.getResponse(bindingResult);
         }
 
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
-        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findByNameAndDeletedFalse(sportObjectName);
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
+                SportsclubQueryExpressions.nameMatches(sportsclubName));
+
+        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
+                SportObjectQueryExpressions.nameMatches(sportObjectName));
 
         if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent()) {
             SportObjectEntity sportObject = sportObjectOptional.get();
@@ -77,7 +83,9 @@ final class SportObjectPositionController extends BaseController {
                     .description(sportObjectPositionDto.getDescription())
                     .positionsCount(new PositionsCount(sportObjectPositionDto.getPositionsCount()))
                     .build());
-            SportObjectPositionEntity positionEntity = sportObjectPositionRepository.findByNameAndDeletedFalse(positionName).get();
+
+            SportObjectPositionEntity positionEntity = sportObjectPositionRepository.findOne(
+                    SportObjectPositionQueryExpressions.nameMatches(positionName)).get();
             return ResponseEntity.ok(SportObjectPositionDtoFactory.create(positionEntity));
         } else {
             return ResponseEntity.badRequest().build();
@@ -102,7 +110,9 @@ final class SportObjectPositionController extends BaseController {
                     .description(sportObjectPositionDto.getDescription())
                     .positionsCount(new PositionsCount(sportObjectPositionDto.getPositionsCount()))
                     .build());
-            SportObjectPositionEntity position = sportObjectPositionRepository.findByNameAndDeletedFalse(sportObjectPositionDto.getName()).get();
+
+            SportObjectPositionEntity position = sportObjectPositionRepository.findOne(
+                    SportObjectPositionQueryExpressions.nameMatches(sportObjectPositionDto.getName())).get();
             return SportObjectPositionDtoFactory.create(position);
         });
     }
@@ -122,9 +132,14 @@ final class SportObjectPositionController extends BaseController {
                                           String sportObjectName,
                                           String sportObjectPositionName,
                                           BiFunction<UUID, UUID, SportObjectPositionDto> sendCommand) {
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findByName(sportsclubName);
-        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findByNameAndDeletedFalse(sportObjectName);
-        Optional<SportObjectPositionEntity> sportObjectPositionOptional = sportObjectPositionRepository.findByNameAndDeletedFalse(sportObjectPositionName);
+        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
+                SportsclubQueryExpressions.nameMatches(sportsclubName));
+
+        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
+                SportObjectPositionQueryExpressions.nameMatches(sportObjectName));
+
+        Optional<SportObjectPositionEntity> sportObjectPositionOptional = sportObjectPositionRepository.findOne(
+                SportObjectPositionQueryExpressions.nameMatches(sportObjectPositionName));
 
         if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent() && sportObjectPositionOptional.isPresent()) {
             UUID objectId = sportObjectOptional.get().getId();

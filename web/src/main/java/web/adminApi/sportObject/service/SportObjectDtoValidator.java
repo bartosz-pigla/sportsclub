@@ -9,8 +9,8 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import query.model.embeddable.validation.CityValidator;
 import query.model.embeddable.validation.CoordinatesValidator;
+import web.adminApi.sportObject.dto.AddressDto;
 import web.adminApi.sportObject.dto.SportObjectDto;
-import web.common.dto.AddressDto;
 
 @Service
 public class SportObjectDtoValidator implements Validator {

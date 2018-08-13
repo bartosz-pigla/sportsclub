@@ -1,4 +1,4 @@
-package web.common.dto;
+package query.model.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

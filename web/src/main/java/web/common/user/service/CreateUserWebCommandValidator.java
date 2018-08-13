@@ -1,4 +1,4 @@
-package web.common.service;
+package web.common.user.service;
 
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
@@ -8,7 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import query.model.embeddable.validation.EmailValidator;
 import query.model.embeddable.validation.PhoneNumberValidator;
-import web.common.dto.CreateUserWebCommand;
+import web.common.user.dto.CreateUserWebCommand;
 
 @Service
 public class CreateUserWebCommandValidator implements Validator {

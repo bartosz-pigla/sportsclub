@@ -3,6 +3,7 @@ package integrationTest.adminApi.sportObject;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT;
 
 import java.net.MalformedURLException;
@@ -15,8 +16,8 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
+import web.adminApi.sportObject.dto.AddressDto;
 import web.adminApi.sportObject.dto.SportObjectDto;
-import web.common.dto.AddressDto;
 
 public final class CreateSportObjectItTest extends AbstractSportObjectItTest {
 
@@ -45,7 +46,7 @@ public final class CreateSportObjectItTest extends AbstractSportObjectItTest {
         SportObjectDto response = createSportObjectResponse.getBody();
         assertEquals(response.getName(), sportObject.getName());
         assertEquals(response.getSportsclubName(), sportObject.getSportsclubName());
-        assertTrue(sportObjectRepository.existsByNameAndDeletedFalse(sportObjectName));
+        assertTrue(sportObjectRepository.exists(nameMatches(sportObjectName)));
     }
 
     @Test
@@ -69,7 +70,7 @@ public final class CreateSportObjectItTest extends AbstractSportObjectItTest {
                 sportsclubName);
 
         assertEquals(createSportObjectResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertFalse(sportObjectRepository.existsByNameAndDeletedFalse(sportObjectName));
+        assertFalse(sportObjectRepository.exists(nameMatches(sportObjectName)));
     }
 
     @Test
@@ -97,7 +98,7 @@ public final class CreateSportObjectItTest extends AbstractSportObjectItTest {
 
         assertEquals(createSportObjectResponse.getStatusCode(), HttpStatus.CONFLICT);
         assertField("name", ErrorCode.ALREADY_EXISTS.getCode(), createSportObjectResponse.getBody());
-        assertTrue(sportObjectRepository.existsByNameAndDeletedFalse(sportObjectName));
+        assertTrue(sportObjectRepository.exists(nameMatches(sportObjectName)));
     }
 
     @Test
@@ -124,6 +125,6 @@ public final class CreateSportObjectItTest extends AbstractSportObjectItTest {
 
         assertEquals(createSportObjectResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
         assertField("name", ErrorCode.EMPTY.getCode(), createSportObjectResponse.getBody());
-        assertTrue(sportObjectRepository.existsByNameAndDeletedFalse(sportObjectName));
+        assertTrue(sportObjectRepository.exists(nameMatches(sportObjectName)));
     }
 }

@@ -3,6 +3,8 @@ package integrationTest.adminApi.sportObject.openingTime;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
+import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_OPENING_TIME_BY_ID;
 
 import java.net.MalformedURLException;
@@ -40,7 +42,7 @@ public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
 
         assertEquals(deleteOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.OK);
         OpeningTimeRangeDto deletedOpeningTime = deleteOpeningTimeRangeDtoResponseEntity.getBody();
-        assertTrue(openingTimeRepository.findById(UUID.fromString(deletedOpeningTime.getId())).get().isDeleted());
+        assertTrue(openingTimeRepository.findOne(idMatches(UUID.fromString(deletedOpeningTime.getId()))).get().isDeleted());
     }
 
     @Test
@@ -61,7 +63,7 @@ public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
                 sportsclubName, sportObjectName, "notExistingOpeningTimeId");
 
         assertEquals(deleteOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertTrue(openingTimeRepository.findByIdAndDeletedFalse(openingTimeId).isPresent());
+        assertTrue(openingTimeRepository.findOne(idMatches(openingTimeId)).isPresent());
     }
 
     @Test
@@ -74,7 +76,7 @@ public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
 
         String sportsclubName = createSportsclubCommand.getName();
         String sportObjectName = createSportObjectCommand.getName();
-        UUID sportObjectId = sportObjectRepository.findByNameAndDeletedFalse(createSportObjectCommand.getName()).get().getId();
+        UUID sportObjectId = sportObjectRepository.findOne(nameMatches(createSportObjectCommand.getName())).get().getId();
         UUID openingTimeId = openingTimeRepository.findAll().get(0).getId();
 
         commandGateway.sendAndWait(DeleteOpeningTimeCommand.builder()
@@ -87,6 +89,6 @@ public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
                 sportsclubName, sportObjectName, openingTimeId.toString());
 
         assertEquals(deleteOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertFalse(openingTimeRepository.findByIdAndDeletedFalse(openingTimeId).isPresent());
+        assertFalse(openingTimeRepository.findOne(idMatches(openingTimeId)).isPresent());
     }
 }

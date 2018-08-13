@@ -1,5 +1,7 @@
 package integrationTest.adminApi.sportsclub;
 
+import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
+
 import java.util.UUID;
 
 import api.sportsclub.command.CreateAnnouncementCommand;
@@ -9,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
-import query.repository.SportsclubEntityRepository;
+import query.model.sportsclub.repository.SportsclubEntityRepository;
 
 public abstract class AbstractSportsclubItTest extends IntegrationTest {
 
@@ -27,7 +29,7 @@ public abstract class AbstractSportsclubItTest extends IntegrationTest {
     }
 
     protected CreateAnnouncementCommand createAnnouncement(CreateSportsclubCommand createSportsclubCommand) {
-        UUID sportsclubId = sportsclubRepository.findByName(createSportsclubCommand.getName()).get().getId();
+        UUID sportsclubId = sportsclubRepository.findOne(nameMatches(createSportsclubCommand.getName())).get().getId();
         CreateAnnouncementCommand command = CreateAnnouncementCommand.builder()
                 .sportsclubId(sportsclubId)
                 .title("title1")

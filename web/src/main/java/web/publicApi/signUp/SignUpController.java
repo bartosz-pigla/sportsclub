@@ -1,5 +1,6 @@
 package web.publicApi.signUp;
 
+import static query.model.user.repository.UserQueryExpressions.usernameMatches;
 import static web.common.RequestMappings.SIGN_UP;
 
 import api.user.command.SendActivationLinkCommand;
@@ -14,10 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import query.model.user.UserType;
-import web.common.UserBaseController;
-import web.common.dto.CreateUserWebCommand;
-import web.common.service.CreateUserService;
-import web.common.service.CreateUserWebCommandValidator;
+import web.adminApi.user.service.CreateUserService;
+import web.common.user.UserBaseController;
+import web.common.user.dto.CreateUserWebCommand;
+import web.common.user.service.CreateUserWebCommandValidator;
 
 @RestController
 @Setter(onMethod_ = { @Autowired })
@@ -38,7 +39,7 @@ final class SignUpController extends UserBaseController {
         }
 
         createUserService.create(customer, UserType.CUSTOMER);
-        userRepository.findByUsernameAndDeletedFalse(customer.getUsername()).ifPresent(c ->
+        userRepository.findOne(usernameMatches(customer.getUsername())).ifPresent(c ->
                 commandGateway.sendAndWait(SendActivationLinkCommand.builder().customerId(c.getId()).build()));
 
         return ResponseEntity.ok(customer);

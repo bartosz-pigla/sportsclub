@@ -11,11 +11,10 @@ import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import query.model.BaseEntity;
 import query.model.announcement.AnnouncementEntity;
+import query.model.baseEntity.BaseEntity;
 import query.model.embeddable.Address;
 import query.model.sportobject.SportObjectEntity;
-import query.model.statute.StatuteEntity;
 
 @Entity
 @Getter

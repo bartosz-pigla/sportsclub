@@ -1,5 +1,6 @@
 package web.adminApi.user;
 
+import static query.model.user.repository.UserQueryExpressions.usernameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_USER_ACTIVATION;
 
 import java.util.Optional;
@@ -20,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import query.model.user.UserEntity;
+import query.model.user.dto.UserDto;
 import web.adminApi.user.dto.UserActivationWebCommand;
-import web.common.UserBaseController;
 import web.common.dto.FieldErrorDto;
-import web.common.dto.UserDto;
+import web.common.user.UserBaseController;
 
 @RestController
 @Setter(onMethod_ = { @Autowired })
@@ -31,7 +32,8 @@ final class UserActivationController extends UserBaseController {
 
     @PostMapping(ADMIN_CONSOLE_USER_ACTIVATION)
     ResponseEntity<?> activateOrDeactivateUser(@RequestBody UserActivationWebCommand userActivationCommand) {
-        Optional<UserEntity> userOptional = userRepository.findByUsernameAndDeletedFalse(userActivationCommand.getUsername());
+        Optional<UserEntity> userOptional = userRepository.findOne(
+                usernameMatches(userActivationCommand.getUsername()));
 
         if (userOptional.isPresent()) {
             UserEntity userEntity = userOptional.get();

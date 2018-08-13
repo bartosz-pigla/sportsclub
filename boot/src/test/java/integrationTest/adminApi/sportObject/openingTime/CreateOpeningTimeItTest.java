@@ -58,7 +58,6 @@ public final class CreateOpeningTimeItTest extends AbstractSportObjectItTest {
         assertEquals(startTime.getMinute(), openingTimeRangeDto.getStartTime().getMinute());
         assertEquals(finishTime.getHour(), openingTimeRangeDto.getFinishTime().getHour());
         assertEquals(finishTime.getMinute(), openingTimeRangeDto.getFinishTime().getMinute());
-        Object obj = openingTimeRepository.findAll();
         assertTrue(exists(openingTimeRangeDto));
     }
 

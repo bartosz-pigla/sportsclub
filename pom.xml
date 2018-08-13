@@ -53,11 +53,18 @@
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-apt</artifactId>
             <version>4.2.1</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.querydsl</groupId>
             <artifactId>querydsl-jpa</artifactId>
             <version>4.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-hql</artifactId>
+            <version>1.9.7</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -145,7 +152,8 @@
                         <!--</goals>-->
                         <!--<configuration>-->
                             <!--<outputDirectory>target/generated-sources/java</outputDirectory>-->
-                            <!--<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor,lombok.launch.AnnotationProcessorHider$AnnotationProcessor</processor>-->
+                            <!--<processor>com.querydsl.apt.jpa.JPAAnnotationProcessor,lombok.launch.AnnotationProcessorHider$AnnotationProcessor-->
+                            <!--</processor>-->
                         <!--</configuration>-->
                     <!--</execution>-->
                 <!--</executions>-->

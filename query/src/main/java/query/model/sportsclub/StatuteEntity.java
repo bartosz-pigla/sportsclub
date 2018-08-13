@@ -1,4 +1,4 @@
-package query.model.statute;
+package query.model.sportsclub;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,8 +7,7 @@ import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import query.model.BaseEntity;
-import query.model.sportsclub.SportsclubEntity;
+import query.model.baseEntity.BaseEntity;
 
 @Entity
 @Getter

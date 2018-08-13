@@ -4,6 +4,7 @@ import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.matches;
 import static org.axonframework.test.matchers.Matchers.sequenceOf;
 import static org.mockito.Mockito.when;
+import static query.model.user.repository.UserQueryExpressions.idAndUserTypeMatches;
 
 import java.util.UUID;
 
@@ -18,7 +19,7 @@ public final class CreateBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotCreateWhenCustomerNotExists() {
         UUID customerId = UUID.randomUUID();
-        when(userRepository.existsByIdAndUserTypeAndDeletedFalse(customerId, UserType.CUSTOMER)).thenReturn(false);
+        when(userRepository.exists(idAndUserTypeMatches(customerId, UserType.CUSTOMER))).thenReturn(false);
 
         CreateBookingCommand command = CreateBookingCommand.builder()
                 .customerId(customerId)
@@ -33,7 +34,7 @@ public final class CreateBookingTest extends AbstractBookingTest {
     @Test
     public void shouldCreateWhenCustomerExists() {
         UUID customerId = UUID.randomUUID();
-        when(userRepository.existsByIdAndUserTypeAndDeletedFalse(customerId, UserType.CUSTOMER)).thenReturn(true);
+        when(userRepository.exists(idAndUserTypeMatches(customerId, UserType.CUSTOMER))).thenReturn(true);
 
         CreateBookingCommand command = CreateBookingCommand.builder()
                 .customerId(customerId)

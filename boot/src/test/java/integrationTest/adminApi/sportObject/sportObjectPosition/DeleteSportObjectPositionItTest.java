@@ -16,6 +16,8 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
+import query.model.sportobject.repository.SportObjectPositionQueryExpressions;
+import query.model.sportobject.repository.SportObjectQueryExpressions;
 
 public final class DeleteSportObjectPositionItTest extends AbstractSportObjectItTest {
 
@@ -24,7 +26,7 @@ public final class DeleteSportObjectPositionItTest extends AbstractSportObjectIt
     public void shouldDeleteWhenIsNotDeletedAndExists() throws MalformedURLException {
         CreateSportsclubCommand createSportsclubCommand = createSportsclub();
         CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-        UUID sportObjectId = sportObjectRepository.findByNameAndDeletedFalse(createSportObjectCommand.getName()).get().getId();
+        UUID sportObjectId = sportObjectRepository.findOne(SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName())).get().getId();
         CreateSportObjectPositionCommand createSportObjectPositionCommand = createSportObjectPosition(sportObjectId);
         signIn("superuser", "password");
 
@@ -38,7 +40,8 @@ public final class DeleteSportObjectPositionItTest extends AbstractSportObjectIt
                 sportsclubName, sportObjectName, sportObjectPositionName);
 
         assertEquals(deletePositionResponseEntity.getStatusCode(), HttpStatus.OK);
-        assertFalse(sportObjectPositionRepository.findByNameAndDeletedFalse(sportObjectPositionName).isPresent());
+        assertFalse(sportObjectPositionRepository.findOne(
+                SportObjectPositionQueryExpressions.nameMatches(sportObjectPositionName)).isPresent());
     }
 
     @Test
@@ -58,7 +61,8 @@ public final class DeleteSportObjectPositionItTest extends AbstractSportObjectIt
                 sportsclubName, sportObjectName, sportObjectPositionName);
 
         assertEquals(deletePositionResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertFalse(sportObjectPositionRepository.findByNameAndDeletedFalse(sportObjectPositionName).isPresent());
+        assertFalse(sportObjectPositionRepository.findOne(
+                SportObjectPositionQueryExpressions.nameMatches(sportObjectPositionName)).isPresent());
     }
 
     @Test
@@ -66,9 +70,15 @@ public final class DeleteSportObjectPositionItTest extends AbstractSportObjectIt
     public void shouldNotDeleteWhenIsAlreadyDeleted() throws MalformedURLException {
         CreateSportsclubCommand createSportsclubCommand = createSportsclub();
         CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-        UUID sportObjectId = sportObjectRepository.findByNameAndDeletedFalse(createSportObjectCommand.getName()).get().getId();
+
+        UUID sportObjectId = sportObjectRepository.findOne(
+                SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName())).get().getId();
+
         CreateSportObjectPositionCommand createSportObjectPositionCommand = createSportObjectPosition(sportObjectId);
-        UUID sportObjectPositionId = sportObjectPositionRepository.findByNameAndDeletedFalse(createSportObjectPositionCommand.getName()).get().getId();
+
+        UUID sportObjectPositionId = sportObjectPositionRepository.findOne(
+                SportObjectPositionQueryExpressions.nameMatches(createSportObjectPositionCommand.getName())).get().getId();
+
         commandGateway.sendAndWait(DeleteSportObjectPositionCommand.builder()
                 .sportObjectId(sportObjectId)
                 .sportObjectPositionId(sportObjectPositionId).build());
@@ -84,6 +94,6 @@ public final class DeleteSportObjectPositionItTest extends AbstractSportObjectIt
                 sportsclubName, sportObjectName, sportObjectPositionId);
 
         assertEquals(deletePositionResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertFalse(sportObjectPositionRepository.findByNameAndDeletedFalse(sportObjectPositionName).isPresent());
+        assertFalse(sportObjectPositionRepository.findOne(SportObjectPositionQueryExpressions.nameMatches(sportObjectPositionName)).isPresent());
     }
 }

@@ -4,6 +4,8 @@ import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.matches;
 import static org.axonframework.test.matchers.Matchers.sequenceOf;
 import static org.mockito.Mockito.when;
+import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
+import static query.model.sportobject.repository.SportObjectQueryExpressions.nameAndIdMatches;
 
 import java.util.UUID;
 
@@ -54,7 +56,7 @@ public final class UpdateSportObjectTest extends AbstractSportObjectTest {
                 .name("name2")
                 .build();
 
-        when(sportObjectRepository.existsByNameAndIdIsNotAndDeletedFalse(updateSportObjectCommand.getName(), sportObjectId)).thenReturn(true);
+        when(sportObjectRepository.exists(nameAndIdMatches(updateSportObjectCommand.getName(), sportObjectId))).thenReturn(true);
 
         testFixture.given(sportObjectCreatedEvent)
                 .when(updateSportObjectCommand)
@@ -73,8 +75,8 @@ public final class UpdateSportObjectTest extends AbstractSportObjectTest {
                 .name("name2")
                 .build();
 
-        when(sportObjectRepository.existsByNameAndIdIsNotAndDeletedFalse(updateSportObjectCommand.getName(), sportObjectId)).thenReturn(false);
-        when(sportsclubRepository.existsById(updateSportObjectCommand.getSportsclubId())).thenReturn(false);
+        when(sportObjectRepository.exists(nameAndIdMatches(updateSportObjectCommand.getName(), sportObjectId))).thenReturn(false);
+        when(sportsclubRepository.exists(idMatches(updateSportObjectCommand.getSportsclubId()))).thenReturn(false);
 
         testFixture.given(sportObjectCreatedEvent)
                 .when(updateSportObjectCommand)
@@ -94,8 +96,8 @@ public final class UpdateSportObjectTest extends AbstractSportObjectTest {
                 .name("name2")
                 .build();
 
-        when(sportObjectRepository.existsByNameAndIdIsNotAndDeletedFalse(updateSportObjectCommand.getName(), sportObjectId)).thenReturn(false);
-        when(sportsclubRepository.existsById(updateSportObjectCommand.getSportsclubId())).thenReturn(true);
+        when(sportObjectRepository.exists(nameAndIdMatches(updateSportObjectCommand.getName(), sportObjectId))).thenReturn(false);
+        when(sportsclubRepository.exists(idMatches(updateSportObjectCommand.getSportsclubId()))).thenReturn(true);
 
         testFixture.given(sportObjectCreatedEvent)
                 .when(updateSportObjectCommand)
