@@ -12,7 +12,7 @@ import domain.booking.exception.AlreadyConfirmedException;
 import domain.booking.exception.AlreadyRejectedException;
 import domain.booking.exception.AlreadySubmitedException;
 import domain.booking.exception.CustomerNotExistsException;
-import domain.booking.exception.NotFoundAnyBookingDetailsException;
+import domain.booking.exception.BookingDetailsNotExistsException;
 import domain.booking.exception.NotSubmitedException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -61,7 +61,7 @@ public final class BookingValidator {
     public void assertThatHasAnyBookingDetails(UUID bookingId, Collection<BookingDetail> bookingDetails) {
         if (bookingDetails.isEmpty()) {
             logger.error("Booking with id: {}", bookingId);
-            throw new NotFoundAnyBookingDetailsException();
+            throw new BookingDetailsNotExistsException();
         }
     }
 

@@ -23,15 +23,15 @@ public final class RejectBookingTest extends AbstractBookingTest {
 
     @Test
     public void shouldNotRejectWhenIsAlreadyRejected() {
-        testFixture.given(createdEvent, new BookingSubmitedEvent(bookingId), new BookingRejectedEvent(bookingId))
+        testFixture.given(bookingCreatedEvent, new BookingSubmitedEvent(bookingId), new BookingRejectedEvent(bookingId))
                 .when(rejectCommand)
                 .expectNoEvents()
                 .expectException(AlreadyRejectedException.class);
     }
 
     @Test
-    public void shouldNotRejectedWhenIsNotSubmited() {
-        testFixture.given(createdEvent)
+    public void shouldNotRejectedWhenIsNotSubmitted() {
+        testFixture.given(bookingCreatedEvent)
                 .when(rejectCommand)
                 .expectNoEvents()
                 .expectException(NotSubmitedException.class);
@@ -39,7 +39,7 @@ public final class RejectBookingTest extends AbstractBookingTest {
 
     @Test
     public void shouldNotRejectWhenIsAlreadyCanceled() {
-        testFixture.given(createdEvent, new BookingCanceledEvent(bookingId))
+        testFixture.given(bookingCreatedEvent, new BookingCanceledEvent(bookingId))
                 .when(rejectCommand)
                 .expectNoEvents()
                 .expectException(AlreadyCanceledException.class);
@@ -47,7 +47,7 @@ public final class RejectBookingTest extends AbstractBookingTest {
 
     @Test
     public void shouldNotRejectWhenIsAlreadyConfirmed() {
-        testFixture.given(createdEvent, new BookingSubmitedEvent(bookingId), new BookingConfirmedEvent(bookingId))
+        testFixture.given(bookingCreatedEvent, new BookingSubmitedEvent(bookingId), new BookingConfirmedEvent(bookingId))
                 .when(rejectCommand)
                 .expectNoEvents()
                 .expectException(AlreadyConfirmedException.class);
@@ -55,7 +55,7 @@ public final class RejectBookingTest extends AbstractBookingTest {
 
     @Test
     public void shouldReject() {
-        testFixture.given(createdEvent, new BookingSubmitedEvent(bookingId))
+        testFixture.given(bookingCreatedEvent, new BookingSubmitedEvent(bookingId))
                 .when(rejectCommand)
                 .expectEventsMatching(sequenceOf(matches(p -> {
                     BookingRejectedEvent event = (BookingRejectedEvent) p.getPayload();

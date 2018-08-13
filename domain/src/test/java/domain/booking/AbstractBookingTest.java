@@ -12,10 +12,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import query.repository.BookingDetailEntityRepository;
 import query.repository.BookingEntityRepository;
+import query.repository.OpeningTimeEntityRepository;
+import query.repository.SportObjectPositionEntityRepository;
 import query.repository.UserEntityRepository;
 
 @RunWith(MockitoJUnitRunner.class)
-abstract class AbstractBookingTest {
+public abstract class AbstractBookingTest {
 
     protected AggregateTestFixture<Booking> testFixture;
     @Mock
@@ -23,12 +25,16 @@ abstract class AbstractBookingTest {
     @Mock
     protected BookingDetailEntityRepository bookingDetailRepository;
     @Mock
+    protected OpeningTimeEntityRepository openingTimeRepository;
+    @Mock
+    protected SportObjectPositionEntityRepository sportObjectPositionRepository;
+    @Mock
     protected UserEntityRepository userRepository;
 
     protected UUID bookingId = UUID.randomUUID();
     protected UUID customerId = UUID.randomUUID();
 
-    protected BookingCreatedEvent createdEvent = BookingCreatedEvent.builder()
+    protected BookingCreatedEvent bookingCreatedEvent = BookingCreatedEvent.builder()
             .bookingId(bookingId)
             .customerId(customerId)
             .bookingDate(LocalDateTime.now())

@@ -6,13 +6,9 @@ import static org.axonframework.test.matchers.Matchers.sequenceOf;
 
 import api.booking.command.CancelBookingCommand;
 import api.booking.event.BookingCanceledEvent;
-import api.booking.event.BookingConfirmedEvent;
 import api.booking.event.BookingRejectedEvent;
-import api.booking.event.BookingSubmitedEvent;
 import domain.booking.exception.AlreadyCanceledException;
-import domain.booking.exception.AlreadyConfirmedException;
 import domain.booking.exception.AlreadyRejectedException;
-import domain.booking.exception.AlreadySubmitedException;
 import org.junit.Test;
 
 public final class CancelBookingTest extends AbstractBookingTest {
@@ -23,31 +19,15 @@ public final class CancelBookingTest extends AbstractBookingTest {
 
     @Test
     public void shouldNotCancelWhenIsAlreadyCanceled() {
-        testFixture.given(createdEvent, new BookingCanceledEvent(bookingId))
+        testFixture.given(bookingCreatedEvent, new BookingCanceledEvent(bookingId))
                 .when(cancelCommand)
                 .expectNoEvents()
                 .expectException(AlreadyCanceledException.class);
     }
 
     @Test
-    public void shouldNotCancelWhenIsAlreadySubmited() {
-        testFixture.given(createdEvent, new BookingSubmitedEvent(bookingId))
-                .when(cancelCommand)
-                .expectNoEvents()
-                .expectException(AlreadySubmitedException.class);
-    }
-
-    @Test
-    public void shouldNotCancelWhenIsAlreadyConfirmed() {
-        testFixture.given(createdEvent, new BookingConfirmedEvent(bookingId))
-                .when(cancelCommand)
-                .expectNoEvents()
-                .expectException(AlreadyConfirmedException.class);
-    }
-
-    @Test
     public void shouldNotCancelWhenIsAlreadyRejected() {
-        testFixture.given(createdEvent, new BookingRejectedEvent(bookingId))
+        testFixture.given(bookingCreatedEvent, new BookingRejectedEvent(bookingId))
                 .when(cancelCommand)
                 .expectNoEvents()
                 .expectException(AlreadyRejectedException.class);
@@ -55,7 +35,7 @@ public final class CancelBookingTest extends AbstractBookingTest {
 
     @Test
     public void shouldCancel() {
-        testFixture.given(createdEvent)
+        testFixture.given(bookingCreatedEvent)
                 .when(cancelCommand)
                 .expectEventsMatching(sequenceOf(matches(p -> {
                     BookingCanceledEvent event = (BookingCanceledEvent) p.getPayload();

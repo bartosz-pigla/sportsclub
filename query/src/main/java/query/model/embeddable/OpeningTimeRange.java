@@ -10,6 +10,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import query.exception.ValueObjectCreationException;
@@ -17,6 +18,7 @@ import query.exception.ValueObjectCreationException;
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@EqualsAndHashCode
 public class OpeningTimeRange {
 
     @Enumerated(EnumType.STRING)
