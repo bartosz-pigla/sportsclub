@@ -119,6 +119,8 @@ public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
         CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
         CreateSportObjectCommand createAnotherSportObjectCommand = createAnotherSportObject(createSportsclubCommand);
 
+        Object obj = sportObjectRepository.findAll();
+
         String sportsclubName = createSportsclubCommand.getName();
         String sportObjectName = createSportObjectCommand.getName();
         signIn("superuser", "password");

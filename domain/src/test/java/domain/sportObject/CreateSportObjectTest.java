@@ -4,7 +4,6 @@ import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.matches;
 import static org.axonframework.test.matchers.Matchers.sequenceOf;
 import static org.mockito.Mockito.when;
-import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,6 +18,7 @@ import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
 import query.model.sportobject.repository.SportObjectQueryExpressions;
+import query.model.sportsclub.repository.SportsclubQueryExpressions;
 
 public final class CreateSportObjectTest extends AbstractSportObjectTest {
 
@@ -33,7 +33,8 @@ public final class CreateSportObjectTest extends AbstractSportObjectTest {
         when(sportObjectRepository.exists(
                 SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName()))).thenReturn(false);
 
-        when(sportsclubRepository.exists(idMatches(createSportObjectCommand.getSportsclubId()))).thenReturn(false);
+        when(sportsclubRepository.exists(
+                SportsclubQueryExpressions.idMatches(createSportObjectCommand.getSportsclubId()))).thenReturn(false);
 
         testFixture.given(sportsclubCreatedEvent)
                 .when(createSportObjectCommand)
@@ -53,7 +54,8 @@ public final class CreateSportObjectTest extends AbstractSportObjectTest {
         when(sportObjectRepository.exists(
                 SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName()))).thenReturn(false);
 
-        when(sportsclubRepository.exists(idMatches(createSportObjectCommand.getSportsclubId()))).thenReturn(false);
+        when(sportsclubRepository.exists(
+                SportsclubQueryExpressions.idMatches(createSportObjectCommand.getSportsclubId()))).thenReturn(false);
 
         testFixture.given(sportsclubCreatedEvent)
                 .when(createSportObjectCommand)
@@ -90,7 +92,8 @@ public final class CreateSportObjectTest extends AbstractSportObjectTest {
         when(sportObjectRepository.exists(
                 SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName()))).thenReturn(false);
 
-        when(sportsclubRepository.exists(idMatches(createSportObjectCommand.getSportsclubId()))).thenReturn(true);
+        when(sportsclubRepository.exists(
+                SportsclubQueryExpressions.idMatches(createSportObjectCommand.getSportsclubId()))).thenReturn(true);
 
         testFixture.given(sportsclubCreatedEvent)
                 .when(createSportObjectCommand)

@@ -1,6 +1,5 @@
 package web.publicApi.signUp;
 
-import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
 import static web.common.RequestMappings.CUSTOMER_ACTIVATION;
 
 import java.util.Optional;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import query.model.user.ActivationLinkEntry;
 import query.model.user.UserEntity;
 import query.model.user.repository.ActivationLinkEntryRepository;
+import query.model.user.repository.ActivationLinkQueryExpressions;
 import web.common.user.UserBaseController;
 import web.publicApi.signUp.dto.ActivateCustomerWebCommand;
 
@@ -35,7 +35,7 @@ final class CustomerActivationController extends UserBaseController {
     @PostMapping(CUSTOMER_ACTIVATION)
     ResponseEntity<?> activateCustomer(@RequestBody ActivateCustomerWebCommand activateCustomerCommand) {
         Optional<ActivationLinkEntry> activationLinkOptional = activationLinkRepository
-                .findOne(idMatches(UUID.fromString(activateCustomerCommand.getActivationKey())));
+                .findOne(ActivationLinkQueryExpressions.idMatches(UUID.fromString(activateCustomerCommand.getActivationKey())));
 
         if (activationLinkOptional.isPresent()) {
             UserEntity customer = activationLinkOptional.get().getCustomer();

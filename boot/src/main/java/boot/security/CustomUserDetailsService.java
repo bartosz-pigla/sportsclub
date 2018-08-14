@@ -1,6 +1,5 @@
 package boot.security;
 
-import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
 import static query.model.user.repository.UserQueryExpressions.usernameMatches;
 
 import java.util.UUID;
@@ -13,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import query.model.user.UserEntity;
 import query.model.user.repository.UserEntityRepository;
+import query.model.user.repository.UserQueryExpressions;
 import web.publicApi.signIn.dto.UserPrincipal;
 
 @Service
@@ -33,7 +33,9 @@ class CustomUserDetailsService implements UserDetailsService {
 
     @Transactional
     public UserDetails loadUserById(String id) {
-        UserEntity user = userRepository.findOne(idMatches(UUID.fromString(id))).orElseThrow(RuntimeException::new);
+        UserEntity user = userRepository.findOne(
+                UserQueryExpressions.idMatches(UUID.fromString(id)))
+                .orElseThrow(RuntimeException::new);
         return new UserPrincipal(user);
     }
 }

@@ -3,7 +3,6 @@ package integrationTest.adminApi.sportObject.openingTime;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
 import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_OPENING_TIME_BY_ID;
 
@@ -19,6 +18,7 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
+import query.model.sportobject.repository.OpeningTimeQueryExpressions;
 import web.adminApi.sportObject.dto.OpeningTimeRangeDto;
 
 public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
@@ -42,7 +42,8 @@ public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
 
         assertEquals(deleteOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.OK);
         OpeningTimeRangeDto deletedOpeningTime = deleteOpeningTimeRangeDtoResponseEntity.getBody();
-        assertTrue(openingTimeRepository.findOne(idMatches(UUID.fromString(deletedOpeningTime.getId()))).get().isDeleted());
+
+        assertTrue(openingTimeRepository.findById(UUID.fromString(deletedOpeningTime.getId())).get().isDeleted());
     }
 
     @Test
@@ -63,7 +64,9 @@ public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
                 sportsclubName, sportObjectName, "notExistingOpeningTimeId");
 
         assertEquals(deleteOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertTrue(openingTimeRepository.findOne(idMatches(openingTimeId)).isPresent());
+
+        assertTrue(openingTimeRepository.findOne(
+                OpeningTimeQueryExpressions.idMatches(openingTimeId)).isPresent());
     }
 
     @Test
@@ -89,6 +92,8 @@ public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
                 sportsclubName, sportObjectName, openingTimeId.toString());
 
         assertEquals(deleteOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertFalse(openingTimeRepository.findOne(idMatches(openingTimeId)).isPresent());
+
+        assertFalse(openingTimeRepository.findOne(
+                OpeningTimeQueryExpressions.idMatches(openingTimeId)).isPresent());
     }
 }

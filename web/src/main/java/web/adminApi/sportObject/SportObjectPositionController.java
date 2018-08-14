@@ -136,7 +136,7 @@ final class SportObjectPositionController extends BaseController {
                 SportsclubQueryExpressions.nameMatches(sportsclubName));
 
         Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
-                SportObjectPositionQueryExpressions.nameMatches(sportObjectName));
+                SportObjectQueryExpressions.nameMatches(sportObjectName));
 
         Optional<SportObjectPositionEntity> sportObjectPositionOptional = sportObjectPositionRepository.findOne(
                 SportObjectPositionQueryExpressions.nameMatches(sportObjectPositionName));

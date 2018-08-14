@@ -1,6 +1,5 @@
 package web.adminApi.announcement;
 
-import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
 import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_ANNOUNCEMENT;
 import static web.common.RequestMappings.ADMIN_CONSOLE_SPORTSCLUB_ANNOUNCEMENT_BY_ID;
@@ -23,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import query.model.announcement.AnnouncementEntity;
 import query.model.announcement.repository.AnnouncementEntityRepository;
+import query.model.announcement.repository.AnnouncementQueryExpressions;
 import query.model.sportsclub.SportsclubEntity;
 import query.model.sportsclub.repository.SportsclubEntityRepository;
 import web.adminApi.announcement.dto.AnnouncementDto;
@@ -73,7 +73,8 @@ final class AnnouncementController extends BaseController {
         }
 
         Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(nameMatches(sportsclubName));
-        Optional<AnnouncementEntity> announcementOptional = announcementRepository.findOne(idMatches(UUID.fromString(announcementId)));
+        Optional<AnnouncementEntity> announcementOptional = announcementRepository.findOne(
+                AnnouncementQueryExpressions.idMatches(UUID.fromString(announcementId)));
 
         if (sportsclubOptional.isPresent() && announcementOptional.isPresent()) {
             SportsclubEntity sportsclub = sportsclubOptional.get();

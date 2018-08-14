@@ -4,8 +4,7 @@ import static org.axonframework.test.matchers.Matchers.andNoMore;
 import static org.axonframework.test.matchers.Matchers.matches;
 import static org.axonframework.test.matchers.Matchers.sequenceOf;
 import static org.mockito.Mockito.when;
-import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
-import static query.model.sportobject.repository.SportObjectQueryExpressions.nameAndIdMatches;
+import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatchesWithIdOtherThan;
 
 import java.util.UUID;
 
@@ -19,6 +18,7 @@ import org.junit.Test;
 import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
+import query.model.sportsclub.repository.SportsclubQueryExpressions;
 
 public final class UpdateSportObjectTest extends AbstractSportObjectTest {
 
@@ -56,7 +56,7 @@ public final class UpdateSportObjectTest extends AbstractSportObjectTest {
                 .name("name2")
                 .build();
 
-        when(sportObjectRepository.exists(nameAndIdMatches(updateSportObjectCommand.getName(), sportObjectId))).thenReturn(true);
+        when(sportObjectRepository.exists(nameMatchesWithIdOtherThan(updateSportObjectCommand.getName(), sportObjectId))).thenReturn(true);
 
         testFixture.given(sportObjectCreatedEvent)
                 .when(updateSportObjectCommand)
@@ -75,8 +75,8 @@ public final class UpdateSportObjectTest extends AbstractSportObjectTest {
                 .name("name2")
                 .build();
 
-        when(sportObjectRepository.exists(nameAndIdMatches(updateSportObjectCommand.getName(), sportObjectId))).thenReturn(false);
-        when(sportsclubRepository.exists(idMatches(updateSportObjectCommand.getSportsclubId()))).thenReturn(false);
+        when(sportObjectRepository.exists(nameMatchesWithIdOtherThan(updateSportObjectCommand.getName(), sportObjectId))).thenReturn(false);
+        when(sportsclubRepository.exists(SportsclubQueryExpressions.idMatches(updateSportObjectCommand.getSportsclubId()))).thenReturn(false);
 
         testFixture.given(sportObjectCreatedEvent)
                 .when(updateSportObjectCommand)
@@ -96,8 +96,8 @@ public final class UpdateSportObjectTest extends AbstractSportObjectTest {
                 .name("name2")
                 .build();
 
-        when(sportObjectRepository.exists(nameAndIdMatches(updateSportObjectCommand.getName(), sportObjectId))).thenReturn(false);
-        when(sportsclubRepository.exists(idMatches(updateSportObjectCommand.getSportsclubId()))).thenReturn(true);
+        when(sportObjectRepository.exists(nameMatchesWithIdOtherThan(updateSportObjectCommand.getName(), sportObjectId))).thenReturn(false);
+        when(sportsclubRepository.exists(SportsclubQueryExpressions.idMatches(updateSportObjectCommand.getSportsclubId()))).thenReturn(true);
 
         testFixture.given(sportObjectCreatedEvent)
                 .when(updateSportObjectCommand)

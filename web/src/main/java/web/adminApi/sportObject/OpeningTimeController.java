@@ -1,6 +1,5 @@
 package web.adminApi.sportObject;
 
-import static query.model.baseEntity.repository.BaseEntityQueryExpressions.idMatches;
 import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_OPENING_TIME;
 import static web.common.RequestMappings.ADMIN_CONSOLE_OPENING_TIME_BY_ID;
@@ -38,6 +37,7 @@ import query.model.embeddable.Price;
 import query.model.sportobject.OpeningTimeEntity;
 import query.model.sportobject.SportObjectEntity;
 import query.model.sportobject.repository.OpeningTimeEntityRepository;
+import query.model.sportobject.repository.OpeningTimeQueryExpressions;
 import query.model.sportobject.repository.SportObjectEntityRepository;
 import query.model.sportobject.repository.SportObjectQueryExpressions;
 import query.model.sportsclub.SportsclubEntity;
@@ -144,7 +144,8 @@ final class OpeningTimeController extends BaseController {
         Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
                 SportObjectQueryExpressions.nameMatches(sportObjectName));
 
-        Optional<OpeningTimeEntity> openingTimeOptional = openingTimeRepository.findOne(idMatches(UUID.fromString(openingTimeId)));
+        Optional<OpeningTimeEntity> openingTimeOptional = openingTimeRepository.findOne(
+                OpeningTimeQueryExpressions.idMatches(UUID.fromString(openingTimeId)));
 
         if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent() && openingTimeOptional.isPresent()) {
             sendCommand.accept(sportObjectOptional.get(), openingTimeOptional.get());

@@ -2,7 +2,7 @@ package integrationTest.adminApi.sportsclub;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
+import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
 import static web.common.RequestMappings.ADMIN_CONSOLE_STATUTE;
 
 import java.util.UUID;
