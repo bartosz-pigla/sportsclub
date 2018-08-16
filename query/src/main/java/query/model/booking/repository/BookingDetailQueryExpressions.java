@@ -17,7 +17,7 @@ public final class BookingDetailQueryExpressions {
     public static BooleanExpression bookingDetailMatches(UUID sportObjectPositionId, LocalDate date, OpeningTimeRange timeRange) {
         if (sportObjectPositionId != null && date != null && timeRange != null) {
             BooleanExpression bookingIsNotDeleted = booking.deleted.eq(false);
-            BooleanExpression bookingStateMatches = booking.bookingState.notIn(BookingState.SUBMITTED, BookingState.CONFIRMED, BookingState.FINISHED);
+            BooleanExpression bookingStateMatches = booking.state.notIn(BookingState.SUBMITTED, BookingState.CONFIRMED, BookingState.FINISHED);
 
             BooleanExpression bookingDetailSportObjectPositionMatches = bookingDetail.position.id.eq(sportObjectPositionId);
             BooleanExpression bookingDetailDateMatches = bookingDetail.date.eq(date);

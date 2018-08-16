@@ -38,7 +38,7 @@ public abstract class AbstractBookingTest {
     protected BookingCreatedEvent bookingCreatedEvent = BookingCreatedEvent.builder()
             .bookingId(bookingId)
             .customerId(customerId)
-            .bookingDate(LocalDateTime.now())
+            .date(LocalDateTime.now())
             .build();
 
     @Before
