@@ -15,9 +15,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public final class BookingSubmitedEvent extends DomainEvent implements Serializable {
+public final class BookingFinishedEvent extends DomainEvent implements Serializable {
 
-    private static final long serialVersionUID = -3048460140239835898L;
+    private static final long serialVersionUID = 2096032889026474701L;
 
     private UUID bookingId;
 }

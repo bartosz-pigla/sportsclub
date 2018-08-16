@@ -1,7 +1,6 @@
 package api.booking.event;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 import api.common.DomainEvent;
@@ -16,11 +15,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public final class BookingCreatedEvent extends DomainEvent implements Serializable {
+public final class BookingSubmittedEvent extends DomainEvent implements Serializable {
 
-    private static final long serialVersionUID = 8264174054845206460L;
+    private static final long serialVersionUID = -3048460140239835898L;
 
     private UUID bookingId;
-    private UUID customerId;
-    private LocalDateTime date;
 }

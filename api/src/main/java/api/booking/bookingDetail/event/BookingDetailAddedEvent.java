@@ -21,6 +21,7 @@ public final class BookingDetailAddedEvent extends DomainEvent implements Serial
     private static final long serialVersionUID = -5415447627129094071L;
 
     private UUID bookingDetailId;
+    private UUID bookingId;
     private UUID sportObjectPositionId;
     private UUID openingTimeId;
     private LocalDate date;

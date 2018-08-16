@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import api.booking.event.BookingCreatedEvent;
+import domain.booking.service.BookingDetailValidator;
 import domain.booking.service.BookingValidator;
 import org.axonframework.test.aggregate.AggregateTestFixture;
 import org.junit.Before;
@@ -45,5 +46,7 @@ public abstract class AbstractBookingTest {
         testFixture = new AggregateTestFixture<>(Booking.class);
         testFixture.setReportIllegalStateChange(false);
         testFixture.registerInjectableResource(new BookingValidator(userRepository));
+        testFixture.registerInjectableResource(new BookingDetailValidator(
+                bookingDetailRepository, openingTimeRepository, sportObjectPositionRepository));
     }
 }

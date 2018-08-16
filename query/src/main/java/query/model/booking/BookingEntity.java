@@ -20,10 +20,10 @@ import query.model.user.UserEntity;
 @NoArgsConstructor
 public class BookingEntity extends BaseEntity {
 
-    private LocalDateTime bookingDate;
-    private BookingState bookingState;
+    private LocalDateTime date;
+    private BookingState state;
     @OneToMany(fetch = FetchType.LAZY)
-    private List<BookingDetailEntity> bookingDetails;
+    private List<BookingDetailEntity> details;
     @OneToOne(fetch = FetchType.LAZY)
     private UserEntity customer;
 }

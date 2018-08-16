@@ -6,9 +6,10 @@ import static org.axonframework.test.matchers.Matchers.sequenceOf;
 
 import api.booking.command.CancelBookingCommand;
 import api.booking.event.BookingCanceledEvent;
+import api.booking.event.BookingConfirmedEvent;
 import api.booking.event.BookingRejectedEvent;
-import domain.booking.exception.AlreadyCanceledException;
-import domain.booking.exception.AlreadyRejectedException;
+import api.booking.event.BookingSubmittedEvent;
+import domain.booking.exception.IllegalBookingStateException;
 import org.junit.Test;
 
 public final class CancelBookingTest extends AbstractBookingTest {
@@ -22,7 +23,7 @@ public final class CancelBookingTest extends AbstractBookingTest {
         testFixture.given(bookingCreatedEvent, new BookingCanceledEvent(bookingId))
                 .when(cancelCommand)
                 .expectNoEvents()
-                .expectException(AlreadyCanceledException.class);
+                .expectException(IllegalBookingStateException.class);
     }
 
     @Test
@@ -30,12 +31,32 @@ public final class CancelBookingTest extends AbstractBookingTest {
         testFixture.given(bookingCreatedEvent, new BookingRejectedEvent(bookingId))
                 .when(cancelCommand)
                 .expectNoEvents()
-                .expectException(AlreadyRejectedException.class);
+                .expectException(IllegalBookingStateException.class);
     }
 
     @Test
-    public void shouldCancel() {
+    public void shouldCancelWhenIsCreated() {
         testFixture.given(bookingCreatedEvent)
+                .when(cancelCommand)
+                .expectEventsMatching(sequenceOf(matches(p -> {
+                    BookingCanceledEvent event = (BookingCanceledEvent) p.getPayload();
+                    return event.getBookingId().equals(bookingId);
+                }), andNoMore()));
+    }
+
+    @Test
+    public void shouldCancelWhenIsSubmitted() {
+        testFixture.given(bookingCreatedEvent, new BookingSubmittedEvent(bookingId))
+                .when(cancelCommand)
+                .expectEventsMatching(sequenceOf(matches(p -> {
+                    BookingCanceledEvent event = (BookingCanceledEvent) p.getPayload();
+                    return event.getBookingId().equals(bookingId);
+                }), andNoMore()));
+    }
+
+    @Test
+    public void shouldCancelWhenIsConfirmed() {
+        testFixture.given(bookingCreatedEvent, new BookingSubmittedEvent(bookingId), new BookingConfirmedEvent(bookingId))
                 .when(cancelCommand)
                 .expectEventsMatching(sequenceOf(matches(p -> {
                     BookingCanceledEvent event = (BookingCanceledEvent) p.getPayload();

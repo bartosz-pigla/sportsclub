@@ -4,20 +4,17 @@ import static org.slf4j.LoggerFactory.getLogger;
 import static query.model.user.repository.UserQueryExpressions.idAndUserTypeMatches;
 
 import java.util.Collection;
+import java.util.EnumSet;
 import java.util.UUID;
 
 import api.booking.command.CreateBookingCommand;
-import domain.booking.exception.AlreadyCanceledException;
-import domain.booking.exception.AlreadyConfirmedException;
-import domain.booking.exception.AlreadyFinishedException;
-import domain.booking.exception.AlreadyRejectedException;
-import domain.booking.exception.AlreadySubmitedException;
-import domain.booking.exception.BookingDetailsNotExistsException;
 import domain.booking.exception.CustomerNotExistsException;
-import domain.booking.exception.NotSubmitedException;
+import domain.booking.exception.IllegalBookingStateException;
+import domain.booking.exception.NotContainsAnyBookingDetailException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
+import query.model.booking.BookingState;
 import query.model.user.UserType;
 import query.model.user.repository.UserEntityRepository;
 
@@ -38,52 +35,18 @@ public final class BookingValidator {
         }
     }
 
-    public void assertThatIsNotCanceled(UUID bookingId, boolean canceled) {
-        if (canceled) {
-            logger.error("Booking with id: {} is already canceled", bookingId);
-            throw new AlreadyCanceledException();
+    public void assertThatHasValidState(UUID bookingId, BookingState currentState, BookingState targetState, EnumSet<BookingState> allowedStates) {
+        if (!allowedStates.contains(currentState)) {
+            logger.error("Cannot change state of booking with id: {} from state: {} to state: {}",
+                    bookingId, currentState.name(), targetState.name());
+            throw new IllegalBookingStateException(currentState, targetState);
         }
     }
 
-    public void assertThatIsNotSubmitted(UUID bookingId, boolean submitted) {
-        if (submitted) {
-            logger.error("Booking with id: {} is already submited", bookingId);
-            throw new AlreadySubmitedException();
-        }
-    }
-
-    public void assertThatIsSubmited(UUID bookingId, boolean submitted) {
-        if (!submitted) {
-            logger.error("Booking with id: {} is not submited", bookingId);
-            throw new NotSubmitedException();
-        }
-    }
-
-    public void assertThatHasAnyBookingDetails(UUID bookingId, Collection<UUID> bookingDetails) {
-        if (bookingDetails.isEmpty()) {
+    public void assertThatHasAnyBookingDetails(UUID bookingId, Collection<UUID> details) {
+        if (details.isEmpty()) {
             logger.error("Booking with id: {}", bookingId);
-            throw new BookingDetailsNotExistsException();
-        }
-    }
-
-    public void assertThatIsNotConfirmed(UUID bookingId, boolean confirmed) {
-        if (confirmed) {
-            logger.error("Booking with id: {} is already confirmed", bookingId);
-            throw new AlreadyConfirmedException();
-        }
-    }
-
-    public void assertThatIsNotRejected(UUID bookingId, boolean rejected) {
-        if (rejected) {
-            logger.error("Booking with id: {} is already rejected", bookingId);
-            throw new AlreadyRejectedException();
-        }
-    }
-
-    public void assertThatIsNotFinished(UUID bookingId, boolean finished) {
-        if (finished) {
-            logger.error("Booking with id: {} is already finished", bookingId);
-            throw new AlreadyFinishedException();
+            throw new NotContainsAnyBookingDetailException();
         }
     }
 }

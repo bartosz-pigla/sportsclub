@@ -7,12 +7,10 @@ import static org.axonframework.test.matchers.Matchers.sequenceOf;
 import api.booking.command.RejectBookingCommand;
 import api.booking.event.BookingCanceledEvent;
 import api.booking.event.BookingConfirmedEvent;
+import api.booking.event.BookingFinishedEvent;
 import api.booking.event.BookingRejectedEvent;
-import api.booking.event.BookingSubmitedEvent;
-import domain.booking.exception.AlreadyCanceledException;
-import domain.booking.exception.AlreadyConfirmedException;
-import domain.booking.exception.AlreadyRejectedException;
-import domain.booking.exception.NotSubmitedException;
+import api.booking.event.BookingSubmittedEvent;
+import domain.booking.exception.IllegalBookingStateException;
 import org.junit.Test;
 
 public final class RejectBookingTest extends AbstractBookingTest {
@@ -23,10 +21,10 @@ public final class RejectBookingTest extends AbstractBookingTest {
 
     @Test
     public void shouldNotRejectWhenIsAlreadyRejected() {
-        testFixture.given(bookingCreatedEvent, new BookingSubmitedEvent(bookingId), new BookingRejectedEvent(bookingId))
+        testFixture.given(bookingCreatedEvent, new BookingSubmittedEvent(bookingId), new BookingRejectedEvent(bookingId))
                 .when(rejectCommand)
                 .expectNoEvents()
-                .expectException(AlreadyRejectedException.class);
+                .expectException(IllegalBookingStateException.class);
     }
 
     @Test
@@ -34,7 +32,7 @@ public final class RejectBookingTest extends AbstractBookingTest {
         testFixture.given(bookingCreatedEvent)
                 .when(rejectCommand)
                 .expectNoEvents()
-                .expectException(NotSubmitedException.class);
+                .expectException(IllegalBookingStateException.class);
     }
 
     @Test
@@ -42,20 +40,32 @@ public final class RejectBookingTest extends AbstractBookingTest {
         testFixture.given(bookingCreatedEvent, new BookingCanceledEvent(bookingId))
                 .when(rejectCommand)
                 .expectNoEvents()
-                .expectException(AlreadyCanceledException.class);
+                .expectException(IllegalBookingStateException.class);
     }
 
     @Test
     public void shouldNotRejectWhenIsAlreadyConfirmed() {
-        testFixture.given(bookingCreatedEvent, new BookingSubmitedEvent(bookingId), new BookingConfirmedEvent(bookingId))
+        testFixture.given(bookingCreatedEvent, new BookingSubmittedEvent(bookingId), new BookingConfirmedEvent(bookingId))
                 .when(rejectCommand)
                 .expectNoEvents()
-                .expectException(AlreadyConfirmedException.class);
+                .expectException(IllegalBookingStateException.class);
+    }
+
+    @Test
+    public void shouldNotRejectWhenIsAlreadyFinished() {
+        testFixture.given(
+                bookingCreatedEvent,
+                new BookingSubmittedEvent(bookingId),
+                new BookingConfirmedEvent(bookingId),
+                new BookingFinishedEvent(bookingId))
+                .when(rejectCommand)
+                .expectNoEvents()
+                .expectException(IllegalBookingStateException.class);
     }
 
     @Test
     public void shouldReject() {
-        testFixture.given(bookingCreatedEvent, new BookingSubmitedEvent(bookingId))
+        testFixture.given(bookingCreatedEvent, new BookingSubmittedEvent(bookingId))
                 .when(rejectCommand)
                 .expectEventsMatching(sequenceOf(matches(p -> {
                     BookingRejectedEvent event = (BookingRejectedEvent) p.getPayload();
