@@ -27,7 +27,7 @@ public final class OpeningTimeValidator {
 
     public void validate(CreateOpeningTimeCommand command, SportObject sportObject) {
         assertThatSportObjectIsNotDeleted(sportObject);
-        OpeningTimeRange newTimeRange = command.getDateRange();
+        OpeningTimeRange newTimeRange = command.getTimeRange();
         sportObject.getOpeningHours().stream()
                 .filter(o -> !o.isDeleted() && o.getOpeningTimeRange().contains(newTimeRange)).findFirst()
                 .ifPresent(timeRange -> {
@@ -40,7 +40,7 @@ public final class OpeningTimeValidator {
         assertThatSportObjectIsNotDeleted(sportObject);
 
         Collection<OpeningTime> existingOpeningHours = sportObject.getOpeningHours();
-        OpeningTimeRange newTimeRange = command.getDateRange();
+        OpeningTimeRange newTimeRange = command.getTimeRange();
         Optional<OpeningTime> openingTimeOptional = existingOpeningHours.stream()
                 .filter(o -> !o.isDeleted() && o.getOpeningTimeId().equals(command.getOpeningTimeId())).findFirst();
 

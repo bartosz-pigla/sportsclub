@@ -38,13 +38,13 @@ public final class UpdateOpeningTimeItTest extends AbstractSportObjectItTest {
         CreateOpeningTimeCommand createFirstOpeningTimeCommand = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectId)
                 .price(new Price(new BigDecimal(12.23d)))
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)))
                 .build();
 
         CreateOpeningTimeCommand createSecondOpeningTimeCommand = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectId)
                 .price(new Price(new BigDecimal(12.23d)))
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(13, 0), LocalTime.of(14, 0)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(13, 0), LocalTime.of(14, 0)))
                 .build();
 
         commandGateway.sendAndWait(createFirstOpeningTimeCommand);
@@ -153,13 +153,13 @@ public final class UpdateOpeningTimeItTest extends AbstractSportObjectItTest {
         CreateOpeningTimeCommand createFirstOpeningTimeCommand = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectId)
                 .price(new Price(new BigDecimal(12.23d)))
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)))
                 .build();
 
         CreateOpeningTimeCommand createSecondOpeningTimeCommand = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectId)
                 .price(new Price(new BigDecimal(12.23d)))
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(13, 0), LocalTime.of(14, 0)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(13, 0), LocalTime.of(14, 0)))
                 .build();
 
         commandGateway.sendAndWait(createFirstOpeningTimeCommand);

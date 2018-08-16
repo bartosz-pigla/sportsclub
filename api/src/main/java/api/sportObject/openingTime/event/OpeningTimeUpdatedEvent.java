@@ -22,6 +22,6 @@ public final class OpeningTimeUpdatedEvent extends DomainEvent implements Serial
     private static final long serialVersionUID = 2585100464875296765L;
 
     private UUID openingTimeId;
-    private OpeningTimeRange dateRange;
+    private OpeningTimeRange timeRange;
     private Price price;
 }

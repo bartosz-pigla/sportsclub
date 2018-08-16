@@ -36,21 +36,21 @@ public final class UpdateOpeningTimeTest extends AbstractSportObjectTest {
     private OpeningTimeCreatedEvent firstOpeningTimeCreatedEvent = OpeningTimeCreatedEvent.builder()
             .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
             .openingTimeId(UUID.randomUUID())
-            .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0)))
+            .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(10, 0)))
             .price(new Price(new BigDecimal(11d)))
             .build();
 
     private OpeningTimeCreatedEvent openingTimeCreatedEvent = OpeningTimeCreatedEvent.builder()
             .openingTimeId(UUID.randomUUID())
             .sportObjectId(sportsclubCreatedEvent.getSportsclubId())
-            .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)))
+            .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)))
             .price(new Price(new BigDecimal(11d)))
             .build();
 
     private OpeningTimeCreatedEvent lastOpeningTimeCreatedEvent = OpeningTimeCreatedEvent.builder()
             .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
             .openingTimeId(UUID.randomUUID())
-            .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(13, 0), LocalTime.of(14, 0)))
+            .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(13, 0), LocalTime.of(14, 0)))
             .price(new Price(new BigDecimal(11d)))
             .build();
 
@@ -59,7 +59,7 @@ public final class UpdateOpeningTimeTest extends AbstractSportObjectTest {
         UpdateOpeningTimeCommand updateOpeningTimeCommand = UpdateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
                 .openingTimeId(UUID.randomUUID())
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)))
                 .price(new Price(new BigDecimal(20d)))
                 .build();
 
@@ -74,7 +74,7 @@ public final class UpdateOpeningTimeTest extends AbstractSportObjectTest {
         UpdateOpeningTimeCommand updateOpeningTimeCommand = UpdateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
                 .openingTimeId(openingTimeCreatedEvent.getOpeningTimeId())
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 30), LocalTime.of(13, 0)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 30), LocalTime.of(13, 0)))
                 .price(new Price(new BigDecimal(20d)))
                 .build();
 
@@ -89,7 +89,7 @@ public final class UpdateOpeningTimeTest extends AbstractSportObjectTest {
         UpdateOpeningTimeCommand updateOpeningTimeCommand = UpdateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
                 .openingTimeId(openingTimeCreatedEvent.getOpeningTimeId())
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(13, 30)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(13, 30)))
                 .price(new Price(new BigDecimal(20d)))
                 .build();
 
@@ -104,7 +104,7 @@ public final class UpdateOpeningTimeTest extends AbstractSportObjectTest {
         UpdateOpeningTimeCommand updateOpeningTimeCommand = UpdateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
                 .openingTimeId(openingTimeCreatedEvent.getOpeningTimeId())
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 30), LocalTime.of(13, 30)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 30), LocalTime.of(13, 30)))
                 .price(new Price(new BigDecimal(20d)))
                 .build();
 
@@ -119,7 +119,7 @@ public final class UpdateOpeningTimeTest extends AbstractSportObjectTest {
         UpdateOpeningTimeCommand updateOpeningTimeCommand = UpdateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
                 .openingTimeId(openingTimeCreatedEvent.getOpeningTimeId())
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(13, 0)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(10, 0), LocalTime.of(13, 0)))
                 .price(new Price(new BigDecimal(20d)))
                 .build();
 

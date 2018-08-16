@@ -114,7 +114,7 @@ public class SportObject implements Serializable {
     public void on(OpeningTimeCreatedEvent event) {
         openingHours.add(OpeningTime.builder()
                 .openingTimeId(event.getOpeningTimeId())
-                .openingTimeRange(event.getDateRange())
+                .openingTimeRange(event.getTimeRange())
                 .price(event.getPrice()).build());
     }
 

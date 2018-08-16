@@ -43,7 +43,7 @@ public class OpeningTimeEntityEventHandler {
         UUID openingTimeId = event.getOpeningTimeId();
         logger.info("Updating opening time object with id: {} to database", openingTimeId);
         OpeningTimeEntity openingTime = openingTimeRepository.getOne(openingTimeId);
-        openingTime.setDateRange(event.getDateRange());
+        openingTime.setDateRange(event.getTimeRange());
         openingTime.setPrice(event.getPrice());
         openingTimeRepository.save(openingTime);
     }

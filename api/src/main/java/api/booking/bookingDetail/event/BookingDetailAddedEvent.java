@@ -1,6 +1,7 @@
 package api.booking.bookingDetail.event;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import api.common.DomainEvent;
@@ -22,4 +23,5 @@ public final class BookingDetailAddedEvent extends DomainEvent implements Serial
     private UUID bookingDetailId;
     private UUID sportObjectPositionId;
     private UUID openingTimeId;
+    private LocalDate date;
 }

@@ -1,5 +1,6 @@
 package api.booking.bookingDetail.command;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -16,4 +17,5 @@ public final class AddBookingDetailCommand {
     private UUID bookingId;
     private UUID sportObjectPositionId;
     private UUID openingTimeId;
+    private LocalDate date;
 }

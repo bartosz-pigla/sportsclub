@@ -22,7 +22,7 @@ public final class CreateOpeningTimeTest extends AbstractSportObjectTest {
     private OpeningTimeCreatedEvent openingTimeCreatedEvent = OpeningTimeCreatedEvent.builder()
             .openingTimeId(UUID.randomUUID())
             .sportObjectId(sportsclubCreatedEvent.getSportsclubId())
-            .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)))
+            .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)))
             .price(new Price(new BigDecimal(11d)))
             .build();
 
@@ -30,7 +30,7 @@ public final class CreateOpeningTimeTest extends AbstractSportObjectTest {
     public void shouldNotCreateWhenStartOpeningTimeIsInExistingRange() {
         CreateOpeningTimeCommand command = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 30), LocalTime.of(12, 30)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 30), LocalTime.of(12, 30)))
                 .price(new Price(new BigDecimal(20d)))
                 .build();
 
@@ -44,7 +44,7 @@ public final class CreateOpeningTimeTest extends AbstractSportObjectTest {
     public void shouldNotCreateWhenFinishOpeningTimeIsInExistingRange() {
         CreateOpeningTimeCommand command = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(10, 30), LocalTime.of(11, 30)))
                 .price(new Price(new BigDecimal(20d)))
                 .build();
 
@@ -58,7 +58,7 @@ public final class CreateOpeningTimeTest extends AbstractSportObjectTest {
     public void shouldNotCreateWhenBothStartAndFinishOpeningTimeIsInExistingRange() {
         CreateOpeningTimeCommand command = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 20), LocalTime.of(11, 40)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 20), LocalTime.of(11, 40)))
                 .price(new Price(new BigDecimal(20d)))
                 .build();
 
@@ -72,7 +72,7 @@ public final class CreateOpeningTimeTest extends AbstractSportObjectTest {
     public void shouldCreateWhenBothStartAndFinishOpeningTimeIsNotInExistingRangeButIsInOtherDay() {
         CreateOpeningTimeCommand command = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
-                .dateRange(new OpeningTimeRange(DayOfWeek.TUESDAY, LocalTime.of(11, 20), LocalTime.of(11, 40)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.TUESDAY, LocalTime.of(11, 20), LocalTime.of(11, 40)))
                 .price(new Price(new BigDecimal(20d)))
                 .build();
 
@@ -88,7 +88,7 @@ public final class CreateOpeningTimeTest extends AbstractSportObjectTest {
     public void shouldCreateWhenBothStartAndFinishOpeningTimeIsNotInExistingRange() {
         CreateOpeningTimeCommand command = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectCreatedEvent.getSportObjectId())
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(13, 20), LocalTime.of(14, 40)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(13, 20), LocalTime.of(14, 40)))
                 .price(new Price(new BigDecimal(20d)))
                 .build();
 

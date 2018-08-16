@@ -8,6 +8,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import api.booking.bookingDetail.command.AddBookingDetailCommand;
+import api.booking.bookingDetail.command.DeleteBookingDetailCommand;
+import api.booking.bookingDetail.event.BookingDetailAddedEvent;
 import api.booking.command.CancelBookingCommand;
 import api.booking.command.ConfirmBookingCommand;
 import api.booking.command.CreateBookingCommand;
@@ -18,6 +21,7 @@ import api.booking.event.BookingConfirmedEvent;
 import api.booking.event.BookingCreatedEvent;
 import api.booking.event.BookingRejectedEvent;
 import api.booking.event.BookingSubmitedEvent;
+import domain.booking.service.BookingDetailValidator;
 import domain.booking.service.BookingValidator;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -25,7 +29,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.commandhandling.model.AggregateIdentifier;
-import org.axonframework.commandhandling.model.AggregateMember;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.spring.stereotype.Aggregate;
 
@@ -41,8 +44,8 @@ public class Booking {
     private boolean submitted;
     private boolean confirmed;
     private boolean rejected;
-    @AggregateMember
-    private Set<BookingDetail> bookingDetails;
+    private boolean finished;
+    private Set<UUID> bookingDetails;
 
     @CommandHandler
     public Booking(CreateBookingCommand command, BookingValidator validator) {
@@ -66,6 +69,7 @@ public class Booking {
         validator.assertThatIsNotSubmitted(bookingId, submitted);
         validator.assertThatIsNotConfirmed(bookingId, confirmed);
         validator.assertThatIsNotRejected(bookingId, rejected);
+        validator.assertThatIsNotFinished(bookingId, finished);
         apply(new BookingCanceledEvent(bookingId));
     }
 
@@ -78,9 +82,10 @@ public class Booking {
     public void on(SubmitBookingCommand command, BookingValidator validator) {
         validator.assertThatIsNotSubmitted(bookingId, submitted);
         validator.assertThatIsNotCanceled(bookingId, canceled);
-        validator.assertThatHasAnyBookingDetails(bookingId, bookingDetails);
         validator.assertThatIsNotConfirmed(bookingId, confirmed);
         validator.assertThatIsNotRejected(bookingId, rejected);
+        validator.assertThatIsNotFinished(bookingId, finished);
+        validator.assertThatHasAnyBookingDetails(bookingId, bookingDetails);
         apply(new BookingSubmitedEvent(bookingId));
     }
 
@@ -95,6 +100,7 @@ public class Booking {
         validator.assertThatIsNotCanceled(bookingId, canceled);
         validator.assertThatHasAnyBookingDetails(bookingId, bookingDetails);
         validator.assertThatIsNotRejected(bookingId, rejected);
+        validator.assertThatIsNotFinished(bookingId, finished);
         apply(new BookingConfirmedEvent(bookingId));
     }
 
@@ -109,11 +115,40 @@ public class Booking {
         validator.assertThatIsNotCanceled(bookingId, canceled);
         validator.assertThatIsSubmited(bookingId, submitted);
         validator.assertThatIsNotConfirmed(bookingId, confirmed);
+        validator.assertThatIsNotFinished(bookingId, finished);
         apply(new BookingRejectedEvent(bookingId));
     }
 
     @EventSourcingHandler
     public void on(BookingRejectedEvent event) {
         rejected = true;
+    }
+
+    @CommandHandler
+    public void on(AddBookingDetailCommand command, BookingValidator bookingValidator, BookingDetailValidator detailValidator) {
+        bookingValidator.assertThatIsNotRejected(bookingId, rejected);
+        bookingValidator.assertThatIsNotConfirmed(bookingId, confirmed);
+        bookingValidator.assertThatIsNotSubmitted(bookingId, submitted);
+        bookingValidator.assertThatIsNotCanceled(bookingId, canceled);
+        bookingValidator.assertThatIsNotFinished(bookingId, finished);
+        detailValidator.validate(command, this);
+
+        BookingDetailAddedEvent event = new BookingDetailAddedEvent();
+        copyProperties(command, event);
+        event.setBookingDetailId(UUID.randomUUID());
+    }
+
+    @EventSourcingHandler
+    public void on(BookingDetailAddedEvent event) {
+        bookingDetails.add(event.getBookingDetailId());
+    }
+
+    @CommandHandler
+    public void on(DeleteBookingDetailCommand command, BookingValidator bookingValidator) {
+        bookingValidator.assertThatIsNotRejected(bookingId, rejected);
+        bookingValidator.assertThatIsNotConfirmed(bookingId, confirmed);
+        bookingValidator.assertThatIsNotSubmitted(bookingId, submitted);
+        bookingValidator.assertThatIsNotCanceled(bookingId, canceled);
+        bookingValidator.assertThatIsNotFinished(bookingId, finished);
     }
 }

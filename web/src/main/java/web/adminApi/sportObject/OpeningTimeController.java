@@ -86,7 +86,7 @@ final class OpeningTimeController extends BaseController {
             commandGateway.sendAndWait(CreateOpeningTimeCommand.builder()
                     .sportObjectId(sportObjectId)
                     .price(new Price(new BigDecimal(openingTimeRangeDto.getPrice())))
-                    .dateRange(new OpeningTimeRange(openingTimeRangeDto.getDayOfWeek(),
+                    .timeRange(new OpeningTimeRange(openingTimeRangeDto.getDayOfWeek(),
                             LocalTime.of(startTime.getHour(), startTime.getMinute()),
                             LocalTime.of(finishTime.getHour(), finishTime.getMinute()))).build());
             return ResponseEntity.ok(openingTimeRangeDto);
@@ -114,7 +114,7 @@ final class OpeningTimeController extends BaseController {
                 commandGateway.sendAndWait(UpdateOpeningTimeCommand.builder()
                         .openingTimeId(openingTime.getId())
                         .sportObjectId(sportObject.getId())
-                        .dateRange(new OpeningTimeRange(
+                        .timeRange(new OpeningTimeRange(
                                 openingTimeRangeDto.getDayOfWeek(),
                                 LocalTime.of(startTime.getHour(), startTime.getMinute()),
                                 LocalTime.of(finishTime.getHour(), finishTime.getMinute())))

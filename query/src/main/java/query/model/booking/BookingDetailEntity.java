@@ -3,6 +3,7 @@ package query.model.booking;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import lombok.Getter;
@@ -23,4 +24,6 @@ public class BookingDetailEntity extends BaseEntity {
     private SportObjectPositionEntity position;
     @OneToOne
     private OpeningTimeEntity openingTime;
+    @ManyToOne
+    private BookingEntity booking;
 }

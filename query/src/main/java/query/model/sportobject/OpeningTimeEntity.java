@@ -19,7 +19,7 @@ import query.model.embeddable.Price;
 public class OpeningTimeEntity extends BaseEntity {
 
     @Embedded
-    private OpeningTimeRange dateRange;
+    private OpeningTimeRange timeRange;
     @Embedded
     private Price price;
     @ManyToOne(fetch = FetchType.LAZY)

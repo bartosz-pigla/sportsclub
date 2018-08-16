@@ -13,15 +13,15 @@ public class DateRangeValidator {
 
     public static void validate(LocalDateTime dateFrom, LocalDateTime dateTo, Errors errors) {
         if (dateFrom == null) {
-            errors.rejectValue("dateRange", ErrorCode.EMPTY.getCode());
+            errors.rejectValue("timeRange", ErrorCode.EMPTY.getCode());
         }
 
         if (dateTo == null) {
-            errors.rejectValue("dateRange", ErrorCode.EMPTY.getCodeWithPrefix("dateFrom"));
+            errors.rejectValue("timeRange", ErrorCode.EMPTY.getCodeWithPrefix("dateFrom"));
         }
 
         if (dateFrom != null && dateTo != null && !dateTo.isAfter(dateFrom)) {
-            errors.rejectValue("dateRange", ErrorCode.EMPTY.getCodeWithPrefix("dateTo"));
+            errors.rejectValue("timeRange", ErrorCode.EMPTY.getCodeWithPrefix("dateTo"));
         }
     }
 }

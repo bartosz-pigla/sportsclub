@@ -7,9 +7,9 @@ import java.util.Collection;
 import java.util.UUID;
 
 import api.booking.command.CreateBookingCommand;
-import domain.booking.BookingDetail;
 import domain.booking.exception.AlreadyCanceledException;
 import domain.booking.exception.AlreadyConfirmedException;
+import domain.booking.exception.AlreadyFinishedException;
 import domain.booking.exception.AlreadyRejectedException;
 import domain.booking.exception.AlreadySubmitedException;
 import domain.booking.exception.BookingDetailsNotExistsException;
@@ -59,7 +59,7 @@ public final class BookingValidator {
         }
     }
 
-    public void assertThatHasAnyBookingDetails(UUID bookingId, Collection<BookingDetail> bookingDetails) {
+    public void assertThatHasAnyBookingDetails(UUID bookingId, Collection<UUID> bookingDetails) {
         if (bookingDetails.isEmpty()) {
             logger.error("Booking with id: {}", bookingId);
             throw new BookingDetailsNotExistsException();
@@ -77,6 +77,13 @@ public final class BookingValidator {
         if (rejected) {
             logger.error("Booking with id: {} is already rejected", bookingId);
             throw new AlreadyRejectedException();
+        }
+    }
+
+    public void assertThatIsNotFinished(UUID bookingId, boolean finished) {
+        if (finished) {
+            logger.error("Booking with id: {} is already finished", bookingId);
+            throw new AlreadyFinishedException();
         }
     }
 }

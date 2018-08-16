@@ -29,7 +29,7 @@ public class OpeningTime {
     @EventSourcingHandler
     public void on(OpeningTimeUpdatedEvent event) {
         if (event.getOpeningTimeId().equals(openingTimeId)) {
-            openingTimeRange = event.getDateRange();
+            openingTimeRange = event.getTimeRange();
             price = event.getPrice();
         }
     }

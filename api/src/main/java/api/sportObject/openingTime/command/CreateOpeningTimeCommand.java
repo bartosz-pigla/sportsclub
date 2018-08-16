@@ -16,6 +16,6 @@ public final class CreateOpeningTimeCommand {
 
     @TargetAggregateIdentifier
     private UUID sportObjectId;
-    private OpeningTimeRange dateRange;
+    private OpeningTimeRange timeRange;
     private Price price;
 }

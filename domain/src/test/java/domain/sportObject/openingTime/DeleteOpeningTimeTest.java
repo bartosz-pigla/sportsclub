@@ -36,7 +36,7 @@ public final class DeleteOpeningTimeTest extends AbstractSportObjectTest {
     private OpeningTimeCreatedEvent openingTimeCreatedEvent = OpeningTimeCreatedEvent.builder()
             .openingTimeId(UUID.randomUUID())
             .sportObjectId(sportsclubCreatedEvent.getSportsclubId())
-            .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)))
+            .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0)))
             .price(new Price(new BigDecimal(11d)))
             .build();
 

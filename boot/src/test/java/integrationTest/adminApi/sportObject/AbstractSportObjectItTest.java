@@ -53,7 +53,7 @@ public abstract class AbstractSportObjectItTest extends AbstractSportsclubItTest
         CreateOpeningTimeCommand command = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectId)
                 .price(new Price(new BigDecimal(12.23d)))
-                .dateRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)))
+                .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)))
                 .build();
         commandGateway.sendAndWait(command);
         return command;
@@ -72,7 +72,7 @@ public abstract class AbstractSportObjectItTest extends AbstractSportsclubItTest
 
     protected boolean exists(OpeningTimeRangeDto openingTimeRangeDto) {
         return openingTimeRepository.findAll().stream().anyMatch(o -> {
-            OpeningTimeRange timeRange = o.getDateRange();
+            OpeningTimeRange timeRange = o.getTimeRange();
             OpeningTimeDto startTime = openingTimeRangeDto.getStartTime();
             OpeningTimeDto finishTime = openingTimeRangeDto.getFinishTime();
             return timeRange.getDayOfWeek().equals(openingTimeRangeDto.getDayOfWeek())

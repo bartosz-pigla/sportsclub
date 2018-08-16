@@ -8,7 +8,7 @@ import query.model.sportobject.OpeningTimeEntity;
 public final class OpeningTimeRangeDtoFactory {
 
     public static OpeningTimeRangeDto create(OpeningTimeEntity openingTimeEntity) {
-        OpeningTimeRange dateRange = openingTimeEntity.getDateRange();
+        OpeningTimeRange dateRange = openingTimeEntity.getTimeRange();
         LocalTime startTime = dateRange.getStartTime();
         LocalTime finishTime = dateRange.getFinishTime();
 

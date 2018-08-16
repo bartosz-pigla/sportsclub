@@ -1,5 +1,5 @@
 package domain.booking.exception;
 
-final class BookingDetailsLimitExceededException {
+public final class BookingDetailsLimitExceededException extends RuntimeException {
 
 }
