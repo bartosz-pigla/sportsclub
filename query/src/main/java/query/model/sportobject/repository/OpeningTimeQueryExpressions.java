@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import query.model.baseEntity.repository.BaseEntityQueryExpressions;
+import query.model.embeddable.OpeningTimeRange;
 import query.model.sportobject.QOpeningTimeEntity;
 
 public final class OpeningTimeQueryExpressions {
@@ -12,5 +13,13 @@ public final class OpeningTimeQueryExpressions {
 
     public static BooleanExpression idMatches(UUID id) {
         return BaseEntityQueryExpressions.idMatches(id, openingTime._super);
+    }
+
+    public static BooleanExpression sportObjectIdAndTimeRangeMatches(UUID objectId, OpeningTimeRange timeRange) {
+        if (objectId != null && timeRange != null) {
+            return openingTime.sportObject.id.eq(objectId).and(openingTime.timeRange.eq(timeRange));
+        } else {
+            return openingTime.isNull();
+        }
     }
 }

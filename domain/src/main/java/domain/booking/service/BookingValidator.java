@@ -1,6 +1,7 @@
 package domain.booking.service;
 
 import static org.slf4j.LoggerFactory.getLogger;
+import static query.model.booking.repository.BookingQueryExpressions.bookingIdAndUserIdMatches;
 import static query.model.user.repository.UserQueryExpressions.idAndUserTypeMatches;
 
 import java.util.Collection;
@@ -11,10 +12,12 @@ import api.booking.command.CreateBookingCommand;
 import domain.booking.exception.CustomerNotExistsException;
 import domain.booking.exception.IllegalBookingStateException;
 import domain.booking.exception.NotContainsAnyBookingDetailException;
+import domain.common.exception.AuthorizationException;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 import query.model.booking.BookingState;
+import query.model.booking.repository.BookingEntityRepository;
 import query.model.user.UserType;
 import query.model.user.repository.UserEntityRepository;
 
@@ -25,6 +28,7 @@ public final class BookingValidator {
     private static final Logger logger = getLogger(BookingValidator.class);
 
     private UserEntityRepository userRepository;
+    private BookingEntityRepository bookingRepository;
 
     public void validateCreate(CreateBookingCommand command) {
         UUID customerId = command.getCustomerId();
@@ -32,6 +36,13 @@ public final class BookingValidator {
         if (!userRepository.exists(idAndUserTypeMatches(customerId, UserType.CUSTOMER))) {
             logger.error("Customer with id: {} not exists", customerId);
             throw new CustomerNotExistsException();
+        }
+    }
+
+    public void authorize(UUID bookingId, UUID customerId) {
+        if (!bookingRepository.exists(bookingIdAndUserIdMatches(bookingId, customerId))) {
+            logger.error("Customer with id: {} can't change booking with id: {}", customerId, bookingId);
+            throw new AuthorizationException(bookingId, customerId);
         }
     }
 

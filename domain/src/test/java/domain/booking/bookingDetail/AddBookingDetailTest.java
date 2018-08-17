@@ -42,6 +42,7 @@ public final class AddBookingDetailTest extends AbstractBookingTest {
 
     private AddBookingDetailCommand command = AddBookingDetailCommand.builder()
             .bookingId(bookingId)
+            .customerId(customerId)
             .openingTimeId(openingTimeId)
             .sportObjectPositionId(positionId)
             .build();
@@ -121,6 +122,7 @@ public final class AddBookingDetailTest extends AbstractBookingTest {
         testFixture.given(bookingCreatedEvent)
                 .when(AddBookingDetailCommand.builder()
                         .bookingId(bookingId)
+                        .customerId(customerId)
                         .openingTimeId(UUID.randomUUID())
                         .sportObjectPositionId(positionId)
                         .build())
@@ -188,6 +190,7 @@ public final class AddBookingDetailTest extends AbstractBookingTest {
         testFixture.given(bookingCreatedEvent, detailAddedEvent)
                 .when(AddBookingDetailCommand.builder()
                         .bookingId(bookingId)
+                        .customerId(customerId)
                         .date(LocalDate.now().plusDays(1))
                         .openingTimeId(openingTimeId)
                         .sportObjectPositionId(sportObjectPositionId)
@@ -197,7 +200,7 @@ public final class AddBookingDetailTest extends AbstractBookingTest {
     }
 
     @Test
-    public void shoulAdd() {
+    public void shouldAdd() {
         SportObjectEntity sportObject = new SportObjectEntity();
 
         UUID openingTimeId = command.getOpeningTimeId();
@@ -233,6 +236,7 @@ public final class AddBookingDetailTest extends AbstractBookingTest {
         testFixture.given(bookingCreatedEvent, detailAddedEvent)
                 .when(AddBookingDetailCommand.builder()
                         .bookingId(bookingId)
+                        .customerId(customerId)
                         .date(LocalDate.now().plusDays(1))
                         .openingTimeId(openingTimeId)
                         .sportObjectPositionId(sportObjectPositionId)

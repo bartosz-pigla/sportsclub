@@ -1,13 +1,16 @@
 package web.adminApi.user;
 
+import static org.springframework.http.ResponseEntity.ok;
 import static query.model.user.repository.UserQueryExpressions.usernameMatches;
-import static web.common.RequestMappings.ADMIN_CONSOLE_USER_ACTIVATION;
+import static web.common.RequestMappings.ADMIN_API_USER_ACTIVATION;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import api.user.command.ActivateUserCommand;
 import api.user.command.DeactivateUserCommand;
+import com.google.common.collect.ImmutableList;
 import commons.ErrorCode;
 import domain.user.activation.common.exception.AlreadyActivatedException;
 import domain.user.activation.common.exception.AlreadyDeactivatedException;
@@ -30,7 +33,7 @@ import web.common.user.UserBaseController;
 @Setter(onMethod_ = { @Autowired })
 final class UserActivationController extends UserBaseController {
 
-    @PostMapping(ADMIN_CONSOLE_USER_ACTIVATION)
+    @PostMapping(ADMIN_API_USER_ACTIVATION)
     ResponseEntity<?> activateOrDeactivateUser(@RequestBody UserActivationWebCommand userActivationCommand) {
         Optional<UserEntity> userOptional = userRepository.findOne(
                 usernameMatches(userActivationCommand.getUsername()));
@@ -39,7 +42,7 @@ final class UserActivationController extends UserBaseController {
             UserEntity userEntity = userOptional.get();
             sendActivationOrDeactivationCommand(userEntity.getId(), userActivationCommand.isActivated());
 
-            return ResponseEntity.ok(UserDto.builder()
+            return ok(UserDto.builder()
                     .username(userEntity.getUsername())
                     .userType(userEntity.getUserType().name())
                     .phoneNumber(userEntity.getPhoneNumber().getPhoneNumber())
@@ -47,7 +50,8 @@ final class UserActivationController extends UserBaseController {
                     .deleted(userEntity.isDeleted())
                     .activated(userEntity.isActivated()).build());
         } else {
-            return validationResponseService.getOneFieldErrorResponse("username", ErrorCode.NOT_EXISTS);
+            return new ResponseEntity<>(
+                    ImmutableList.of(new FieldErrorDto("username", ErrorCode.NOT_EXISTS)), HttpStatus.CONFLICT);
         }
     }
 
@@ -63,17 +67,13 @@ final class UserActivationController extends UserBaseController {
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AlreadyActivatedException.class)
-    public ResponseEntity<?> handleUserAlreadyActivatedConflict() {
-        return validationResponseService.getResponse(
-                HttpStatus.CONFLICT,
-                new FieldErrorDto("username", ErrorCode.ALREADY_ACTIVATED.getCode()));
+    public List<FieldErrorDto> handleUserAlreadyActivatedConflict() {
+        return ImmutableList.of(new FieldErrorDto("username", ErrorCode.ALREADY_ACTIVATED));
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AlreadyDeactivatedException.class)
-    public ResponseEntity<?> handleUserAlreadyDeactivatedConflict() {
-        return validationResponseService.getResponse(
-                HttpStatus.CONFLICT,
-                new FieldErrorDto("username", ErrorCode.ALREADY_DEACTIVATED.getCode()));
+    public List<FieldErrorDto> handleUserAlreadyDeactivatedConflict() {
+        return ImmutableList.of(new FieldErrorDto("username", ErrorCode.ALREADY_DEACTIVATED));
     }
 }

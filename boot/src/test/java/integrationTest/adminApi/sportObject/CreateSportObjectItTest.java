@@ -4,7 +4,7 @@ import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT;
+import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -36,7 +36,7 @@ public final class CreateSportObjectItTest extends AbstractSportObjectItTest {
                 .imageUrl("https://www.w3schools.com/w3css/img_lights.jpg").build();
 
         ResponseEntity<SportObjectDto> createSportObjectResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_SPORT_OBJECT,
+                ADMIN_API_SPORT_OBJECT,
                 sportObject,
                 SportObjectDto.class,
                 sportsclubName);
@@ -64,7 +64,7 @@ public final class CreateSportObjectItTest extends AbstractSportObjectItTest {
                 .imageUrl("https://www.w3schools.com/w3css/img_lights.jpg").build();
 
         ResponseEntity<List> createSportObjectResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_SPORT_OBJECT,
+                ADMIN_API_SPORT_OBJECT,
                 sportObject,
                 List.class,
                 sportsclubName);
@@ -91,7 +91,7 @@ public final class CreateSportObjectItTest extends AbstractSportObjectItTest {
                 .imageUrl("https://www.w3schools.com/w3css/img_lights.jpg").build();
 
         ResponseEntity<List> createSportObjectResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_SPORT_OBJECT,
+                ADMIN_API_SPORT_OBJECT,
                 sportObject,
                 List.class,
                 sportsclubName);
@@ -118,7 +118,7 @@ public final class CreateSportObjectItTest extends AbstractSportObjectItTest {
                 .imageUrl("https://www.w3schools.com/w3css/img_lights.jpg").build();
 
         ResponseEntity<List> createSportObjectResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_SPORT_OBJECT,
+                ADMIN_API_SPORT_OBJECT,
                 sportObject,
                 List.class,
                 sportsclubName);

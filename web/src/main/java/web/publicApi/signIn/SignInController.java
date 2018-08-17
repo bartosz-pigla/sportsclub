@@ -1,5 +1,6 @@
 package web.publicApi.signIn;
 
+import static org.springframework.http.ResponseEntity.ok;
 import static web.common.RequestMappings.SIGN_IN;
 
 import lombok.Setter;
@@ -31,6 +32,6 @@ final class SignInController {
                         command.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.generateToken(authentication);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwt));
+        return ok(new JwtAuthenticationResponse(jwt));
     }
 }

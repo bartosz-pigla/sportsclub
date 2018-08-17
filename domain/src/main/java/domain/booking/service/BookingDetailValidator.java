@@ -10,9 +10,9 @@ import api.booking.bookingDetail.command.AddBookingDetailCommand;
 import api.booking.bookingDetail.command.DeleteBookingDetailCommand;
 import domain.booking.Booking;
 import domain.booking.exception.AllSportObjectPositionsAlreadyBookedException;
-import domain.booking.exception.BookingDetailNotExistsException;
 import domain.booking.exception.BookingDetailsLimitExceededException;
 import domain.booking.exception.InvalidOpeningTimeAssignException;
+import domain.common.exception.NotExistsException;
 import domain.sportObject.exception.OpeningTimeNotExistsException;
 import domain.sportObject.exception.SportObjectPositionNotExistsException;
 import lombok.AllArgsConstructor;
@@ -69,9 +69,9 @@ public final class BookingDetailValidator {
     public void validate(DeleteBookingDetailCommand command, Collection<UUID> detailIds) {
         UUID detailId = command.getBookingDetailId();
 
-        if (detailIds.contains(detailId)) {
+        if (!detailIds.contains(detailId)) {
             logger.error("Booking detail with id: {} not exists", detailId);
-            throw new BookingDetailNotExistsException();
+            throw new NotExistsException();
         }
     }
 

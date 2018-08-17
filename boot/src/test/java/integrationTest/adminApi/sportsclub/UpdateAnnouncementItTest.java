@@ -3,7 +3,7 @@ package integrationTest.adminApi.sportsclub;
 import static com.google.common.collect.Lists.newArrayList;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORTSCLUB_ANNOUNCEMENT_BY_ID;
+import static web.common.RequestMappings.ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID;
 
 import java.util.UUID;
 
@@ -35,7 +35,7 @@ public final class UpdateAnnouncementItTest extends AbstractSportsclubItTest {
                 .build();
 
         ResponseEntity<AnnouncementDto> updateAnnouncementResponse = put(
-                ADMIN_CONSOLE_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
+                ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
                 announcement,
                 AnnouncementDto.class,
                 createSportsclubCommand.getName(), announcementId);
@@ -62,7 +62,7 @@ public final class UpdateAnnouncementItTest extends AbstractSportsclubItTest {
                 .build();
 
         ResponseEntity<AnnouncementDto> updateAnnouncementResponse = put(
-                ADMIN_CONSOLE_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
+                ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
                 announcement,
                 AnnouncementDto.class,
                 "notExistingSportsclubName", announcementId);
@@ -81,7 +81,7 @@ public final class UpdateAnnouncementItTest extends AbstractSportsclubItTest {
                 .build();
 
         ResponseEntity<AnnouncementDto> updateAnnouncementResponse = put(
-                ADMIN_CONSOLE_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
+                ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
                 announcement,
                 AnnouncementDto.class,
                 createSportsclubCommand.getName(), "notExistingAnnouncementId");

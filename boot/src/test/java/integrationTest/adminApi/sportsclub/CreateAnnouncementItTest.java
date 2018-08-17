@@ -3,7 +3,7 @@ package integrationTest.adminApi.sportsclub;
 import static com.google.common.collect.Lists.newArrayList;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static web.common.RequestMappings.ADMIN_CONSOLE_ANNOUNCEMENT;
+import static web.common.RequestMappings.ADMIN_API_ANNOUNCEMENT;
 
 import api.sportsclub.command.CreateSportsclubCommand;
 import org.junit.Test;
@@ -30,7 +30,7 @@ public final class CreateAnnouncementItTest extends AbstractSportsclubItTest {
                 .build();
 
         ResponseEntity<AnnouncementDto> createAnnouncementResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_ANNOUNCEMENT,
+                ADMIN_API_ANNOUNCEMENT,
                 announcement,
                 AnnouncementDto.class,
                 createSportsclubCommand.getName());
@@ -53,7 +53,7 @@ public final class CreateAnnouncementItTest extends AbstractSportsclubItTest {
                 .build();
 
         ResponseEntity createAnnouncementResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_ANNOUNCEMENT,
+                ADMIN_API_ANNOUNCEMENT,
                 announcement,
                 null,
                 "notExistingSportsclub");

@@ -30,7 +30,7 @@ public final class SubmitBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotSubmitWhenIsAlreadySubmitted() {
         testFixture.given(bookingCreatedEvent, detailAddedEvent, new BookingSubmittedEvent(bookingId))
-                .when(new SubmitBookingCommand(bookingId))
+                .when(new SubmitBookingCommand(bookingId, customerId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -38,14 +38,14 @@ public final class SubmitBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotSubmitWhenIsAlreadyCanceled() {
         testFixture.given(bookingCreatedEvent, detailAddedEvent, new BookingCanceledEvent(bookingId))
-                .when(new SubmitBookingCommand(bookingId))
+                .when(new SubmitBookingCommand(bookingId, customerId))
                 .expectException(IllegalBookingStateException.class);
     }
 
     @Test
     public void shouldNotSubmitWhenIsAlreadyRejected() {
         testFixture.given(bookingCreatedEvent, detailAddedEvent, new BookingSubmittedEvent(bookingId), new BookingRejectedEvent(bookingId))
-                .when(new SubmitBookingCommand(bookingId))
+                .when(new SubmitBookingCommand(bookingId, customerId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -53,7 +53,7 @@ public final class SubmitBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotSubmitWhenIsAlreadyConfirmed() {
         testFixture.given(bookingCreatedEvent, detailAddedEvent, new BookingSubmittedEvent(bookingId), new BookingConfirmedEvent(bookingId))
-                .when(new SubmitBookingCommand(bookingId))
+                .when(new SubmitBookingCommand(bookingId, customerId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -66,7 +66,7 @@ public final class SubmitBookingTest extends AbstractBookingTest {
                 new BookingSubmittedEvent(bookingId),
                 new BookingConfirmedEvent(bookingId),
                 new BookingFinishedEvent(bookingId))
-                .when(new SubmitBookingCommand(bookingId))
+                .when(new SubmitBookingCommand(bookingId, customerId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -74,7 +74,7 @@ public final class SubmitBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotSubmitWhenNotContainsAnyBookingDetail() {
         testFixture.given(bookingCreatedEvent)
-                .when(new SubmitBookingCommand(bookingId))
+                .when(new SubmitBookingCommand(bookingId, customerId))
                 .expectNoEvents()
                 .expectException(NotContainsAnyBookingDetailException.class);
     }
@@ -82,7 +82,7 @@ public final class SubmitBookingTest extends AbstractBookingTest {
     @Test
     public void shouldSubmit() {
         testFixture.given(bookingCreatedEvent, detailAddedEvent)
-                .when(new SubmitBookingCommand(bookingId))
+                .when(new SubmitBookingCommand(bookingId, customerId))
                 .expectEventsMatching(sequenceOf(matches(p -> {
                     BookingSubmittedEvent event = (BookingSubmittedEvent) p.getPayload();
                     return event.getBookingId().equals(bookingId);

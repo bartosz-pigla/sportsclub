@@ -3,7 +3,7 @@ package integrationTest.adminApi.user;
 import static org.junit.Assert.assertEquals;
 import static query.model.user.repository.ActivationLinkQueryExpressions.customerIdMatches;
 import static query.model.user.repository.UserQueryExpressions.usernameMatches;
-import static web.common.RequestMappings.ADMIN_CONSOLE_CUSTOMER_BY_USERNAME;
+import static web.common.RequestMappings.ADMIN_API_CUSTOMER_BY_USERNAME;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +45,7 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
 
         signIn("superuser", "password");
         ResponseEntity<UserDto> deleteCustomerResponse = restTemplate.exchange(
-                ADMIN_CONSOLE_CUSTOMER_BY_USERNAME,
+                ADMIN_API_CUSTOMER_BY_USERNAME,
                 HttpMethod.DELETE,
                 null,
                 UserDto.class,
@@ -68,7 +68,7 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
 
         signIn("superuser", "password");
         ResponseEntity<List> deleteCustomerResponse = restTemplate.exchange(
-                ADMIN_CONSOLE_CUSTOMER_BY_USERNAME,
+                ADMIN_API_CUSTOMER_BY_USERNAME,
                 HttpMethod.DELETE,
                 null,
                 List.class,
@@ -82,7 +82,7 @@ public final class DeleteCustomerItTest extends AbstractUserItTest {
     public void shouldNotDeleteWhenCustomerNotExists() {
         signIn("superuser", "password");
         ResponseEntity<List> deleteCustomerResponse = restTemplate.exchange(
-                ADMIN_CONSOLE_CUSTOMER_BY_USERNAME,
+                ADMIN_API_CUSTOMER_BY_USERNAME,
                 HttpMethod.DELETE,
                 null,
                 List.class,

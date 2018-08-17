@@ -17,6 +17,7 @@ public final class RejectBookingTest extends AbstractBookingTest {
 
     private RejectBookingCommand rejectCommand = RejectBookingCommand.builder()
             .bookingId(bookingId)
+            .customerId(customerId)
             .build();
 
     @Test

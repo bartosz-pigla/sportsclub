@@ -2,7 +2,7 @@ package integrationTest.adminApi.sportObject.sportObjectPosition;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME;
+import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME;
 
 import java.net.MalformedURLException;
 import java.util.UUID;
@@ -35,7 +35,7 @@ public final class DeleteSportObjectPositionItTest extends AbstractSportObjectIt
         String sportObjectPositionName = createSportObjectPositionCommand.getName();
 
         ResponseEntity<Object> deletePositionResponseEntity = delete(
-                ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME,
+                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
                 Object.class,
                 sportsclubName, sportObjectName, sportObjectPositionName);
 
@@ -56,7 +56,7 @@ public final class DeleteSportObjectPositionItTest extends AbstractSportObjectIt
         String sportObjectPositionName = "notExistingPosition";
 
         ResponseEntity<Object> deletePositionResponseEntity = delete(
-                ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME,
+                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
                 Object.class,
                 sportsclubName, sportObjectName, sportObjectPositionName);
 
@@ -89,7 +89,7 @@ public final class DeleteSportObjectPositionItTest extends AbstractSportObjectIt
         String sportObjectPositionName = createSportObjectPositionCommand.getName();
 
         ResponseEntity<Object> deletePositionResponseEntity = delete(
-                ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME,
+                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
                 Object.class,
                 sportsclubName, sportObjectName, sportObjectPositionId);
 

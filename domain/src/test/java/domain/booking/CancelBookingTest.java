@@ -16,6 +16,7 @@ public final class CancelBookingTest extends AbstractBookingTest {
 
     private CancelBookingCommand cancelCommand = CancelBookingCommand.builder()
             .bookingId(bookingId)
+            .customerId(customerId)
             .build();
 
     @Test

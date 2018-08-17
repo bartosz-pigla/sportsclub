@@ -14,5 +14,6 @@ public final class DeleteBookingDetailCommand {
 
     @TargetAggregateIdentifier
     private UUID bookingId;
+    private UUID customerId;
     private UUID bookingDetailId;
 }

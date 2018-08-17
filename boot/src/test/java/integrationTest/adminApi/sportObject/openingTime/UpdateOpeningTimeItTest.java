@@ -3,7 +3,7 @@ package integrationTest.adminApi.sportObject.openingTime;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static web.common.RequestMappings.ADMIN_CONSOLE_OPENING_TIME_BY_ID;
+import static web.common.RequestMappings.ADMIN_API_OPENING_TIME_BY_ID;
 
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
@@ -68,7 +68,7 @@ public final class UpdateOpeningTimeItTest extends AbstractSportObjectItTest {
                         .minute(0).build()).build();
 
         ResponseEntity<OpeningTimeRangeDto> updateOpeningTimeRangeDtoResponseEntity = put(
-                ADMIN_CONSOLE_OPENING_TIME_BY_ID,
+                ADMIN_API_OPENING_TIME_BY_ID,
                 openingTimeRangeDto,
                 OpeningTimeRangeDto.class,
                 sportsclubName, sportObjectName, openingTimeId.toString());
@@ -101,7 +101,7 @@ public final class UpdateOpeningTimeItTest extends AbstractSportObjectItTest {
                         .minute(0).build()).build();
 
         ResponseEntity<List> updateOpeningTimeRangeDtoResponseEntity = put(
-                ADMIN_CONSOLE_OPENING_TIME_BY_ID,
+                ADMIN_API_OPENING_TIME_BY_ID,
                 openingTimeRangeDto,
                 List.class,
                 sportsclubName, sportObjectName, openingTimeId.toString());
@@ -134,7 +134,7 @@ public final class UpdateOpeningTimeItTest extends AbstractSportObjectItTest {
                         .minute(0).build()).build();
 
         ResponseEntity<List> updateOpeningTimeRangeDtoResponseEntity = put(
-                ADMIN_CONSOLE_OPENING_TIME_BY_ID,
+                ADMIN_API_OPENING_TIME_BY_ID,
                 openingTimeRangeDto,
                 List.class,
                 sportsclubName, sportObjectName, openingTimeId.toString());
@@ -182,7 +182,7 @@ public final class UpdateOpeningTimeItTest extends AbstractSportObjectItTest {
                         .minute(30).build()).build();
 
         ResponseEntity<List> updateOpeningTimeRangeDtoResponseEntity = put(
-                ADMIN_CONSOLE_OPENING_TIME_BY_ID,
+                ADMIN_API_OPENING_TIME_BY_ID,
                 openingTimeRangeDto,
                 List.class,
                 sportsclubName, sportObjectName, openingTimeId.toString());

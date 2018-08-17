@@ -15,6 +15,7 @@ public final class AddBookingDetailCommand {
 
     @TargetAggregateIdentifier
     private UUID bookingId;
+    private UUID customerId;
     private UUID sportObjectPositionId;
     private UUID openingTimeId;
     private LocalDate date;

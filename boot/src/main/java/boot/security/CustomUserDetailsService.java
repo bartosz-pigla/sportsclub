@@ -1,8 +1,7 @@
 package boot.security;
 
+import static java.util.UUID.fromString;
 import static query.model.user.repository.UserQueryExpressions.usernameMatches;
-
-import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,7 +33,7 @@ class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserById(String id) {
         UserEntity user = userRepository.findOne(
-                UserQueryExpressions.idMatches(UUID.fromString(id)))
+                UserQueryExpressions.idMatches(fromString(id)))
                 .orElseThrow(RuntimeException::new);
         return new UserPrincipal(user);
     }

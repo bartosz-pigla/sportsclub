@@ -1,6 +1,6 @@
 package integrationTest.adminApi.user;
 
-import static web.common.RequestMappings.ADMIN_CONSOLE_CUSTOMER;
+import static web.common.RequestMappings.ADMIN_API_CUSTOMER;
 
 import integrationTest.AbstractUserItTest;
 import org.junit.Test;
@@ -12,21 +12,21 @@ public final class CreateCustomerItTest extends AbstractUserItTest {
     @DirtiesContext
     public void shouldSendErrorMessageWhenCreateCustomerIsEmpty() {
         signIn("superuser", "password");
-        shouldSendErrorMessageWhenCreateUserIsEmpty(ADMIN_CONSOLE_CUSTOMER);
+        shouldSendErrorMessageWhenCreateUserIsEmpty(ADMIN_API_CUSTOMER);
     }
 
     @Test
     @DirtiesContext
     public void shouldNotSaveWhenCustomerWithGivenUsernameAlreadyExists() {
         signIn("superuser", "password");
-        shouldSaveUserWhenAllFieldsAreValid(ADMIN_CONSOLE_CUSTOMER);
-        shouldNotSaveUserWhenUserWithGivenUsernameAlreadyExists(ADMIN_CONSOLE_CUSTOMER);
+        shouldSaveUserWhenAllFieldsAreValid(ADMIN_API_CUSTOMER);
+        shouldNotSaveUserWhenUserWithGivenUsernameAlreadyExists(ADMIN_API_CUSTOMER);
     }
 
     @Test
     @DirtiesContext
     public void shouldSaveWhenAllFieldsAreValid() {
         signIn("superuser", "password");
-        shouldSaveUserWhenAllFieldsAreValid(ADMIN_CONSOLE_CUSTOMER);
+        shouldSaveUserWhenAllFieldsAreValid(ADMIN_API_CUSTOMER);
     }
 }

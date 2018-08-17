@@ -1,5 +1,6 @@
 package web.publicApi.signUp;
 
+import static org.springframework.http.ResponseEntity.ok;
 import static query.model.user.repository.UserQueryExpressions.usernameMatches;
 import static web.common.RequestMappings.SIGN_UP;
 
@@ -42,6 +43,6 @@ final class SignUpController extends UserBaseController {
         userRepository.findOne(usernameMatches(customer.getUsername())).ifPresent(c ->
                 commandGateway.sendAndWait(SendActivationLinkCommand.builder().customerId(c.getId()).build()));
 
-        return ResponseEntity.ok(customer);
+        return ok(customer);
     }
 }

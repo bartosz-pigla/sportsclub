@@ -3,7 +3,7 @@ package integrationTest.adminApi.sportObject;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME;
+import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_BY_NAME;
 
 import java.net.MalformedURLException;
 
@@ -28,7 +28,7 @@ public final class DeleteSportObjectItTest extends AbstractSportObjectItTest {
         signIn("superuser", "password");
 
         ResponseEntity<SportObjectDto> deleteSportObjectResponse = delete(
-                ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME,
+                ADMIN_API_SPORT_OBJECT_BY_NAME,
                 SportObjectDto.class,
                 sportsclubName, sportObjectName);
 
@@ -51,7 +51,7 @@ public final class DeleteSportObjectItTest extends AbstractSportObjectItTest {
         signIn("superuser", "password");
 
         ResponseEntity<Object> deleteSportObjectResponse = delete(
-                ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME,
+                ADMIN_API_SPORT_OBJECT_BY_NAME,
                 Object.class,
                 sportsclubName, sportObjectName);
 
@@ -69,7 +69,7 @@ public final class DeleteSportObjectItTest extends AbstractSportObjectItTest {
         signIn("superuser", "password");
 
         ResponseEntity<Object> deleteSportObjectResponse = delete(
-                ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME,
+                ADMIN_API_SPORT_OBJECT_BY_NAME,
                 Object.class,
                 sportsclubName, sportObjectName);
 

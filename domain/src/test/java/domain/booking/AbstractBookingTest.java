@@ -1,5 +1,7 @@
 package domain.booking;
 
+import static org.mockito.Mockito.when;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -13,11 +15,12 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import query.model.booking.repository.BookingDetailEntityRepository;
 import query.model.booking.repository.BookingEntityRepository;
+import query.model.booking.repository.BookingQueryExpressions;
 import query.model.sportobject.repository.OpeningTimeEntityRepository;
 import query.model.sportobject.repository.SportObjectPositionEntityRepository;
 import query.model.user.repository.UserEntityRepository;
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public abstract class AbstractBookingTest {
 
     protected AggregateTestFixture<Booking> testFixture;
@@ -45,8 +48,10 @@ public abstract class AbstractBookingTest {
     public void setUp() {
         testFixture = new AggregateTestFixture<>(Booking.class);
         testFixture.setReportIllegalStateChange(false);
-        testFixture.registerInjectableResource(new BookingValidator(userRepository));
+        testFixture.registerInjectableResource(new BookingValidator(userRepository, bookingRepository));
         testFixture.registerInjectableResource(new BookingDetailValidator(
                 bookingDetailRepository, openingTimeRepository, sportObjectPositionRepository));
+
+        when(bookingRepository.exists(BookingQueryExpressions.bookingIdAndUserIdMatches(bookingId, customerId))).thenReturn(true);
     }
 }

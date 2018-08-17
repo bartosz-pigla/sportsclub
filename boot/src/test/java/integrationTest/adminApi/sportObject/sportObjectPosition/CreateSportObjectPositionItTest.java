@@ -2,7 +2,7 @@ package integrationTest.adminApi.sportObject.sportObjectPosition;
 
 import static org.junit.Assert.assertEquals;
 import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_POSITION;
+import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -37,7 +37,7 @@ public final class CreateSportObjectPositionItTest extends AbstractSportObjectIt
                 .build();
 
         ResponseEntity<SportObjectPositionDto> sportObjectPositionDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_CONSOLE_SPORT_OBJECT_POSITION,
+                ADMIN_API_SPORT_OBJECT_POSITION,
                 position,
                 SportObjectPositionDto.class,
                 sportsclubName, sportObjectName);
@@ -68,7 +68,7 @@ public final class CreateSportObjectPositionItTest extends AbstractSportObjectIt
                 .build();
 
         ResponseEntity<List> sportObjectPositionDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_CONSOLE_SPORT_OBJECT_POSITION,
+                ADMIN_API_SPORT_OBJECT_POSITION,
                 position,
                 List.class,
                 sportsclubName, sportObjectName);
@@ -91,7 +91,7 @@ public final class CreateSportObjectPositionItTest extends AbstractSportObjectIt
         SportObjectPositionDto position = new SportObjectPositionDto();
 
         ResponseEntity<List> sportObjectPositionDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_CONSOLE_SPORT_OBJECT_POSITION,
+                ADMIN_API_SPORT_OBJECT_POSITION,
                 position,
                 List.class,
                 sportsclubName, sportObjectName);

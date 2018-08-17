@@ -1,6 +1,6 @@
 package boot;
 
-import boot.populator.DirectorPopulator;
+import boot.populator.UserPopulator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -31,6 +31,6 @@ public class SportsClubApplication {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(SportsClubApplication.class, args);
-        context.getBean(DirectorPopulator.class).initializeDirector();
+        context.getBean(UserPopulator.class).initializeDirector();
     }
 }

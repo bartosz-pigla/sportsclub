@@ -3,7 +3,7 @@ package integrationTest.adminApi.sportObject.openingTime;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static web.common.RequestMappings.ADMIN_CONSOLE_OPENING_TIME;
+import static web.common.RequestMappings.ADMIN_API_OPENING_TIME;
 
 import java.net.MalformedURLException;
 import java.time.DayOfWeek;
@@ -43,7 +43,7 @@ public final class CreateOpeningTimeItTest extends AbstractSportObjectItTest {
                         .minute(0).build()).build();
 
         ResponseEntity<OpeningTimeRangeDto> createOpeningTimeRangeDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_CONSOLE_OPENING_TIME,
+                ADMIN_API_OPENING_TIME,
                 openingTimeRangeDto,
                 OpeningTimeRangeDto.class,
                 sportsclubName, sportObjectName);
@@ -81,7 +81,7 @@ public final class CreateOpeningTimeItTest extends AbstractSportObjectItTest {
                         .minute(0).build()).build();
 
         ResponseEntity<Object> createOpeningTimeRangeDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_CONSOLE_OPENING_TIME,
+                ADMIN_API_OPENING_TIME,
                 openingTimeRangeDto,
                 Object.class,
                 sportsclubName, sportObjectName);
@@ -112,7 +112,7 @@ public final class CreateOpeningTimeItTest extends AbstractSportObjectItTest {
                         .minute(0).build()).build();
 
         ResponseEntity<List> createOpeningTimeRangeDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_CONSOLE_OPENING_TIME,
+                ADMIN_API_OPENING_TIME,
                 openingTimeRangeDto,
                 List.class,
                 sportsclubName, sportObjectName);

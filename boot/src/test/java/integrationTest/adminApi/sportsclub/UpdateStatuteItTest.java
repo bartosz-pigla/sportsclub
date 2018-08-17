@@ -3,7 +3,7 @@ package integrationTest.adminApi.sportsclub;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
-import static web.common.RequestMappings.ADMIN_CONSOLE_STATUTE;
+import static web.common.RequestMappings.ADMIN_API_STATUTE;
 
 import java.util.UUID;
 
@@ -33,7 +33,7 @@ public final class UpdateStatuteItTest extends AbstractSportsclubItTest {
                 .build();
 
         ResponseEntity<StatuteDto> addStatuteResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_STATUTE,
+                ADMIN_API_STATUTE,
                 statute,
                 StatuteDto.class,
                 createSportsclubCommand.getName());
@@ -57,7 +57,7 @@ public final class UpdateStatuteItTest extends AbstractSportsclubItTest {
                 .build();
 
         ResponseEntity<StatuteDto> addStatuteResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_STATUTE,
+                ADMIN_API_STATUTE,
                 statute,
                 StatuteDto.class,
                 createSportsclubCommand.getName());
@@ -79,7 +79,7 @@ public final class UpdateStatuteItTest extends AbstractSportsclubItTest {
                 .build();
 
         ResponseEntity addStatuteResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_STATUTE,
+                ADMIN_API_STATUTE,
                 statute,
                 null,
                 "notExistingSportsclub");

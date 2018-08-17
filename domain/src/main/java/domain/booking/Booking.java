@@ -67,6 +67,7 @@ public class Booking {
 
     @CommandHandler
     public void on(CancelBookingCommand command, BookingValidator validator) {
+        validator.authorize(id, command.getCustomerId());
         validator.assertThatHasValidState(id, state, BookingState.CANCELED,
                 EnumSet.of(BookingState.CREATED, BookingState.SUBMITTED, BookingState.CONFIRMED));
         apply(new BookingCanceledEvent(id));
@@ -79,6 +80,7 @@ public class Booking {
 
     @CommandHandler
     public void on(SubmitBookingCommand command, BookingValidator validator) {
+        validator.authorize(id, command.getCustomerId());
         validator.assertThatHasValidState(id, state, BookingState.SUBMITTED, EnumSet.of(BookingState.CREATED));
         validator.assertThatHasAnyBookingDetails(id, details);
         apply(new BookingSubmittedEvent(id));
@@ -91,6 +93,7 @@ public class Booking {
 
     @CommandHandler
     public void on(ConfirmBookingCommand command, BookingValidator validator) {
+        validator.authorize(id, command.getCustomerId());
         validator.assertThatHasValidState(id, state, BookingState.CONFIRMED, EnumSet.of(BookingState.SUBMITTED));
         validator.assertThatHasAnyBookingDetails(id, details);
         apply(new BookingConfirmedEvent(id));
@@ -103,6 +106,7 @@ public class Booking {
 
     @CommandHandler
     public void on(RejectBookingCommand command, BookingValidator validator) {
+        validator.authorize(id, command.getCustomerId());
         validator.assertThatHasValidState(id, state, BookingState.REJECTED, EnumSet.of(BookingState.SUBMITTED));
         apply(new BookingRejectedEvent(id));
     }
@@ -114,6 +118,7 @@ public class Booking {
 
     @CommandHandler
     public void on(FinishBookingCommand command, BookingValidator validator) {
+        validator.authorize(id, command.getCustomerId());
         validator.assertThatHasValidState(id, state, BookingState.FINISHED, EnumSet.of(BookingState.CONFIRMED));
         validator.assertThatHasAnyBookingDetails(id, details);
         apply(new BookingFinishedEvent(id));
@@ -126,6 +131,7 @@ public class Booking {
 
     @CommandHandler
     public void on(AddBookingDetailCommand command, BookingValidator bookingValidator, BookingDetailValidator detailValidator) {
+        bookingValidator.authorize(id, command.getCustomerId());
         bookingValidator.assertThatHasValidState(id, state, BookingState.CREATED, EnumSet.of(BookingState.CREATED));
         detailValidator.validate(command, this);
         BookingDetailAddedEvent event = new BookingDetailAddedEvent();
@@ -141,6 +147,7 @@ public class Booking {
 
     @CommandHandler
     public void on(DeleteBookingDetailCommand command, BookingValidator bookingValidator, BookingDetailValidator detailValidator) {
+        bookingValidator.authorize(id, command.getCustomerId());
         bookingValidator.assertThatHasValidState(id, state, BookingState.CREATED, EnumSet.of(BookingState.CREATED));
         detailValidator.validate(command, details);
         apply(new BookingDetailDeletedEvent(command.getBookingDetailId()));

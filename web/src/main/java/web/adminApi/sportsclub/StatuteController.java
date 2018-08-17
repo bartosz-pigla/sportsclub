@@ -1,7 +1,9 @@
 package web.adminApi.sportsclub;
 
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.ok;
 import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
-import static web.common.RequestMappings.ADMIN_CONSOLE_STATUTE;
+import static web.common.RequestMappings.ADMIN_API_STATUTE;
 
 import java.util.Optional;
 
@@ -24,7 +26,7 @@ final class StatuteController extends BaseController {
 
     private SportsclubEntityRepository sportsclubRepository;
 
-    @PostMapping(ADMIN_CONSOLE_STATUTE)
+    @PostMapping(ADMIN_API_STATUTE)
     ResponseEntity<?> createOrUpdateStatute(@PathVariable String sportsclubName, @RequestBody StatuteDto statute) {
         Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
                 nameMatches(sportsclubName));
@@ -34,9 +36,9 @@ final class StatuteController extends BaseController {
                     .sportsclubId(sportsclub.getId())
                     .title(statute.getTitle())
                     .description(statute.getDescription()).build());
-            return ResponseEntity.ok(statute);
+            return ok(statute);
         } else {
-            return ResponseEntity.badRequest().build();
+            return badRequest().build();
         }
     }
 }

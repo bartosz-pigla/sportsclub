@@ -3,7 +3,7 @@ package integrationTest.adminApi.user;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static query.model.user.repository.UserQueryExpressions.usernameMatches;
-import static web.common.RequestMappings.ADMIN_CONSOLE_USER_ACTIVATION;
+import static web.common.RequestMappings.ADMIN_API_USER_ACTIVATION;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ public final class DeactivateUserItTest extends AbstractUserItTest {
         signIn("superuser", "password");
 
         ResponseEntity<UserDto> deactivatedUserResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_USER_ACTIVATION,
+                ADMIN_API_USER_ACTIVATION,
                 UserActivationWebCommand.builder()
                         .username(createCommand.getUsername())
                         .activated(false).build(),
@@ -61,7 +61,7 @@ public final class DeactivateUserItTest extends AbstractUserItTest {
         signIn("superuser", "password");
 
         ResponseEntity<List> deactivateUserResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_USER_ACTIVATION,
+                ADMIN_API_USER_ACTIVATION,
                 UserActivationWebCommand.builder()
                         .username("notExistingUsername")
                         .activated(false).build(),
@@ -80,7 +80,7 @@ public final class DeactivateUserItTest extends AbstractUserItTest {
         signIn("superuser", "password");
 
         ResponseEntity<List> deactivateUserResponse = restTemplate.postForEntity(
-                ADMIN_CONSOLE_USER_ACTIVATION,
+                ADMIN_API_USER_ACTIVATION,
                 UserActivationWebCommand.builder()
                         .username(createCommand.getUsername())
                         .activated(false).build(),

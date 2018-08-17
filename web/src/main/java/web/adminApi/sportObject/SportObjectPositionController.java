@@ -1,8 +1,11 @@
 package web.adminApi.sportObject;
 
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_POSITION;
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME;
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.ok;
+import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION;
+import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.BiFunction;
@@ -10,6 +13,7 @@ import java.util.function.BiFunction;
 import api.sportObject.sportObjectPosition.command.CreateSportObjectPositionCommand;
 import api.sportObject.sportObjectPosition.command.DeleteSportObjectPositionCommand;
 import api.sportObject.sportObjectPosition.command.UpdateSportObjectPositionCommand;
+import com.google.common.collect.ImmutableList;
 import commons.ErrorCode;
 import domain.common.exception.AlreadyDeletedException;
 import domain.sportObject.exception.SportObjectPositionNameAlreadyExists;
@@ -59,7 +63,7 @@ final class SportObjectPositionController extends BaseController {
         binder.setValidator(validator);
     }
 
-    @PostMapping(ADMIN_CONSOLE_SPORT_OBJECT_POSITION)
+    @PostMapping(ADMIN_API_SPORT_OBJECT_POSITION)
     ResponseEntity<?> createSportObjectPosition(@PathVariable String sportsclubName,
                                                 @PathVariable String sportObjectName,
                                                 @RequestBody @Validated SportObjectPositionDto sportObjectPositionDto,
@@ -86,13 +90,13 @@ final class SportObjectPositionController extends BaseController {
 
             SportObjectPositionEntity positionEntity = sportObjectPositionRepository.findOne(
                     SportObjectPositionQueryExpressions.nameMatches(positionName)).get();
-            return ResponseEntity.ok(SportObjectPositionDtoFactory.create(positionEntity));
+            return ok(SportObjectPositionDtoFactory.create(positionEntity));
         } else {
-            return ResponseEntity.badRequest().build();
+            return badRequest().build();
         }
     }
 
-    @PutMapping(ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME)
+    @PutMapping(ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME)
     ResponseEntity<?> updateSportObjectPosition(@PathVariable String sportsclubName,
                                                 @PathVariable String sportObjectName,
                                                 @PathVariable String sportObjectPositionName,
@@ -117,7 +121,7 @@ final class SportObjectPositionController extends BaseController {
         });
     }
 
-    @DeleteMapping(ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME)
+    @DeleteMapping(ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME)
     ResponseEntity<?> deleteSportObjectPosition(@PathVariable String sportsclubName,
                                                 @PathVariable String sportObjectName,
                                                 @PathVariable String sportObjectPositionName) {
@@ -145,25 +149,21 @@ final class SportObjectPositionController extends BaseController {
             UUID objectId = sportObjectOptional.get().getId();
             UUID positionId = sportObjectPositionOptional.get().getId();
             SportObjectPositionDto responseBody = sendCommand.apply(objectId, positionId);
-            return ResponseEntity.ok(responseBody);
+            return ok(responseBody);
         } else {
-            return ResponseEntity.badRequest().build();
+            return badRequest().build();
         }
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(SportObjectPositionNameAlreadyExists.class)
-    public ResponseEntity<?> handlePositionNameAlreadyExistsConflict() {
-        return validationResponseService.getResponse(
-                HttpStatus.CONFLICT,
-                new FieldErrorDto("name", ErrorCode.ALREADY_EXISTS.getCode()));
+    public List<FieldErrorDto> handlePositionNameAlreadyExistsConflict() {
+        return ImmutableList.of(new FieldErrorDto("name", ErrorCode.ALREADY_EXISTS));
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AlreadyDeletedException.class)
-    public ResponseEntity<?> handleAlreadyDeletedConflict() {
-        return validationResponseService.getResponse(
-                HttpStatus.CONFLICT,
-                new FieldErrorDto("name", ErrorCode.ALREADY_DELETED.getCode()));
+    public List<FieldErrorDto> handleAlreadyDeletedConflict() {
+        return ImmutableList.of(new FieldErrorDto("name", ErrorCode.ALREADY_DELETED));
     }
 }

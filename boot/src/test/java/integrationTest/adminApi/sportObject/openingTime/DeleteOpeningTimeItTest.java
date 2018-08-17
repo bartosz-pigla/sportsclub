@@ -1,10 +1,11 @@
 package integrationTest.adminApi.sportObject.openingTime;
 
+import static java.util.UUID.fromString;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
-import static web.common.RequestMappings.ADMIN_CONSOLE_OPENING_TIME_BY_ID;
+import static web.common.RequestMappings.ADMIN_API_OPENING_TIME_BY_ID;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -36,14 +37,14 @@ public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
         UUID openingTimeId = openingTimeRepository.findAll().get(0).getId();
 
         ResponseEntity<OpeningTimeRangeDto> deleteOpeningTimeRangeDtoResponseEntity = delete(
-                ADMIN_CONSOLE_OPENING_TIME_BY_ID,
+                ADMIN_API_OPENING_TIME_BY_ID,
                 OpeningTimeRangeDto.class,
                 sportsclubName, sportObjectName, openingTimeId.toString());
 
         assertEquals(deleteOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.OK);
         OpeningTimeRangeDto deletedOpeningTime = deleteOpeningTimeRangeDtoResponseEntity.getBody();
 
-        assertTrue(openingTimeRepository.findById(UUID.fromString(deletedOpeningTime.getId())).get().isDeleted());
+        assertTrue(openingTimeRepository.findById(fromString(deletedOpeningTime.getId())).get().isDeleted());
     }
 
     @Test
@@ -59,7 +60,7 @@ public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
         UUID openingTimeId = openingTimeRepository.findAll().get(0).getId();
 
         ResponseEntity<Object> deleteOpeningTimeRangeDtoResponseEntity = delete(
-                ADMIN_CONSOLE_OPENING_TIME_BY_ID,
+                ADMIN_API_OPENING_TIME_BY_ID,
                 Object.class,
                 sportsclubName, sportObjectName, "notExistingOpeningTimeId");
 
@@ -87,7 +88,7 @@ public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
                 .openingTimeId(openingTimeId).build());
 
         ResponseEntity<List> deleteOpeningTimeRangeDtoResponseEntity = delete(
-                ADMIN_CONSOLE_OPENING_TIME_BY_ID,
+                ADMIN_API_OPENING_TIME_BY_ID,
                 List.class,
                 sportsclubName, sportObjectName, openingTimeId.toString());
 

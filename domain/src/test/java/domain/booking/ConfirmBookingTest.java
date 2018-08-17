@@ -22,7 +22,7 @@ public final class ConfirmBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotConfirmWhenIsAlreadyConfirmed() {
         testFixture.given(bookingCreatedEvent, new BookingSubmittedEvent(bookingId), new BookingConfirmedEvent(bookingId))
-                .when(new ConfirmBookingCommand(bookingId))
+                .when(new ConfirmBookingCommand(bookingId, customerId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -30,7 +30,7 @@ public final class ConfirmBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotConfirmWhenIsAlreadyCanceled() {
         testFixture.given(bookingCreatedEvent, new BookingCanceledEvent(bookingId))
-                .when(new ConfirmBookingCommand(bookingId))
+                .when(new ConfirmBookingCommand(bookingId, customerId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -38,7 +38,7 @@ public final class ConfirmBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotConfirmWhenIsAlreadyRejected() {
         testFixture.given(bookingCreatedEvent, new BookingSubmittedEvent(bookingId), new BookingRejectedEvent(bookingId))
-                .when(new ConfirmBookingCommand(bookingId))
+                .when(new ConfirmBookingCommand(bookingId, customerId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -50,7 +50,7 @@ public final class ConfirmBookingTest extends AbstractBookingTest {
                 new BookingSubmittedEvent(bookingId),
                 new BookingConfirmedEvent(bookingId),
                 new BookingFinishedEvent(bookingId))
-                .when(new ConfirmBookingCommand(bookingId))
+                .when(new ConfirmBookingCommand(bookingId, customerId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -58,7 +58,7 @@ public final class ConfirmBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotConfirmWhenIsNotSubmitted() {
         testFixture.given(bookingCreatedEvent)
-                .when(new ConfirmBookingCommand(bookingId))
+                .when(new ConfirmBookingCommand(bookingId, customerId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -73,7 +73,7 @@ public final class ConfirmBookingTest extends AbstractBookingTest {
                 .build();
 
         testFixture.given(bookingCreatedEvent, detailAddedEvent, new BookingSubmittedEvent(bookingId))
-                .when(new ConfirmBookingCommand(bookingId))
+                .when(new ConfirmBookingCommand(bookingId, customerId))
                 .expectEventsMatching(sequenceOf(matches(p -> {
                     BookingConfirmedEvent event = (BookingConfirmedEvent) p.getPayload();
                     return event.getBookingId().equals(bookingId);

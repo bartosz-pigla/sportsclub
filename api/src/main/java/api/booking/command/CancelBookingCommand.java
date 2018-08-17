@@ -14,4 +14,5 @@ public final class CancelBookingCommand {
 
     @TargetAggregateIdentifier
     private UUID bookingId;
+    private UUID customerId;
 }

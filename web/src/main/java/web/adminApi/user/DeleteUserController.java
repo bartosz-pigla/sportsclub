@@ -1,9 +1,11 @@
 package web.adminApi.user;
 
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.ok;
 import static query.model.user.repository.UserQueryExpressions.usernameMatches;
-import static web.common.RequestMappings.ADMIN_CONSOLE_CUSTOMER_BY_USERNAME;
-import static web.common.RequestMappings.ADMIN_CONSOLE_DIRECTOR_BY_USERNAME;
-import static web.common.RequestMappings.ADMIN_CONSOLE_RECEPTIONIST_BY_USERNAME;
+import static web.common.RequestMappings.ADMIN_API_CUSTOMER_BY_USERNAME;
+import static web.common.RequestMappings.ADMIN_API_DIRECTOR_BY_USERNAME;
+import static web.common.RequestMappings.ADMIN_API_RECEPTIONIST_BY_USERNAME;
 
 import java.util.Optional;
 
@@ -22,17 +24,17 @@ import web.common.user.UserBaseController;
 @Setter(onMethod_ = { @Autowired })
 final class DeleteUserController extends UserBaseController {
 
-    @DeleteMapping(ADMIN_CONSOLE_CUSTOMER_BY_USERNAME)
+    @DeleteMapping(ADMIN_API_CUSTOMER_BY_USERNAME)
     ResponseEntity<?> deleteCustomer(@PathVariable String username) {
         return deleteUser(username);
     }
 
-    @DeleteMapping(ADMIN_CONSOLE_DIRECTOR_BY_USERNAME)
+    @DeleteMapping(ADMIN_API_DIRECTOR_BY_USERNAME)
     ResponseEntity<?> deleteDirector(@PathVariable String username) {
         return deleteUser(username);
     }
 
-    @DeleteMapping(ADMIN_CONSOLE_RECEPTIONIST_BY_USERNAME)
+    @DeleteMapping(ADMIN_API_RECEPTIONIST_BY_USERNAME)
     ResponseEntity<?> deleteReceptionist(@PathVariable String username) {
         return deleteUser(username);
     }
@@ -46,12 +48,12 @@ final class DeleteUserController extends UserBaseController {
             commandGateway.sendAndWait(DeleteUserCommand.builder()
                     .userId(user.getId()).build());
 
-            return ResponseEntity.ok(UserDto.builder()
+            return ok(UserDto.builder()
                     .username(user.getUsername())
                     .email(user.getEmail().getEmail())
                     .phoneNumber(user.getPhoneNumber().getPhoneNumber()).build());
         } else {
-            return ResponseEntity.badRequest().build();
+            return badRequest().build();
         }
     }
 }

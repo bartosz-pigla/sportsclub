@@ -3,7 +3,7 @@ package integrationTest.adminApi.sportObject.sportObjectPosition;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME;
+import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME;
 
 import java.net.MalformedURLException;
 import java.util.List;
@@ -45,7 +45,7 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
                 .build();
 
         ResponseEntity<SportObjectPositionDto> sportObjectPositionDtoResponseEntity = put(
-                ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME,
+                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
                 position,
                 SportObjectPositionDto.class,
                 sportsclubName, sportObjectName, sportObjectPositionName);
@@ -90,7 +90,7 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
                 .build();
 
         ResponseEntity<List> sportObjectPositionDtoResponseEntity = put(
-                ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME,
+                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
                 position,
                 List.class,
                 sportsclubName, sportObjectName, sportObjectPositionName);
@@ -125,7 +125,7 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
                 .build();
 
         ResponseEntity<List> sportObjectPositionDtoResponseEntity = put(
-                ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME,
+                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
                 position,
                 List.class,
                 sportsclubName, sportObjectName, sportObjectPositionName);
@@ -152,7 +152,7 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
                 .build();
 
         ResponseEntity<Object> sportObjectPositionDtoResponseEntity = put(
-                ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME,
+                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
                 position,
                 Object.class,
                 sportsclubName, sportObjectName, "notExistingSportObjectPositionName");
@@ -181,7 +181,7 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
         SportObjectPositionDto position = new SportObjectPositionDto();
 
         ResponseEntity<List> sportObjectPositionDtoResponseEntity = put(
-                ADMIN_CONSOLE_SPORT_OBJECT_POSITION_BY_NAME,
+                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
                 position,
                 List.class,
                 sportsclubName, sportObjectName, sportObjectPositionName);

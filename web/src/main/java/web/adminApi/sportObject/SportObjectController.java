@@ -1,16 +1,20 @@
 package web.adminApi.sportObject;
 
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT;
-import static web.common.RequestMappings.ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME;
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.ok;
+import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT;
+import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_BY_NAME;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import api.sportObject.command.CreateSportObjectCommand;
 import api.sportObject.command.DeleteSportObjectCommand;
 import api.sportObject.command.UpdateSportObjectCommand;
+import com.google.common.collect.ImmutableList;
 import commons.ErrorCode;
 import domain.common.exception.AlreadyCreatedException;
 import domain.common.exception.AlreadyDeletedException;
@@ -60,7 +64,7 @@ final class SportObjectController extends BaseController {
         binder.setValidator(validator);
     }
 
-    @PostMapping(ADMIN_CONSOLE_SPORT_OBJECT)
+    @PostMapping(ADMIN_API_SPORT_OBJECT)
     ResponseEntity<?> createSportObject(@PathVariable String sportsclubName, @RequestBody @Validated SportObjectDto sportObject, BindingResult bindingResult) throws MalformedURLException {
         if (bindingResult.hasErrors()) {
             return validationResponseService.getResponse(bindingResult);
@@ -81,13 +85,13 @@ final class SportObjectController extends BaseController {
                             new Coordinates(address.getLatitude(), address.getLongitude())))
                     .image(new URL(sportObject.getImageUrl()))
                     .description(sportObject.getDescription()).build());
-            return ResponseEntity.ok(sportObject);
+            return ok(sportObject);
         } else {
-            return ResponseEntity.badRequest().build();
+            return badRequest().build();
         }
     }
 
-    @PutMapping(ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME)
+    @PutMapping(ADMIN_API_SPORT_OBJECT_BY_NAME)
     ResponseEntity<?> updateSportObject(@PathVariable String sportsclubName,
                                         @PathVariable String sportObjectName,
                                         @RequestBody @Validated SportObjectDto sportObjectDto,
@@ -119,13 +123,13 @@ final class SportObjectController extends BaseController {
                     .description(sportObjectDto.getDescription()).build());
 
             SportObjectEntity sportObject = sportObjectRepository.getOne(sportObjectId);
-            return ResponseEntity.ok(SportObjectDtoFactory.create(sportObject));
+            return ok(SportObjectDtoFactory.create(sportObject));
         } else {
-            return ResponseEntity.badRequest().build();
+            return badRequest().build();
         }
     }
 
-    @DeleteMapping(ADMIN_CONSOLE_SPORT_OBJECT_BY_NAME)
+    @DeleteMapping(ADMIN_API_SPORT_OBJECT_BY_NAME)
     ResponseEntity<?> deleteSportObject(@PathVariable String sportsclubName,
                                         @PathVariable String sportObjectName) {
         Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
@@ -138,33 +142,27 @@ final class SportObjectController extends BaseController {
             SportObjectEntity sportObject = sportObjectOptional.get();
             commandGateway.sendAndWait(DeleteSportObjectCommand.builder()
                     .sportObjectId(sportObject.getId()).build());
-            return ResponseEntity.ok(SportObjectDtoFactory.create(sportObject));
+            return ok(SportObjectDtoFactory.create(sportObject));
         } else {
-            return ResponseEntity.badRequest().build();
+            return badRequest().build();
         }
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AlreadyCreatedException.class)
-    public ResponseEntity<?> handleAlreadyCreatedConflict() {
-        return validationResponseService.getResponse(
-                HttpStatus.CONFLICT,
-                new FieldErrorDto("name", ErrorCode.ALREADY_EXISTS.getCode()));
+    public List<FieldErrorDto> handleAlreadyCreatedConflict() {
+        return ImmutableList.of(new FieldErrorDto("name", ErrorCode.ALREADY_EXISTS));
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AlreadyDeletedException.class)
-    public ResponseEntity<?> handleAlreadyDeletedConflict() {
-        return validationResponseService.getResponse(
-                HttpStatus.CONFLICT,
-                new FieldErrorDto("name", ErrorCode.EMPTY.getCode()));
+    public List<FieldErrorDto> handleAlreadyDeletedConflict() {
+        return ImmutableList.of(new FieldErrorDto("name", ErrorCode.EMPTY));
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(NotAssignedToAnySportsclubException.class)
-    public ResponseEntity<?> handleNotAssignedToAnySportsclubConflict() {
-        return validationResponseService.getResponse(
-                HttpStatus.CONFLICT,
-                new FieldErrorDto("sportsclubName", ErrorCode.EMPTY.getCode()));
+    public List<FieldErrorDto> handleNotAssignedToAnySportsclubConflict() {
+        return ImmutableList.of(new FieldErrorDto("sportsclubName", ErrorCode.EMPTY));
     }
 }

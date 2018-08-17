@@ -1,8 +1,9 @@
 package web.adminApi.user;
 
-import static web.common.RequestMappings.ADMIN_CONSOLE_CUSTOMER;
-import static web.common.RequestMappings.ADMIN_CONSOLE_DIRECTOR;
-import static web.common.RequestMappings.ADMIN_CONSOLE_RECEPTIONIST;
+import static org.springframework.http.ResponseEntity.ok;
+import static web.common.RequestMappings.ADMIN_API_CUSTOMER;
+import static web.common.RequestMappings.ADMIN_API_DIRECTOR;
+import static web.common.RequestMappings.ADMIN_API_RECEPTIONIST;
 
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -31,17 +32,17 @@ final class CreateUserController extends UserBaseController {
         binder.setValidator(validator);
     }
 
-    @PostMapping(ADMIN_CONSOLE_CUSTOMER)
+    @PostMapping(ADMIN_API_CUSTOMER)
     ResponseEntity<?> createUser(@RequestBody @Validated CreateUserWebCommand customer, BindingResult bindingResult) {
         return createUser(customer, UserType.CUSTOMER, bindingResult);
     }
 
-    @PostMapping(ADMIN_CONSOLE_DIRECTOR)
+    @PostMapping(ADMIN_API_DIRECTOR)
     ResponseEntity<?> createDirector(@RequestBody @Validated CreateUserWebCommand director, BindingResult bindingResult) {
         return createUser(director, UserType.DIRECTOR, bindingResult);
     }
 
-    @PostMapping(ADMIN_CONSOLE_RECEPTIONIST)
+    @PostMapping(ADMIN_API_RECEPTIONIST)
     ResponseEntity<?> createReceptionist(@RequestBody @Validated CreateUserWebCommand receptionist, BindingResult bindingResult) {
         return createUser(receptionist, UserType.RECEPTIONIST, bindingResult);
     }
@@ -52,6 +53,6 @@ final class CreateUserController extends UserBaseController {
         }
 
         createUserService.create(user, userType);
-        return ResponseEntity.ok(user);
+        return ok(user);
     }
 }
