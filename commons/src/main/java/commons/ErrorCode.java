@@ -18,7 +18,9 @@ public enum ErrorCode {
     MAX_LENGTH("maxLength"),
     IS_NOT_ALPHA("isNotAlpha"),
     OUT_OF_RANGE("outOfRange"),
-    NOT_POSITIVE("notPositive");
+    NOT_POSITIVE("notPositive"),
+    ALREADY_BOOKED("alreadyBooked"),
+    LIMIT_EXCEEDED("limitExceeded");
 
     private final String code;
 

@@ -14,5 +14,4 @@ public final class ConfirmBookingCommand {
 
     @TargetAggregateIdentifier
     private UUID bookingId;
-    private UUID customerId;
 }

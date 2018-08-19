@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import query.model.baseEntity.repository.BaseEntityQueryExpressions;
 import query.model.booking.BookingState;
 import query.model.booking.QBookingDetailEntity;
 import query.model.booking.QBookingEntity;
@@ -32,19 +33,7 @@ public final class BookingDetailQueryExpressions {
         }
     }
 
-//    public static BooleanExpression openingTimeIdAndSportObjectPositionIdMatches(UUID openingTimeId, UUID sportObjectPositionId) {
-//        if (openingTimeId != null && sportObjectPositionId != null) {
-//            return bookingDetail.openingTime.id.eq(openingTimeId).and(bookingDetail.position.id.eq(sportObjectPositionId));
-//        } else {
-//            return bookingDetail.isNull();
-//        }
-//    }
-//
-//    public static BooleanExpression isBooked(BooleanExpression bookingDetailExpression) {
-//        if (bookingDetailExpression != null) {
-//            bookingDetailExpression.and(isNotDeleted(bookingDetail._super)).and()
-//        } else {
-//            return bookingDetail.isNull();
-//        }
-//    }
+    public static BooleanExpression idMatches(UUID id) {
+        return BaseEntityQueryExpressions.idMatches(id, bookingDetail._super);
+    }
 }

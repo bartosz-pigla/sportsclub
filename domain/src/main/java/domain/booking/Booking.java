@@ -80,7 +80,7 @@ public class Booking {
 
     @CommandHandler
     public void on(SubmitBookingCommand command, BookingValidator validator) {
-        validator.authorize(id, command.getCustomerId());
+        validator.authorize(id, command.getUserId());
         validator.assertThatHasValidState(id, state, BookingState.SUBMITTED, EnumSet.of(BookingState.CREATED));
         validator.assertThatHasAnyBookingDetails(id, details);
         apply(new BookingSubmittedEvent(id));
@@ -93,7 +93,6 @@ public class Booking {
 
     @CommandHandler
     public void on(ConfirmBookingCommand command, BookingValidator validator) {
-        validator.authorize(id, command.getCustomerId());
         validator.assertThatHasValidState(id, state, BookingState.CONFIRMED, EnumSet.of(BookingState.SUBMITTED));
         validator.assertThatHasAnyBookingDetails(id, details);
         apply(new BookingConfirmedEvent(id));
@@ -106,7 +105,6 @@ public class Booking {
 
     @CommandHandler
     public void on(RejectBookingCommand command, BookingValidator validator) {
-        validator.authorize(id, command.getCustomerId());
         validator.assertThatHasValidState(id, state, BookingState.REJECTED, EnumSet.of(BookingState.SUBMITTED));
         apply(new BookingRejectedEvent(id));
     }
@@ -118,7 +116,6 @@ public class Booking {
 
     @CommandHandler
     public void on(FinishBookingCommand command, BookingValidator validator) {
-        validator.authorize(id, command.getCustomerId());
         validator.assertThatHasValidState(id, state, BookingState.FINISHED, EnumSet.of(BookingState.CONFIRMED));
         validator.assertThatHasAnyBookingDetails(id, details);
         apply(new BookingFinishedEvent(id));

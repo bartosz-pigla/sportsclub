@@ -2,7 +2,7 @@ package integrationTest.customerApi.booking;
 
 import static org.junit.Assert.assertEquals;
 import static query.model.booking.repository.BookingQueryExpressions.userIdMatches;
-import static web.common.RequestMappings.CUSTOMER_API_BOOKING_BY_ID;
+import static web.common.RequestMappings.CUSTOMER_API_BOOKING_CANCEL;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +14,7 @@ import api.booking.command.CreateBookingCommand;
 import api.booking.command.FinishBookingCommand;
 import api.booking.command.SubmitBookingCommand;
 import commons.ErrorCode;
+import integrationTest.AbstractBookingItTest;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public final class CancelBookingItTest extends AbstractBookingItTest {
         commandGateway.sendAndWait(new CreateBookingCommand(customerId));
         UUID bookingId = bookingRepository.findOne(userIdMatches(customerId)).get().getId();
 
-        ResponseEntity<String> cancelBookingResponse = patch(CUSTOMER_API_BOOKING_BY_ID, BookingState.CANCELED, String.class, bookingId);
+        ResponseEntity<String> cancelBookingResponse = patch(CUSTOMER_API_BOOKING_CANCEL, null, String.class, bookingId);
 
         assertEquals(cancelBookingResponse.getStatusCode(), HttpStatus.NO_CONTENT);
         assertEquals(bookingRepository.findOne(userIdMatches(customerId)).get().getState(), BookingState.CANCELED);
@@ -49,10 +50,10 @@ public final class CancelBookingItTest extends AbstractBookingItTest {
                 .date(LocalDate.now().plusDays(1))
                 .build());
         commandGateway.sendAndWait(new SubmitBookingCommand(bookingId, customerId));
-        commandGateway.sendAndWait(new ConfirmBookingCommand(bookingId, customerId));
-        commandGateway.sendAndWait(new FinishBookingCommand(bookingId, customerId));
+        commandGateway.sendAndWait(new ConfirmBookingCommand(bookingId));
+        commandGateway.sendAndWait(new FinishBookingCommand(bookingId));
 
-        ResponseEntity<List> cancelBookingResponse = patch(CUSTOMER_API_BOOKING_BY_ID, BookingState.CANCELED, List.class, bookingId);
+        ResponseEntity<List> cancelBookingResponse = patch(CUSTOMER_API_BOOKING_CANCEL, null, List.class, bookingId);
 
         assertEquals(cancelBookingResponse.getStatusCode(), HttpStatus.CONFLICT);
         List errors = cancelBookingResponse.getBody();

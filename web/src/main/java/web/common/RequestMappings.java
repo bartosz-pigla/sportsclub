@@ -50,12 +50,22 @@ public final class RequestMappings {
     public static final String ADMIN_API_SPORT_OBJECT_POSITION = ADMIN_API_SPORT_OBJECT_BY_NAME + "sport-object-position";
     public static final String ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME = ADMIN_API_SPORT_OBJECT_POSITION + SPORT_OBJECT_POSITION_NAME_PARAMETER;
 
+    public static final String ADMIN_API_BOOKING = ADMIN_API + "/booking";
+    public static final String ADMIN_API_BOOKING_BY_ID = ADMIN_API_BOOKING + BOOKING_ID_PARAMETER;
+    public static final String ADMIN_API_BOOKING_REJECT = ADMIN_API_BOOKING_BY_ID + "/reject";
+    public static final String ADMIN_API_BOOKING_CONFIRM = ADMIN_API_BOOKING_BY_ID + "/confirm";
+    public static final String ADMIN_API_BOOKING_FINISH = ADMIN_API_BOOKING_BY_ID + "/finish";
+    public static final String ADMIN_API_BOOKING_DETAIL = ADMIN_API_BOOKING_BY_ID + "/detail";
+    public static final String ADMIN_API_BOOKING_DETAIL_BY_ID = ADMIN_API_BOOKING_DETAIL + BOOKING_DETAIL_ID_PARAMETER;
+
     //CUSTOMER API
 
     public static final String CUSTOMER_API = API + "/customer-api";
     public static final String CUSTOMER_API_BOOKING = CUSTOMER_API + "/booking";
     public static final String CUSTOMER_API_BOOKING_BY_ID = CUSTOMER_API_BOOKING + BOOKING_ID_PARAMETER;
-    public static final String CUSTOMER_API_BOOKING_DETAIL = CUSTOMER_API_BOOKING + "/detail";
+    public static final String CUSTOMER_API_BOOKING_SUBMIT = CUSTOMER_API_BOOKING_BY_ID + "/submit";
+    public static final String CUSTOMER_API_BOOKING_CANCEL = CUSTOMER_API_BOOKING_BY_ID + "/cancel";
+    public static final String CUSTOMER_API_BOOKING_DETAIL = CUSTOMER_API_BOOKING_BY_ID + "/detail";
     public static final String CUSTOMER_API_BOOKING_DETAIL_BY_ID = CUSTOMER_API_BOOKING_DETAIL + BOOKING_DETAIL_ID_PARAMETER;
 
     public static String getAntMatcher(String requestMapping) {

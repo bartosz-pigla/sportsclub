@@ -1,4 +1,4 @@
-package integrationTest.customerApi.booking;
+package integrationTest;
 
 import static query.model.sportobject.repository.OpeningTimeQueryExpressions.sportObjectIdAndTimeRangeMatches;
 import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
@@ -14,9 +14,9 @@ import api.sportObject.command.CreateSportObjectCommand;
 import api.sportObject.openingTime.command.CreateOpeningTimeCommand;
 import api.sportObject.sportObjectPosition.command.CreateSportObjectPositionCommand;
 import api.sportsclub.command.CreateSportsclubCommand;
-import integrationTest.IntegrationTest;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
+import query.model.booking.repository.BookingDetailEntityRepository;
 import query.model.booking.repository.BookingEntityRepository;
 import query.model.embeddable.Address;
 import query.model.embeddable.City;
@@ -36,6 +36,8 @@ public abstract class AbstractBookingItTest extends IntegrationTest {
 
     @Autowired
     protected BookingEntityRepository bookingRepository;
+    @Autowired
+    protected BookingDetailEntityRepository bookingDetailRepository;
     @Autowired
     protected SportsclubEntityRepository sportsclubRepository;
     @Autowired
@@ -93,7 +95,7 @@ public abstract class AbstractBookingItTest extends IntegrationTest {
                 .sportObjectId(sportObjectId)
                 .name("name1")
                 .description("description1")
-                .positionsCount(new PositionsCount(11))
+                .positionsCount(new PositionsCount(1))
                 .build();
         commandGateway.sendAndWait(command);
         return sportObjectPositionRepository.findOne(SportObjectPositionQueryExpressions.nameMatches(command.getName())).get().getId();

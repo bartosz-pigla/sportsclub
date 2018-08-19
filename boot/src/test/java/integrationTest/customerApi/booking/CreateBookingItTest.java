@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static query.model.booking.repository.BookingQueryExpressions.usernameMatches;
 import static web.common.RequestMappings.CUSTOMER_API_BOOKING;
 
+import integrationTest.AbstractBookingItTest;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

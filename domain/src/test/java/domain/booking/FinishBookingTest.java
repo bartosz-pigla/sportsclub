@@ -22,7 +22,7 @@ public final class FinishBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotFinishedWhenIsRejected() {
         testFixture.given(bookingCreatedEvent, new BookingSubmittedEvent(bookingId), new BookingRejectedEvent(bookingId))
-                .when(new FinishBookingCommand(bookingId, customerId))
+                .when(new FinishBookingCommand(bookingId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -30,7 +30,7 @@ public final class FinishBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotFinishWhenIsNotConfirmed() {
         testFixture.given(bookingCreatedEvent, new BookingSubmittedEvent(bookingId))
-                .when(new FinishBookingCommand(bookingId, customerId))
+                .when(new FinishBookingCommand(bookingId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -38,7 +38,7 @@ public final class FinishBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotFinishWhenIsNotSubmitted() {
         testFixture.given(bookingCreatedEvent)
-                .when(new FinishBookingCommand(bookingId, customerId))
+                .when(new FinishBookingCommand(bookingId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -46,7 +46,7 @@ public final class FinishBookingTest extends AbstractBookingTest {
     @Test
     public void shouldNotFinishWhenIsCanceled() {
         testFixture.given(bookingCreatedEvent, new BookingCanceledEvent(bookingId))
-                .when(new FinishBookingCommand(bookingId, customerId))
+                .when(new FinishBookingCommand(bookingId))
                 .expectNoEvents()
                 .expectException(IllegalBookingStateException.class);
     }
@@ -61,7 +61,7 @@ public final class FinishBookingTest extends AbstractBookingTest {
                 .build();
 
         testFixture.given(bookingCreatedEvent, detailAddedEvent, new BookingSubmittedEvent(bookingId), new BookingConfirmedEvent(bookingId))
-                .when(new FinishBookingCommand(bookingId, customerId))
+                .when(new FinishBookingCommand(bookingId))
                 .expectEventsMatching(sequenceOf(matches(p -> {
                     BookingFinishedEvent event = (BookingFinishedEvent) p.getPayload();
                     return event.getBookingId().equals(bookingId);

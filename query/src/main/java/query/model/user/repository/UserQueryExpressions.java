@@ -20,9 +20,9 @@ public final class UserQueryExpressions {
                 .orElse(user.isNull());
     }
 
-    public static BooleanExpression idAndUserTypeMatches(UUID id, UserType userType) {
-        return Optional.ofNullable(userType)
-                .map(u -> idMatches(id).and(user.userType.eq(u)))
+    public static BooleanExpression idAndUserTypeMatches(UUID id, UserType... userTypes) {
+        return Optional.ofNullable(userTypes)
+                .map(u -> idMatches(id).and(user.userType.in(userTypes)))
                 .orElse(user.isNull());
     }
 
