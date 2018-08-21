@@ -1,13 +1,20 @@
 package boot;
 
+import static web.common.RequestMappings.API;
+
 import boot.populator.UserPopulator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootConfiguration
 @EnableAutoConfiguration
@@ -32,5 +39,22 @@ public class SportsClubApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(SportsClubApplication.class, args);
         context.getBean(UserPopulator.class).initializeDirector();
+    }
+
+    @Bean
+    @Profile("dev")
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping(API + "/**")
+                        .allowedMethods(HttpMethod.PUT.name(),
+                                HttpMethod.POST.name(),
+                                HttpMethod.DELETE.name(),
+                                HttpMethod.GET.name())
+                        .allowedOrigins("http://localhost:4200");
+            }
+        };
     }
 }

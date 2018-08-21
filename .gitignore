@@ -1,3 +1,7 @@
 .idea
 */target
-out
+node_modules
+hs_err_*
+boot/src/main/resources/public
+web-ui/dist
+web-ui/node
