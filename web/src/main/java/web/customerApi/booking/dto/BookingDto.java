@@ -1,4 +1,6 @@
-package web.adminApi.sportObject.dto;
+package web.customerApi.booking.dto;
+
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,6 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import query.model.booking.BookingState;
 
 @Getter
 @Setter
@@ -13,12 +16,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @EqualsAndHashCode
-public final class SportObjectDto {
+public final class BookingDto {
 
     private String id;
-    private String sportsclubId;
-    private String name;
-    private String description;
-    private AddressDto address;
-    private String imageUrl;
+    private String customerId;
+    private LocalDateTime date;
+    private BookingState state;
 }

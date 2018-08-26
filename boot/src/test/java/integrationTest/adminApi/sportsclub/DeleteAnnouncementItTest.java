@@ -1,14 +1,11 @@
 package integrationTest.adminApi.sportsclub;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static web.common.RequestMappings.ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID;
+import static web.common.RequestMappings.DIRECTOR_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID;
 
 import java.util.UUID;
 
-import api.sportsclub.command.CreateAnnouncementCommand;
-import api.sportsclub.command.CreateSportsclubCommand;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,21 +22,17 @@ public final class DeleteAnnouncementItTest extends AbstractSportsclubItTest {
     @Test
     @DirtiesContext
     public void shouldDeleteWhenSportsclubAndAnnouncementExists() {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateAnnouncementCommand createAnnouncementCommand = createAnnouncement(createSportsclubCommand);
-        UUID announcementId = newArrayList(announcementRepository.findAll()).get(0).getId();
+        UUID sportsclubId = createSportsclub();
+        UUID announcementId = createAnnouncement(sportsclubId);
         signIn("superuser", "password");
 
-        ResponseEntity<AnnouncementDto> deleteAnnouncementResponse = delete(
-                ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
-                AnnouncementDto.class,
-                createSportsclubCommand.getName(), announcementId.toString());
+        ResponseEntity<String> deleteAnnouncementResponse = delete(
+                DIRECTOR_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
+                String.class,
+                sportsclubId.toString(),
+                announcementId.toString());
 
-        assertEquals(deleteAnnouncementResponse.getStatusCode(), HttpStatus.OK);
-
-        AnnouncementDto response = deleteAnnouncementResponse.getBody();
-        assertEquals(createAnnouncementCommand.getTitle(), response.getTitle());
-        assertEquals(createAnnouncementCommand.getContent(), response.getContent());
+        assertEquals(deleteAnnouncementResponse.getStatusCode(), HttpStatus.NO_CONTENT);
         assertTrue(announcementRepository.findById(announcementId).get().isDeleted());
     }
 
@@ -49,9 +42,10 @@ public final class DeleteAnnouncementItTest extends AbstractSportsclubItTest {
         signIn("superuser", "password");
 
         ResponseEntity<AnnouncementDto> deleteAnnouncementResponse = delete(
-                ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
+                DIRECTOR_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
                 AnnouncementDto.class,
-                "notExistingSportsclubName", "notExistingAnnouncementId");
+                "notExistingSportsclubID",
+                "notExistingAnnouncementId");
 
         assertEquals(deleteAnnouncementResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
@@ -59,13 +53,14 @@ public final class DeleteAnnouncementItTest extends AbstractSportsclubItTest {
     @Test
     @DirtiesContext
     public void shouldNotUpdateWhenAnnouncementNotExists() {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
+        UUID sportsclubId = createSportsclub();
         signIn("superuser", "password");
 
         ResponseEntity<AnnouncementDto> deleteAnnouncementResponse = delete(
-                ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
+                DIRECTOR_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
                 AnnouncementDto.class,
-                createSportsclubCommand.getName(), "notExistingAnnouncementId");
+                sportsclubId.toString(),
+                "notExistingAnnouncementId");
 
         assertEquals(deleteAnnouncementResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
     }

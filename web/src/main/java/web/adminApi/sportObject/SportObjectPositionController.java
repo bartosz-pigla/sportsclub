@@ -1,19 +1,17 @@
 package web.adminApi.sportObject;
 
 import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
-import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION;
-import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME;
+import static web.common.RequestMappings.DIRECTOR_API_SPORT_OBJECT_POSITION;
+import static web.common.RequestMappings.DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.function.BiFunction;
 
 import api.sportObject.sportObjectPosition.command.CreateSportObjectPositionCommand;
 import api.sportObject.sportObjectPosition.command.DeleteSportObjectPositionCommand;
 import api.sportObject.sportObjectPosition.command.UpdateSportObjectPositionCommand;
-import com.google.common.collect.ImmutableList;
 import commons.ErrorCode;
 import domain.common.exception.AlreadyDeletedException;
 import domain.sportObject.exception.SportObjectPositionNameAlreadyExists;
@@ -34,13 +32,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import query.model.embeddable.PositionsCount;
-import query.model.sportobject.SportObjectEntity;
-import query.model.sportobject.SportObjectPositionEntity;
 import query.model.sportobject.repository.SportObjectEntityRepository;
 import query.model.sportobject.repository.SportObjectPositionEntityRepository;
 import query.model.sportobject.repository.SportObjectPositionQueryExpressions;
 import query.model.sportobject.repository.SportObjectQueryExpressions;
-import query.model.sportsclub.SportsclubEntity;
 import query.model.sportsclub.repository.SportsclubEntityRepository;
 import query.model.sportsclub.repository.SportsclubQueryExpressions;
 import web.adminApi.sportObject.dto.SportObjectPositionDto;
@@ -63,107 +58,102 @@ final class SportObjectPositionController extends BaseController {
         binder.setValidator(validator);
     }
 
-    @PostMapping(ADMIN_API_SPORT_OBJECT_POSITION)
-    ResponseEntity<?> createSportObjectPosition(@PathVariable String sportsclubName,
-                                                @PathVariable String sportObjectName,
-                                                @RequestBody @Validated SportObjectPositionDto sportObjectPositionDto,
-                                                BindingResult bindingResult) {
+    @PostMapping(DIRECTOR_API_SPORT_OBJECT_POSITION)
+    ResponseEntity<?> create(@PathVariable UUID sportsclubId,
+                             @PathVariable UUID sportObjectId,
+                             @RequestBody @Validated SportObjectPositionDto sportObjectPositionDto,
+                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return validationResponseService.getResponse(bindingResult);
+            return errorResponseService.create(bindingResult);
         }
 
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
-                SportsclubQueryExpressions.nameMatches(sportsclubName));
+        boolean sportsclubExists = sportsclubRepository.exists(
+                SportsclubQueryExpressions.idMatches(sportsclubId));
 
-        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
-                SportObjectQueryExpressions.nameMatches(sportObjectName));
+        boolean sportObjectExists = sportObjectRepository.exists(
+                SportObjectQueryExpressions.idMatches(sportObjectId));
 
-        if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent()) {
-            SportObjectEntity sportObject = sportObjectOptional.get();
+        if (sportsclubExists && sportObjectExists) {
             String positionName = sportObjectPositionDto.getName();
+
             commandGateway.sendAndWait(CreateSportObjectPositionCommand.builder()
-                    .sportObjectId(sportObject.getId())
+                    .sportObjectId(sportObjectId)
                     .name(positionName)
                     .description(sportObjectPositionDto.getDescription())
                     .positionsCount(new PositionsCount(sportObjectPositionDto.getPositionsCount()))
                     .build());
 
-            SportObjectPositionEntity positionEntity = sportObjectPositionRepository.findOne(
-                    SportObjectPositionQueryExpressions.nameMatches(positionName)).get();
-            return ok(SportObjectPositionDtoFactory.create(positionEntity));
+            return sportObjectPositionRepository.findOne(SportObjectPositionQueryExpressions.nameMatches(positionName))
+                    .<ResponseEntity<?>> map(position -> ok(SportObjectPositionDtoFactory.create(position)))
+                    .orElse(errorResponseService.create("name", ErrorCode.NOT_EXISTS, HttpStatus.CONFLICT));
         } else {
             return badRequest().build();
         }
     }
 
-    @PutMapping(ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME)
-    ResponseEntity<?> updateSportObjectPosition(@PathVariable String sportsclubName,
-                                                @PathVariable String sportObjectName,
-                                                @PathVariable String sportObjectPositionName,
-                                                @RequestBody @Validated SportObjectPositionDto sportObjectPositionDto,
-                                                BindingResult bindingResult) {
+    @PutMapping(DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID)
+    ResponseEntity<?> update(@PathVariable UUID sportsclubId,
+                             @PathVariable UUID sportObjectId,
+                             @PathVariable UUID sportObjectPositionId,
+                             @RequestBody @Validated SportObjectPositionDto sportObjectPositionDto,
+                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return validationResponseService.getResponse(bindingResult);
+            return errorResponseService.create(bindingResult);
         }
 
-        return getResponse(sportsclubName, sportObjectName, sportObjectPositionName, (objectId, positionId) -> {
-            commandGateway.sendAndWait(UpdateSportObjectPositionCommand.builder()
-                    .sportObjectPositionId(positionId)
-                    .sportObjectId(objectId)
-                    .name(sportObjectPositionDto.getName())
-                    .description(sportObjectPositionDto.getDescription())
-                    .positionsCount(new PositionsCount(sportObjectPositionDto.getPositionsCount()))
-                    .build());
+        Runnable sendCommand = () -> commandGateway.sendAndWait(UpdateSportObjectPositionCommand.builder()
+                .sportObjectPositionId(sportObjectPositionId)
+                .sportObjectId(sportObjectId)
+                .name(sportObjectPositionDto.getName())
+                .description(sportObjectPositionDto.getDescription())
+                .positionsCount(new PositionsCount(sportObjectPositionDto.getPositionsCount()))
+                .build());
 
-            SportObjectPositionEntity position = sportObjectPositionRepository.findOne(
-                    SportObjectPositionQueryExpressions.nameMatches(sportObjectPositionDto.getName())).get();
-            return SportObjectPositionDtoFactory.create(position);
-        });
+        boolean commandSent = sendCommand(sportsclubId, sportObjectId, sportObjectPositionId, sendCommand);
+        return commandSent ? noContent().build() : badRequest().build();
     }
 
-    @DeleteMapping(ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME)
-    ResponseEntity<?> deleteSportObjectPosition(@PathVariable String sportsclubName,
-                                                @PathVariable String sportObjectName,
-                                                @PathVariable String sportObjectPositionName) {
-        return getResponse(sportsclubName, sportObjectName, sportObjectPositionName, (objectId, positionId) -> {
-            commandGateway.sendAndWait(new DeleteSportObjectPositionCommand(objectId, positionId));
-            SportObjectPositionEntity position = sportObjectPositionRepository.getOne(positionId);
-            return SportObjectPositionDtoFactory.create(position);
-        });
+    @DeleteMapping(DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID)
+    ResponseEntity<?> delete(@PathVariable UUID sportsclubId,
+                             @PathVariable UUID sportObjectId,
+                             @PathVariable UUID sportObjectPositionId) {
+        Runnable sendCommand = () -> commandGateway.sendAndWait(
+                new DeleteSportObjectPositionCommand(sportObjectId, sportObjectPositionId));
+
+        boolean commandSent = sendCommand(sportsclubId, sportObjectId, sportObjectPositionId, sendCommand);
+        return commandSent ? noContent().build() : badRequest().build();
     }
 
-    private ResponseEntity<?> getResponse(String sportsclubName,
-                                          String sportObjectName,
-                                          String sportObjectPositionName,
-                                          BiFunction<UUID, UUID, SportObjectPositionDto> sendCommand) {
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
-                SportsclubQueryExpressions.nameMatches(sportsclubName));
+    private boolean sendCommand(UUID sportsclubId,
+                                UUID sportObjectId,
+                                UUID sportObjectPositionId,
+                                Runnable sendCommand) {
+        boolean sportsclubExists = sportsclubRepository.exists(
+                SportsclubQueryExpressions.idMatches(sportsclubId));
 
-        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
-                SportObjectQueryExpressions.nameMatches(sportObjectName));
+        boolean sportObjectExists = sportObjectRepository.exists(
+                SportObjectQueryExpressions.idMatches(sportObjectId));
 
-        Optional<SportObjectPositionEntity> sportObjectPositionOptional = sportObjectPositionRepository.findOne(
-                SportObjectPositionQueryExpressions.nameMatches(sportObjectPositionName));
+        boolean sportObjectPositionExists = sportObjectPositionRepository.exists(
+                SportObjectPositionQueryExpressions.idMatches(sportObjectPositionId));
 
-        if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent() && sportObjectPositionOptional.isPresent()) {
-            UUID objectId = sportObjectOptional.get().getId();
-            UUID positionId = sportObjectPositionOptional.get().getId();
-            SportObjectPositionDto responseBody = sendCommand.apply(objectId, positionId);
-            return ok(responseBody);
+        if (sportsclubExists && sportObjectExists && sportObjectPositionExists) {
+            sendCommand.run();
+            return true;
         } else {
-            return badRequest().build();
+            return false;
         }
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(SportObjectPositionNameAlreadyExists.class)
     public List<FieldErrorDto> handlePositionNameAlreadyExistsConflict() {
-        return ImmutableList.of(new FieldErrorDto("name", ErrorCode.ALREADY_EXISTS));
+        return errorResponseService.createBody("name", ErrorCode.ALREADY_EXISTS);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AlreadyDeletedException.class)
     public List<FieldErrorDto> handleAlreadyDeletedConflict() {
-        return ImmutableList.of(new FieldErrorDto("name", ErrorCode.ALREADY_DELETED));
+        return errorResponseService.createBody("id", ErrorCode.ALREADY_DELETED);
     }
 }

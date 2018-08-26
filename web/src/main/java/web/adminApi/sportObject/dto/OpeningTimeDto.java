@@ -1,5 +1,7 @@
 package web.adminApi.sportObject.dto;
 
+import java.time.DayOfWeek;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -15,6 +17,9 @@ import lombok.Setter;
 @EqualsAndHashCode
 public final class OpeningTimeDto {
 
-    private int hour;
-    private int minute;
+    private String id;
+    private DayOfWeek dayOfWeek;
+    private TimeDto startTime;
+    private TimeDto finishTime;
+    private Double price;
 }

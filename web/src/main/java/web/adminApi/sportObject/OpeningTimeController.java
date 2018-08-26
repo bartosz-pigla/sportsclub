@@ -1,23 +1,19 @@
 package web.adminApi.sportObject;
 
-import static java.util.UUID.fromString;
 import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
-import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
-import static web.common.RequestMappings.ADMIN_API_OPENING_TIME;
-import static web.common.RequestMappings.ADMIN_API_OPENING_TIME_BY_ID;
+import static web.common.RequestMappings.DIRECTOR_API_OPENING_TIME;
+import static web.common.RequestMappings.DIRECTOR_API_OPENING_TIME_BY_ID;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.function.BiConsumer;
 
 import api.sportObject.openingTime.command.CreateOpeningTimeCommand;
 import api.sportObject.openingTime.command.DeleteOpeningTimeCommand;
 import api.sportObject.openingTime.command.UpdateOpeningTimeCommand;
-import com.google.common.collect.ImmutableList;
 import commons.ErrorCode;
 import domain.common.exception.AlreadyDeletedException;
 import domain.sportObject.exception.OpeningTimeRangeConflictException;
@@ -39,18 +35,15 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import query.model.embeddable.OpeningTimeRange;
 import query.model.embeddable.Price;
-import query.model.sportobject.OpeningTimeEntity;
-import query.model.sportobject.SportObjectEntity;
 import query.model.sportobject.repository.OpeningTimeEntityRepository;
 import query.model.sportobject.repository.OpeningTimeQueryExpressions;
 import query.model.sportobject.repository.SportObjectEntityRepository;
 import query.model.sportobject.repository.SportObjectQueryExpressions;
-import query.model.sportsclub.SportsclubEntity;
 import query.model.sportsclub.repository.SportsclubEntityRepository;
 import query.model.sportsclub.repository.SportsclubQueryExpressions;
 import web.adminApi.sportObject.dto.OpeningTimeDto;
-import web.adminApi.sportObject.dto.OpeningTimeRangeDto;
-import web.adminApi.sportObject.dto.OpeningTimeRangeDtoFactory;
+import web.adminApi.sportObject.dto.OpeningTimeDtoFactory;
+import web.adminApi.sportObject.dto.TimeDto;
 import web.adminApi.sportObject.service.OpeningTimeRangeDtoValidator;
 import web.common.BaseController;
 import web.common.dto.FieldErrorDto;
@@ -69,106 +62,114 @@ final class OpeningTimeController extends BaseController {
         binder.setValidator(validator);
     }
 
-    @PostMapping(ADMIN_API_OPENING_TIME)
-    ResponseEntity<?> createOpeningHours(@PathVariable String sportsclubName,
-                                         @PathVariable String sportObjectName,
-                                         @RequestBody @Validated OpeningTimeRangeDto openingTimeRangeDto,
-                                         BindingResult bindingResult) {
+    @PostMapping(DIRECTOR_API_OPENING_TIME)
+    ResponseEntity<?> create(@PathVariable UUID sportsclubId,
+                             @PathVariable UUID sportObjectId,
+                             @RequestBody @Validated OpeningTimeDto openingTimeDto,
+                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return validationResponseService.getResponse(bindingResult);
+            return errorResponseService.create(bindingResult);
         }
 
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(
-                SportsclubQueryExpressions.nameMatches(sportsclubName));
+        boolean sportsclubExists = sportsclubRepository.exists(
+                SportsclubQueryExpressions.idMatches(sportsclubId));
 
-        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
-                SportObjectQueryExpressions.nameMatches(sportObjectName));
+        boolean sportObjectExists = sportObjectRepository.exists(
+                SportObjectQueryExpressions.idMatches(sportObjectId));
 
-        if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent()) {
-            UUID sportObjectId = sportObjectOptional.get().getId();
-            OpeningTimeDto startTime = openingTimeRangeDto.getStartTime();
-            OpeningTimeDto finishTime = openingTimeRangeDto.getFinishTime();
+        if (sportsclubExists && sportObjectExists) {
+            TimeDto startTime = openingTimeDto.getStartTime();
+            TimeDto finishTime = openingTimeDto.getFinishTime();
+
+            OpeningTimeRange timeRange = new OpeningTimeRange(openingTimeDto.getDayOfWeek(),
+                    LocalTime.of(startTime.getHour(), startTime.getMinute()),
+                    LocalTime.of(finishTime.getHour(), finishTime.getMinute()));
+
             commandGateway.sendAndWait(CreateOpeningTimeCommand.builder()
                     .sportObjectId(sportObjectId)
-                    .price(new Price(new BigDecimal(openingTimeRangeDto.getPrice())))
-                    .timeRange(new OpeningTimeRange(openingTimeRangeDto.getDayOfWeek(),
-                            LocalTime.of(startTime.getHour(), startTime.getMinute()),
-                            LocalTime.of(finishTime.getHour(), finishTime.getMinute()))).build());
-            return ok(openingTimeRangeDto);
+                    .price(new Price(new BigDecimal(openingTimeDto.getPrice())))
+                    .timeRange(timeRange)
+                    .build());
+
+            return openingTimeRepository.findOne(
+                    OpeningTimeQueryExpressions.sportObjectIdAndTimeRangeMatches(sportObjectId, timeRange))
+                    .<ResponseEntity<?>> map(openingTime -> ok(OpeningTimeDtoFactory.create(openingTime)))
+                    .orElse(errorResponseService.create("id", ErrorCode.NOT_EXISTS, HttpStatus.CONFLICT));
         } else {
             return badRequest().build();
         }
     }
 
-    @PutMapping(ADMIN_API_OPENING_TIME_BY_ID)
-    ResponseEntity<?> updateOpeningHours(@PathVariable String sportsclubName,
-                                         @PathVariable String sportObjectName,
-                                         @PathVariable String openingTimeId,
-                                         @RequestBody @Validated OpeningTimeRangeDto openingTimeRangeDto,
+    @PutMapping(DIRECTOR_API_OPENING_TIME_BY_ID)
+    ResponseEntity<?> updateOpeningHours(@PathVariable UUID sportsclubId,
+                                         @PathVariable UUID sportObjectId,
+                                         @PathVariable UUID openingTimeId,
+                                         @RequestBody @Validated OpeningTimeDto openingTimeDto,
                                          BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return validationResponseService.getResponse(bindingResult);
-        } else if (isInvalidUUID(openingTimeId)) {
-            return badRequest().build();
+            return errorResponseService.create(bindingResult);
         }
 
-        OpeningTimeDto startTime = openingTimeRangeDto.getStartTime();
-        OpeningTimeDto finishTime = openingTimeRangeDto.getFinishTime();
+        TimeDto startTime = openingTimeDto.getStartTime();
+        TimeDto finishTime = openingTimeDto.getFinishTime();
 
-        return getResponse(sportsclubName, sportObjectName, openingTimeId, (sportObject, openingTime) ->
-                commandGateway.sendAndWait(UpdateOpeningTimeCommand.builder()
-                        .openingTimeId(openingTime.getId())
-                        .sportObjectId(sportObject.getId())
-                        .timeRange(new OpeningTimeRange(
-                                openingTimeRangeDto.getDayOfWeek(),
-                                LocalTime.of(startTime.getHour(), startTime.getMinute()),
-                                LocalTime.of(finishTime.getHour(), finishTime.getMinute())))
-                        .price(new Price(new BigDecimal(openingTimeRangeDto.getPrice()))).build()));
+        Runnable sendCommand = () -> commandGateway.sendAndWait(UpdateOpeningTimeCommand.builder()
+                .openingTimeId(openingTimeId)
+                .sportObjectId(sportObjectId)
+                .timeRange(new OpeningTimeRange(
+                        openingTimeDto.getDayOfWeek(),
+                        LocalTime.of(startTime.getHour(), startTime.getMinute()),
+                        LocalTime.of(finishTime.getHour(), finishTime.getMinute())))
+                .price(new Price(new BigDecimal(openingTimeDto.getPrice())))
+                .build());
+
+        boolean commandSent = sendCommand(sportsclubId, sportObjectId, openingTimeId, sendCommand);
+        return commandSent ? noContent().build() : badRequest().build();
     }
 
-    @DeleteMapping(ADMIN_API_OPENING_TIME_BY_ID)
-    ResponseEntity<?> deleteOpeningHours(@PathVariable String sportsclubName,
-                                         @PathVariable String sportObjectName,
-                                         @PathVariable String openingTimeId) {
-        if (isInvalidUUID(openingTimeId)) {
-            return badRequest().build();
-        }
+    @DeleteMapping(DIRECTOR_API_OPENING_TIME_BY_ID)
+    ResponseEntity<?> deleteOpeningHours(@PathVariable UUID sportsclubId,
+                                         @PathVariable UUID sportObjectId,
+                                         @PathVariable UUID openingTimeId) {
+        Runnable sendCommand = () -> commandGateway.sendAndWait(DeleteOpeningTimeCommand.builder()
+                .openingTimeId(openingTimeId)
+                .sportObjectId(sportObjectId)
+                .build());
 
-        return getResponse(sportsclubName, sportObjectName, openingTimeId, (sportObject, openingTime) ->
-                commandGateway.sendAndWait(DeleteOpeningTimeCommand.builder()
-                        .openingTimeId(openingTime.getId())
-                        .sportObjectId(sportObject.getId()).build()));
+        boolean commandSent = sendCommand(sportsclubId, sportObjectId, openingTimeId, sendCommand);
+        return commandSent ? noContent().build() : badRequest().build();
     }
 
-    private ResponseEntity<?> getResponse(String sportsclubName,
-                                          String sportObjectName,
-                                          String openingTimeId,
-                                          BiConsumer<SportObjectEntity, OpeningTimeEntity> sendCommand) {
-        Optional<SportsclubEntity> sportsclubOptional = sportsclubRepository.findOne(nameMatches(sportsclubName));
+    private boolean sendCommand(UUID sportsclubId,
+                                UUID sportObjectId,
+                                UUID openingTimeId,
+                                Runnable sendCommand) {
+        boolean sportsclubExists = sportsclubRepository.exists(
+                SportsclubQueryExpressions.idMatches(sportsclubId));
 
-        Optional<SportObjectEntity> sportObjectOptional = sportObjectRepository.findOne(
-                SportObjectQueryExpressions.nameMatches(sportObjectName));
+        boolean sportObjectExists = sportObjectRepository.exists(
+                SportObjectQueryExpressions.idMatches(sportObjectId));
 
-        Optional<OpeningTimeEntity> openingTimeOptional = openingTimeRepository.findOne(
-                OpeningTimeQueryExpressions.idMatches(fromString(openingTimeId)));
+        boolean openingTimeExists = openingTimeRepository.exists(
+                OpeningTimeQueryExpressions.idMatches(openingTimeId));
 
-        if (sportsclubOptional.isPresent() && sportObjectOptional.isPresent() && openingTimeOptional.isPresent()) {
-            sendCommand.accept(sportObjectOptional.get(), openingTimeOptional.get());
-            return ok(OpeningTimeRangeDtoFactory.create(openingTimeRepository.getOne(fromString(openingTimeId))));
+        if (sportsclubExists && sportObjectExists && openingTimeExists) {
+            sendCommand.run();
+            return true;
         } else {
-            return badRequest().build();
+            return false;
         }
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(OpeningTimeRangeConflictException.class)
     public List<FieldErrorDto> handleOpeningTimeRangeConflict() {
-        return ImmutableList.of(new FieldErrorDto("openingTimeRange", ErrorCode.ALREADY_EXISTS));
+        return errorResponseService.createBody("openingTimeRange", ErrorCode.ALREADY_EXISTS);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AlreadyDeletedException.class)
     public List<FieldErrorDto> handleAlreadyDeletedConflict() {
-        return ImmutableList.of(new FieldErrorDto("openingTimeRange", ErrorCode.ALREADY_DELETED));
+        return errorResponseService.createBody("openingTimeRange", ErrorCode.ALREADY_DELETED);
     }
 }

@@ -29,6 +29,7 @@ public final class DeleteBookingDetailItTest extends AbstractBookingItTest {
         commandGateway.sendAndWait(new CreateBookingCommand(customerId));
         UUID bookingId = bookingRepository.findOne(userIdMatches(customerId)).get().getId();
         LocalDate date = LocalDate.now();
+
         commandGateway.sendAndWait(AddBookingDetailCommand.builder()
                 .bookingId(bookingId)
                 .customerId(customerId)
@@ -37,15 +38,21 @@ public final class DeleteBookingDetailItTest extends AbstractBookingItTest {
                 .date(date)
                 .build());
 
-        OpeningTimeRange timeRange = openingTimeRepository.findOne(OpeningTimeQueryExpressions.idMatches(openingTimeId)).get().getTimeRange();
-        UUID bookingDetailId = bookingDetailRepository.findOne(bookingDetailMatches(
-                sportObjectPositionId,
-                date,
-                timeRange)).get().getId();
+        OpeningTimeRange timeRange = openingTimeRepository.findOne(
+                OpeningTimeQueryExpressions.idMatches(openingTimeId)).get().getTimeRange();
 
-        ResponseEntity<String> deleteDetailResponse = delete(CUSTOMER_API_BOOKING_DETAIL_BY_ID, String.class, bookingId, bookingDetailId);
+        UUID bookingDetailId = bookingDetailRepository.findOne(
+                bookingDetailMatches(sportObjectPositionId, date, timeRange)).get().getId();
+
+        ResponseEntity<String> deleteDetailResponse = delete(
+                CUSTOMER_API_BOOKING_DETAIL_BY_ID,
+                String.class,
+                bookingId,
+                bookingDetailId);
 
         assertEquals(deleteDetailResponse.getStatusCode(), HttpStatus.NO_CONTENT);
-        assertFalse(bookingDetailRepository.findOne(BookingDetailQueryExpressions.idMatches(bookingDetailId)).isPresent());
+
+        assertFalse(bookingDetailRepository.findOne(
+                BookingDetailQueryExpressions.idMatches(bookingDetailId)).isPresent());
     }
 }

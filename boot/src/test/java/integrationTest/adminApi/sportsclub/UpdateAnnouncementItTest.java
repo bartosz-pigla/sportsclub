@@ -3,12 +3,10 @@ package integrationTest.adminApi.sportsclub;
 import static com.google.common.collect.Lists.newArrayList;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static web.common.RequestMappings.ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID;
+import static web.common.RequestMappings.DIRECTOR_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID;
 
 import java.util.UUID;
 
-import api.sportsclub.command.CreateAnnouncementCommand;
-import api.sportsclub.command.CreateSportsclubCommand;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,26 +23,24 @@ public final class UpdateAnnouncementItTest extends AbstractSportsclubItTest {
     @Test
     @DirtiesContext
     public void shouldUpdateWhenSportsclubAndAnnouncementExists() {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateAnnouncementCommand createAnnouncementCommand = createAnnouncement(createSportsclubCommand);
-        UUID announcementId = newArrayList(announcementRepository.findAll()).get(0).getId();
+        UUID sportsclubId = createSportsclub();
+        UUID announcementId = createAnnouncement(sportsclubId);
         signIn("superuser", "password");
+
         AnnouncementDto announcement = AnnouncementDto.builder()
                 .title("title2")
                 .content("content2")
                 .build();
 
         ResponseEntity<AnnouncementDto> updateAnnouncementResponse = put(
-                ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
+                DIRECTOR_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
                 announcement,
                 AnnouncementDto.class,
-                createSportsclubCommand.getName(), announcementId);
+                sportsclubId.toString(),
+                announcementId.toString());
 
-        assertEquals(updateAnnouncementResponse.getStatusCode(), HttpStatus.OK);
+        assertEquals(updateAnnouncementResponse.getStatusCode(), HttpStatus.NO_CONTENT);
 
-        AnnouncementDto response = updateAnnouncementResponse.getBody();
-        assertEquals(announcement.getTitle(), response.getTitle());
-        assertEquals(announcement.getContent(), response.getContent());
         assertTrue(newArrayList(announcementRepository.findAll()).stream()
                 .anyMatch(a -> a.getTitle().equals(announcement.getTitle()) && a.getContent().equals(announcement.getContent())));
     }
@@ -52,20 +48,21 @@ public final class UpdateAnnouncementItTest extends AbstractSportsclubItTest {
     @Test
     @DirtiesContext
     public void shouldNotUpdateWhenSportsclubNotExists() {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateAnnouncementCommand createAnnouncementCommand = createAnnouncement(createSportsclubCommand);
-        UUID announcementId = newArrayList(announcementRepository.findAll()).get(0).getId();
+        UUID sportsclubId = createSportsclub();
+        UUID announcementId = createAnnouncement(sportsclubId);
         signIn("superuser", "password");
+
         AnnouncementDto announcement = AnnouncementDto.builder()
                 .title("title2")
                 .content("content2")
                 .build();
 
-        ResponseEntity<AnnouncementDto> updateAnnouncementResponse = put(
-                ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
+        ResponseEntity<String> updateAnnouncementResponse = put(
+                DIRECTOR_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
                 announcement,
-                AnnouncementDto.class,
-                "notExistingSportsclubName", announcementId);
+                String.class,
+                "notExistingSportsclubId",
+                announcementId.toString());
 
         assertEquals(updateAnnouncementResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
@@ -73,18 +70,20 @@ public final class UpdateAnnouncementItTest extends AbstractSportsclubItTest {
     @Test
     @DirtiesContext
     public void shouldNotUpdateWhenAnnouncementNotExists() {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
+        UUID sportsclubId = createSportsclub();
         signIn("superuser", "password");
+
         AnnouncementDto announcement = AnnouncementDto.builder()
                 .title("title2")
                 .content("content2")
                 .build();
 
-        ResponseEntity<AnnouncementDto> updateAnnouncementResponse = put(
-                ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
+        ResponseEntity<String> updateAnnouncementResponse = put(
+                DIRECTOR_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID,
                 announcement,
-                AnnouncementDto.class,
-                createSportsclubCommand.getName(), "notExistingAnnouncementId");
+                String.class,
+                sportsclubId.toString(),
+                "notExistingAnnouncementId");
 
         assertEquals(updateAnnouncementResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
     }

@@ -1,6 +1,5 @@
 package query.model.sportobject;
 
-import java.net.URL;
 import java.util.List;
 
 import javax.persistence.Embedded;
@@ -14,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import query.model.baseEntity.BaseEntity;
 import query.model.embeddable.Address;
+import query.model.embeddable.ImageUrl;
 import query.model.sportsclub.SportsclubEntity;
 
 @Entity
@@ -26,7 +26,8 @@ public class SportObjectEntity extends BaseEntity {
     private String description;
     @Embedded
     private Address address;
-    private URL image;
+    @Embedded
+    private ImageUrl imageUrl;
     @ManyToOne(fetch = FetchType.LAZY)
     private SportsclubEntity headquarter;
     @OneToMany

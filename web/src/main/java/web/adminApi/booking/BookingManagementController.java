@@ -1,11 +1,9 @@
 package web.adminApi.booking;
 
-import static java.util.UUID.fromString;
-import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.noContent;
-import static web.common.RequestMappings.ADMIN_API_BOOKING_CONFIRM;
-import static web.common.RequestMappings.ADMIN_API_BOOKING_FINISH;
-import static web.common.RequestMappings.ADMIN_API_BOOKING_REJECT;
+import static web.common.RequestMappings.RECEPTIONIST_API_BOOKING_CONFIRM;
+import static web.common.RequestMappings.RECEPTIONIST_API_BOOKING_FINISH;
+import static web.common.RequestMappings.RECEPTIONIST_API_BOOKING_REJECT;
 
 import java.util.UUID;
 import java.util.function.Function;
@@ -22,28 +20,23 @@ import web.common.booking.BookingBaseController;
 @RestController
 final class BookingManagementController extends BookingBaseController {
 
-    @PatchMapping(ADMIN_API_BOOKING_CONFIRM)
-    ResponseEntity<?> confirm(@PathVariable String bookingId) {
+    @PatchMapping(RECEPTIONIST_API_BOOKING_CONFIRM)
+    ResponseEntity<?> confirm(@PathVariable UUID bookingId) {
         return changeState(bookingId, ConfirmBookingCommand::new);
     }
 
-    @PatchMapping(ADMIN_API_BOOKING_REJECT)
-    ResponseEntity<?> reject(@PathVariable String bookingId) {
+    @PatchMapping(RECEPTIONIST_API_BOOKING_REJECT)
+    ResponseEntity<?> reject(@PathVariable UUID bookingId) {
         return changeState(bookingId, RejectBookingCommand::new);
     }
 
-    @PatchMapping(ADMIN_API_BOOKING_FINISH)
-    ResponseEntity<?> finish(@PathVariable String bookingId) {
+    @PatchMapping(RECEPTIONIST_API_BOOKING_FINISH)
+    ResponseEntity<?> finish(@PathVariable UUID bookingId) {
         return changeState(bookingId, FinishBookingCommand::new);
     }
 
-    private ResponseEntity<?> changeState(String bookingId,
-                                          Function<UUID, Object> sendCommandFunction) {
-        if (isInvalidUUID(bookingId)) {
-            return badRequest().build();
-        }
-
-        commandGateway.sendAndWait(sendCommandFunction.apply(fromString(bookingId)));
+    private ResponseEntity<?> changeState(UUID bookingId, Function<UUID, Object> sendCommandFunction) {
+        commandGateway.sendAndWait(sendCommandFunction.apply(bookingId));
         return noContent().build();
     }
 }

@@ -15,6 +15,5 @@ import lombok.Setter;
 @EqualsAndHashCode
 public class UserActivationWebCommand {
 
-    private String username;
     private boolean activated;
 }

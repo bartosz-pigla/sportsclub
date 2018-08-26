@@ -4,16 +4,18 @@ import query.model.sportobject.SportObjectEntity;
 
 public final class SportObjectDtoFactory {
 
-    public static SportObjectDto create(SportObjectEntity sportObjectEntity) {
+    public static SportObjectDto create(SportObjectEntity object) {
         return SportObjectDto.builder()
-                .name(sportObjectEntity.getName())
-                .description(sportObjectEntity.getDescription())
+                .id(object.getId().toString())
+                .name(object.getName())
+                .description(object.getDescription())
                 .address(new AddressDto(
-                        sportObjectEntity.getAddress().getStreet(),
-                        sportObjectEntity.getAddress().getCity().getCity(),
-                        sportObjectEntity.getAddress().getCoordinates().getLatitude(),
-                        sportObjectEntity.getAddress().getCoordinates().getLongitude()))
-                .imageUrl(sportObjectEntity.getImage().toString())
-                .sportsclubName(sportObjectEntity.getHeadquarter().getName()).build();
+                        object.getAddress().getStreet(),
+                        object.getAddress().getCity().getCity(),
+                        object.getAddress().getCoordinates().getLatitude(),
+                        object.getAddress().getCoordinates().getLongitude()))
+                .imageUrl(object.getImageUrl().toString())
+                .sportsclubId(object.getHeadquarter().getId().toString())
+                .build();
     }
 }

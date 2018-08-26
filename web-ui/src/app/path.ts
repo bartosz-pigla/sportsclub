@@ -38,6 +38,6 @@ export const notFoundAbsolutePath = getAbsolutePath(publicPath, notFoundRelative
 export const homeRelativePath = 'home-page';
 export const homeAbsolutePath = getAbsolutePath(customerPath, homeRelativePath);
 
-function getAbsolutePath(parentPath, childPath) {
+export function getAbsolutePath(parentPath, childPath) {
   return parentPath + '/' + childPath;
 }

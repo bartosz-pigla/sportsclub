@@ -30,7 +30,11 @@ public final class CancelBookingItTest extends AbstractBookingItTest {
         commandGateway.sendAndWait(new CreateBookingCommand(customerId));
         UUID bookingId = bookingRepository.findOne(userIdMatches(customerId)).get().getId();
 
-        ResponseEntity<String> cancelBookingResponse = patch(CUSTOMER_API_BOOKING_CANCEL, null, String.class, bookingId);
+        ResponseEntity<String> cancelBookingResponse = patch(
+                CUSTOMER_API_BOOKING_CANCEL,
+                null,
+                String.class,
+                bookingId);
 
         assertEquals(cancelBookingResponse.getStatusCode(), HttpStatus.NO_CONTENT);
         assertEquals(bookingRepository.findOne(userIdMatches(customerId)).get().getState(), BookingState.CANCELED);
@@ -42,6 +46,7 @@ public final class CancelBookingItTest extends AbstractBookingItTest {
         signIn("customer", "password");
         commandGateway.sendAndWait(new CreateBookingCommand(customerId));
         UUID bookingId = bookingRepository.findOne(userIdMatches(customerId)).get().getId();
+
         commandGateway.sendAndWait(AddBookingDetailCommand.builder()
                 .bookingId(bookingId)
                 .customerId(customerId)
@@ -49,16 +54,20 @@ public final class CancelBookingItTest extends AbstractBookingItTest {
                 .openingTimeId(openingTimeId)
                 .date(LocalDate.now().plusDays(1))
                 .build());
+
         commandGateway.sendAndWait(new SubmitBookingCommand(bookingId, customerId));
         commandGateway.sendAndWait(new ConfirmBookingCommand(bookingId));
         commandGateway.sendAndWait(new FinishBookingCommand(bookingId));
 
-        ResponseEntity<List> cancelBookingResponse = patch(CUSTOMER_API_BOOKING_CANCEL, null, List.class, bookingId);
+        ResponseEntity<List> cancelBookingResponse = patch(
+                CUSTOMER_API_BOOKING_CANCEL,
+                null,
+                List.class,
+                bookingId);
 
         assertEquals(cancelBookingResponse.getStatusCode(), HttpStatus.CONFLICT);
         List errors = cancelBookingResponse.getBody();
         assertField("state", ErrorCode.INVALID.getCode(), errors);
-
         assertEquals(bookingRepository.findOne(userIdMatches(customerId)).get().getState(), BookingState.FINISHED);
     }
 }

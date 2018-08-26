@@ -15,6 +15,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 public final class SportObjectPositionDto {
 
+    private String id;
     private String name;
     private String description;
     private Integer positionsCount;

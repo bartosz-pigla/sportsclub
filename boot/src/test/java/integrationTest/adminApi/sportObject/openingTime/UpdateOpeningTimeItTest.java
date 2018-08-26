@@ -3,18 +3,15 @@ package integrationTest.adminApi.sportObject.openingTime;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static web.common.RequestMappings.ADMIN_API_OPENING_TIME_BY_ID;
+import static web.common.RequestMappings.DIRECTOR_API_OPENING_TIME_BY_ID;
 
 import java.math.BigDecimal;
-import java.net.MalformedURLException;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
-import api.sportObject.command.CreateSportObjectCommand;
 import api.sportObject.openingTime.command.CreateOpeningTimeCommand;
-import api.sportsclub.command.CreateSportsclubCommand;
 import commons.ErrorCode;
 import integrationTest.adminApi.sportObject.AbstractSportObjectItTest;
 import org.junit.Test;
@@ -24,16 +21,15 @@ import org.springframework.test.annotation.DirtiesContext;
 import query.model.embeddable.OpeningTimeRange;
 import query.model.embeddable.Price;
 import web.adminApi.sportObject.dto.OpeningTimeDto;
-import web.adminApi.sportObject.dto.OpeningTimeRangeDto;
+import web.adminApi.sportObject.dto.TimeDto;
 
 public final class UpdateOpeningTimeItTest extends AbstractSportObjectItTest {
 
     @Test
     @DirtiesContext
-    public void shouldUpdateWhenSportObjectExistsAndOpeningTimeIsValid() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-        UUID sportObjectId = sportObjectRepository.findAll().get(0).getId();
+    public void shouldUpdateWhenSportObjectExistsAndOpeningTimeIsValid() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
 
         CreateOpeningTimeCommand createFirstOpeningTimeCommand = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectId)
@@ -51,104 +47,107 @@ public final class UpdateOpeningTimeItTest extends AbstractSportObjectItTest {
         commandGateway.sendAndWait(createSecondOpeningTimeCommand);
 
         signIn("superuser", "password");
-
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
         UUID openingTimeId = openingTimeRepository.findAll().get(0).getId();
 
-        OpeningTimeRangeDto openingTimeRangeDto = OpeningTimeRangeDto.builder()
+        OpeningTimeDto openingTimeDto = OpeningTimeDto.builder()
                 .id(openingTimeId.toString())
                 .price(10.33d)
                 .dayOfWeek(DayOfWeek.MONDAY)
-                .startTime(OpeningTimeDto.builder()
+                .startTime(TimeDto.builder()
                         .hour(10)
-                        .minute(0).build())
-                .finishTime(OpeningTimeDto.builder()
+                        .minute(0)
+                        .build())
+                .finishTime(TimeDto.builder()
                         .hour(12)
-                        .minute(0).build()).build();
+                        .minute(0)
+                        .build())
+                .build();
 
-        ResponseEntity<OpeningTimeRangeDto> updateOpeningTimeRangeDtoResponseEntity = put(
-                ADMIN_API_OPENING_TIME_BY_ID,
-                openingTimeRangeDto,
-                OpeningTimeRangeDto.class,
-                sportsclubName, sportObjectName, openingTimeId.toString());
+        ResponseEntity<OpeningTimeDto> updateOpeningTimeRangeDtoResponseEntity = put(
+                DIRECTOR_API_OPENING_TIME_BY_ID,
+                openingTimeDto,
+                OpeningTimeDto.class,
+                sportsclubId.toString(),
+                sportObjectId.toString(),
+                openingTimeId.toString());
 
-        assertEquals(updateOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.OK);
-        assertTrue(exists(openingTimeRangeDto));
+        assertEquals(updateOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.NO_CONTENT);
+        assertTrue(exists(openingTimeDto));
     }
 
     @Test
     @DirtiesContext
-    public void shouldNotUpdateWhenSportsclubNotExists() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-        createOpeningTime(sportObjectRepository.findAll().get(0).getId());
+    public void shouldNotUpdateWhenSportsclubNotExists() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
+        UUID openingTimeId = createOpeningTime(sportObjectId);
         signIn("superuser", "password");
 
-        String sportsclubName = "notExistingSportsclub";
-        String sportObjectName = createSportObjectCommand.getName();
-        UUID openingTimeId = openingTimeRepository.findAll().get(0).getId();
-
-        OpeningTimeRangeDto openingTimeRangeDto = OpeningTimeRangeDto.builder()
+        OpeningTimeDto openingTimeDto = OpeningTimeDto.builder()
                 .id(openingTimeId.toString())
                 .price(10.33d)
                 .dayOfWeek(DayOfWeek.MONDAY)
-                .startTime(OpeningTimeDto.builder()
+                .startTime(TimeDto.builder()
                         .hour(10)
-                        .minute(0).build())
-                .finishTime(OpeningTimeDto.builder()
+                        .minute(0)
+                        .build())
+                .finishTime(TimeDto.builder()
                         .hour(12)
-                        .minute(0).build()).build();
+                        .minute(0)
+                        .build())
+                .build();
 
-        ResponseEntity<List> updateOpeningTimeRangeDtoResponseEntity = put(
-                ADMIN_API_OPENING_TIME_BY_ID,
-                openingTimeRangeDto,
-                List.class,
-                sportsclubName, sportObjectName, openingTimeId.toString());
+        ResponseEntity<String> updateOpeningTimeRangeDtoResponseEntity = put(
+                DIRECTOR_API_OPENING_TIME_BY_ID,
+                openingTimeDto,
+                String.class,
+                "notExistingSportsclub",
+                sportObjectId.toString(),
+                openingTimeId.toString());
 
         assertEquals(updateOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertFalse(exists(openingTimeRangeDto));
+        assertFalse(exists(openingTimeDto));
     }
 
     @Test
     @DirtiesContext
-    public void shouldNotUpdateWhenSportObjectNotExists() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        createSportObject(createSportsclubCommand);
-        createOpeningTime(sportObjectRepository.findAll().get(0).getId());
+    public void shouldNotUpdateWhenSportObjectNotExists() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
+        UUID openingTimeId = createOpeningTime(sportObjectId);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = "notExistingSportObject";
-        UUID openingTimeId = openingTimeRepository.findAll().get(0).getId();
-
-        OpeningTimeRangeDto openingTimeRangeDto = OpeningTimeRangeDto.builder()
+        OpeningTimeDto openingTimeDto = OpeningTimeDto.builder()
                 .id(openingTimeId.toString())
                 .price(10.33d)
                 .dayOfWeek(DayOfWeek.MONDAY)
-                .startTime(OpeningTimeDto.builder()
+                .startTime(TimeDto.builder()
                         .hour(10)
-                        .minute(0).build())
-                .finishTime(OpeningTimeDto.builder()
+                        .minute(0)
+                        .build())
+                .finishTime(TimeDto.builder()
                         .hour(12)
-                        .minute(0).build()).build();
+                        .minute(0)
+                        .build())
+                .build();
 
-        ResponseEntity<List> updateOpeningTimeRangeDtoResponseEntity = put(
-                ADMIN_API_OPENING_TIME_BY_ID,
-                openingTimeRangeDto,
-                List.class,
-                sportsclubName, sportObjectName, openingTimeId.toString());
+        ResponseEntity<String> updateOpeningTimeRangeDtoResponseEntity = put(
+                DIRECTOR_API_OPENING_TIME_BY_ID,
+                openingTimeDto,
+                String.class,
+                sportsclubId.toString(),
+                "notExistingSportObjectId",
+                openingTimeId.toString());
 
         assertEquals(updateOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertFalse(exists(openingTimeRangeDto));
+        assertFalse(exists(openingTimeDto));
     }
 
     @Test
     @DirtiesContext
-    public void shouldNotUpdateWhenOpeningTimeIsInvalid() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-        UUID sportObjectId = sportObjectRepository.findAll().get(0).getId();
+    public void shouldNotUpdateWhenOpeningTimeIsInvalid() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
 
         CreateOpeningTimeCommand createFirstOpeningTimeCommand = CreateOpeningTimeCommand.builder()
                 .sportObjectId(sportObjectId)
@@ -166,29 +165,29 @@ public final class UpdateOpeningTimeItTest extends AbstractSportObjectItTest {
         commandGateway.sendAndWait(createSecondOpeningTimeCommand);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
         UUID openingTimeId = openingTimeRepository.findAll().get(0).getId();
 
-        OpeningTimeRangeDto openingTimeRangeDto = OpeningTimeRangeDto.builder()
+        OpeningTimeDto openingTimeDto = OpeningTimeDto.builder()
                 .id(openingTimeId.toString())
                 .price(10.33d)
                 .dayOfWeek(DayOfWeek.MONDAY)
-                .startTime(OpeningTimeDto.builder()
+                .startTime(TimeDto.builder()
                         .hour(9)
                         .minute(0).build())
-                .finishTime(OpeningTimeDto.builder()
+                .finishTime(TimeDto.builder()
                         .hour(13)
                         .minute(30).build()).build();
 
         ResponseEntity<List> updateOpeningTimeRangeDtoResponseEntity = put(
-                ADMIN_API_OPENING_TIME_BY_ID,
-                openingTimeRangeDto,
+                DIRECTOR_API_OPENING_TIME_BY_ID,
+                openingTimeDto,
                 List.class,
-                sportsclubName, sportObjectName, openingTimeId.toString());
+                sportsclubId,
+                sportObjectId,
+                openingTimeId.toString());
 
         assertEquals(updateOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.CONFLICT);
         assertField("openingTimeRange", ErrorCode.ALREADY_EXISTS.getCode(), updateOpeningTimeRangeDtoResponseEntity.getBody());
-        assertFalse(exists(openingTimeRangeDto));
+        assertFalse(exists(openingTimeDto));
     }
 }

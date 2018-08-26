@@ -17,7 +17,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 public final class BookingDetailDto {
 
-    private String detailId;
+    private String bookingDetailId;
     private String sportObjectPositionId;
     private String openingTimeId;
     private LocalDate date;

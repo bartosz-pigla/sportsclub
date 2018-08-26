@@ -1,7 +1,5 @@
 package web.adminApi.sportsclub.dto;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -17,7 +15,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 public final class StatuteDto {
 
+    private String id;
     private String title;
     private String description;
-    private LocalDateTime lastModificationDate;
 }

@@ -3,14 +3,12 @@ package integrationTest.adminApi.sportObject.openingTime;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static web.common.RequestMappings.ADMIN_API_OPENING_TIME;
+import static web.common.RequestMappings.DIRECTOR_API_OPENING_TIME;
 
-import java.net.MalformedURLException;
 import java.time.DayOfWeek;
 import java.util.List;
+import java.util.UUID;
 
-import api.sportObject.command.CreateSportObjectCommand;
-import api.sportsclub.command.CreateSportsclubCommand;
 import commons.ErrorCode;
 import integrationTest.adminApi.sportObject.AbstractSportObjectItTest;
 import org.junit.Test;
@@ -18,107 +16,103 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import web.adminApi.sportObject.dto.OpeningTimeDto;
-import web.adminApi.sportObject.dto.OpeningTimeRangeDto;
+import web.adminApi.sportObject.dto.TimeDto;
 
 public final class CreateOpeningTimeItTest extends AbstractSportObjectItTest {
 
     @Test
     @DirtiesContext
-    public void shouldCreateWhenSportObjectExistsAndOpeningTimeIsValid() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
+    public void shouldCreateWhenSportObjectExistsAndOpeningTimeIsValid() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
-
-        OpeningTimeRangeDto openingTimeRangeDto = OpeningTimeRangeDto.builder()
+        OpeningTimeDto openingTimeDto = OpeningTimeDto.builder()
                 .price(10.33d)
                 .dayOfWeek(DayOfWeek.MONDAY)
-                .startTime(OpeningTimeDto.builder()
+                .startTime(TimeDto.builder()
                         .hour(10)
                         .minute(0).build())
-                .finishTime(OpeningTimeDto.builder()
+                .finishTime(TimeDto.builder()
                         .hour(12)
                         .minute(0).build()).build();
 
-        ResponseEntity<OpeningTimeRangeDto> createOpeningTimeRangeDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_API_OPENING_TIME,
-                openingTimeRangeDto,
-                OpeningTimeRangeDto.class,
-                sportsclubName, sportObjectName);
+        ResponseEntity<OpeningTimeDto> createOpeningTimeRangeDtoResponseEntity = restTemplate.postForEntity(
+                DIRECTOR_API_OPENING_TIME,
+                openingTimeDto,
+                OpeningTimeDto.class,
+                sportsclubId.toString(),
+                sportObjectId.toString());
 
         assertEquals(createOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.OK);
 
-        OpeningTimeRangeDto response = createOpeningTimeRangeDtoResponseEntity.getBody();
-        OpeningTimeDto startTime = response.getStartTime();
-        OpeningTimeDto finishTime = response.getFinishTime();
-        assertEquals(response.getDayOfWeek(), openingTimeRangeDto.getDayOfWeek());
-        assertEquals(startTime.getHour(), openingTimeRangeDto.getStartTime().getHour());
-        assertEquals(startTime.getMinute(), openingTimeRangeDto.getStartTime().getMinute());
-        assertEquals(finishTime.getHour(), openingTimeRangeDto.getFinishTime().getHour());
-        assertEquals(finishTime.getMinute(), openingTimeRangeDto.getFinishTime().getMinute());
-        assertTrue(exists(openingTimeRangeDto));
+        OpeningTimeDto response = createOpeningTimeRangeDtoResponseEntity.getBody();
+        TimeDto startTime = response.getStartTime();
+        TimeDto finishTime = response.getFinishTime();
+        assertEquals(response.getDayOfWeek(), openingTimeDto.getDayOfWeek());
+        assertEquals(startTime.getHour(), openingTimeDto.getStartTime().getHour());
+        assertEquals(startTime.getMinute(), openingTimeDto.getStartTime().getMinute());
+        assertEquals(finishTime.getHour(), openingTimeDto.getFinishTime().getHour());
+        assertEquals(finishTime.getMinute(), openingTimeDto.getFinishTime().getMinute());
+        assertTrue(exists(openingTimeDto));
     }
 
     @Test
     @DirtiesContext
     public void shouldNotCreateWhenSportObjectNotExists() {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
+        String sportsclubId = createSportsclub().toString();
+        String sportObjectId = "notExistingSportObject";
+
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = "notExistingSportObject";
-
-        OpeningTimeRangeDto openingTimeRangeDto = OpeningTimeRangeDto.builder()
+        OpeningTimeDto openingTimeDto = OpeningTimeDto.builder()
                 .price(10.33d)
                 .dayOfWeek(DayOfWeek.MONDAY)
-                .startTime(OpeningTimeDto.builder()
+                .startTime(TimeDto.builder()
                         .hour(10)
                         .minute(0).build())
-                .finishTime(OpeningTimeDto.builder()
+                .finishTime(TimeDto.builder()
                         .hour(12)
                         .minute(0).build()).build();
 
-        ResponseEntity<Object> createOpeningTimeRangeDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_API_OPENING_TIME,
-                openingTimeRangeDto,
-                Object.class,
-                sportsclubName, sportObjectName);
+        ResponseEntity<String> createOpeningTimeRangeDtoResponseEntity = restTemplate.postForEntity(
+                DIRECTOR_API_OPENING_TIME,
+                openingTimeDto,
+                String.class,
+                sportsclubId,
+                sportObjectId);
 
         assertEquals(createOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertFalse(exists(openingTimeRangeDto));
+        assertFalse(exists(openingTimeDto));
     }
 
     @Test
     @DirtiesContext
-    public void shouldNotCreateWhenOpeningTimeIsInvalid() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-        createOpeningTime(sportObjectRepository.findAll().get(0).getId());
+    public void shouldNotCreateWhenOpeningTimeIsInvalid() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
+        createOpeningTime(sportObjectId);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
-
-        OpeningTimeRangeDto openingTimeRangeDto = OpeningTimeRangeDto.builder()
+        OpeningTimeDto openingTimeDto = OpeningTimeDto.builder()
                 .price(10.33d)
                 .dayOfWeek(DayOfWeek.MONDAY)
-                .startTime(OpeningTimeDto.builder()
+                .startTime(TimeDto.builder()
                         .hour(10)
                         .minute(0).build())
-                .finishTime(OpeningTimeDto.builder()
+                .finishTime(TimeDto.builder()
                         .hour(12)
                         .minute(0).build()).build();
 
         ResponseEntity<List> createOpeningTimeRangeDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_API_OPENING_TIME,
-                openingTimeRangeDto,
+                DIRECTOR_API_OPENING_TIME,
+                openingTimeDto,
                 List.class,
-                sportsclubName, sportObjectName);
+                sportsclubId.toString(),
+                sportObjectId.toString());
 
         assertEquals(createOpeningTimeRangeDtoResponseEntity.getStatusCode(), HttpStatus.CONFLICT);
         assertField("openingTimeRange", ErrorCode.ALREADY_EXISTS.getCode(), createOpeningTimeRangeDtoResponseEntity.getBody());
-        assertFalse(exists(openingTimeRangeDto));
+        assertFalse(exists(openingTimeDto));
     }
 }

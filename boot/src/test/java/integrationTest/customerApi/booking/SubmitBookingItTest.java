@@ -24,6 +24,7 @@ public final class SubmitBookingItTest extends AbstractBookingItTest {
         signIn("customer", "password");
         commandGateway.sendAndWait(new CreateBookingCommand(customerId));
         UUID bookingId = bookingRepository.findOne(userIdMatches(customerId)).get().getId();
+
         commandGateway.sendAndWait(AddBookingDetailCommand.builder()
                 .bookingId(bookingId)
                 .customerId(customerId)
@@ -32,7 +33,11 @@ public final class SubmitBookingItTest extends AbstractBookingItTest {
                 .date(LocalDate.now())
                 .build());
 
-        ResponseEntity<String> cancelBookingResponse = patch(CUSTOMER_API_BOOKING_SUBMIT, null, String.class, bookingId);
+        ResponseEntity<String> cancelBookingResponse = patch(
+                CUSTOMER_API_BOOKING_SUBMIT,
+                null,
+                String.class,
+                bookingId);
 
         assertEquals(cancelBookingResponse.getStatusCode(), HttpStatus.NO_CONTENT);
         assertEquals(bookingRepository.findOne(userIdMatches(customerId)).get().getState(), BookingState.SUBMITTED);

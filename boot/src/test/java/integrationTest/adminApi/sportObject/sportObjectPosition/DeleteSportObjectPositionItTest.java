@@ -2,98 +2,80 @@ package integrationTest.adminApi.sportObject.sportObjectPosition;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME;
+import static web.common.RequestMappings.DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID;
 
-import java.net.MalformedURLException;
 import java.util.UUID;
 
-import api.sportObject.command.CreateSportObjectCommand;
-import api.sportObject.sportObjectPosition.command.CreateSportObjectPositionCommand;
 import api.sportObject.sportObjectPosition.command.DeleteSportObjectPositionCommand;
-import api.sportsclub.command.CreateSportsclubCommand;
 import integrationTest.adminApi.sportObject.AbstractSportObjectItTest;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import query.model.sportobject.repository.SportObjectPositionQueryExpressions;
-import query.model.sportobject.repository.SportObjectQueryExpressions;
 
 public final class DeleteSportObjectPositionItTest extends AbstractSportObjectItTest {
 
     @Test
     @DirtiesContext
-    public void shouldDeleteWhenIsNotDeletedAndExists() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-        UUID sportObjectId = sportObjectRepository.findOne(SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName())).get().getId();
-        CreateSportObjectPositionCommand createSportObjectPositionCommand = createSportObjectPosition(sportObjectId);
+    public void shouldDeleteWhenIsNotDeletedAndExists() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
+        UUID sportObjectPositionId = createSportObjectPosition(sportObjectId);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
-        String sportObjectPositionName = createSportObjectPositionCommand.getName();
+        ResponseEntity<String> deletePositionResponseEntity = delete(
+                DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID,
+                String.class,
+                sportsclubId.toString(),
+                sportObjectId.toString(),
+                sportObjectPositionId.toString());
 
-        ResponseEntity<Object> deletePositionResponseEntity = delete(
-                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
-                Object.class,
-                sportsclubName, sportObjectName, sportObjectPositionName);
-
-        assertEquals(deletePositionResponseEntity.getStatusCode(), HttpStatus.OK);
+        assertEquals(deletePositionResponseEntity.getStatusCode(), HttpStatus.NO_CONTENT);
         assertFalse(sportObjectPositionRepository.findOne(
-                SportObjectPositionQueryExpressions.nameMatches(sportObjectPositionName)).isPresent());
+                SportObjectPositionQueryExpressions.idMatches(sportObjectPositionId)).isPresent());
     }
 
     @Test
     @DirtiesContext
-    public void shouldNotDeleteWhenNotExists() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
+    public void shouldNotDeleteWhenNotExists() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
-        String sportObjectPositionName = "notExistingPosition";
-
-        ResponseEntity<Object> deletePositionResponseEntity = delete(
-                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
-                Object.class,
-                sportsclubName, sportObjectName, sportObjectPositionName);
+        ResponseEntity<String> deletePositionResponseEntity = delete(
+                DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID,
+                String.class,
+                sportsclubId.toString(),
+                sportObjectId.toString(),
+                "notExistingPositionId");
 
         assertEquals(deletePositionResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertFalse(sportObjectPositionRepository.findOne(
-                SportObjectPositionQueryExpressions.nameMatches(sportObjectPositionName)).isPresent());
     }
 
     @Test
     @DirtiesContext
-    public void shouldNotDeleteWhenIsAlreadyDeleted() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-
-        UUID sportObjectId = sportObjectRepository.findOne(
-                SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName())).get().getId();
-
-        CreateSportObjectPositionCommand createSportObjectPositionCommand = createSportObjectPosition(sportObjectId);
-
-        UUID sportObjectPositionId = sportObjectPositionRepository.findOne(
-                SportObjectPositionQueryExpressions.nameMatches(createSportObjectPositionCommand.getName())).get().getId();
+    public void shouldNotDeleteWhenIsAlreadyDeleted() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
+        UUID sportObjectPositionId = createSportObjectPosition(sportObjectId);
 
         commandGateway.sendAndWait(DeleteSportObjectPositionCommand.builder()
                 .sportObjectId(sportObjectId)
                 .sportObjectPositionId(sportObjectPositionId).build());
+
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
-        String sportObjectPositionName = createSportObjectPositionCommand.getName();
-
-        ResponseEntity<Object> deletePositionResponseEntity = delete(
-                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
-                Object.class,
-                sportsclubName, sportObjectName, sportObjectPositionId);
+        ResponseEntity<String> deletePositionResponseEntity = delete(
+                DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID,
+                String.class,
+                sportsclubId.toString(),
+                sportObjectId.toString(),
+                sportObjectPositionId.toString());
 
         assertEquals(deletePositionResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
-        assertFalse(sportObjectPositionRepository.findOne(SportObjectPositionQueryExpressions.nameMatches(sportObjectPositionName)).isPresent());
+
+        assertFalse(sportObjectPositionRepository.findOne(
+                SportObjectPositionQueryExpressions.idMatches(sportObjectPositionId)).isPresent());
     }
 }

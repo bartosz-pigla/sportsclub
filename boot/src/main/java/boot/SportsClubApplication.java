@@ -1,7 +1,5 @@
 package boot;
 
-import static web.common.RequestMappings.API;
-
 import boot.populator.UserPopulator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
@@ -48,7 +46,7 @@ public class SportsClubApplication {
 
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping(API + "/**")
+                registry.addMapping("/**")
                         .allowedMethods(HttpMethod.PUT.name(),
                                 HttpMethod.POST.name(),
                                 HttpMethod.DELETE.name(),

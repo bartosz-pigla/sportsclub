@@ -1,6 +1,9 @@
 package query.model.booking.repository;
 
+import static query.model.baseEntity.repository.BaseEntityQueryExpressions.isNotDeleted;
+
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -31,6 +34,27 @@ public final class BookingDetailQueryExpressions {
         } else {
             return bookingDetail.isNull();
         }
+    }
+
+    public static BooleanExpression sportObjectPositionIdMatches(UUID id) {
+        return Optional.ofNullable(id)
+                .map(i -> isNotDeleted(bookingDetail._super)
+                        .and(BaseEntityQueryExpressions.idMatches(id, bookingDetail.position._super)))
+                .orElse(bookingDetail.isNull());
+    }
+
+    public static BooleanExpression openingTimeIdMatches(UUID id) {
+        return Optional.ofNullable(id)
+                .map(i -> isNotDeleted(bookingDetail._super)
+                        .and(BaseEntityQueryExpressions.idMatches(id, bookingDetail.openingTime._super)))
+                .orElse(bookingDetail.isNull());
+    }
+
+    public static BooleanExpression bookingIdMatches(UUID id) {
+        return Optional.ofNullable(id)
+                .map(i -> isNotDeleted(bookingDetail._super)
+                        .and(BaseEntityQueryExpressions.idMatches(id, bookingDetail.booking._super)))
+                .orElse(bookingDetail.isNull());
     }
 
     public static BooleanExpression idMatches(UUID id) {

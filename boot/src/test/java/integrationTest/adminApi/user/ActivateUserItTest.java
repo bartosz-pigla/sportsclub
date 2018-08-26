@@ -2,55 +2,39 @@ package integrationTest.adminApi.user;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static query.model.user.repository.UserQueryExpressions.usernameMatches;
-import static web.common.RequestMappings.ADMIN_API_USER_ACTIVATION;
+import static query.model.user.repository.UserQueryExpressions.idMatches;
+import static web.common.RequestMappings.DIRECTOR_API_USER_ACTIVATE;
 
 import java.util.List;
+import java.util.UUID;
 
 import api.user.command.ActivateUserCommand;
-import api.user.command.CreateUserCommand;
 import commons.ErrorCode;
 import integrationTest.AbstractUserItTest;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import query.model.embeddable.Email;
-import query.model.embeddable.PhoneNumber;
-import query.model.user.UserEntity;
 import query.model.user.UserType;
-import query.model.user.dto.UserDto;
-import query.model.user.repository.UserEntityRepository;
+import query.model.user.repository.UserQueryExpressions;
 import web.adminApi.user.dto.UserActivationWebCommand;
 
 public final class ActivateUserItTest extends AbstractUserItTest {
 
-    @Autowired
-    private UserEntityRepository userRepository;
-
     @Test
     @DirtiesContext
     public void shouldActivateWhenUserIsCreated() {
-        CreateUserCommand createCommand = createUser();
+        UUID userId = createUser(UserType.DIRECTOR);
         signIn("superuser", "password");
 
-        ResponseEntity<UserDto> activateUserResponse = restTemplate.postForEntity(
-                ADMIN_API_USER_ACTIVATION,
-                UserActivationWebCommand.builder()
-                        .username(createCommand.getUsername())
-                        .activated(true).build(),
-                UserDto.class);
+        ResponseEntity<String> activateUserResponse = patch(
+                DIRECTOR_API_USER_ACTIVATE,
+                new UserActivationWebCommand(true),
+                String.class,
+                userId.toString());
 
-        assertEquals(activateUserResponse.getStatusCode(), HttpStatus.OK);
-
-        UserDto responseBody = activateUserResponse.getBody();
-        assertEquals(createCommand.getEmail().getEmail(), responseBody.getEmail());
-        assertEquals(createCommand.getPhoneNumber().getPhoneNumber(), responseBody.getPhoneNumber());
-        assertEquals(createCommand.getUsername(), responseBody.getUsername());
-        assertEquals(createCommand.getUserType().name(), responseBody.getUserType());
-
-        assertTrue(userRepository.findOne(usernameMatches(createCommand.getUsername())).get().isActivated());
+        assertEquals(activateUserResponse.getStatusCode(), HttpStatus.NO_CONTENT);
+        assertTrue(userRepository.findOne(UserQueryExpressions.idMatches(userId)).get().isActivated());
     }
 
     @Test
@@ -58,57 +42,32 @@ public final class ActivateUserItTest extends AbstractUserItTest {
     public void shouldNotActivateWhenUserNotExists() {
         signIn("superuser", "password");
 
-        ResponseEntity<List> activateUserResponse = restTemplate.postForEntity(
-                ADMIN_API_USER_ACTIVATION,
-                UserActivationWebCommand.builder()
-                        .username("notExistingUsername")
-                        .activated(true).build(),
-                List.class);
+        ResponseEntity<String> activateUserResponse = patch(
+                DIRECTOR_API_USER_ACTIVATE,
+                new UserActivationWebCommand(true),
+                String.class,
+                "notExistingUserId");
 
-        assertEquals(activateUserResponse.getStatusCode(), HttpStatus.CONFLICT);
-
-        List errors = activateUserResponse.getBody();
-        assertField("username", ErrorCode.NOT_EXISTS.getCode(), errors);
+        assertEquals(activateUserResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 
     @Test
     @DirtiesContext
     public void shouldNotActivateWhenUserIsAlreadyActivated() {
-        CreateUserCommand createCommand = createUser();
-        activateUser(createCommand);
+        UUID userId = createUser(UserType.DIRECTOR);
+        commandGateway.sendAndWait(new ActivateUserCommand(userId));
         signIn("superuser", "password");
 
-        ResponseEntity<List> activateUserResponse = restTemplate.postForEntity(
-                ADMIN_API_USER_ACTIVATION,
-                UserActivationWebCommand.builder()
-                        .username(createCommand.getUsername())
-                        .activated(true).build(),
-                List.class);
+        ResponseEntity<List> activateUserResponse = patch(
+                DIRECTOR_API_USER_ACTIVATE,
+                new UserActivationWebCommand(true),
+                List.class,
+                userId.toString());
 
         assertEquals(activateUserResponse.getStatusCode(), HttpStatus.CONFLICT);
 
         List errors = activateUserResponse.getBody();
-        assertField("username", ErrorCode.ALREADY_ACTIVATED.getCode(), errors);
-
-        assertTrue(userRepository.findOne(usernameMatches(createCommand.getUsername())).get().isActivated());
-
-    }
-
-    private CreateUserCommand createUser() {
-        CreateUserCommand createCommand = CreateUserCommand.builder()
-                .username("username")
-                .password("password")
-                .userType(UserType.DIRECTOR)
-                .email(new Email("bartek21@wp.pl"))
-                .phoneNumber(new PhoneNumber("+48664220504")).build();
-        commandGateway.sendAndWait(createCommand);
-        return createCommand;
-    }
-
-    private void activateUser(CreateUserCommand createCommand) {
-        UserEntity user = userRepository.findOne(usernameMatches(createCommand.getUsername())).get();
-        ActivateUserCommand activateCommand = ActivateUserCommand.builder()
-                .userId(user.getId()).build();
-        commandGateway.sendAndWait(activateCommand);
+        assertField("userId", ErrorCode.ALREADY_ACTIVATED.getCode(), errors);
+        assertTrue(userRepository.findOne(idMatches(userId)).get().isActivated());
     }
 }

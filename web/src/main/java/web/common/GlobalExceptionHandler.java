@@ -19,18 +19,18 @@ final class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(EntityNotExistsException.class)
     public void handleConflict(EntityNotExistsException e) {
-        logger.error("Entity with name: {} and id: {} not exists", e.getEntityClass().getSimpleName(), e.getId());
+        logger.error("Entity with name: {} and bookingDetailId: {} not exists", e.getEntityClass().getSimpleName(), e.getId());
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(EntityAlreadyExistsException.class)
     public void handleConflict(EntityAlreadyExistsException e) {
-        logger.error("Entity with name: {} and id: {} already exists", e.getEntityClass().getSimpleName(), e.getId());
+        logger.error("Entity with name: {} and bookingDetailId: {} already exists", e.getEntityClass().getSimpleName(), e.getId());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthorizationException.class)
     public void handleConflict(AuthorizationException e) {
-        logger.error("User with id: {} has no privilege to resource with id: {}", e.getUserId(), e.getResourceId());
+        logger.error("User with bookingDetailId: {} has no privilege to resource with bookingDetailId: {}", e.getUserId(), e.getResourceId());
     }
 }

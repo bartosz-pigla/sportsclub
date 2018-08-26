@@ -4,63 +4,70 @@ import static web.common.RequestParameters.ANNOUNCEMENT_ID_PARAMETER;
 import static web.common.RequestParameters.BOOKING_DETAIL_ID_PARAMETER;
 import static web.common.RequestParameters.BOOKING_ID_PARAMETER;
 import static web.common.RequestParameters.OPENING_TIME_ID_PARAMETER;
-import static web.common.RequestParameters.SPORTSCLUB_NAME_PARAMETER;
-import static web.common.RequestParameters.SPORT_OBJECT_NAME_PARAMETER;
-import static web.common.RequestParameters.SPORT_OBJECT_POSITION_NAME_PARAMETER;
-import static web.common.RequestParameters.USERNAME_PARAMETER;
+import static web.common.RequestParameters.SPORTSCLUB_ID_PARAMETER;
+import static web.common.RequestParameters.SPORT_OBJECT_ID_PARAMETER;
+import static web.common.RequestParameters.SPORT_OBJECT_POSITION_ID_PARAMETER;
+import static web.common.RequestParameters.USER_ID_PARAMETER;
 
 public final class RequestMappings {
 
-    public static final String API = "/api";
+    //PUBLIC API
 
-    //AUTHENTICATION FOR EVERYONE
+    public static final String PUBLIC_API = "/public-api";
 
-    public static final String AUTH = API + "/auth";
-    public static final String SIGN_IN = AUTH + "/sign-in";
-    public static final String SIGN_UP = AUTH + "/sign-up";
-    public static final String CUSTOMER_ACTIVATION = AUTH + "/customer-activation";
+    public static final String PUBLIC_API_SIGN_IN = PUBLIC_API + "/sign-in";
+    public static final String PUBLIC_API_SIGN_UP = PUBLIC_API + "/sign-up";
 
-    //ADMIN API
+    public static final String PUBLIC_API_CUSTOMER = PUBLIC_API + "/customer";
+    public static final String PUBLIC_API_CUSTOMER_ACTIVATE = PUBLIC_API_CUSTOMER + USER_ID_PARAMETER + "/activate";
 
-    private static final String ADMIN_API = API + "/admin-api";
+    //DIRECTOR API
 
-    public static final String ADMIN_API_USER_ACTIVATION = ADMIN_API + "/user-activation";
+    public static final String DIRECTOR_API = "/director-api";
 
-    public static final String ADMIN_API_CUSTOMER = ADMIN_API + "/customer";
-    public static final String ADMIN_API_CUSTOMER_BY_USERNAME = ADMIN_API_CUSTOMER + USERNAME_PARAMETER;
+    public static final String DIRECTOR_API_USER = DIRECTOR_API + "/user";
+    public static final String DIRECTOR_API_USER_ACTIVATE = DIRECTOR_API_USER + USER_ID_PARAMETER + "/activate";
 
-    public static final String ADMIN_API_DIRECTOR = ADMIN_API + "/director";
-    public static final String ADMIN_API_DIRECTOR_BY_USERNAME = ADMIN_API_DIRECTOR + USERNAME_PARAMETER;
+    public static final String DIRECTOR_API_CUSTOMER = DIRECTOR_API + "/customer";
+    public static final String DIRECTOR_API_CUSTOMER_BY_ID = DIRECTOR_API_CUSTOMER + USER_ID_PARAMETER;
 
-    public static final String ADMIN_API_RECEPTIONIST = ADMIN_API + "/receptionist";
-    public static final String ADMIN_API_RECEPTIONIST_BY_USERNAME = ADMIN_API_RECEPTIONIST + USERNAME_PARAMETER;
+    public static final String DIRECTOR_API_DIRECTOR = DIRECTOR_API + "/director";
+    public static final String DIRECTOR_API_DIRECTOR_BY_ID = DIRECTOR_API_DIRECTOR + USER_ID_PARAMETER;
 
-    public static final String ADMIN_API_SPORTSCLUB = ADMIN_API + "/sportsclub";
-    public static final String ADMIN_API_SPORTSCLUB_BY_NAME = ADMIN_API_SPORTSCLUB + SPORTSCLUB_NAME_PARAMETER;
+    public static final String DIRECTOR_API_RECEPTIONIST = DIRECTOR_API + "/receptionist";
+    public static final String DIRECTOR_API_RECEPTIONIST_BY_ID = DIRECTOR_API_RECEPTIONIST + USER_ID_PARAMETER;
 
-    public static final String ADMIN_API_STATUTE = ADMIN_API_SPORTSCLUB_BY_NAME + "/statute";
+    public static final String DIRECTOR_API_SPORTSCLUB = DIRECTOR_API + "/sportsclub";
+    public static final String DIRECTOR_API_SPORTSCLUB_BY_ID = DIRECTOR_API_SPORTSCLUB + SPORTSCLUB_ID_PARAMETER;
 
-    public static final String ADMIN_API_ANNOUNCEMENT = ADMIN_API_SPORTSCLUB_BY_NAME + "/announcement";
-    public static final String ADMIN_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID = ADMIN_API_ANNOUNCEMENT + ANNOUNCEMENT_ID_PARAMETER;
+    public static final String DIRECTOR_API_STATUTE = DIRECTOR_API_SPORTSCLUB_BY_ID + "/statute";
 
-    public static final String ADMIN_API_SPORT_OBJECT = ADMIN_API_SPORTSCLUB_BY_NAME + "/sport-object";
-    public static final String ADMIN_API_SPORT_OBJECT_BY_NAME = ADMIN_API_SPORT_OBJECT + SPORT_OBJECT_NAME_PARAMETER;
-    public static final String ADMIN_API_OPENING_TIME = ADMIN_API_SPORT_OBJECT_BY_NAME + "/opening-time";
-    public static final String ADMIN_API_OPENING_TIME_BY_ID = ADMIN_API_OPENING_TIME + OPENING_TIME_ID_PARAMETER;
-    public static final String ADMIN_API_SPORT_OBJECT_POSITION = ADMIN_API_SPORT_OBJECT_BY_NAME + "sport-object-position";
-    public static final String ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME = ADMIN_API_SPORT_OBJECT_POSITION + SPORT_OBJECT_POSITION_NAME_PARAMETER;
+    public static final String DIRECTOR_API_ANNOUNCEMENT = DIRECTOR_API_SPORTSCLUB_BY_ID + "/announcement";
+    public static final String DIRECTOR_API_SPORTSCLUB_ANNOUNCEMENT_BY_ID = DIRECTOR_API_ANNOUNCEMENT + ANNOUNCEMENT_ID_PARAMETER;
 
-    public static final String ADMIN_API_BOOKING = ADMIN_API + "/booking";
-    public static final String ADMIN_API_BOOKING_BY_ID = ADMIN_API_BOOKING + BOOKING_ID_PARAMETER;
-    public static final String ADMIN_API_BOOKING_REJECT = ADMIN_API_BOOKING_BY_ID + "/reject";
-    public static final String ADMIN_API_BOOKING_CONFIRM = ADMIN_API_BOOKING_BY_ID + "/confirm";
-    public static final String ADMIN_API_BOOKING_FINISH = ADMIN_API_BOOKING_BY_ID + "/finish";
-    public static final String ADMIN_API_BOOKING_DETAIL = ADMIN_API_BOOKING_BY_ID + "/detail";
-    public static final String ADMIN_API_BOOKING_DETAIL_BY_ID = ADMIN_API_BOOKING_DETAIL + BOOKING_DETAIL_ID_PARAMETER;
+    public static final String DIRECTOR_API_SPORT_OBJECT = DIRECTOR_API_SPORTSCLUB_BY_ID + "/sport-object";
+    public static final String DIRECTOR_API_SPORT_OBJECT_BY_ID = DIRECTOR_API_SPORT_OBJECT + SPORT_OBJECT_ID_PARAMETER;
+    public static final String DIRECTOR_API_OPENING_TIME = DIRECTOR_API_SPORT_OBJECT_BY_ID + "/opening-time";
+    public static final String DIRECTOR_API_OPENING_TIME_BY_ID = DIRECTOR_API_OPENING_TIME + OPENING_TIME_ID_PARAMETER;
+    public static final String DIRECTOR_API_SPORT_OBJECT_POSITION = DIRECTOR_API_SPORT_OBJECT_BY_ID + "sport-object-position";
+    public static final String DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID = DIRECTOR_API_SPORT_OBJECT_POSITION + SPORT_OBJECT_POSITION_ID_PARAMETER;
+
+    //RECEPTIONIST API
+
+    public static final String RECEPTIONIST_API = "/receptionist-api";
+
+    public static final String RECEPTIONIST_API_BOOKING = RECEPTIONIST_API + "/booking";
+    public static final String RECEPTIONIST_API_BOOKING_BY_ID = RECEPTIONIST_API_BOOKING + BOOKING_ID_PARAMETER;
+    public static final String RECEPTIONIST_API_BOOKING_REJECT = RECEPTIONIST_API_BOOKING_BY_ID + "/reject";
+    public static final String RECEPTIONIST_API_BOOKING_CONFIRM = RECEPTIONIST_API_BOOKING_BY_ID + "/confirm";
+    public static final String RECEPTIONIST_API_BOOKING_FINISH = RECEPTIONIST_API_BOOKING_BY_ID + "/finish";
+
+    public static final String RECEPTIONIST_API_BOOKING_DETAIL = RECEPTIONIST_API_BOOKING_BY_ID + "/detail";
+    public static final String RECEPTIONIST_API_BOOKING_DETAIL_BY_ID = RECEPTIONIST_API_BOOKING_DETAIL + BOOKING_DETAIL_ID_PARAMETER;
 
     //CUSTOMER API
 
-    public static final String CUSTOMER_API = API + "/customer-api";
+    public static final String CUSTOMER_API = "/customer-api";
     public static final String CUSTOMER_API_BOOKING = CUSTOMER_API + "/booking";
     public static final String CUSTOMER_API_BOOKING_BY_ID = CUSTOMER_API_BOOKING + BOOKING_ID_PARAMETER;
     public static final String CUSTOMER_API_BOOKING_SUBMIT = CUSTOMER_API_BOOKING_BY_ID + "/submit";

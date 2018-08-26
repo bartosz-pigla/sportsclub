@@ -1,6 +1,6 @@
 package integrationTest.publicApi.customer;
 
-import static web.common.RequestMappings.SIGN_UP;
+import static web.common.RequestMappings.PUBLIC_API_SIGN_UP;
 
 import api.user.command.CreateUserCommand;
 import integrationTest.AbstractUserItTest;
@@ -20,7 +20,7 @@ public final class SignUpCustomerItTest extends AbstractUserItTest {
     @Test
     @DirtiesContext
     public void shouldSendErrorMessageWhenCreateCustomerIsEmpty() {
-        shouldSendErrorMessageWhenCreateUserIsEmpty(SIGN_UP);
+        shouldSendErrorMessageWhenCreateUserIsEmpty(PUBLIC_API_SIGN_UP);
     }
 
     @Test
@@ -31,13 +31,15 @@ public final class SignUpCustomerItTest extends AbstractUserItTest {
                 .password(passwordEncoder.encode(createUserWebCommand.getPassword()))
                 .phoneNumber(new PhoneNumber(createUserWebCommand.getPhoneNumber()))
                 .username(createUserWebCommand.getUsername())
-                .userType(UserType.CUSTOMER).build());
-        shouldNotSaveUserWhenUserWithGivenUsernameAlreadyExists(SIGN_UP);
+                .userType(UserType.CUSTOMER)
+                .build());
+
+        shouldNotSaveUserWhenUserWithGivenUsernameAlreadyExists(PUBLIC_API_SIGN_UP);
     }
 
     @Test
     @DirtiesContext
     public void shouldSaveCustomerWhenAllFieldsAreValid() {
-        shouldSaveUserWhenAllFieldsAreValid(SIGN_UP);
+        shouldSaveUserWhenAllFieldsAreValid(PUBLIC_API_SIGN_UP);
     }
 }

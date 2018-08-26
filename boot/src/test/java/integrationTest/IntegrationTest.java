@@ -1,7 +1,7 @@
 package integrationTest;
 
 import static junit.framework.TestCase.assertTrue;
-import static web.common.RequestMappings.SIGN_IN;
+import static web.common.RequestMappings.PUBLIC_API_SIGN_IN;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -62,7 +62,12 @@ public abstract class IntegrationTest {
 
     public void signIn(String username, String password) {
         SignInWebCommand command = new SignInWebCommand(username, password);
-        ResponseEntity<JwtAuthenticationResponse> responseEntity = restTemplate.postForEntity(SIGN_IN, command, JwtAuthenticationResponse.class);
+
+        ResponseEntity<JwtAuthenticationResponse> responseEntity = restTemplate.postForEntity(
+                PUBLIC_API_SIGN_IN,
+                command,
+                JwtAuthenticationResponse.class);
+
         JwtAuthenticationResponse jwtResponse = responseEntity.getBody();
 
         restTemplate.setInterceptors(

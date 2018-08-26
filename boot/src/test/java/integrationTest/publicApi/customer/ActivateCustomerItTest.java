@@ -2,8 +2,8 @@ package integrationTest.publicApi.customer;
 
 import static org.junit.Assert.assertEquals;
 import static query.model.user.repository.ActivationLinkQueryExpressions.customerNameMatches;
-import static web.common.RequestMappings.CUSTOMER_ACTIVATION;
-import static web.common.RequestMappings.SIGN_UP;
+import static web.common.RequestMappings.PUBLIC_API_CUSTOMER_ACTIVATE;
+import static web.common.RequestMappings.PUBLIC_API_SIGN_UP;
 
 import java.util.UUID;
 
@@ -15,7 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import query.model.user.ActivationLinkEntry;
 import query.model.user.repository.ActivationLinkEntryRepository;
-import web.common.user.dto.CreateUserWebCommand;
+import query.model.user.repository.UserQueryExpressions;
+import web.common.user.dto.UserDto;
 import web.publicApi.signUp.dto.ActivateCustomerWebCommand;
 
 public final class ActivateCustomerItTest extends AbstractUserItTest {
@@ -26,30 +27,43 @@ public final class ActivateCustomerItTest extends AbstractUserItTest {
     @Test
     @DirtiesContext
     public void shouldActivateCustomerWhenActivationLinkIsValid() {
-        ResponseEntity<CreateUserWebCommand> createCustomerResponse = restTemplate.postForEntity(
-                SIGN_UP, createUserWebCommand, CreateUserWebCommand.class);
+        ResponseEntity<UserDto> createCustomerResponse = restTemplate.postForEntity(
+                PUBLIC_API_SIGN_UP, createUserWebCommand, UserDto.class);
+
         assertEquals(createCustomerResponse.getStatusCode(), HttpStatus.OK);
 
-        ActivationLinkEntry activationLink = activationLinkRepository.findOne(customerNameMatches(createUserWebCommand.getUsername())).get();
+        UUID customerId = userRepository.findOne(
+                UserQueryExpressions.usernameMatches(createUserWebCommand.getUsername())).get().getId();
 
-        ActivateCustomerWebCommand activateCustomerCommand = ActivateCustomerWebCommand.builder()
-                .activationKey(activationLink.getId().toString()).build();
-        ResponseEntity<String> activateResponse = restTemplate.postForEntity(
-                CUSTOMER_ACTIVATION, activateCustomerCommand, String.class);
-        assertEquals(activateResponse.getStatusCode(), HttpStatus.OK);
+        ActivationLinkEntry activationLink = activationLinkRepository.findOne(
+                customerNameMatches(createUserWebCommand.getUsername())).get();
+
+        ResponseEntity<String> activateResponse = patch(
+                PUBLIC_API_CUSTOMER_ACTIVATE,
+                new ActivateCustomerWebCommand(activationLink.getId().toString()),
+                String.class,
+                customerId.toString());
+
+        assertEquals(activateResponse.getStatusCode(), HttpStatus.NO_CONTENT);
     }
 
     @Test
     @DirtiesContext
     public void shouldNotActivateCustomerWhenActivationLinkIsInvalid() {
-        ResponseEntity<CreateUserWebCommand> createCustomerResponse = restTemplate.postForEntity(
-                SIGN_UP, createUserWebCommand, CreateUserWebCommand.class);
+        ResponseEntity<UserDto> createCustomerResponse = restTemplate.postForEntity(
+                PUBLIC_API_SIGN_UP, createUserWebCommand, UserDto.class);
+
         assertEquals(createCustomerResponse.getStatusCode(), HttpStatus.OK);
 
-        ActivateCustomerWebCommand activateCustomerCommand = ActivateCustomerWebCommand.builder()
-                .activationKey(UUID.randomUUID().toString()).build();
-        ResponseEntity activateResponse = restTemplate.postForEntity(
-                CUSTOMER_ACTIVATION, activateCustomerCommand, null);
+        UUID customerId = userRepository.findOne(
+                UserQueryExpressions.usernameMatches(createUserWebCommand.getUsername())).get().getId();
+
+        ResponseEntity activateResponse = patch(
+                PUBLIC_API_CUSTOMER_ACTIVATE,
+                new ActivateCustomerWebCommand(UUID.randomUUID().toString()),
+                null,
+                customerId.toString());
+
         assertEquals(activateResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 }

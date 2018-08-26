@@ -1,7 +1,6 @@
 package api.sportObject.event;
 
 import java.io.Serializable;
-import java.net.URL;
 import java.util.UUID;
 
 import api.common.DomainEvent;
@@ -11,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import query.model.embeddable.Address;
+import query.model.embeddable.ImageUrl;
 
 @Getter
 @Setter
@@ -26,5 +26,5 @@ public final class SportObjectUpdatedEvent extends DomainEvent implements Serial
     private String name;
     private String description;
     private Address address;
-    private URL image;
+    private ImageUrl imageUrl;
 }

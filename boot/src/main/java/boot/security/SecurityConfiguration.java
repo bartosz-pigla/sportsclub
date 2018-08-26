@@ -1,29 +1,10 @@
 package boot.security;
 
 import static query.model.user.UserType.getNames;
-import static web.common.RequestMappings.ADMIN_API_BOOKING;
-import static web.common.RequestMappings.ADMIN_API_BOOKING_BY_ID;
-import static web.common.RequestMappings.ADMIN_API_BOOKING_CONFIRM;
-import static web.common.RequestMappings.ADMIN_API_BOOKING_DETAIL;
-import static web.common.RequestMappings.ADMIN_API_BOOKING_DETAIL_BY_ID;
-import static web.common.RequestMappings.ADMIN_API_BOOKING_FINISH;
-import static web.common.RequestMappings.ADMIN_API_BOOKING_REJECT;
-import static web.common.RequestMappings.ADMIN_API_CUSTOMER;
-import static web.common.RequestMappings.ADMIN_API_DIRECTOR;
-import static web.common.RequestMappings.ADMIN_API_RECEPTIONIST;
-import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT;
-import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION;
-import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME;
-import static web.common.RequestMappings.ADMIN_API_STATUTE;
-import static web.common.RequestMappings.ADMIN_API_USER_ACTIVATION;
-import static web.common.RequestMappings.AUTH;
-import static web.common.RequestMappings.CUSTOMER_ACTIVATION;
-import static web.common.RequestMappings.CUSTOMER_API_BOOKING;
-import static web.common.RequestMappings.CUSTOMER_API_BOOKING_BY_ID;
-import static web.common.RequestMappings.CUSTOMER_API_BOOKING_CANCEL;
-import static web.common.RequestMappings.CUSTOMER_API_BOOKING_DETAIL;
-import static web.common.RequestMappings.CUSTOMER_API_BOOKING_DETAIL_BY_ID;
-import static web.common.RequestMappings.CUSTOMER_API_BOOKING_SUBMIT;
+import static web.common.RequestMappings.CUSTOMER_API;
+import static web.common.RequestMappings.DIRECTOR_API;
+import static web.common.RequestMappings.PUBLIC_API;
+import static web.common.RequestMappings.RECEPTIONIST_API;
 import static web.common.RequestMappings.getAntMatcher;
 
 import lombok.AllArgsConstructor;
@@ -95,74 +76,17 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**", "/public/**")
                 .permitAll()
 
-                .antMatchers(getAntMatcher(AUTH))
+                .antMatchers(getAntMatcher(PUBLIC_API))
                 .permitAll()
 
-                .antMatchers(getAntMatcher(CUSTOMER_ACTIVATION))
-                .permitAll()
+                .antMatchers(getAntMatcher(CUSTOMER_API))
+                .hasAnyAuthority(getNames(UserType.ALL))
 
-                .antMatchers(getAntMatcher(ADMIN_API_USER_ACTIVATION))
-                .hasAuthority(UserType.DIRECTOR.name())
-
-                .antMatchers(getAntMatcher(ADMIN_API_CUSTOMER))
-                .hasAuthority(UserType.DIRECTOR.name())
-
-                .antMatchers(getAntMatcher(ADMIN_API_DIRECTOR))
-                .hasAuthority(UserType.DIRECTOR.name())
-
-                .antMatchers(getAntMatcher(ADMIN_API_RECEPTIONIST))
-                .hasAuthority(UserType.DIRECTOR.name())
-
-                .antMatchers(getAntMatcher(ADMIN_API_STATUTE))
-                .hasAuthority(UserType.DIRECTOR.name())
-
-                .antMatchers(getAntMatcher(ADMIN_API_SPORT_OBJECT))
-                .hasAuthority(UserType.DIRECTOR.name())
-
-                .antMatchers(getAntMatcher(ADMIN_API_SPORT_OBJECT_POSITION))
-                .hasAuthority(UserType.DIRECTOR.name())
-
-                .antMatchers(getAntMatcher(ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME))
-                .hasAuthority(UserType.DIRECTOR.name())
-
-                .antMatchers(getAntMatcher(ADMIN_API_BOOKING))
+                .antMatchers(getAntMatcher(RECEPTIONIST_API))
                 .hasAnyAuthority(getNames(UserType.RECEPTIONIST, UserType.DIRECTOR))
 
-                .antMatchers(getAntMatcher(ADMIN_API_BOOKING_BY_ID))
-                .hasAnyAuthority(getNames(UserType.RECEPTIONIST, UserType.DIRECTOR))
-
-                .antMatchers(getAntMatcher(ADMIN_API_BOOKING_CONFIRM))
-                .hasAnyAuthority(getNames(UserType.RECEPTIONIST, UserType.DIRECTOR))
-
-                .antMatchers(getAntMatcher(ADMIN_API_BOOKING_REJECT))
-                .hasAnyAuthority(getNames(UserType.RECEPTIONIST, UserType.DIRECTOR))
-
-                .antMatchers(getAntMatcher(ADMIN_API_BOOKING_FINISH))
-                .hasAnyAuthority(getNames(UserType.RECEPTIONIST, UserType.DIRECTOR))
-
-                .antMatchers(getAntMatcher(ADMIN_API_BOOKING_DETAIL))
-                .hasAnyAuthority(getNames(UserType.RECEPTIONIST, UserType.DIRECTOR))
-
-                .antMatchers(getAntMatcher(ADMIN_API_BOOKING_DETAIL_BY_ID))
-                .hasAnyAuthority(getNames(UserType.RECEPTIONIST, UserType.DIRECTOR))
-
-                .antMatchers(getAntMatcher(CUSTOMER_API_BOOKING))
-                .hasAuthority(UserType.CUSTOMER.name())
-
-                .antMatchers(getAntMatcher(CUSTOMER_API_BOOKING_BY_ID))
-                .hasAuthority(UserType.CUSTOMER.name())
-
-                .antMatchers(getAntMatcher(CUSTOMER_API_BOOKING_SUBMIT))
-                .hasAuthority(UserType.CUSTOMER.name())
-
-                .antMatchers(getAntMatcher(CUSTOMER_API_BOOKING_CANCEL))
-                .hasAuthority(UserType.CUSTOMER.name())
-
-                .antMatchers(getAntMatcher(CUSTOMER_API_BOOKING_DETAIL))
-                .hasAuthority(UserType.CUSTOMER.name())
-
-                .antMatchers(getAntMatcher(CUSTOMER_API_BOOKING_DETAIL_BY_ID))
-                .hasAuthority(UserType.CUSTOMER.name())
+                .antMatchers(getAntMatcher(DIRECTOR_API))
+                .hasAuthority(UserType.DIRECTOR.name())
 
                 .anyRequest()
                 .authenticated();

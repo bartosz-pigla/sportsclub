@@ -19,6 +19,12 @@ public final class SportObjectQueryExpressions {
                 .orElse(sportObject.isNull());
     }
 
+    public static BooleanExpression nameAndSportsclubIdMatches(String name, UUID sportsclubId) {
+        return Optional.ofNullable(sportsclubId)
+                .map(i -> nameMatches(name).and(sportObject.headquarter.id.eq(sportsclubId)))
+                .orElse(sportObject.isNull());
+    }
+
     public static BooleanExpression nameMatchesWithIdOtherThan(String name, UUID id) {
         return Optional.ofNullable(id)
                 .map(i -> nameMatches(name).and(sportObject._super.id.ne(i)))

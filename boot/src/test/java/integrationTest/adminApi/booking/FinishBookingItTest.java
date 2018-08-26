@@ -2,7 +2,7 @@ package integrationTest.adminApi.booking;
 
 import static org.junit.Assert.assertEquals;
 import static query.model.booking.repository.BookingQueryExpressions.userIdMatches;
-import static web.common.RequestMappings.ADMIN_API_BOOKING_FINISH;
+import static web.common.RequestMappings.RECEPTIONIST_API_BOOKING_FINISH;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -26,6 +26,7 @@ public final class FinishBookingItTest extends AbstractBookingItTest {
         signIn("superuser", "password");
         commandGateway.sendAndWait(new CreateBookingCommand(customerId));
         UUID bookingId = bookingRepository.findOne(userIdMatches(customerId)).get().getId();
+
         commandGateway.sendAndWait(AddBookingDetailCommand.builder()
                 .bookingId(bookingId)
                 .customerId(customerId)
@@ -33,10 +34,16 @@ public final class FinishBookingItTest extends AbstractBookingItTest {
                 .sportObjectPositionId(sportObjectPositionId)
                 .date(LocalDate.now())
                 .build());
+
         commandGateway.sendAndWait(new SubmitBookingCommand(bookingId, customerId));
         commandGateway.sendAndWait(new ConfirmBookingCommand(bookingId));
 
-        ResponseEntity<String> finishBookingResponse = patch(ADMIN_API_BOOKING_FINISH, null, String.class, bookingId);
+        ResponseEntity<String> finishBookingResponse = patch(
+                RECEPTIONIST_API_BOOKING_FINISH,
+                null,
+                String.class,
+                bookingId.toString());
+
         assertEquals(finishBookingResponse.getStatusCode(), HttpStatus.NO_CONTENT);
         assertEquals(bookingRepository.findOne(userIdMatches(customerId)).get().getState(), BookingState.FINISHED);
     }

@@ -5,7 +5,6 @@ import static query.model.sportobject.repository.SportObjectQueryExpressions.nam
 import static query.model.user.repository.UserQueryExpressions.usernameMatches;
 
 import java.math.BigDecimal;
-import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.UUID;
@@ -21,6 +20,7 @@ import query.model.booking.repository.BookingEntityRepository;
 import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
+import query.model.embeddable.ImageUrl;
 import query.model.embeddable.OpeningTimeRange;
 import query.model.embeddable.PositionsCount;
 import query.model.embeddable.Price;
@@ -76,18 +76,17 @@ public abstract class AbstractBookingItTest extends IntegrationTest {
     }
 
     protected UUID createSportObject(UUID sportsclubId) {
-        try {
-            CreateSportObjectCommand createSportObjectCommand = CreateSportObjectCommand.builder()
-                    .sportsclubId(sportsclubId)
-                    .address(new Address("street", new City("Wroclaw"), new Coordinates(0d, 0d)))
-                    .description("description1")
-                    .image(new URL("https://www.w3schools.com/w3css/img_lights.jpg"))
-                    .name("name1").build();
-            commandGateway.sendAndWait(createSportObjectCommand);
-            return sportObjectRepository.findOne(nameMatches(createSportObjectCommand.getName())).get().getId();
-        } catch (Exception exc) {
-            return UUID.randomUUID();
-        }
+        CreateSportObjectCommand createSportObjectCommand = CreateSportObjectCommand.builder()
+                .sportsclubId(sportsclubId)
+                .address(new Address("street", new City("Wroclaw"), new Coordinates(0d, 0d)))
+                .description("description1")
+                .imageUrl(new ImageUrl("https://www.w3schools.com/w3css/img_lights.jpg"))
+                .name("name1")
+                .build();
+
+        commandGateway.sendAndWait(createSportObjectCommand);
+        return sportObjectRepository.findOne(nameMatches(createSportObjectCommand.getName())).get().getId();
+
     }
 
     protected UUID createSportObjectPosition(UUID sportObjectId) {
@@ -97,8 +96,11 @@ public abstract class AbstractBookingItTest extends IntegrationTest {
                 .description("description1")
                 .positionsCount(new PositionsCount(1))
                 .build();
+
         commandGateway.sendAndWait(command);
-        return sportObjectPositionRepository.findOne(SportObjectPositionQueryExpressions.nameMatches(command.getName())).get().getId();
+
+        return sportObjectPositionRepository.findOne(
+                SportObjectPositionQueryExpressions.nameMatches(command.getName())).get().getId();
     }
 
     protected UUID createOpeningTime(UUID sportObjectId) {
@@ -107,7 +109,10 @@ public abstract class AbstractBookingItTest extends IntegrationTest {
                 .price(new Price(new BigDecimal(12.23d)))
                 .timeRange(new OpeningTimeRange(DayOfWeek.MONDAY, LocalTime.of(9, 0), LocalTime.of(11, 0)))
                 .build();
+
         commandGateway.sendAndWait(command);
-        return openingTimeRepository.findOne(sportObjectIdAndTimeRangeMatches(sportObjectId, command.getTimeRange())).get().getId();
+
+        return openingTimeRepository.findOne(
+                sportObjectIdAndTimeRangeMatches(sportObjectId, command.getTimeRange())).get().getId();
     }
 }

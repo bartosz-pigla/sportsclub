@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
+import query.model.baseEntity.repository.BaseEntityQueryExpressions;
 import query.model.booking.QBookingEntity;
 import query.model.user.QUserEntity;
 import query.model.user.UserEntity;
@@ -14,6 +15,10 @@ public final class BookingQueryExpressions {
 
     private static final QBookingEntity booking = QBookingEntity.bookingEntity;
     private static final QUserEntity user = QUserEntity.userEntity;
+
+    public static BooleanExpression idMatches(UUID id) {
+        return BaseEntityQueryExpressions.idMatches(id, booking._super);
+    }
 
     public static BooleanExpression usernameMatches(String username) {
         return Optional.ofNullable(username)
@@ -34,10 +39,13 @@ public final class BookingQueryExpressions {
     }
 
     public static BooleanExpression bookingIdAndUserIdMatches(UUID bookingId, UUID userId) {
-        if (bookingId != null && userId != null) {
-            return isNotDeleted(booking._super).and(isNotDeleted(booking.customer._super)).and(booking.customer.id.eq(userId));
-        } else {
-            return booking.isNull();
-        }
+        return Optional.ofNullable(userId)
+                .map(i -> idMatches(bookingId).and(isNotDeleted(booking.customer._super)).and(booking.customer.id.eq(userId)))
+                .orElse(booking.isNull());
+//        if (bookingId != null && userId != null) {
+//            return isNotDeleted(booking._super).and(isNotDeleted(booking.customer._super)).and(booking.customer.id.eq(userId));
+//        } else {
+//            return booking.isNull();
+//        }
     }
 }

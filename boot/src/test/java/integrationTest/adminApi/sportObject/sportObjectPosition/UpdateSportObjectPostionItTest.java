@@ -3,16 +3,13 @@ package integrationTest.adminApi.sportObject.sportObjectPosition;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME;
+import static web.common.RequestMappings.DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID;
 
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.UUID;
 
-import api.sportObject.command.CreateSportObjectCommand;
 import api.sportObject.sportObjectPosition.command.CreateSportObjectPositionCommand;
 import api.sportObject.sportObjectPosition.command.DeleteSportObjectPositionCommand;
-import api.sportsclub.command.CreateSportsclubCommand;
 import commons.ErrorCode;
 import integrationTest.adminApi.sportObject.AbstractSportObjectItTest;
 import org.junit.Test;
@@ -21,23 +18,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import query.model.embeddable.PositionsCount;
 import query.model.sportobject.repository.SportObjectPositionQueryExpressions;
-import query.model.sportobject.repository.SportObjectQueryExpressions;
 import web.adminApi.sportObject.dto.SportObjectPositionDto;
 
 public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItTest {
 
     @Test
     @DirtiesContext
-    public void shouldUpdateWhenExistsAndIsNotDeletedAndNameIsUnique() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-        UUID sportObjectId = sportObjectRepository.findOne(SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName())).get().getId();
-        CreateSportObjectPositionCommand createSportObjectPositionCommand = createSportObjectPosition(sportObjectId);
+    public void shouldUpdateWhenExistsAndIsNotDeletedAndNameIsUnique() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
+        UUID sportObjectPositionId = createSportObjectPosition(sportObjectId);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
-        String sportObjectPositionName = createSportObjectPositionCommand.getName();
         SportObjectPositionDto position = SportObjectPositionDto.builder()
                 .name("name2")
                 .description("description2")
@@ -45,17 +37,14 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
                 .build();
 
         ResponseEntity<SportObjectPositionDto> sportObjectPositionDtoResponseEntity = put(
-                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
+                DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID,
                 position,
                 SportObjectPositionDto.class,
-                sportsclubName, sportObjectName, sportObjectPositionName);
+                sportsclubId.toString(),
+                sportObjectId.toString(),
+                sportObjectPositionId.toString());
 
-        assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.OK);
-        SportObjectPositionDto responseBody = sportObjectPositionDtoResponseEntity.getBody();
-
-        assertEquals(position.getName(), responseBody.getName());
-        assertEquals(position.getDescription(), responseBody.getDescription());
-        assertEquals(position.getPositionsCount(), responseBody.getPositionsCount());
+        assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.NO_CONTENT);
 
         assertTrue(sportObjectPositionRepository.findOne(
                 SportObjectPositionQueryExpressions.nameMatches(position.getName())).isPresent());
@@ -63,14 +52,10 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
 
     @Test
     @DirtiesContext
-    public void shouldNotUpdateWhenNameAlreadyExists() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-
-        UUID sportObjectId = sportObjectRepository.findOne(
-                SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName())).get().getId();
-
-        CreateSportObjectPositionCommand createSportObjectPositionCommand = createSportObjectPosition(sportObjectId);
+    public void shouldNotUpdateWhenNameAlreadyExists() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
+        UUID sportObjectPositionId = createSportObjectPosition(sportObjectId);
         signIn("superuser", "password");
 
         commandGateway.sendAndWait(CreateSportObjectPositionCommand.builder()
@@ -80,9 +65,6 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
                 .positionsCount(new PositionsCount(12))
                 .build());
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
-        String sportObjectPositionName = createSportObjectPositionCommand.getName();
         SportObjectPositionDto position = SportObjectPositionDto.builder()
                 .name("name2")
                 .description("description2")
@@ -90,10 +72,12 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
                 .build();
 
         ResponseEntity<List> sportObjectPositionDtoResponseEntity = put(
-                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
+                DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID,
                 position,
                 List.class,
-                sportsclubName, sportObjectName, sportObjectPositionName);
+                sportsclubId.toString(),
+                sportObjectId.toString(),
+                sportObjectPositionId.toString());
 
         assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.CONFLICT);
 
@@ -103,21 +87,13 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
 
     @Test
     @DirtiesContext
-    public void shouldNotUpdateWhenIsAlreadyDeleted() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-        UUID sportObjectId = sportObjectRepository.findOne(SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName())).get().getId();
-        CreateSportObjectPositionCommand createSportObjectPositionCommand = createSportObjectPosition(sportObjectId);
-
-        UUID sportObjectPositionId = sportObjectPositionRepository.findOne(
-                SportObjectPositionQueryExpressions.nameMatches(createSportObjectCommand.getName())).get().getId();
-
+    public void shouldNotUpdateWhenIsAlreadyDeleted() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
+        UUID sportObjectPositionId = createSportObjectPosition(sportObjectId);
         commandGateway.sendAndWait(new DeleteSportObjectPositionCommand(sportObjectId, sportObjectPositionId));
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
-        String sportObjectPositionName = createSportObjectPositionCommand.getName();
         SportObjectPositionDto position = SportObjectPositionDto.builder()
                 .name("name1")
                 .description("description2")
@@ -125,10 +101,12 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
                 .build();
 
         ResponseEntity<List> sportObjectPositionDtoResponseEntity = put(
-                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
+                DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID,
                 position,
                 List.class,
-                sportsclubName, sportObjectName, sportObjectPositionName);
+                sportsclubId.toString(),
+                sportObjectId.toString(),
+                sportObjectPositionId.toString());
 
         assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
 
@@ -138,24 +116,24 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
 
     @Test
     @DirtiesContext
-    public void shouldNotUpdateWhenNotExists() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
+    public void shouldNotUpdateWhenNotExists() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
         SportObjectPositionDto position = SportObjectPositionDto.builder()
                 .name("name1")
                 .description("description2")
                 .positionsCount(2)
                 .build();
 
-        ResponseEntity<Object> sportObjectPositionDtoResponseEntity = put(
-                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
+        ResponseEntity<String> sportObjectPositionDtoResponseEntity = put(
+                DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID,
                 position,
-                Object.class,
-                sportsclubName, sportObjectName, "notExistingSportObjectPositionName");
+                String.class,
+                sportsclubId.toString(),
+                sportObjectId.toString(),
+                "notExistingSportObjectPositionName");
 
         assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
 
@@ -165,26 +143,19 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
 
     @Test
     @DirtiesContext
-    public void shouldNotUpdateWhenNameAndPositionsCountIsEmpty() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-
-        UUID sportObjectId = sportObjectRepository.findOne(
-                SportObjectQueryExpressions.nameMatches(createSportObjectCommand.getName())).get().getId();
-
-        CreateSportObjectPositionCommand createSportObjectPositionCommand = createSportObjectPosition(sportObjectId);
+    public void shouldNotUpdateWhenNameAndPositionsCountIsEmpty() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
+        UUID sportObjectPositionId = createSportObjectPosition(sportObjectId);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
-        String sportObjectPositionName = createSportObjectPositionCommand.getName();
-        SportObjectPositionDto position = new SportObjectPositionDto();
-
         ResponseEntity<List> sportObjectPositionDtoResponseEntity = put(
-                ADMIN_API_SPORT_OBJECT_POSITION_BY_NAME,
-                position,
+                DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID,
+                new SportObjectPositionDto(),
                 List.class,
-                sportsclubName, sportObjectName, sportObjectPositionName);
+                sportsclubId.toString(),
+                sportObjectId.toString(),
+                sportObjectPositionId.toString());
 
         assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
 
@@ -192,7 +163,7 @@ public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItT
         assertField("name", ErrorCode.EMPTY.getCode(), errors);
         assertField("positionsCount", ErrorCode.EMPTY.getCode(), errors);
 
-        assertFalse(sportObjectPositionRepository.findOne(
-                SportObjectPositionQueryExpressions.nameMatches(position.getName())).isPresent());
+        assertTrue(sportObjectPositionRepository.findOne(
+                SportObjectPositionQueryExpressions.idMatches(sportObjectPositionId)).get().getName().equals("name1"));
     }
 }

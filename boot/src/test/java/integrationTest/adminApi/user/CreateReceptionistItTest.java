@@ -1,7 +1,7 @@
 package integrationTest.adminApi.user;
 
-import static web.common.RequestMappings.ADMIN_API_RECEPTIONIST;
-import static web.common.RequestMappings.SIGN_UP;
+import static web.common.RequestMappings.DIRECTOR_API_RECEPTIONIST;
+import static web.common.RequestMappings.PUBLIC_API_SIGN_UP;
 
 import integrationTest.AbstractUserItTest;
 import org.junit.Test;
@@ -13,21 +13,21 @@ public class CreateReceptionistItTest extends AbstractUserItTest {
     @DirtiesContext
     public void shouldSendErrorMessageWhenCreateReceptionistIsEmpty() {
         signIn("superuser", "password");
-        shouldSendErrorMessageWhenCreateUserIsEmpty(ADMIN_API_RECEPTIONIST);
+        shouldSendErrorMessageWhenCreateUserIsEmpty(DIRECTOR_API_RECEPTIONIST);
     }
 
     @Test
     @DirtiesContext
     public void shouldNotSaveWhenReceptionistWithGivenUsernameAlreadyExists() {
         signIn("superuser", "password");
-        shouldSaveUserWhenAllFieldsAreValid(ADMIN_API_RECEPTIONIST);
-        shouldNotSaveUserWhenUserWithGivenUsernameAlreadyExists(SIGN_UP);
+        shouldSaveUserWhenAllFieldsAreValid(DIRECTOR_API_RECEPTIONIST);
+        shouldNotSaveUserWhenUserWithGivenUsernameAlreadyExists(PUBLIC_API_SIGN_UP);
     }
 
     @Test
     @DirtiesContext
     public void shouldSaveWhenAllFieldsAreValid() {
         signIn("superuser", "password");
-        shouldSaveUserWhenAllFieldsAreValid(ADMIN_API_RECEPTIONIST);
+        shouldSaveUserWhenAllFieldsAreValid(DIRECTOR_API_RECEPTIONIST);
     }
 }

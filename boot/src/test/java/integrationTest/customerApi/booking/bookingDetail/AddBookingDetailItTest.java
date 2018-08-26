@@ -30,23 +30,27 @@ public final class AddBookingDetailItTest extends AbstractBookingItTest {
         signIn("customer", "password");
         commandGateway.sendAndWait(new CreateBookingCommand(customerId));
         UUID bookingId = bookingRepository.findOne(userIdMatches(customerId)).get().getId();
-
         LocalDate date = LocalDate.now();
+
         BookingDetailDto bookingDetail = BookingDetailDto.builder()
                 .openingTimeId(openingTimeId.toString())
                 .sportObjectPositionId(sportObjectPositionId.toString())
                 .date(date)
                 .build();
 
-        ResponseEntity<String> addDetailResponse = restTemplate.postForEntity(CUSTOMER_API_BOOKING_DETAIL, bookingDetail, String.class, bookingId);
+        ResponseEntity<String> addDetailResponse = restTemplate.postForEntity(
+                CUSTOMER_API_BOOKING_DETAIL,
+                bookingDetail,
+                String.class,
+                bookingId);
 
-        assertEquals(addDetailResponse.getStatusCode(), HttpStatus.NO_CONTENT);
+        assertEquals(addDetailResponse.getStatusCode(), HttpStatus.OK);
         assertEquals(bookingRepository.findOne(userIdMatches(customerId)).get().getState(), BookingState.CREATED);
         OpeningTimeRange timeRange = openingTimeRepository.findOne(idMatches(openingTimeId)).get().getTimeRange();
-        assertEquals(bookingDetailRepository.findOne(bookingDetailMatches(
-                sportObjectPositionId,
-                date,
-                timeRange)).get().getOpeningTime().getTimeRange(), timeRange);
+
+        assertEquals(bookingDetailRepository.findOne(
+                bookingDetailMatches(sportObjectPositionId, date, timeRange)).get().getOpeningTime().getTimeRange(),
+                timeRange);
     }
 
     @Test
@@ -56,6 +60,7 @@ public final class AddBookingDetailItTest extends AbstractBookingItTest {
         commandGateway.sendAndWait(new CreateBookingCommand(customerId));
         UUID bookingId = bookingRepository.findOne(userIdMatches(customerId)).get().getId();
         LocalDate date = LocalDate.now();
+
         commandGateway.sendAndWait(AddBookingDetailCommand.builder()
                 .bookingId(bookingId)
                 .customerId(customerId)
@@ -70,16 +75,19 @@ public final class AddBookingDetailItTest extends AbstractBookingItTest {
                 .date(LocalDate.now())
                 .build();
 
-        ResponseEntity<List> addDetailResponse = restTemplate.postForEntity(CUSTOMER_API_BOOKING_DETAIL, bookingDetail, List.class, bookingId);
+        ResponseEntity<List> addDetailResponse = restTemplate.postForEntity(
+                CUSTOMER_API_BOOKING_DETAIL,
+                bookingDetail,
+                List.class,
+                bookingId);
 
         assertEquals(addDetailResponse.getStatusCode(), HttpStatus.CONFLICT);
         assertField("sportObjectPositionId", ErrorCode.ALREADY_BOOKED.getCode(), addDetailResponse.getBody());
-
         assertEquals(bookingRepository.findOne(userIdMatches(customerId)).get().getState(), BookingState.CREATED);
         OpeningTimeRange timeRange = openingTimeRepository.findOne(idMatches(openingTimeId)).get().getTimeRange();
-        assertEquals(bookingDetailRepository.findOne(bookingDetailMatches(
-                sportObjectPositionId,
-                LocalDate.now(),
-                timeRange)).get().getOpeningTime().getTimeRange(), timeRange);
+
+        assertEquals(bookingDetailRepository.findOne(
+                bookingDetailMatches(sportObjectPositionId, LocalDate.now(), timeRange)).get().getOpeningTime().getTimeRange(),
+                timeRange);
     }
 }

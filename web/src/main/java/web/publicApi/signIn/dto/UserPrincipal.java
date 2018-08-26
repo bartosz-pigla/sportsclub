@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,6 +15,7 @@ import query.model.user.UserEntity;
 public final class UserPrincipal implements UserDetails {
 
     @JsonIgnore
+    @Getter
     private UserEntity user;
 
     public UserPrincipal(UserEntity user) {

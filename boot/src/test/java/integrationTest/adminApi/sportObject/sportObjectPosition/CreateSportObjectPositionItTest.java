@@ -1,16 +1,11 @@
 package integrationTest.adminApi.sportObject.sportObjectPosition;
 
 import static org.junit.Assert.assertEquals;
-import static query.model.sportobject.repository.SportObjectQueryExpressions.nameMatches;
-import static web.common.RequestMappings.ADMIN_API_SPORT_OBJECT_POSITION;
+import static web.common.RequestMappings.DIRECTOR_API_SPORT_OBJECT_POSITION;
 
-import java.net.MalformedURLException;
 import java.util.List;
 import java.util.UUID;
 
-import api.sportObject.command.CreateSportObjectCommand;
-import api.sportObject.sportObjectPosition.command.CreateSportObjectPositionCommand;
-import api.sportsclub.command.CreateSportsclubCommand;
 import commons.ErrorCode;
 import integrationTest.adminApi.sportObject.AbstractSportObjectItTest;
 import org.junit.Test;
@@ -23,13 +18,11 @@ public final class CreateSportObjectPositionItTest extends AbstractSportObjectIt
 
     @Test
     @DirtiesContext
-    public void shouldCreate() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
+    public void shouldCreate() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
         SportObjectPositionDto position = SportObjectPositionDto.builder()
                 .name("name1")
                 .description("description1")
@@ -37,10 +30,11 @@ public final class CreateSportObjectPositionItTest extends AbstractSportObjectIt
                 .build();
 
         ResponseEntity<SportObjectPositionDto> sportObjectPositionDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_API_SPORT_OBJECT_POSITION,
+                DIRECTOR_API_SPORT_OBJECT_POSITION,
                 position,
                 SportObjectPositionDto.class,
-                sportsclubName, sportObjectName);
+                sportsclubId.toString(),
+                sportObjectId.toString());
 
         assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.OK);
 
@@ -52,26 +46,24 @@ public final class CreateSportObjectPositionItTest extends AbstractSportObjectIt
 
     @Test
     @DirtiesContext
-    public void shouldNotCreateWhenNameAlreadyExists() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
-        UUID sportObjectId = sportObjectRepository.findOne(nameMatches(createSportObjectCommand.getName())).get().getId();
-        CreateSportObjectPositionCommand createSportObjectPositionCommand = createSportObjectPosition(sportObjectId);
+    public void shouldNotCreateWhenNameAlreadyExists() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
+        createSportObjectPosition(sportObjectId);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
         SportObjectPositionDto position = SportObjectPositionDto.builder()
-                .name(createSportObjectPositionCommand.getName())
+                .name("name1")
                 .description("description1")
                 .positionsCount(12)
                 .build();
 
         ResponseEntity<List> sportObjectPositionDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_API_SPORT_OBJECT_POSITION,
+                DIRECTOR_API_SPORT_OBJECT_POSITION,
                 position,
                 List.class,
-                sportsclubName, sportObjectName);
+                sportsclubId.toString(),
+                sportObjectId.toString());
 
         assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.CONFLICT);
 
@@ -81,20 +73,17 @@ public final class CreateSportObjectPositionItTest extends AbstractSportObjectIt
 
     @Test
     @DirtiesContext
-    public void shouldNotCreateWhenNameAndPositionsCountIsEmpty() throws MalformedURLException {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
-        CreateSportObjectCommand createSportObjectCommand = createSportObject(createSportsclubCommand);
+    public void shouldNotCreateWhenNameAndPositionsCountIsEmpty() {
+        UUID sportsclubId = createSportsclub();
+        UUID sportObjectId = createSportObject(sportsclubId);
         signIn("superuser", "password");
 
-        String sportsclubName = createSportsclubCommand.getName();
-        String sportObjectName = createSportObjectCommand.getName();
-        SportObjectPositionDto position = new SportObjectPositionDto();
-
         ResponseEntity<List> sportObjectPositionDtoResponseEntity = restTemplate.postForEntity(
-                ADMIN_API_SPORT_OBJECT_POSITION,
-                position,
+                DIRECTOR_API_SPORT_OBJECT_POSITION,
+                new SportObjectPositionDto(),
                 List.class,
-                sportsclubName, sportObjectName);
+                sportsclubId.toString(),
+                sportObjectId.toString());
 
         assertEquals(sportObjectPositionDtoResponseEntity.getStatusCode(), HttpStatus.BAD_REQUEST);
 

@@ -1,4 +1,4 @@
-package query.model.user.dto;
+package web.common.user.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,6 +13,7 @@ import lombok.Setter;
 @Builder
 public final class UserDto {
 
+    private String id;
     private String username;
     private String userType;
     private String email;

@@ -1,12 +1,12 @@
 package api.sportObject.command;
 
-import java.net.URL;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import query.model.embeddable.Address;
+import query.model.embeddable.ImageUrl;
 
 @Data
 @AllArgsConstructor
@@ -17,5 +17,5 @@ public final class CreateSportObjectCommand {
     private String name;
     private String description;
     private Address address;
-    private URL image;
+    private ImageUrl imageUrl;
 }

@@ -2,14 +2,15 @@ package web.publicApi.signUp;
 
 import static java.util.UUID.fromString;
 import static org.springframework.http.ResponseEntity.badRequest;
-import static org.springframework.http.ResponseEntity.ok;
-import static web.common.RequestMappings.CUSTOMER_ACTIVATION;
+import static org.springframework.http.ResponseEntity.noContent;
+import static query.model.user.repository.ActivationLinkQueryExpressions.customerIdMatches;
+import static query.model.user.repository.ActivationLinkQueryExpressions.idMatches;
+import static web.common.RequestMappings.PUBLIC_API_CUSTOMER_ACTIVATE;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 import api.user.command.ActivateCustomerCommand;
-import com.google.common.collect.ImmutableList;
 import commons.ErrorCode;
 import domain.user.activation.common.exception.AlreadyActivatedException;
 import domain.user.activation.customer.exception.ActivationLinkExpiredException;
@@ -19,14 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import query.model.user.ActivationLinkEntry;
-import query.model.user.UserEntity;
 import query.model.user.repository.ActivationLinkEntryRepository;
-import query.model.user.repository.ActivationLinkQueryExpressions;
 import web.common.dto.FieldErrorDto;
 import web.common.user.UserBaseController;
 import web.publicApi.signUp.dto.ActivateCustomerWebCommand;
@@ -37,17 +36,24 @@ final class CustomerActivationController extends UserBaseController {
 
     private ActivationLinkEntryRepository activationLinkRepository;
 
-    @PostMapping(CUSTOMER_ACTIVATION)
-    ResponseEntity<?> activateCustomer(@RequestBody ActivateCustomerWebCommand activateCustomerCommand) {
-        Optional<ActivationLinkEntry> activationLinkOptional = activationLinkRepository
-                .findOne(ActivationLinkQueryExpressions.idMatches(fromString(activateCustomerCommand.getActivationKey())));
+    @PatchMapping(PUBLIC_API_CUSTOMER_ACTIVATE)
+    ResponseEntity<?> activateCustomer(
+            @PathVariable UUID userId,
+            @RequestBody ActivateCustomerWebCommand activateCustomerCommand) {
+        String activationKeyStr = activateCustomerCommand.getActivationKey();
 
-        if (activationLinkOptional.isPresent()) {
-            UserEntity customer = activationLinkOptional.get().getCustomer();
-            commandGateway.sendAndWait(ActivateCustomerCommand.builder()
-                    .customerId(customer.getId())
-                    .activationKey(fromString(activateCustomerCommand.getActivationKey())).build());
-            return ok(customer.getUsername());
+        if (isInvalidUUID(activationKeyStr)) {
+            return badRequest().build();
+        }
+
+        UUID activationKey = fromString(activationKeyStr);
+
+        boolean activationLinkExists = activationLinkRepository.exists(
+                idMatches(activationKey).and(customerIdMatches(userId)));
+
+        if (activationLinkExists) {
+            commandGateway.sendAndWait(new ActivateCustomerCommand(userId, activationKey));
+            return noContent().build();
         } else {
             return badRequest().build();
         }
@@ -56,18 +62,18 @@ final class CustomerActivationController extends UserBaseController {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(ActivationLinkExpiredException.class)
     public List<FieldErrorDto> handleActivationKeyExpiredConflict() {
-        return ImmutableList.of(new FieldErrorDto("activationKey", ErrorCode.EXPIRED));
+        return errorResponseService.createBody("activationKey", ErrorCode.EXPIRED);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(ActivationLinkInvalidException.class)
     public List<FieldErrorDto> handleActivationKeyInvalidConflict() {
-        return ImmutableList.of(new FieldErrorDto("activationKey", ErrorCode.INVALID));
+        return errorResponseService.createBody("activationKey", ErrorCode.INVALID);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AlreadyActivatedException.class)
     public List<FieldErrorDto> handleCustomerAlreadyActivatedConflict() {
-        return ImmutableList.of(new FieldErrorDto("activationKey", ErrorCode.ALREADY_ACTIVATED));
+        return errorResponseService.createBody("activationKey", ErrorCode.ALREADY_ACTIVATED);
     }
 }

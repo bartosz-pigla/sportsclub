@@ -2,7 +2,6 @@ package web.common.user;
 
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import commons.ErrorCode;
 import domain.common.exception.AlreadyCreatedException;
 import domain.common.exception.AlreadyDeletedException;
@@ -24,18 +23,18 @@ public abstract class UserBaseController extends BaseController {
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AlreadyCreatedException.class)
     public List<FieldErrorDto> handleUserAlreadyCreatedConflict() {
-        return ImmutableList.of(new FieldErrorDto("username", ErrorCode.ALREADY_EXISTS));
+        return errorResponseService.createBody("username", ErrorCode.ALREADY_EXISTS);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AlreadyDeletedException.class)
     public List<FieldErrorDto> handleUserAlreadyDeletedConflict() {
-        return ImmutableList.of(new FieldErrorDto("username", ErrorCode.ALREADY_DELETED));
+        return errorResponseService.createBody("userId", ErrorCode.ALREADY_DELETED);
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AggregateNotFoundException.class)
     public List<FieldErrorDto> handleUserNotExists() {
-        return ImmutableList.of(new FieldErrorDto("username", ErrorCode.NOT_EXISTS));
+        return errorResponseService.createBody("userId", ErrorCode.NOT_EXISTS);
     }
 }

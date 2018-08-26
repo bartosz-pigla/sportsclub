@@ -18,9 +18,12 @@ public final class CreateBookingItTest extends AbstractBookingItTest {
     public void shouldCreate() {
         signIn("customer", "password");
 
-        ResponseEntity<String> createBookingResponse = restTemplate.postForEntity(CUSTOMER_API_BOOKING, null, String.class);
+        ResponseEntity<String> createBookingResponse = restTemplate.postForEntity(
+                CUSTOMER_API_BOOKING,
+                null,
+                String.class);
 
-        assertEquals(createBookingResponse.getStatusCode(), HttpStatus.NO_CONTENT);
+        assertEquals(createBookingResponse.getStatusCode(), HttpStatus.OK);
         assertTrue(bookingRepository.exists(usernameMatches("customer")));
     }
 }

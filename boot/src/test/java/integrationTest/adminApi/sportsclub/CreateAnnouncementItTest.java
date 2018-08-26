@@ -3,9 +3,10 @@ package integrationTest.adminApi.sportsclub;
 import static com.google.common.collect.Lists.newArrayList;
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static web.common.RequestMappings.ADMIN_API_ANNOUNCEMENT;
+import static web.common.RequestMappings.DIRECTOR_API_ANNOUNCEMENT;
 
-import api.sportsclub.command.CreateSportsclubCommand;
+import java.util.UUID;
+
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,23 +23,26 @@ public final class CreateAnnouncementItTest extends AbstractSportsclubItTest {
     @Test
     @DirtiesContext
     public void shouldCreateWhenSportsclubExists() {
-        CreateSportsclubCommand createSportsclubCommand = createSportsclub();
+        UUID sportsclubId = createSportsclub();
         signIn("superuser", "password");
+
         AnnouncementDto announcement = AnnouncementDto.builder()
                 .title("title1")
                 .content("content1")
                 .build();
 
         ResponseEntity<AnnouncementDto> createAnnouncementResponse = restTemplate.postForEntity(
-                ADMIN_API_ANNOUNCEMENT,
+                DIRECTOR_API_ANNOUNCEMENT,
                 announcement,
                 AnnouncementDto.class,
-                createSportsclubCommand.getName());
+                sportsclubId.toString());
+
         assertEquals(createAnnouncementResponse.getStatusCode(), HttpStatus.OK);
 
         AnnouncementDto response = createAnnouncementResponse.getBody();
         assertEquals(announcement.getTitle(), response.getTitle());
         assertEquals(announcement.getContent(), response.getContent());
+
         assertTrue(newArrayList(announcementRepository.findAll()).stream().anyMatch(a ->
                 a.getTitle().equals(announcement.getTitle()) && a.getContent().equals(announcement.getContent())));
     }
@@ -47,16 +51,18 @@ public final class CreateAnnouncementItTest extends AbstractSportsclubItTest {
     @DirtiesContext
     public void shouldNotCreateWhenSportsclubNotExists() {
         signIn("superuser", "password");
+
         AnnouncementDto announcement = AnnouncementDto.builder()
                 .title("title1")
                 .content("content1")
                 .build();
 
-        ResponseEntity createAnnouncementResponse = restTemplate.postForEntity(
-                ADMIN_API_ANNOUNCEMENT,
+        ResponseEntity<String> createAnnouncementResponse = restTemplate.postForEntity(
+                DIRECTOR_API_ANNOUNCEMENT,
                 announcement,
-                null,
+                String.class,
                 "notExistingSportsclub");
+
         assertEquals(createAnnouncementResponse.getStatusCode(), HttpStatus.BAD_REQUEST);
     }
 }
