@@ -23,8 +23,8 @@ import query.model.sportobject.repository.SportObjectEntityRepository;
 import query.model.sportobject.repository.SportObjectPositionEntityRepository;
 import query.model.sportobject.repository.SportObjectPositionQueryExpressions;
 import query.model.sportobject.repository.SportObjectQueryExpressions;
-import web.adminApi.sportObject.dto.OpeningTimeDto;
-import web.adminApi.sportObject.dto.TimeDto;
+import web.sportObject.dto.OpeningTimeDto;
+import web.sportObject.dto.TimeDto;
 
 public abstract class AbstractSportObjectItTest extends AbstractSportsclubItTest {
 

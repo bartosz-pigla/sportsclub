@@ -1,3 +1,29 @@
-<p>
-  sign-in works!
-</p>
+<mat-card class="sign-in">
+  <form mat-dialog-content [formGroup]="signInForm" novalidate>
+    <header class="sign-in__header">
+      <label class="header__h2">{{ 'sign-in.header' | translate }}</label>
+    </header>
+
+    <div class="sign-in__form">
+      <mat-error *ngIf="signInFailed">{{ 'sign-in.not-exists' | translate }}</mat-error>
+
+      <mat-form-field class="sign-in__field">
+        <input formControlName="username" matInput placeholder="{{ 'sign-in.username' | translate }}">
+        <mat-error *ngIf="controls.username.errors?.required">{{ 'error.required' | translate }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="sign-in__field">
+        <input type="password" formControlName="password" matInput placeholder="{{ 'sign-in.password' | translate }}">
+        <mat-error *ngIf="controls.password.errors?.required">{{ 'error.required' | translate }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <footer class="sign-in__footer">
+      <button mat-button (click)="goToPreviousPage()">{{ 'form.cancel' | translate }}</button>
+
+      <button type="submit" mat-button color="primary" [disabled]="signInForm.invalid" (click)="onSubmit()">
+        {{ 'sign-in.confirm' | translate }}
+      </button>
+    </footer>
+  </form>
+</mat-card>

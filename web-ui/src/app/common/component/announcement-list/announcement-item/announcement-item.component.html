@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-header>
+    <h2 class="announcement-item__title header__h2">{{announcement.title}}</h2>
+    <h2 class="announcement-item__modification-date header__h2">{{announcement.title}}</h2>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p *ngIf="isReadOnly">{{announcement.content}}</p>
+
+    <div *ngIf="!isReadOnly && editModeIsEnabled">
+      <p>sd</p>
+
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </div>
+  </mat-card-content>
+</mat-card>

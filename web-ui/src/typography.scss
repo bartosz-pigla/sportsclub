@@ -1,0 +1,31 @@
+* {
+  font-family: Ubuntu, fantasy;
+  font-weight: normal;
+  font-size: 12px;
+}
+
+.header {
+  &__h1 {
+    font-size: 24px;
+  }
+
+  &__h2 {
+    font-size: 22px;
+  }
+
+  &__h3 {
+    font-size: 20px;
+  }
+
+  &__h4 {
+    font-size: 18px;
+  }
+
+  &__h5 {
+    font-size: 16px;
+  }
+
+  &__h6 {
+    font-size: 14px;
+  }
+}

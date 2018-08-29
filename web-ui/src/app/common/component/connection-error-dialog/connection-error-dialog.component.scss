@@ -1,0 +1,11 @@
+@import "~src/mixin";
+
+.dialog {
+  &__header {
+    @include center();
+  }
+
+  &__action {
+    @include center();
+  }
+}

@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import query.model.sportobject.repository.OpeningTimeQueryExpressions;
-import web.adminApi.sportObject.dto.OpeningTimeDto;
+import web.sportObject.dto.OpeningTimeDto;
 
 public final class DeleteOpeningTimeItTest extends AbstractSportObjectItTest {
 

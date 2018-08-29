@@ -2,31 +2,81 @@ import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 
 import {AppComponent} from './app.component';
-import {SignInComponent} from './public/sign-in/sign-in.component';
-import {HomeComponent} from './customer/home/home.component';
 import {AppRoutingModule} from './app-routing.module';
-import {CustomerAuthorisationGuard} from "./customer/customer-authorisation-guard.service";
 import {NotFoundComponent} from './public/not-found/not-found.component';
 import {UnauthorizedComponent} from './public/unauthorized/unauthorized.component';
 import {PublicComponent} from './public/public.component';
 import {CustomerComponent} from './customer/customer.component';
+import {MatButtonModule, MatCardModule, MatDialogModule, MatDividerModule, MatFormFieldModule, MatInputModule} from "@angular/material";
+
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ReactiveFormsModule} from "@angular/forms";
+import {SignInComponent} from './public/sign-in/sign-in.component';
+import {DirectorComponent} from './director/director.component';
+import {MenuComponent} from './common/component/menu/menu.component';
+import {MenuItemComponent} from "./common/component/menu/menu-item/menu-item.component";
+import {PublicMenuComponent} from "./public/menu/public-menu.component";
+import {SportObjectComponent} from './public/sport-object/sport-object.component';
+import {AnnouncementListComponent} from './common/component/announcement-list/announcement-list.component';
+import {AnnouncementItemComponent} from './common/component/announcement-list/announcement-item/announcement-item.component';
+import {ConnectionErrorDialog} from './common/component/connection-error-dialog/connection-error-dialog.component';
+import {DirectorMenuComponent} from './director/director-menu/director-menu.component';
+import {PublicHomeComponent} from "./public/public-home/public-home.component";
+import {DirectorHomeComponent} from "./director/director-home/director-home.component";
+
+const MATERIAL_MODULES = [
+  MatDividerModule,
+  MatCardModule,
+  MatButtonModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatDialogModule
+];
+
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
+}
 
 @NgModule({
   declarations: [
     AppComponent,
-    SignInComponent,
-    HomeComponent,
+    PublicHomeComponent,
     NotFoundComponent,
     UnauthorizedComponent,
     PublicComponent,
-    CustomerComponent
+    CustomerComponent,
+    SignInComponent,
+    DirectorComponent,
+    PublicMenuComponent,
+    MenuComponent,
+    MenuItemComponent,
+    SportObjectComponent,
+    AnnouncementListComponent,
+    AnnouncementItemComponent,
+    ConnectionErrorDialog,
+    DirectorMenuComponent,
+    DirectorHomeComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MATERIAL_MODULES,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
   ],
-  providers: [CustomerAuthorisationGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ConnectionErrorDialog]
 })
 export class AppModule {
 }

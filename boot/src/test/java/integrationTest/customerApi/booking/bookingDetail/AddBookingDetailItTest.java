@@ -20,7 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import query.model.booking.BookingState;
 import query.model.embeddable.OpeningTimeRange;
-import web.customerApi.booking.dto.BookingDetailDto;
+import web.booking.dto.BookingDetailDto;
 
 public final class AddBookingDetailItTest extends AbstractBookingItTest {
 

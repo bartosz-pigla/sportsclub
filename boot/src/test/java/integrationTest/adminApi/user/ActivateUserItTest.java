@@ -17,7 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import query.model.user.UserType;
 import query.model.user.repository.UserQueryExpressions;
-import web.adminApi.user.dto.UserActivationWebCommand;
+import web.user.dto.UserActivationWebCommand;
 
 public final class ActivateUserItTest extends AbstractUserItTest {
 

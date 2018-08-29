@@ -18,7 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import query.model.embeddable.PositionsCount;
 import query.model.sportobject.repository.SportObjectPositionQueryExpressions;
-import web.adminApi.sportObject.dto.SportObjectPositionDto;
+import web.sportObject.dto.SportObjectPositionDto;
 
 public final class UpdateSportObjectPostionItTest extends AbstractSportObjectItTest {
 

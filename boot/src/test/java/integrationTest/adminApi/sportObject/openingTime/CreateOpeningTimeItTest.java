@@ -15,8 +15,8 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import web.adminApi.sportObject.dto.OpeningTimeDto;
-import web.adminApi.sportObject.dto.TimeDto;
+import web.sportObject.dto.OpeningTimeDto;
+import web.sportObject.dto.TimeDto;
 
 public final class CreateOpeningTimeItTest extends AbstractSportObjectItTest {
 

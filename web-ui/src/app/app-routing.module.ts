@@ -1,51 +1,34 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from "@angular/router";
-import {customerPath, homeRelativePath, notFoundRelativePath, publicPath, signInAbsolutePath, signInRelativePath, unauthorizedRelativePath} from "./path";
 import {PublicComponent} from "./public/public.component";
-import {SignInComponent} from "./public/sign-in/sign-in.component";
 import {UnauthorizedComponent} from "./public/unauthorized/unauthorized.component";
 import {NotFoundComponent} from "./public/not-found/not-found.component";
-import {CustomerComponent} from "./customer/customer.component";
-import {HomeComponent} from "./customer/home/home.component";
-import {CustomerAuthorisationGuard} from "./customer/customer-authorisation-guard.service";
+import {SignInComponent} from "./public/sign-in/sign-in.component";
+import {SportObjectComponent} from "./public/sport-object/sport-object.component";
+import {DirectorComponent} from "./director/director.component";
+import {DirectorAuthorizationGuard} from "./director/director-authorization-guard.service";
+import {DirectorHomeComponent} from "./director/director-home/director-home.component";
+import {PublicHomeComponent} from "./public/public-home/public-home.component";
 
 const routes: Routes = [
-  // {path: homePagePath, component: HomeComponent, canActivate: [CustomerAuthorisationGuard]},
-  // {path: '', component: SignInComponent},
-  // {path: signInAbsolutePath, component: SignInComponent},
-  // {path: unauthorizedAbsolutePath, component: UnauthorizedComponent},
-  // {path: '**', component: NotFoundComponent}
+  {path: '', redirectTo: 'home-page', pathMatch: 'full'},
+  {path: '**', redirectTo: 'not-found', pathMatch: 'full'},
 
-  // {path: '', redirectTo: signInAbsolutePath, pathMatch: 'full'},
-  // {
-  //   path: publicPath, component: PublicComponent, children: [
-  //     {path: '', redirectTo: signInRelativePath},
-  //     {path: signInRelativePath, component: SignInComponent},
-  //     {path: unauthorizedRelativePath, component: UnauthorizedComponent},
-  //     {path: notFoundRelativePath, component: NotFoundComponent}
-  //   ]
-  // },
-  // {
-  //   path: customerPath, component: CustomerComponent, children: [
-  //     {path: '', redirectTo: homeRelativePath},
-  //     {path: homeRelativePath, component: HomeComponent}
-  //   ]
-  // }
-
-
-  {path: '', redirectTo: signInAbsolutePath, pathMatch: 'full'},
   {
-    path: publicPath, component: PublicComponent, children: [
-      {path: '', redirectTo: signInRelativePath, pathMatch: 'prefix'},
-      {path: signInRelativePath, component: SignInComponent},
-      {path: unauthorizedRelativePath, component: UnauthorizedComponent},
-      {path: notFoundRelativePath, component: NotFoundComponent}
+    path: 'public', component: PublicComponent, children: [
+      {path: '', redirectTo: 'home', pathMatch: 'prefix'},
+      {path: 'home', component: PublicHomeComponent},
+      {path: 'sign-in', component: SignInComponent},
+      {path: 'sport-object/:id', component: SportObjectComponent},
+      {path: 'unauthorized', component: UnauthorizedComponent},
+      {path: 'not-found', component: NotFoundComponent}
     ]
   },
+
   {
-    path: customerPath, component: CustomerComponent, canActivate: [CustomerAuthorisationGuard], children: [
-      {path: '', redirectTo: homeRelativePath, pathMatch: 'prefix'},
-      {path: homeRelativePath, component: HomeComponent}
+    path: 'director', component: DirectorComponent, canActivate: [DirectorAuthorizationGuard], children: [
+      {path: '', redirectTo: 'home', pathMatch: 'prefix'},
+      {path: 'home', component: DirectorHomeComponent}
     ]
   }
 ];

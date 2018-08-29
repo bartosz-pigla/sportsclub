@@ -17,7 +17,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import query.model.sportsclub.repository.SportsclubEntityRepository;
 import query.model.sportsclub.repository.StatuteEntityRepository;
 import query.model.sportsclub.repository.StatuteQueryExpressions;
-import web.adminApi.sportsclub.dto.StatuteDto;
+import web.sportsclub.dto.StatuteDto;
 
 public final class UpdateStatuteItTest extends AbstractSportsclubItTest {
 

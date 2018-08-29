@@ -1,7 +1,5 @@
 package query.model.sportobject.repository;
 
-import static query.model.baseEntity.repository.BaseEntityQueryExpressions.isNotDeleted;
-
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,7 +13,7 @@ public final class SportObjectQueryExpressions {
 
     public static BooleanExpression nameMatches(String name) {
         return Optional.ofNullable(name)
-                .map(n -> isNotDeleted(sportObject._super).and(sportObject.name.eq(n)))
+                .map(n -> BaseEntityQueryExpressions.isNotDeleted(sportObject._super).and(sportObject.name.eq(n)))
                 .orElse(sportObject.isNull());
     }
 
@@ -33,5 +31,16 @@ public final class SportObjectQueryExpressions {
 
     public static BooleanExpression idMatches(UUID id) {
         return BaseEntityQueryExpressions.idMatches(id, sportObject._super);
+    }
+
+    public static BooleanExpression sportsclubIdMatches(UUID id) {
+        return Optional.ofNullable(id)
+                .map(i -> BaseEntityQueryExpressions.isNotDeleted(sportObject._super).and(
+                        BaseEntityQueryExpressions.idMatches(id, sportObject.headquarter._super)))
+                .orElse(sportObject.isNull());
+    }
+
+    public static BooleanExpression isNotDeleted() {
+        return BaseEntityQueryExpressions.isNotDeleted(sportObject._super);
     }
 }

@@ -20,8 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import query.model.embeddable.OpeningTimeRange;
 import query.model.embeddable.Price;
-import web.adminApi.sportObject.dto.OpeningTimeDto;
-import web.adminApi.sportObject.dto.TimeDto;
+import web.sportObject.dto.OpeningTimeDto;
+import web.sportObject.dto.TimeDto;
 
 public final class UpdateOpeningTimeItTest extends AbstractSportObjectItTest {
 

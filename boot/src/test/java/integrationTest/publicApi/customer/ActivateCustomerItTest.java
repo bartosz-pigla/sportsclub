@@ -16,8 +16,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import query.model.user.ActivationLinkEntry;
 import query.model.user.repository.ActivationLinkEntryRepository;
 import query.model.user.repository.UserQueryExpressions;
-import web.common.user.dto.UserDto;
-import web.publicApi.signUp.dto.ActivateCustomerWebCommand;
+import web.user.dto.UserDto;
+import web.signUp.dto.ActivateCustomerWebCommand;
 
 public final class ActivateCustomerItTest extends AbstractUserItTest {
 

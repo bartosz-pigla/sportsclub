@@ -20,6 +20,9 @@ public final class RequestMappings {
 
     public static final String PUBLIC_API_CUSTOMER = PUBLIC_API + "/customer";
     public static final String PUBLIC_API_CUSTOMER_ACTIVATE = PUBLIC_API_CUSTOMER + USER_ID_PARAMETER + "/activate";
+    public static final String PUBLIC_API_SPORTSCLUB_BY_ID = PUBLIC_API + "/sportsclub" + SPORTSCLUB_ID_PARAMETER;
+    public static final String PUBLIC_API_SPORT_OBJECT = PUBLIC_API_SPORTSCLUB_BY_ID + "/sport-object";
+    public static final String PUBLIC_API_ANNOUNCEMENT = PUBLIC_API_SPORTSCLUB_BY_ID + "/announcement";
 
     //DIRECTOR API
 

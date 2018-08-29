@@ -23,8 +23,8 @@ import query.model.user.UserType;
 import query.model.user.repository.ActivationLinkEntryRepository;
 import query.model.user.repository.UserEntityRepository;
 import query.model.user.repository.UserQueryExpressions;
-import web.common.user.dto.CreateUserWebCommand;
-import web.common.user.dto.UserDto;
+import web.user.dto.CreateUserWebCommand;
+import web.user.dto.UserDto;
 
 public abstract class AbstractUserItTest extends IntegrationTest {
 

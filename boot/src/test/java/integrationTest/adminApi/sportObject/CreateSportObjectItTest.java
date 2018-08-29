@@ -14,8 +14,8 @@ import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
-import web.adminApi.sportObject.dto.AddressDto;
-import web.adminApi.sportObject.dto.SportObjectDto;
+import web.sportObject.dto.AddressDto;
+import web.sportObject.dto.SportObjectDto;
 
 public final class CreateSportObjectItTest extends AbstractSportObjectItTest {
 

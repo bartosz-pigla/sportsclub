@@ -19,8 +19,8 @@ import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
 import query.model.embeddable.ImageUrl;
 import query.model.sportobject.repository.SportObjectQueryExpressions;
-import web.adminApi.sportObject.dto.AddressDto;
-import web.adminApi.sportObject.dto.SportObjectDto;
+import web.sportObject.dto.AddressDto;
+import web.sportObject.dto.SportObjectDto;
 
 public final class UpdateSportObjectItTest extends AbstractSportObjectItTest {
 

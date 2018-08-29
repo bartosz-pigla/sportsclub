@@ -26,8 +26,8 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
-import web.publicApi.signIn.dto.JwtAuthenticationResponse;
-import web.publicApi.signIn.dto.SignInWebCommand;
+import web.signIn.dto.JwtAuthenticationResponse;
+import web.signIn.dto.SignInWebCommand;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = SportsClubApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

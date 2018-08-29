@@ -1,5 +1,6 @@
 package boot;
 
+import boot.populator.SportsclubPopulator;
 import boot.populator.UserPopulator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
@@ -37,6 +38,8 @@ public class SportsClubApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(SportsClubApplication.class, args);
         context.getBean(UserPopulator.class).initializeDirector();
+        context.getBean(UserPopulator.class).initializeCustomer();
+        context.getBean(SportsclubPopulator.class).initializeSportsclub();
     }
 
     @Bean

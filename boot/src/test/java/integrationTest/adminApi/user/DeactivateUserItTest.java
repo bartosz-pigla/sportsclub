@@ -16,7 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import query.model.user.UserType;
-import web.adminApi.user.dto.UserActivationWebCommand;
+import web.user.dto.UserActivationWebCommand;
 
 public final class DeactivateUserItTest extends AbstractUserItTest {
 

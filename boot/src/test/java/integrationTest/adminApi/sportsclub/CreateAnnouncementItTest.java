@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import query.model.announcement.repository.AnnouncementEntityRepository;
-import web.adminApi.announcement.dto.AnnouncementDto;
+import web.announcement.dto.AnnouncementDto;
 
 public final class CreateAnnouncementItTest extends AbstractSportsclubItTest {
 

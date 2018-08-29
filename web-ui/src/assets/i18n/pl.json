@@ -1,0 +1,28 @@
+{
+  "error": {
+    "required": "Pole wymagane",
+    "invalid": "Pole wypełnione nieprawidłowo"
+  },
+  "form": {
+    "confirm": "Zatwierdź",
+    "cancel": "Anuluj",
+    "close": "Zamknij",
+    "go-back": "Powrót do poprzedniej strony"
+  },
+  "menu": {
+    "sign-in": "Zaloguj się",
+    "sign-out": "Wyloguj się",
+    "sign-up": "Zarejestruj się"
+  },
+  "sign-in": {
+    "header": "Logowanie",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "not-exists": "Nieprawidłowa nazwa użytkownika lub hasło",
+    "confirm": "Zaloguj się"
+  },
+  "connection-error-dialog": {
+    "title": "Błąd",
+    "content": "Wystąpił błąd podcząs pobierania danych z serwera"
+  }
+}

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import query.model.user.UserEntity;
 import query.model.user.repository.UserEntityRepository;
 import query.model.user.repository.UserQueryExpressions;
-import web.publicApi.signIn.dto.UserPrincipal;
+import web.signIn.dto.UserPrincipal;
 
 @Service
 @AllArgsConstructor

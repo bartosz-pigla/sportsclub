@@ -1,0 +1,17 @@
+:host {
+  padding: 0;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 15px 30px 15px;
+
+  &__item {
+
+  }
+
+  &__authentication {
+    margin-left: auto;
+  }
+}
