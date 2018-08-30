@@ -23,6 +23,7 @@ export class AnnouncementService implements IPageableAndSortableGetService<Annou
   }
 
   get(paginationParams: PaginationParams): Observable<PageResponse<Announcement>> {
+    console.log(this.announcementPublicApi + getPaginationUrlParams(paginationParams));
     return this.http.get<PageResponse<Announcement>>(
       this.announcementPublicApi + getPaginationUrlParams(paginationParams));
   }
@@ -33,6 +34,7 @@ export class AnnouncementService implements IPageableAndSortableGetService<Annou
   }
 
   post(announcement: Announcement): Observable<Announcement> {
+    console.log(this.announcementDirectorApi);
     return this.http.post<Announcement>(this.announcementDirectorApi, announcement);
   }
 }

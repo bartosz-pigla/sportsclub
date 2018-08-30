@@ -25,23 +25,28 @@ export class PaginationComponent<T> extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.pageSize);
-    console.log('paagination');
     this.nextPage();
-    this.pageChange.emit(this.page);
   }
 
   nextPage() {
-    this.page.next(this.service, () => {
-      this.openConnectionErrorDialog();
-    });
-    this.pageChange.emit(this.page);
+    this.page.next(
+      this.service,
+      () => {
+        this.pageChange.emit(this.page);
+      },
+      () => {
+        this.openConnectionErrorDialog();
+      });
   }
 
   previousPage() {
-    this.page.previous(this.service, () => {
-      this.openConnectionErrorDialog();
-    });
-    this.pageChange.emit(this.page);
+    this.page.previous(
+      this.service,
+      () => {
+        this.pageChange.emit(this.page);
+      },
+      () => {
+        this.openConnectionErrorDialog();
+      });
   }
 }

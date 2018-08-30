@@ -13,7 +13,7 @@ export class DirectorHomeComponent implements OnInit{
 
   readonly pageSize: number = 10;
 
-  page: PageView<Announcement>;
+  announcements: Announcement[]
   announcementForm: FormGroup;
   announcementFormIsVisible: boolean;
 
@@ -45,9 +45,8 @@ export class DirectorHomeComponent implements OnInit{
     this.announcementFormIsVisible = false;
   }
 
-  changePage(page) {
-    console.log('change page: ' + this.page.content);
-    this.page = page;
+  initAnnouncements(page) {
+    this.announcements = page.content;
   }
 
   addAnnouncement() {

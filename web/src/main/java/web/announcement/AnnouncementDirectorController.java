@@ -15,6 +15,9 @@ import api.sportsclub.command.UpdateAnnouncementCommand;
 import commons.ErrorCode;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import query.model.announcement.AnnouncementEntity;
 import query.model.announcement.repository.AnnouncementEntityRepository;
 import query.model.announcement.repository.AnnouncementQueryExpressions;
 import query.model.sportsclub.repository.SportsclubEntityRepository;
@@ -52,10 +56,15 @@ final class AnnouncementDirectorController extends BaseController {
                     .content(announcementDto.getContent())
                     .build());
 
-            return announcementRepository.findOne(titleMatches(title))
-                    .<ResponseEntity<?>> map(announcement -> ok(AnnouncementDtoFactory.create(announcement)))
-                    .orElse(errorResponseService.create("id", ErrorCode.NOT_EXISTS, HttpStatus.CONFLICT));
+            Page<AnnouncementEntity> announcementPage = announcementRepository.findAll(
+                    titleMatches(title),
+                    PageRequest.of(0, 1, Sort.by(Sort.Direction.DESC, "lastModificationDate")));
 
+            if (announcementPage.getNumberOfElements() > 0) {
+                return ok(AnnouncementDtoFactory.create(announcementPage.getContent().get(0)));
+            } else {
+                return errorResponseService.create("id", ErrorCode.NOT_EXISTS, HttpStatus.CONFLICT);
+            }
         } else {
             return badRequest().build();
         }

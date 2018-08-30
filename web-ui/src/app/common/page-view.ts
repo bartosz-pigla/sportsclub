@@ -12,43 +12,47 @@ export class PageView<T> {
 
   static of<T>(pageSize: number, response: PageResponse<T>): PageView<T> {
     return new PageView<T>(
-      1,
+      0,
       pageSize,
-      response.totalElements / pageSize,
+      Math.trunc(response.totalElements / pageSize),
       response.totalElements,
       response.content);
   }
 
   static createEmpty<T>(pageSize: number): PageView<T> {
-    return new PageView<T>(0, pageSize, Number.MAX_VALUE, Number.MAX_VALUE, []);
+    return new PageView<T>(-1, pageSize, Number.MAX_VALUE, Number.MAX_VALUE, []);
   }
 
   hasPrevious() {
-    return this.currentPage > 1;
+    return this.currentPage > 0;
   }
 
   hasNext() {
     return this.currentPage < this.totalPages;
   }
 
-  previous(service: IPageableAndSortableGetService<T>, error: () => void) {
-    this.previousHelper(service.get(this.getPreviousPaginationParams()), error);
+  previous(service: IPageableAndSortableGetService<T>, success: () => void, error: () => void) {
+    this.previousHelper(service.get(this.getPreviousPaginationParams()), success, error);
   }
 
-  previousSorted(service: IPageableAndSortableGetService<T>, sortingParams: SortingParams, error: () => void) {
-    this.previousHelper(service.getSorted(this.getPreviousPaginationParams(), sortingParams), error);
+  previousSorted(service: IPageableAndSortableGetService<T>,
+                 sortingParams: SortingParams,
+                 success: () => void,
+                 error: () => void) {
+    this.previousHelper(service.getSorted(this.getPreviousPaginationParams(), sortingParams), success, error);
   }
 
   private getPreviousPaginationParams(): PaginationParams {
     return new PaginationParams(this.currentPage + 1, this.pageSize);
   }
 
-  private previousHelper(getResponse: Observable<PageResponse<T>>, error: () => void) {
+  private previousHelper(getResponse: Observable<PageResponse<T>>, success: () => void, error: () => void) {
     if (this.hasPrevious()) {
       getResponse.subscribe(
         (response) => {
           this.currentPage--;
           this.updatePageView(response);
+          success();
         },
         () => {
           error();
@@ -57,28 +61,28 @@ export class PageView<T> {
     }
   }
 
-  next(service: IPageableAndSortableGetService<T>, error: () => void) {
-    this.nextHelper(service.get(this.getNextPaginationParams()), error);
+  next(service: IPageableAndSortableGetService<T>, success: () => void, error: () => void) {
+    this.nextHelper(service.get(this.getNextPaginationParams()), success, error);
   }
 
-  nextSorted(service: IPageableAndSortableGetService<T>, sortingParams: SortingParams, error: () => void) {
-    this.nextHelper(service.getSorted(this.getNextPaginationParams(), sortingParams), error);
+  nextSorted(service: IPageableAndSortableGetService<T>,
+             sortingParams: SortingParams,
+             success: () => void,
+             error: () => void) {
+    this.nextHelper(service.getSorted(this.getNextPaginationParams(), sortingParams), success, error);
   }
 
   private getNextPaginationParams(): PaginationParams {
     return new PaginationParams(this.currentPage + 1, this.pageSize);
   }
 
-  private nextHelper(getResponse: Observable<PageResponse<T>>, error: () => void) {
-    console.log('next helper');
-    console.log(this);
+  private nextHelper(getResponse: Observable<PageResponse<T>>, success: () => void, error: () => void) {
     if (this.hasNext()) {
-      console.log('has next');
       getResponse.subscribe(
         (response) => {
-          console.log(response);
           this.currentPage++;
           this.updatePageView(response);
+          success();
         },
         () => {
           error();
@@ -89,7 +93,7 @@ export class PageView<T> {
 
   updatePageView(response: PageResponse<T>) {
     this.totalElements = response.totalElements;
-    this.totalPages = response.totalElements / this.pageSize;
+    this.totalPages = Math.trunc(response.totalElements / this.pageSize);
     this.content = response.content;
   }
 }
