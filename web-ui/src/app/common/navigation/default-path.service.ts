@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AuthenticationService} from "../security/authentication.service";
-import {UserType} from "../user.service";
+import {UserType} from "../http-service/user.service";
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,6 @@ export class DefaultPathService {
 
   navigate() {
     if (this.authenticationService.isSignedIn()) {
-      let userType: string = this.authenticationService.getUserType().toString();
-
       switch (this.authenticationService.getUserType()) {
         case UserType.CUSTOMER:
           return 'public';

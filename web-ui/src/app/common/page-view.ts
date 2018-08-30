@@ -1,5 +1,6 @@
-import {PageResponse} from "./page-response";
+import {IPageableAndSortableGetService, PaginationParams, SortingParams} from "./http-service/http-service.service";
 import {Observable} from "rxjs";
+import {PageResponse} from "./http-service/page-response";
 
 export class PageView<T> {
   constructor(public currentPage: number,
@@ -18,6 +19,10 @@ export class PageView<T> {
       response.content);
   }
 
+  static createEmpty<T>(pageSize: number): PageView<T> {
+    return new PageView<T>(0, pageSize, Math.max(), Math.max(), []);
+  }
+
   hasPrevious() {
     return this.currentPage > 1;
   }
@@ -26,28 +31,56 @@ export class PageView<T> {
     return this.currentPage < this.totalPages;
   }
 
-  previous(pageResponse: Observable<PageResponse<T>>, fail: () => void) {
-    pageResponse.subscribe(
-      (response) => {
-        this.currentPage--;
-        this.updatePageView(response);
-      },
-      () => {
-        fail();
-      }
-    )
+  previous(service: IPageableAndSortableGetService<T>, error: () => void) {
+    this.previousHelper(service.get(this.getPreviousPaginationParams()), error);
   }
 
-  next(pageResponse: Observable<PageResponse<T>>, fail: () => void) {
-    pageResponse.subscribe(
-      (response) => {
-        this.currentPage++;
-        this.updatePageView(response);
-      },
-      () => {
-        fail();
-      }
-    )
+  previousSorted(service: IPageableAndSortableGetService<T>, sortingParams: SortingParams, error: () => void) {
+    this.previousHelper(service.getSorted(this.getPreviousPaginationParams(), sortingParams), error);
+  }
+
+  private getPreviousPaginationParams(): PaginationParams {
+    return new PaginationParams(this.currentPage + 1, this.pageSize);
+  }
+
+  private previousHelper(getResponse: Observable<PageResponse<T>>, error: () => void) {
+    if (this.hasPrevious()) {
+      getResponse.subscribe(
+        (response) => {
+          this.currentPage--;
+          this.updatePageView(response);
+        },
+        () => {
+          error();
+        }
+      );
+    }
+  }
+
+  next(service: IPageableAndSortableGetService<T>, error: () => void) {
+    this.nextHelper(service.get(this.getNextPaginationParams()), error);
+  }
+
+  nextSorted(service: IPageableAndSortableGetService<T>, sortingParams: SortingParams, error: () => void) {
+    this.nextHelper(service.getSorted(this.getNextPaginationParams(), sortingParams), error);
+  }
+
+  private getNextPaginationParams(): PaginationParams {
+    return new PaginationParams(this.currentPage + 1, this.pageSize);
+  }
+
+  private nextHelper(getResponse: Observable<PageResponse<T>>, error: () => void) {
+    if (this.hasNext()) {
+      getResponse.subscribe(
+        (response) => {
+          this.currentPage++;
+          this.updatePageView(response);
+        },
+        () => {
+          error();
+        }
+      );
+    }
   }
 
   updatePageView(response: PageResponse<T>) {

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Announcement} from "../../../announcement-service";
+import {Announcement} from "../../../http-service/announcement-service";
 
 @Component({
   selector: 'announcement-item',

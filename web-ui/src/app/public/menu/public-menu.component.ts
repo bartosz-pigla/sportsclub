@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuItem} from "../../common/component/menu/menu-item/menu-item.model";
-import {SportObjectService} from "../../common/sport-object.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BaseComponent} from "../../common/base.component";
 import {MatDialog} from "@angular/material";
 import {PreviousPageService} from "../../common/navigation/previous-page.service";
+import {SportObjectService} from "../../common/http-service/sport-object.service";
 
 @Component({
   selector: 'public-menu',

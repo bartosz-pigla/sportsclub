@@ -26,6 +26,7 @@ import {ConnectionErrorDialog} from './common/component/connection-error-dialog/
 import {DirectorMenuComponent} from './director/director-menu/director-menu.component';
 import {PublicHomeComponent} from "./public/public-home/public-home.component";
 import {DirectorHomeComponent} from "./director/director-home/director-home.component";
+import { NewItemButtonComponent } from './common/component/new-item-button/new-item-button.component';
 
 const MATERIAL_MODULES = [
   MatDividerModule,
@@ -58,7 +59,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AnnouncementItemComponent,
     ConnectionErrorDialog,
     DirectorMenuComponent,
-    DirectorHomeComponent
+    DirectorHomeComponent,
+    NewItemButtonComponent,
   ],
   imports: [
     BrowserModule,
@@ -76,7 +78,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ConnectionErrorDialog]
+  entryComponents: [ConnectionErrorDialog, NewItemButtonComponent]
 })
 export class AppModule {
 }

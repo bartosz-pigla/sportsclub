@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {User, UserType} from "../user.service";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
+import {User, UserType} from "../http-service/user.service";
 
 export class CurrentUserDetails {
   constructor(public token,

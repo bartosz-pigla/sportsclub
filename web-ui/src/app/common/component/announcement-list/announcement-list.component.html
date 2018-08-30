@@ -1,2 +1,10 @@
 <announcement-item *ngFor="let announcement of page.content" [isReadOnly]="isReadOnly" [announcement]="announcement">
 </announcement-item>
+
+<ng-container *ngIf="!isReadOnly">
+  <div *ngIf="newAnnouncementFormIsVisible" style="font-size: 67px">
+    visible
+  </div>
+
+  <new-item-button (buttonClick)="showNewAnnouncementForm();"></new-item-button>
+</ng-container>

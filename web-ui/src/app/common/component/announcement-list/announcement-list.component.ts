@@ -1,20 +1,22 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {PageView} from "../../page-view";
-import {Announcement, AnnouncementService} from "../../announcement-service";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material";
-import {ConnectionErrorDialog} from "../connection-error-dialog/connection-error-dialog.component";
 import {BaseComponent} from "../../base.component";
+import {Announcement, AnnouncementService} from "../../http-service/announcement-service";
 
 @Component({
   selector: 'announcement-list',
   templateUrl: './announcement-list.component.html',
-  styleUrls: ['./announcement-list.component.scss']
+  styleUrls: ['./announcement-list.component.scss'],
+  providers: [AnnouncementService]
 })
 export class AnnouncementListComponent extends BaseComponent implements OnInit {
 
-  @Input() isReadOnly: boolean = true;
-  page: PageView<Announcement>;
+  @Input() readonly isReadOnly: boolean = true;
+  private readonly pageSize: number = 10;
+  page: PageView<Announcement> = PageView.createEmpty(this.pageSize);
+  public newAnnouncementFormIsVisible: boolean;
 
   constructor(private router: Router,
               private announcementService: AnnouncementService,
@@ -23,33 +25,23 @@ export class AnnouncementListComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.announcementService.get().subscribe(
-      (announcements) => {
-        this.page = PageView.of(this.announcementService.pageSize, announcements);
-      },
-      () => {
-        this.openConnectionErrorDialog();
-      }
-    )
+    this.nextPage();
   }
 
   nextPage() {
-    if (this.page.hasNext()) {
-      this.page.next(
-        this.announcementService.get(this.page.currentPage + 1),
-        () => {
-          this.openConnectionErrorDialog();
-        });
-    }
+    this.page.next(this.announcementService, () => {
+      this.openConnectionErrorDialog();
+    })
   }
 
   previousPage() {
-    if (this.page.hasPrevious()) {
-      this.page.previous(
-        this.announcementService.get(this.page.currentPage - 1),
-        () => {
-          this.openConnectionErrorDialog();
-        });
-    }
+    this.page.previous(this.announcementService, () => {
+      this.openConnectionErrorDialog();
+    })
+  }
+
+  showNewAnnouncementForm() {
+    this.newAnnouncementFormIsVisible = true;
+    window.scrollTo(0, 0);
   }
 }
