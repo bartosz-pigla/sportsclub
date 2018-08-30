@@ -20,17 +20,15 @@ import {MenuComponent} from './common/component/menu/menu.component';
 import {MenuItemComponent} from "./common/component/menu/menu-item/menu-item.component";
 import {PublicMenuComponent} from "./public/menu/public-menu.component";
 import {SportObjectComponent} from './public/sport-object/sport-object.component';
-import {AnnouncementListComponent} from './common/component/announcement-list/announcement-list.component';
-import {AnnouncementItemComponent} from './common/component/announcement-list/announcement-item/announcement-item.component';
+import {AnnouncementItemComponent} from './common/component/announcement-item/announcement-item.component';
 import {ConnectionErrorDialog} from './common/component/connection-error-dialog/connection-error-dialog.component';
 import {DirectorMenuComponent} from './director/director-menu/director-menu.component';
 import {PublicHomeComponent} from "./public/public-home/public-home.component";
 import {DirectorHomeComponent} from "./director/director-home/director-home.component";
 import { NewItemButtonComponent } from './common/component/new-item-button/new-item-button.component';
+import {PaginationComponent} from "./common/component/pagination/pagination.component";
 
 const MATERIAL_MODULES = [
-  MatDividerModule,
-  MatCardModule,
   MatButtonModule,
   MatFormFieldModule,
   MatInputModule,
@@ -55,7 +53,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MenuComponent,
     MenuItemComponent,
     SportObjectComponent,
-    AnnouncementListComponent,
+    PaginationComponent,
     AnnouncementItemComponent,
     ConnectionErrorDialog,
     DirectorMenuComponent,
@@ -78,7 +76,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ConnectionErrorDialog, NewItemButtonComponent]
+  entryComponents: [ConnectionErrorDialog, NewItemButtonComponent, PaginationComponent]
 })
 export class AppModule {
 }

@@ -11,7 +11,7 @@ import {DirectorHomeComponent} from "./director/director-home/director-home.comp
 import {PublicHomeComponent} from "./public/public-home/public-home.component";
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home-page', pathMatch: 'full'},
+  {path: '', redirectTo: 'public/home', pathMatch: 'full'},
   {path: '**', redirectTo: 'not-found', pathMatch: 'full'},
 
   {

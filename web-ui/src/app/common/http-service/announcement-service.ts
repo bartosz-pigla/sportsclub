@@ -16,18 +16,23 @@ export class Announcement {
 @Injectable()
 export class AnnouncementService implements IPageableAndSortableGetService<Announcement> {
 
-  private readonly getBaseUrl: string = `${environment.apiUrl}/public-api/sportsclub/${environment.sportsclubId}`;
+  private readonly announcementPublicApi: string = `${environment.apiUrl}/public-api/sportsclub/${environment.sportsclubId}/announcement`;
+  private readonly announcementDirectorApi: string = `${environment.apiUrl}/director-api/sportsclub/${environment.sportsclubId}/announcement`;
 
   constructor(private http: HttpClient) {
   }
 
   get(paginationParams: PaginationParams): Observable<PageResponse<Announcement>> {
     return this.http.get<PageResponse<Announcement>>(
-      this.getBaseUrl + getPaginationUrlParams(paginationParams));
+      this.announcementPublicApi + getPaginationUrlParams(paginationParams));
   }
 
   getSorted(paginationParams: PaginationParams, sortingParams: SortingParams): Observable<PageResponse<Announcement>> {
     return this.http.get<PageResponse<Announcement>>(
-      this.getBaseUrl + getPaginationUrlParams(paginationParams) + getSortingUrlParams(sortingParams));
+      this.announcementPublicApi + getPaginationUrlParams(paginationParams) + getSortingUrlParams(sortingParams));
+  }
+
+  post(announcement: Announcement): Observable<Announcement> {
+    return this.http.post<Announcement>(this.announcementDirectorApi, announcement);
   }
 }

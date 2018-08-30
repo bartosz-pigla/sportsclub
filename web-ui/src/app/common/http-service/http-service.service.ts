@@ -29,7 +29,7 @@ export interface IPageableAndSortableGetService<T> {
 }
 
 export function getPaginationUrlParams(paginationParams: PaginationParams) {
-  return `&page=${paginationParams.page}&size=${paginationParams.size}`;
+  return `?page=${paginationParams.page}&size=${paginationParams.size}`;
 }
 
 export function getSortingUrlParams(sortingParams: SortingParams) {

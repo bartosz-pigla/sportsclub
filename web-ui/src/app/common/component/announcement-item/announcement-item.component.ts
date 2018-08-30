@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {Announcement} from "../../../http-service/announcement-service";
+import {Announcement} from "../../http-service/announcement-service";
 
 @Component({
   selector: 'announcement-item',
@@ -10,7 +10,7 @@ export class AnnouncementItemComponent {
 
   @Input() isReadOnly: boolean;
   @Input() announcement: Announcement;
-  public editModeIsEnabled: boolean = false;
+  editModeIsEnabled: boolean = false;
 
   constructor() {
   }

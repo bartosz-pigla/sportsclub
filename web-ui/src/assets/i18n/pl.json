@@ -3,8 +3,13 @@
     "required": "Pole wymagane",
     "invalid": "Pole wypełnione nieprawidłowo"
   },
+  "pagination": {
+    "previous": "Wstecz",
+    "next": "Dalej"
+  },
   "form": {
     "confirm": "Zatwierdź",
+    "add": "Dodaj",
     "cancel": "Anuluj",
     "close": "Zamknij",
     "go-back": "Powrót do poprzedniej strony"
@@ -20,6 +25,11 @@
     "password": "Hasło",
     "not-exists": "Nieprawidłowa nazwa użytkownika lub hasło",
     "confirm": "Zaloguj się"
+  },
+  "announcement-form": {
+    "header": "Dodaj nowe ogłoszenie",
+    "title": "Tytuł",
+    "content": "Treść"
   },
   "connection-error-dialog": {
     "title": "Błąd",

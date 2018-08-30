@@ -1,0 +1,5 @@
+<ng-content></ng-content>
+<footer *ngIf="page.content.length">
+  <button mat-button (click)="previousPage()">{{'pagination.previous' | translate}}</button>
+  <button mat-button (click)="nextPage()">{{'pagination.next' | translate}}</button>
+</footer>

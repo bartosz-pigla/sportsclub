@@ -1,28 +1,4 @@
 :host {
   display: flex;
-  justify-content: space-around;
-}
-
-.sign-in {
-  width: 300px;
-
-  &__header {
-    display: flex;
-    justify-content: space-around;
-  }
-
-  &__form {
-    display: flex;
-    flex-direction: column;
-    margin: 20px 0;
-  }
-
-  &__field {
-    margin-top: 5px;
-  }
-
-  &__footer {
-    display: flex;
-    justify-content: space-around;
-  }
+  justify-content: center;
 }

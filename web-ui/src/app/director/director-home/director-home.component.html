@@ -1,1 +1,39 @@
-<announcement-list [isReadOnly]="false"></announcement-list>
+<form class="form form--wider card" *ngIf="!isReadOnly && announcementFormIsVisible" mat-dialog-content [formGroup]="announcementForm" novalidate>
+  <header class="form__header">
+    <label class="header__h2">{{ 'announcement-form.header' | translate }}</label>
+  </header>
+
+  <div class="form__body">
+    <mat-form-field class="form__field">
+      <input formControlName="title" matInput placeholder="{{ 'announcement-form.title' | translate }}">
+
+      <mat-error *ngIf="controls.title.errors?.required">
+        {{ 'error.required' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form__field">
+      <textarea formControlName="content" matInput placeholder="{{ 'announcement-form.content' | translate }}" rows="10"></textarea>
+
+      <mat-error *ngIf="controls.content.errors?.required">
+        {{ 'error.required' | translate }}
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <footer class="form__footer">
+    <button mat-button (click)="hideAnnouncementForm()">
+      {{ 'form.cancel' | translate }}
+    </button>
+
+    <button type="submit" mat-button color="primary" [disabled]="announcementForm.invalid" (click)="addAnnouncement()">
+      {{ 'form.add' | translate }}
+    </button>
+  </footer>
+</form>
+
+<pagination [pageSize]="pageSize" [service]="announcementService" (pageChange)="changePage($event)">
+  <p>{{page.content}}</p>
+  <announcement-item *ngFor="let item of page.content" [announcement]="item" [isReadOnly]="false"></announcement-item>
+  <new-item-button (buttonClick)="showAnnouncementForm()"></new-item-button>
+</pagination>

@@ -20,7 +20,7 @@ export class PageView<T> {
   }
 
   static createEmpty<T>(pageSize: number): PageView<T> {
-    return new PageView<T>(0, pageSize, Math.max(), Math.max(), []);
+    return new PageView<T>(0, pageSize, Number.MAX_VALUE, Number.MAX_VALUE, []);
   }
 
   hasPrevious() {
@@ -70,9 +70,13 @@ export class PageView<T> {
   }
 
   private nextHelper(getResponse: Observable<PageResponse<T>>, error: () => void) {
+    console.log('next helper');
+    console.log(this);
     if (this.hasNext()) {
+      console.log('has next');
       getResponse.subscribe(
         (response) => {
+          console.log(response);
           this.currentPage++;
           this.updatePageView(response);
         },
