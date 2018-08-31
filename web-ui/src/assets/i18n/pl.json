@@ -5,7 +5,15 @@
   },
   "pagination": {
     "previous": "Wstecz",
-    "next": "Dalej"
+    "next": "Dalej",
+    "sorting": {
+      "ascending": "rosnąco",
+      "descending": "malejąco",
+      "announcement": {
+        "title": "Tytuł",
+        "lastModificationDate": "Data ostatniej modyfikacji"
+      }
+    }
   },
   "form": {
     "confirm": "Zatwierdź",

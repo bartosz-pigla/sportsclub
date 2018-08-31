@@ -11,11 +11,11 @@ export class PaginationParams {
 export class SortingParams {
 
   constructor(public sortBy: string,
-              public sortOrder: SortingOrder) {
+              public sortOrder: SortOrder) {
   }
 }
 
-export enum SortingOrder {
+export enum SortOrder {
 
   ASC = "ASC",
   DESC = "DESC"
@@ -23,15 +23,9 @@ export enum SortingOrder {
 
 export interface IPageableAndSortableGetService<T> {
 
-  get(paginationParams: PaginationParams): Observable<PageResponse<T>>;
-
-  getSorted(paginationParams: PaginationParams, sortingParams?: SortingParams): Observable<PageResponse<T>>;
+  get(paginationParams: PaginationParams, sortingParams: SortingParams): Observable<PageResponse<T>>;
 }
 
-export function getPaginationUrlParams(paginationParams: PaginationParams) {
-  return `?page=${paginationParams.page}&size=${paginationParams.size}`;
-}
-
-export function getSortingUrlParams(sortingParams: SortingParams) {
-  return `&sort=${sortingParams.sortBy},${sortingParams.sortOrder}`;
+export function getUrlParams(paginationParams: PaginationParams, sortingParams: SortingParams) {
+  return `?page=${paginationParams.page}&size=${paginationParams.size}&sort=${sortingParams.sortBy},${sortingParams.sortOrder}`;
 }

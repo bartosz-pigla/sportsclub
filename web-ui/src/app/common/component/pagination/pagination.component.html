@@ -1,3 +1,11 @@
+<header>
+  <mat-form-field>
+    <mat-select [(value)]="sortField" (valueChange)="foo($event)">
+      <mat-option>None</mat-option>
+      <mat-option *ngFor="let item of sortFields" value="{{item.name}}">{{item.viewValue}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+</header>
 <ng-content></ng-content>
 <footer class="form__footer" *ngIf="page.content.length">
   <button mat-button (click)="previousPage()" [disabled]="!page.hasPrevious()">{{'pagination.previous' | translate}}</button>

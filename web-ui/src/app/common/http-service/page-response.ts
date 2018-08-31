@@ -1,5 +1,5 @@
 export class PageResponse<T> {
-  constructor(public totalElements: number,
+  constructor(public totalPages: number,
               public content: T[]) {
 
   }

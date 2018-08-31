@@ -11,14 +11,13 @@
 
     &--one-column {
       flex-direction: column;
+      width: 100%;
       margin:  50px 200px 0;
     }
   }
 }
 
 .form {
-  width: 300px;
-
   &__header {
     display: flex;
     justify-content: space-around;
@@ -37,10 +36,6 @@
   &__footer {
     display: flex;
     justify-content: space-around;
-  }
-
-  &--wider {
-    width: 1000px;
   }
 }
 

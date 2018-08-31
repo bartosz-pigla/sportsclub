@@ -3,6 +3,10 @@ import {ConnectionErrorDialog} from "./component/connection-error-dialog/connect
 
 export class BaseComponent {
 
+  protected readonly openDefaultErrorDialog = () => {
+    this.openConnectionErrorDialog();
+  };
+
   constructor(private dialog: MatDialog
   ) {
   }
