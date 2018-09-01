@@ -21,12 +21,15 @@ import {MenuItemComponent} from "./common/component/menu/menu-item/menu-item.com
 import {PublicMenuComponent} from "./public/menu/public-menu.component";
 import {SportObjectComponent} from './public/sport-object/sport-object.component';
 import {AnnouncementItemComponent} from './common/component/announcement-item/announcement-item.component';
-import {ConnectionErrorDialog} from './common/component/connection-error-dialog/connection-error-dialog.component';
+import {UndefinedErrorDialog} from './common/dialog/undefined-error/undefined-error.dialog';
 import {DirectorMenuComponent} from './director/director-menu/director-menu.component';
 import {PublicHomeComponent} from "./public/public-home/public-home.component";
 import {DirectorHomeComponent} from "./director/director-home/director-home.component";
 import {NewItemButtonComponent} from './common/component/new-item-button/new-item-button.component';
-import {PaginationComponent} from "./common/component/pagination/pagination.component";
+import {ListViewComponent} from "./common/component/list-view/list-view.component";
+import {AnnouncementFormComponent} from './common/form/announcement-form/announcement-form.component';
+import { DeleteItemComponent } from './common/component/delete-item/delete-item.component';
+import { ConfirmationDialog } from './common/dialog/confirmation/confirmation.dialog';
 
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -54,12 +57,15 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MenuComponent,
     MenuItemComponent,
     SportObjectComponent,
-    PaginationComponent,
+    ListViewComponent,
     AnnouncementItemComponent,
-    ConnectionErrorDialog,
+    UndefinedErrorDialog,
     DirectorMenuComponent,
     DirectorHomeComponent,
     NewItemButtonComponent,
+    AnnouncementFormComponent,
+    DeleteItemComponent,
+    ConfirmationDialog,
   ],
   imports: [
     BrowserModule,
@@ -77,7 +83,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ConnectionErrorDialog, NewItemButtonComponent, PaginationComponent]
+  entryComponents: [UndefinedErrorDialog, NewItemButtonComponent, ListViewComponent, AnnouncementFormComponent, DeleteItemComponent, ConfirmationDialog]
 })
 export class AppModule {
 }

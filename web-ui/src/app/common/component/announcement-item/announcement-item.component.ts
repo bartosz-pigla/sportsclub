@@ -8,9 +8,7 @@ import {Announcement} from "../../http-service/announcement-service";
 })
 export class AnnouncementItemComponent {
 
-  @Input() isReadOnly: boolean;
   @Input() announcement: Announcement;
-  editModeIsEnabled: boolean = false;
 
   constructor() {
   }

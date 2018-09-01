@@ -1,26 +1,34 @@
 {
   "error": {
     "required": "Pole wymagane",
-    "invalid": "Pole wypełnione nieprawidłowo"
+    "invalid": "Pole wypełnione nieprawidłowo",
+    "max-length": "Pole nie może zawierać więcej niż {{length}} znaków"
   },
-  "pagination": {
-    "previous": "Wstecz",
-    "next": "Dalej",
+  "list-view": {
+    "pagination": {
+      "previous": "Wstecz",
+      "next": "Dalej"
+    },
     "sorting": {
-      "ascending": "rosnąco",
-      "descending": "malejąco",
+      "ascending": "Rosnąco",
+      "descending": "Malejąco",
       "announcement": {
         "title": "Tytuł",
         "lastModificationDate": "Data ostatniej modyfikacji"
       }
+    },
+    "title": {
+      "director-announcement": "Zarządzanie ogłoszeniami"
     }
   },
-  "form": {
+  "common": {
     "confirm": "Zatwierdź",
     "add": "Dodaj",
+    "edit": "Edytuj",
     "cancel": "Anuluj",
     "close": "Zamknij",
-    "go-back": "Powrót do poprzedniej strony"
+    "go-back": "Powrót do poprzedniej strony",
+    "delete": "Usuń"
   },
   "menu": {
     "sign-in": "Zaloguj się",
@@ -35,12 +43,19 @@
     "confirm": "Zaloguj się"
   },
   "announcement-form": {
-    "header": "Dodaj nowe ogłoszenie",
+    "create-announcement-header": "Dodaj nowe ogłoszenie",
+    "edit-announcement-header": "Edytuj ogłoszenie",
     "title": "Tytuł",
     "content": "Treść"
   },
-  "connection-error-dialog": {
-    "title": "Błąd",
-    "content": "Wystąpił błąd podcząs pobierania danych z serwera"
+  "dialog": {
+    "undefined-error": {
+      "title": "Błąd",
+      "content": "Wystąpił nieoczekiwany błąd"
+    },
+    "confirmation": {
+      "title": "Potwierdzenie",
+      "content": "Czy na pewno wykonać tę operację?"
+    }
   }
 }

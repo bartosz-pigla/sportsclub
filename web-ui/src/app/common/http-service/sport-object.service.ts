@@ -1,6 +1,10 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
+import {getUrlParams, PaginationParams, SortingParams} from "./http-service.service";
+import {Observable} from "rxjs";
+import {PageResponse} from "./page-response";
+import {Announcement} from "./announcement-service";
 
 export class Address {
   constructor(public street: string,
@@ -23,18 +27,13 @@ export class SportObject {
 @Injectable()
 export class SportObjectService {
 
+  private readonly sportObjectPublicApi: string =
+    `${environment.apiUrl}/public-api/sportsclub/${environment.sportsclubId}/sport-object`;
+
   constructor(private http: HttpClient) {
   }
 
-  get(success: (objects: SportObject[]) => void, fail: () => void) {
-    let url = `${environment.apiUrl}/public-api/sportsclub/${environment.sportsclubId}/sport-object`;
-
-    this.http.get<SportObject[]>(url).subscribe(
-      (data: SportObject[]) => {
-        success(data);
-      },
-      () => {
-        fail();
-      });
+  get(): Observable<SportObject[]> {
+    return this.http.get<SportObject[]>(this.sportObjectPublicApi);
   }
 }

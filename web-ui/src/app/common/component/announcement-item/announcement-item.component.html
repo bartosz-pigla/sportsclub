@@ -1,10 +1,15 @@
 <div class="card">
-  <header>
-    <h2 class="announcement-item__title header__h2">{{announcement.title}}</h2>
-    <h2 class="announcement-item__modification-date header__h2">{{announcement.title}}</h2>
+  <header class="announcement-item__header">
+    <h2 class="announcement-item__title header__h4">{{announcement.title}}</h2>
+
+    <h2 class="announcement-item__modification-date header__h4">
+      {{announcement.lastModificationDate | date: 'yyyy-MM-dd HH:MM'}}
+    </h2>
   </header>
 
   <section>{{announcement.content}}</section>
 
-
+  <footer>
+    <ng-content></ng-content>
+  </footer>
 </div>

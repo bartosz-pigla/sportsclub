@@ -25,7 +25,8 @@ public final class AnnouncementQueryExpressions {
 
     public static BooleanExpression sportsclubIdMatches(UUID id) {
         return Optional.ofNullable(id)
-                .map(i -> BaseEntityQueryExpressions.idMatches(i, announcement.sportsclub._super))
+                .map(i -> isNotDeleted(announcement._super)
+                        .and(BaseEntityQueryExpressions.idMatches(i, announcement.sportsclub._super)))
                 .orElse(announcement.isNull());
     }
 }

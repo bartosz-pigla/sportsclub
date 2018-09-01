@@ -14,6 +14,8 @@ import lombok.Data;
 @Data
 public abstract class BaseEntity {
 
+    public static final int LONG_STRONG_MAX_LENGTH = 3000;
+
     @Id
     protected UUID id = UUID.randomUUID();
     private boolean deleted;

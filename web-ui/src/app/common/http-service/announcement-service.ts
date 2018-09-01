@@ -4,9 +4,7 @@ import {environment} from "../../../environments/environment";
 import {PageResponse} from "./page-response";
 import {Observable} from "rxjs";
 import {
-  getPaginationUrlParams,
-  getSortingUrlParams,
-  getUrlParams,
+  getUrlParams, IDeletableService,
   IPageableAndSortableGetService,
   PaginationParams,
   SortingParams
@@ -21,10 +19,16 @@ export class Announcement {
 }
 
 @Injectable()
-export class AnnouncementService implements IPageableAndSortableGetService<Announcement> {
+export class AnnouncementService implements IPageableAndSortableGetService<Announcement>, IDeletableService<Announcement> {
 
-  private readonly announcementPublicApi: string = `${environment.apiUrl}/public-api/sportsclub/${environment.sportsclubId}/announcement`;
-  private readonly announcementDirectorApi: string = `${environment.apiUrl}/director-api/sportsclub/${environment.sportsclubId}/announcement`;
+  private readonly announcementPublicApi: string =
+    `${environment.apiUrl}/public-api/sportsclub/${environment.sportsclubId}/announcement`;
+
+  private readonly announcementDirectorApi: string =
+    `${environment.apiUrl}/director-api/sportsclub/${environment.sportsclubId}/announcement`;
+
+  private readonly announcementByIdDirectorApi: string =
+    `${environment.apiUrl}/director-api/sportsclub/${environment.sportsclubId}/announcement`;
 
   constructor(private http: HttpClient) {
   }
@@ -34,7 +38,14 @@ export class AnnouncementService implements IPageableAndSortableGetService<Annou
   }
 
   post(announcement: Announcement): Observable<Announcement> {
-    console.log(this.announcementDirectorApi);
     return this.http.post<Announcement>(this.announcementDirectorApi, announcement);
+  }
+
+  put(id: string, announcement: Announcement): Observable<void> {
+    return this.http.put<void>(`${this.announcementByIdDirectorApi}/${id}`, announcement);
+  }
+
+  delete(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.announcementByIdDirectorApi}/${id}`);
   }
 }

@@ -1,0 +1,19 @@
+.list-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+
+  &__sorting-fields {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__sort-by {
+    margin-right: 35px;
+  }
+
+  &__sort-order {
+    width: 120px;
+  }
+}

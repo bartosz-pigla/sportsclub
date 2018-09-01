@@ -1,0 +1,30 @@
+<header class="list-view-header">
+  <h1 class="header__h1 list-view-header__title">{{title}}</h1>
+
+  <div class="list-view-header__sorting-fields">
+    <mat-form-field class="list-view-header__sort-by">
+      <mat-select [(value)]="listModel.sortingParams.sortBy" (valueChange)="refreshPage()">
+        <mat-option *ngFor="let item of sortFields" value="{{item.name}}">{{item.viewValue}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="list-view-header__sort-order">
+      <mat-select [(value)]="listModel.sortingParams.sortOrder" (valueChange)="refreshPage()">
+        <mat-option value="ASC">{{'list-view.sorting.ascending' | translate}}</mat-option>
+        <mat-option value="DESC">{{'list-view.sorting.descending' | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</header>
+
+<ng-content></ng-content>
+
+<footer class="form__footer" *ngIf="listModel.content.length">
+  <button mat-button (click)="previousPage()" [disabled]="!listModel.hasPrevious()">
+    {{'list-view.pagination.previous' | translate}}
+  </button>
+
+  <button mat-button (click)="nextPage()" [disabled]="!listModel.hasNext()">
+    {{'list-view.pagination.next' | translate}}
+  </button>
+</footer>

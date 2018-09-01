@@ -1,39 +1,34 @@
 <div class="page-layout__content page-layout__content--one-column">
+  <announcement-form
+    *ngIf="createAnnouncementFormIsVisible"
+    (announcementSubmitted)="hideCreateAnnouncementForm()"
+    (canceled)="hideCreateAnnouncementForm()">
+  </announcement-form>
 
-  <form class="form card" *ngIf="!isReadOnly && announcementFormIsVisible" mat-dialog-content [formGroup]="announcementForm" novalidate>
-    <header class="form__header">
-      <label class="header__h2">{{ 'announcement-form.header' | translate }}</label>
-    </header>
-
-    <div class="form__body">
-      <mat-form-field class="form__field">
-        <input formControlName="title" matInput placeholder="{{ 'announcement-form.title' | translate }}">
-        <mat-error *ngIf="controls.title.errors?.required">{{ 'error.required' | translate }}</mat-error>
-      </mat-form-field>
-
-      <mat-form-field class="form__field">
-        <textarea formControlName="content" matInput placeholder="{{ 'announcement-form.content' | translate }}" rows="10"></textarea>
-        <mat-error *ngIf="controls.content.errors?.required">{{ 'error.required' | translate }}</mat-error>
-      </mat-form-field>
-    </div>
-
-    <footer class="form__footer">
-      <button mat-button (click)="hideAnnouncementForm()">{{ 'form.cancel' | translate }}</button>
-
-      <button type="submit" mat-button color="primary" [disabled]="announcementForm.invalid" (click)="addAnnouncement();">
-        {{ 'form.add' | translate }}
-      </button>
-    </footer>
-  </form>
-
-  <pagination
+  <list-view
+    title="{{'list-view.title.director-announcement' | translate}}"
     [pageSize]="pageSize"
     [service]="announcementService"
     [sortFields]="sortFields"
     [defaultSort]="defaultSort"
     (pageChange)="initAnnouncements($event)">
-    <announcement-item *ngFor="let item of announcements" [announcement]="item" [isReadOnly]="false"></announcement-item>
-  </pagination>
+
+    <ng-container *ngFor="let item of announcements">
+      <announcement-form
+        *ngIf="item === announcementToEdit"
+        [initialAnnouncement]="announcementToEdit"
+        (announcementSubmitted)="hideEditAnnouncementForm()"
+        (canceled)="announcementToEdit = null">
+      </announcement-form>
+
+      <announcement-item *ngIf="item !== announcementToEdit" [announcement]="item">
+        <div class="item-management-bar">
+          <button mat-button color="primary" (click)="showEditForm(item)">{{ 'common.edit' | translate }}</button>
+          <delete-item [id]="item.id" [service]="announcementService" (deleted)="refreshPage()"></delete-item>
+        </div>
+      </announcement-item>
+    </ng-container>
+  </list-view>
 </div>
 
-<new-item-button (buttonClick)="showAnnouncementForm()"></new-item-button>
+<new-item-button (buttonClick)="showCreateAnnouncementForm()"></new-item-button>

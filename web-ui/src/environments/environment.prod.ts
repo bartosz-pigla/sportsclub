@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   apiUrl: 'http://localhost:8080/',
-  sportsclubId: '41caa8cf-78ad-48ae-bfce-317d4ebff2fb'
+  sportsclubId: '08c3f344-d241-411d-85ee-5a7eb7d720c9'
 };

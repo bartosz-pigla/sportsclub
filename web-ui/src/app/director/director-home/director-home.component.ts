@@ -1,12 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Announcement, AnnouncementService} from "../../common/http-service/announcement-service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PaginationComponent} from "../../common/component/pagination/pagination.component";
-import {BaseComponent} from "../../common/base.component";
-import {MatDialog} from "@angular/material";
+import {ListViewComponent} from "../../common/component/list-view/list-view.component";
 import {TranslateService} from "@ngx-translate/core";
-import {DefaultSort, SortField} from "../../common/component/pagination/listViewModel";
-import {SortOrder} from "../../common/http-service/http-service.service";
+import {SortField} from "../../common/component/list-view/list-view.model";
+import {SortingParams, SortOrder} from "../../common/http-service/http-service.service";
 
 @Component({
   selector: 'director-home',
@@ -14,44 +11,31 @@ import {SortOrder} from "../../common/http-service/http-service.service";
   styleUrls: ['./director-home.component.scss'],
   providers: [AnnouncementService],
 })
-export class DirectorHomeComponent extends BaseComponent implements OnInit {
+export class DirectorHomeComponent implements OnInit {
 
-  readonly pageSize: number = 10;
+  pageSize: number;
   announcements: Announcement[];
-  announcementForm: FormGroup;
-  announcementFormIsVisible: boolean;
+  createAnnouncementFormIsVisible: boolean;
   sortFields: SortField[];
-  readonly defaultSort = new DefaultSort('lastModificationDate', SortOrder.DESC);
+  defaultSort: SortingParams;
+  announcementToEdit: Announcement;
 
-  @ViewChild(PaginationComponent)
-  private paginationComponent: PaginationComponent<Announcement>;
+  @ViewChild(ListViewComponent)
+  private paginationComponent: ListViewComponent<Announcement>;
 
   constructor(
     public announcementService: AnnouncementService,
-    private translate: TranslateService,
-    private formBuilder: FormBuilder,
-    dialog: MatDialog) {
-    super(dialog);
+    private translate: TranslateService) {
   }
 
   ngOnInit(): void {
-    this.initAnnouncementForm();
     this.initSortFields();
-  }
-
-  get controls() {
-    return this.announcementForm.controls;
-  }
-
-  initAnnouncementForm() {
-    this.announcementForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      content: ['', Validators.required]
-    });
+    this.pageSize = 10;
+    this.defaultSort = new SortingParams('lastModificationDate', SortOrder.DESC);
   }
 
   initSortFields() {
-    let key = "pagination.sorting.announcement";
+    let key = "list-view.sorting.announcement";
 
     this.translate.get([key]).subscribe((res: any) => {
       let value = res[key];
@@ -62,29 +46,30 @@ export class DirectorHomeComponent extends BaseComponent implements OnInit {
     });
   }
 
-  showAnnouncementForm() {
-    this.announcementFormIsVisible = true;
+  showCreateAnnouncementForm() {
+    this.createAnnouncementFormIsVisible = true;
     window.scrollTo(0, 0);
   }
 
-  hideAnnouncementForm() {
-    this.announcementFormIsVisible = false;
-    this.announcementForm.reset();
+  hideCreateAnnouncementForm() {
+    this.createAnnouncementFormIsVisible = false;
+    this.refreshPage();
   }
 
-  initAnnouncements(page) {
-    this.announcements = page.content;
+  refreshPage() {
+    this.paginationComponent.refreshPage();
   }
 
-  addAnnouncement() {
-    this.announcementService.post(this.announcementForm.value).subscribe(
-      (announcement) => {
-        this.hideAnnouncementForm();
-        this.paginationComponent.refreshPage();
-      },
-      (errorResponse) => {
-        this.openConnectionErrorDialog();
-      }
-    );
+  initAnnouncements(announcements) {
+    this.announcements = announcements;
+  }
+
+  showEditForm(announcement) {
+    this.announcementToEdit = announcement;
+  }
+
+  hideEditAnnouncementForm() {
+    this.announcementToEdit = null;
+    this.paginationComponent.refreshPage();
   }
 }

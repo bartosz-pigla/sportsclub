@@ -1,4 +1,8 @@
 .announcement-item {
+  &__header {
+    display: flex;
+  }
+
   &__title {
 
   }
