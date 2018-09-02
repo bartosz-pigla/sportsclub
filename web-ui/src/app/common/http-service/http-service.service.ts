@@ -1,5 +1,6 @@
 import {Observable} from "rxjs";
 import {PageResponse} from "./page-response";
+import {HttpParams} from "@angular/common/http";
 
 export class PaginationParams {
 
@@ -23,7 +24,7 @@ export enum SortOrder {
 
 export interface IPageableAndSortableGetService<T> {
 
-  get(paginationParams: PaginationParams, sortingParams: SortingParams): Observable<PageResponse<T>>;
+  get(paginationParams: PaginationParams, sortingParams: SortingParams, searchParams: T): Observable<PageResponse<T>>;
 }
 
 export interface IDeletableService<T> {
@@ -31,6 +32,12 @@ export interface IDeletableService<T> {
   delete(id: string): Observable<void>;
 }
 
-export function getUrlParams(paginationParams: PaginationParams, sortingParams: SortingParams) {
-  return `?page=${paginationParams.page}&size=${paginationParams.size}&sort=${sortingParams.sortBy},${sortingParams.sortOrder}`;
+export function getPaginationUrlParams(params: HttpParams, paginationParams: PaginationParams) {
+  return params
+    .set('page', String(paginationParams.page))
+    .set('size', String(paginationParams.size));
+}
+
+export function getSortingUrlParams(params: HttpParams, sortingParams: SortingParams) {
+  return params.set('sort', `${sortingParams.sortBy},${sortingParams.sortOrder}`);
 }

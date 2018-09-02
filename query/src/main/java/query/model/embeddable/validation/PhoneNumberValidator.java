@@ -24,13 +24,9 @@ public class PhoneNumberValidator {
         } else {
             if (phoneNumber.length() != PHONE_NUMBER_MAX_LENGTH) {
                 errors.rejectValue("phoneNumber", ErrorCode.MAX_LENGTH.getCode());
-            }
-
-            if (areaCodeIsInvalid(phoneNumber)) {
+            } else if (areaCodeIsInvalid(phoneNumber)) {
                 errors.rejectValue("phoneNumber", ErrorCode.INVALID.getCodeWithPrefix("areaCode"));
-            }
-
-            if (lineNumberIsInvalid(phoneNumber)) {
+            } else if (lineNumberIsInvalid(phoneNumber)) {
                 errors.rejectValue("phoneNumber", ErrorCode.INVALID.getCodeWithPrefix("lineNumber"));
             }
         }

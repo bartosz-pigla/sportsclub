@@ -40,8 +40,8 @@ export class DirectorHomeComponent implements OnInit {
     this.translate.get([key]).subscribe((res: any) => {
       let value = res[key];
       this.sortFields = [
-        {name: 'title', viewValue: value.title},
-        {name: 'lastModificationDate', viewValue: value.lastModificationDate}
+        {name: 'title', viewValue: value['title']},
+        {name: 'lastModificationDate', viewValue: value['lastModificationDate']}
       ];
     });
   }
@@ -71,5 +71,10 @@ export class DirectorHomeComponent implements OnInit {
   hideEditAnnouncementForm() {
     this.announcementToEdit = null;
     this.paginationComponent.refreshPage();
+  }
+
+  foo() {
+    console.log('foo');
+    this.pageSize = 1;
   }
 }

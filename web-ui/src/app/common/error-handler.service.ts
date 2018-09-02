@@ -3,7 +3,6 @@ import {MatDialog} from "@angular/material";
 import {TranslateService} from "@ngx-translate/core";
 import {HttpErrorResponse} from "@angular/common/http";
 import {UndefinedErrorDialog} from "./dialog/undefined-error/undefined-error.dialog";
-import {e} from "@angular/core/src/render3";
 
 @Injectable({
   providedIn: 'root',

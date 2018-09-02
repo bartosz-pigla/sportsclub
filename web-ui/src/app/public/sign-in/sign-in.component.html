@@ -1,18 +1,18 @@
-<form class="form card" mat-dialog-content [formGroup]="signInForm" novalidate>
+<form class="form card" [formGroup]="signInForm" novalidate>
   <header class="form__header">
-    <label class="header__h2">{{ 'sign-in.header' | translate }}</label>
+    <label class="header__h2">{{ 'signIn.header' | translate }}</label>
   </header>
 
   <div class="form__body">
-    <mat-error *ngIf="signInFailed">{{ 'sign-in.not-exists' | translate }}</mat-error>
+    <mat-error *ngIf="signInFailed">{{ 'signIn.notExists' | translate }}</mat-error>
 
     <mat-form-field class="form__field">
-      <input formControlName="username" matInput placeholder="{{ 'sign-in.username' | translate }}">
+      <input formControlName="username" matInput placeholder="{{ 'signIn.username' | translate }}">
       <mat-error *ngIf="controls.username.errors?.required">{{ 'error.required' | translate }}</mat-error>
     </mat-form-field>
 
     <mat-form-field class="form__field">
-      <input type="password" formControlName="password" matInput placeholder="{{ 'sign-in.password' | translate }}">
+      <input type="password" formControlName="password" matInput placeholder="{{ 'signIn.password' | translate }}">
       <mat-error *ngIf="controls.password.errors?.required">{{ 'error.required' | translate }}</mat-error>
     </mat-form-field>
   </div>
@@ -21,7 +21,7 @@
     <button mat-button (click)="goToPreviousPage()">{{ 'common.cancel' | translate }}</button>
 
     <button type="submit" mat-button color="primary" [disabled]="signInForm.invalid" (click)="onSubmit()">
-      {{ 'sign-in.confirm' | translate }}
+      {{ 'signIn.confirm' | translate }}
     </button>
   </footer>
 </form>

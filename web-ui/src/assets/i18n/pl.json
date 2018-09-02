@@ -2,9 +2,37 @@
   "error": {
     "required": "Pole wymagane",
     "invalid": "Pole wypełnione nieprawidłowo",
-    "max-length": "Pole nie może zawierać więcej niż {{length}} znaków"
+    "maxLength": "Pole nie może zawierać więcej niż {{length}} znaków",
+    "email": "Pole musi być poprawnym adresem e-mail"
   },
-  "list-view": {
+  "backendError": {
+    "username": {
+      "empty": "Pole wymagane",
+      "alreadyExists": "Użytkownik o podaje nazwie już istnieje. Proszę podać inną nazwę użytkownika",
+      "notExists": "Proszę powtórzyć operację dodawania użytkownika"
+    },
+    "userId": {
+      "alreadyActivated": "Użytkownik został już aktywowany",
+      "alreadyDeactivated": "Użytkownik został już zdezaktywowany",
+      "alreadyDeleted": "Użytkownik został już usunięty",
+      "notExists": "Podany użytkownik nie istnieje"
+    },
+    "email": {
+      "empty": "Pole wymagane",
+      "invalid": "Pole wypełnione nieprawidłowo"
+    },
+    "phoneNumber": {
+      "empty": "Pole wymagane",
+      "maxLength": "Numer telefonu ma za dużo cyfr",
+      "areaCode": {
+        "invalid": "Nieprawidłowy numer kierunkowy"
+      },
+      "lineNumber": {
+        "invalid": "Nieprawidłowy numer telfonu"
+      }
+    }
+  },
+  "listView": {
     "pagination": {
       "previous": "Wstecz",
       "next": "Dalej"
@@ -15,10 +43,16 @@
       "announcement": {
         "title": "Tytuł",
         "lastModificationDate": "Data ostatniej modyfikacji"
+      },
+      "user": {
+        "username": "Nazwa użytkownika",
+        "email": "Adres e-mail",
+        "userType": "Typ użytkownika"
       }
     },
     "title": {
-      "director-announcement": "Zarządzanie ogłoszeniami"
+      "announcementManagement": "Zarządzanie ogłoszeniami",
+      "userManagement": "Zarządzanie użytkownikami"
     }
   },
   "common": {
@@ -27,29 +61,40 @@
     "edit": "Edytuj",
     "cancel": "Anuluj",
     "close": "Zamknij",
-    "go-back": "Powrót do poprzedniej strony",
     "delete": "Usuń"
   },
   "menu": {
-    "sign-in": "Zaloguj się",
-    "sign-out": "Wyloguj się",
-    "sign-up": "Zarejestruj się"
+    "signIn": "Zaloguj się",
+    "signOut": "Wyloguj się",
+    "signUp": "Zarejestruj się",
+    "home": "Strona główna",
+    "director": {
+      "userManagement": "Użytkownicy"
+    }
   },
-  "sign-in": {
+  "signIn": {
     "header": "Logowanie",
     "username": "Nazwa użytkownika",
     "password": "Hasło",
-    "not-exists": "Nieprawidłowa nazwa użytkownika lub hasło",
+    "notExists": "Nieprawidłowa nazwa użytkownika lub hasło",
     "confirm": "Zaloguj się"
   },
-  "announcement-form": {
-    "create-announcement-header": "Dodaj nowe ogłoszenie",
-    "edit-announcement-header": "Edytuj ogłoszenie",
+  "announcementForm": {
+    "createAnnouncementHeader": "Dodaj nowe ogłoszenie",
+    "editAnnouncementHeader": "Edytuj ogłoszenie",
     "title": "Tytuł",
     "content": "Treść"
   },
+  "userForm": {
+    "createUserHeader": "Dodaj nowego użytkownika",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "userType": "Typ użytkownika",
+    "email": "Adres e-mail",
+    "phoneNumber": "Numer telefonu"
+  },
   "dialog": {
-    "undefined-error": {
+    "undefinedError": {
       "title": "Błąd",
       "content": "Wystąpił nieoczekiwany błąd"
     },
@@ -57,5 +102,10 @@
       "title": "Potwierdzenie",
       "content": "Czy na pewno wykonać tę operację?"
     }
+  },
+  "userType": {
+    "customer": "Klient",
+    "receptionist": "Recepcjonista",
+    "director": "Dyrektor"
   }
 }

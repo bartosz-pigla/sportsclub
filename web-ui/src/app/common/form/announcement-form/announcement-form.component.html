@@ -1,27 +1,27 @@
-<form class="form card" mat-dialog-content [formGroup]="announcementForm" novalidate>
+<form class="form card" [formGroup]="announcementForm" novalidate>
   <header class="form__header">
     <label class="header__h2">
       <ng-container *ngIf="isEditForm()">
-        {{ 'announcement-form.edit-announcement-header' | translate }}
+        {{ 'announcementForm.editAnnouncementHeader' | translate }}
       </ng-container>
 
       <ng-container *ngIf="!isEditForm()">
-        {{ 'announcement-form.create-announcement-header' | translate }}
+        {{ 'announcementForm.createAnnouncementHeader' | translate }}
       </ng-container>
     </label>
   </header>
 
   <div class="form__body">
     <mat-form-field class="form__field">
-      <input formControlName="title" matInput placeholder="{{ 'announcement-form.title' | translate }}">
+      <input formControlName="title" matInput placeholder="{{ 'announcementForm.title' | translate }}">
       <mat-error *ngIf="controls.title.errors?.required">{{ 'error.required' | translate }}</mat-error>
     </mat-form-field>
 
     <mat-form-field class="form__field">
-      <textarea formControlName="content" matInput placeholder="{{ 'announcement-form.content' | translate }}" rows="10"></textarea>
+      <textarea formControlName="content" matInput placeholder="{{ 'announcementForm.content' | translate }}" rows="10"></textarea>
       <mat-error *ngIf="controls.content.errors?.required">{{ 'error.required' | translate }}</mat-error>
       <mat-error *ngIf="controls.content.errors?.maxlength">
-        {{ 'error.max-length' | translate:{'length': maxContentLength} }}
+        {{ 'error.maxLength' | translate:{'length': maxContentLength} }}
       </mat-error>
     </mat-form-field>
   </div>
@@ -30,13 +30,13 @@
     <button mat-button (click)="cancel()">{{ 'common.cancel' | translate }}</button>
 
     <ng-container *ngIf="isEditForm()">
-      <button type="submit" mat-button color="primary" [disabled]="announcementForm.invalid" (click)="editAnnouncement();">
+      <button type="submit" mat-button color="primary" [disabled]="announcementForm.invalid" (click)="editAnnouncement()">
         {{ 'common.edit' | translate }}
       </button>
     </ng-container>
 
     <ng-container *ngIf="!isEditForm()">
-      <button type="submit" mat-button color="primary" [disabled]="announcementForm.invalid" (click)="addAnnouncement();">
+      <button type="submit" mat-button color="primary" [disabled]="announcementForm.invalid" (click)="createAnnouncement()">
         {{ 'common.add' | translate }}
       </button>
     </ng-container>

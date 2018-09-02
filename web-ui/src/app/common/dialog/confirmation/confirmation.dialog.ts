@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 import {MatDialogRef} from "@angular/material";
 
 @Component({
@@ -7,7 +7,6 @@ import {MatDialogRef} from "@angular/material";
   styleUrls: ['../dialog.scss']
 })
 export class ConfirmationDialog {
-
 
   constructor(public dialogRef: MatDialogRef<ConfirmationDialog>) {
   }

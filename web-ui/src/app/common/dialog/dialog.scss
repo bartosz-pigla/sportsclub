@@ -6,6 +6,11 @@
   }
 
   &__action {
-    @include center();
+    display: flex;
+    justify-content: space-between;
+
+    &--centered {
+      @include center();
+    }
   }
 }

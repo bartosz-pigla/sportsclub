@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material";
-import {IPageableAndSortableGetService, SortingParams, SortOrder} from "../../http-service/http-service.service";
+import {IPageableAndSortableGetService, SortingParams} from "../../http-service/http-service.service";
 import {ListViewModel, SortField} from "./list-view.model";
 import {ErrorHandlerService} from "../../error-handler.service";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -18,7 +18,7 @@ export class ListViewComponent<T> implements OnInit {
   @Input() private readonly service: IPageableAndSortableGetService<T>;
   @Input() readonly sortFields: SortField[];
   @Input() defaultSort: SortingParams;
-
+  @Input() searchParams: T;
   @Output() pageChange: EventEmitter<T[]> = new EventEmitter<T[]>();
 
   listModel: ListViewModel<T>;
@@ -37,7 +37,7 @@ export class ListViewComponent<T> implements OnInit {
   }
 
   ngOnInit() {
-    this.listModel = ListViewModel.createEmpty(this.pageSize, this.defaultSort);
+    this.listModel = ListViewModel.createEmpty(this.pageSize, this.defaultSort, this.searchParams);
     this.refreshPage();
   }
 

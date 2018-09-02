@@ -1,10 +1,11 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {PageResponse} from "./page-response";
 import {Observable} from "rxjs";
 import {
-  getUrlParams, IDeletableService,
+  getPaginationUrlParams, getSortingUrlParams,
+  IDeletableService,
   IPageableAndSortableGetService,
   PaginationParams,
   SortingParams
@@ -33,8 +34,14 @@ export class AnnouncementService implements IPageableAndSortableGetService<Annou
   constructor(private http: HttpClient) {
   }
 
-  get(paginationParams: PaginationParams, sortingParams: SortingParams): Observable<PageResponse<Announcement>> {
-    return this.http.get<PageResponse<Announcement>>(this.announcementPublicApi + getUrlParams(paginationParams, sortingParams));
+  get(paginationParams: PaginationParams,
+      sortingParams: SortingParams,
+      searchParams: Announcement): Observable<PageResponse<Announcement>> {
+    let urlParams = new HttpParams();
+    urlParams = getPaginationUrlParams(urlParams, paginationParams);
+    urlParams = getSortingUrlParams(urlParams, sortingParams);
+
+    return this.http.get<PageResponse<Announcement>>(this.announcementPublicApi, {params: urlParams});
   }
 
   post(announcement: Announcement): Observable<Announcement> {

@@ -1,0 +1,31 @@
+<div class="page-layout__content page-layout__content--one-column">
+  <user-form
+    *ngIf="userFormIsVisible"
+    (userSubmitted)="hideUserForm()"
+    (canceled)="hideUserForm()">
+  </user-form>
+
+  <list-view
+    title="{{'listView.title.userManagement' | translate}}"
+    [pageSize]="pageSize"
+    [service]="userService"
+    [sortFields]="sortFields"
+    [defaultSort]="defaultSort"
+    [searchParams]="searchParams"
+    (pageChange)="initUsers($event)">
+
+    <div class="card" *ngFor="let item of users">
+      <header>
+        <h2 class="header__h4">{{item.username}}</h2>
+      </header>
+
+      <footer>
+        <div class="item-management-bar">
+          <delete-item [id]="item.id" [service]="userService" (deleted)="refreshPage()"></delete-item>
+        </div>
+      </footer>
+    </div>
+  </list-view>
+</div>
+
+<new-item-button (buttonClick)="showUserForm()"></new-item-button>

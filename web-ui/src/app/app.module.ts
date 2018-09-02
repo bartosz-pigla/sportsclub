@@ -28,8 +28,11 @@ import {DirectorHomeComponent} from "./director/director-home/director-home.comp
 import {NewItemButtonComponent} from './common/component/new-item-button/new-item-button.component';
 import {ListViewComponent} from "./common/component/list-view/list-view.component";
 import {AnnouncementFormComponent} from './common/form/announcement-form/announcement-form.component';
-import { DeleteItemComponent } from './common/component/delete-item/delete-item.component';
-import { ConfirmationDialog } from './common/dialog/confirmation/confirmation.dialog';
+import {DeleteItemComponent} from './common/component/delete-item/delete-item.component';
+import {ConfirmationDialog} from './common/dialog/confirmation/confirmation.dialog';
+import {UserManagementComponent} from './director/user-management/user-management.component';
+import { UserFormComponent } from './common/form/user-form/user-form.component';
+import { BackendErrorsComponent } from './common/form/backend-errors/backend-errors.component';
 
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -66,6 +69,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AnnouncementFormComponent,
     DeleteItemComponent,
     ConfirmationDialog,
+    UserManagementComponent,
+    UserFormComponent,
+    BackendErrorsComponent,
   ],
   imports: [
     BrowserModule,
@@ -83,7 +89,13 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     }),
   ],
   bootstrap: [AppComponent],
-  entryComponents: [UndefinedErrorDialog, NewItemButtonComponent, ListViewComponent, AnnouncementFormComponent, DeleteItemComponent, ConfirmationDialog]
+  entryComponents: [
+    UndefinedErrorDialog,
+    NewItemButtonComponent,
+    ListViewComponent,
+    AnnouncementFormComponent,
+    DeleteItemComponent,
+    ConfirmationDialog]
 })
 export class AppModule {
 }

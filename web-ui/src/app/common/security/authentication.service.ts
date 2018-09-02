@@ -20,7 +20,7 @@ export class AuthenticationService {
   }
 
   signIn(username, password, success: () => void, fail: () => void) {
-    if(this.isSignedIn()) {
+    if (this.isSignedIn()) {
       this.signOut();
     }
 

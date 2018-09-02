@@ -1,9 +1,4 @@
-import {
-  IPageableAndSortableGetService,
-  PaginationParams,
-  SortingParams,
-  SortOrder
-} from "../../http-service/http-service.service";
+import {IPageableAndSortableGetService, PaginationParams, SortingParams} from "../../http-service/http-service.service";
 import {Observable} from "rxjs";
 import {PageResponse} from "../../http-service/page-response";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -19,21 +14,27 @@ export class ListViewModel<T> {
   constructor(public paginationParams: PaginationParams,
               public sortingParams: SortingParams,
               public totalPages: number,
-              public content: T[]) {
+              public content: T[],
+              public searchParams: T) {
   }
 
-  static createEmpty<T>(pageSize: number, sortingParams: SortingParams): ListViewModel<T> {
+  static createEmpty<T>(pageSize: number, sortingParams: SortingParams, searchParams: T): ListViewModel<T> {
     return new ListViewModel<T>(
       new PaginationParams(0, pageSize),
       new SortingParams(sortingParams.sortBy, sortingParams.sortOrder),
       1,
-      []);
+      [],
+      searchParams);
   }
 
   refresh(service: IPageableAndSortableGetService<T>,
           success: () => void,
           error: (response: HttpErrorResponse) => void) {
-    this.loadPage(this.paginationParams.page, service.get(this.paginationParams, this.sortingParams), success, error);
+    this.loadPage(
+      this.paginationParams.page,
+      service.get(this.paginationParams, this.sortingParams, this.searchParams),
+      success,
+      error);
   }
 
   hasPrevious() {
@@ -47,14 +48,24 @@ export class ListViewModel<T> {
   previous(service: IPageableAndSortableGetService<T>, success: () => void, error: (response: HttpErrorResponse) => void) {
     if (this.hasPrevious()) {
       this.paginationParams.page--;
-      this.loadPage(this.paginationParams.page, service.get(this.paginationParams, this.sortingParams), success, error);
+
+      this.loadPage(
+        this.paginationParams.page,
+        service.get(this.paginationParams, this.sortingParams, this.searchParams),
+        success,
+        error);
     }
   }
 
   next(service: IPageableAndSortableGetService<T>, success: () => void, error: (response: HttpErrorResponse) => void) {
     if (this.hasNext()) {
       this.paginationParams.page++;
-      this.loadPage(this.paginationParams.page, service.get(this.paginationParams, this.sortingParams), success, error);
+
+      this.loadPage(
+        this.paginationParams.page,
+        service.get(this.paginationParams, this.sortingParams, this.searchParams),
+        success,
+        error);
     }
   }
 

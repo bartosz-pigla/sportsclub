@@ -1,0 +1,56 @@
+<form class="form card" [formGroup]="userForm" novalidate>
+  <header class="form__header">
+    <label class="header__h2">{{ 'userForm.createUserHeader' | translate }}</label>
+  </header>
+
+  <backend-errors fieldName="userId" [errors]="backendErrors"></backend-errors>
+
+  <div class="form__body">
+    <mat-form-field class="form__field">
+      <input formControlName="username" matInput placeholder="{{ 'userForm.username' | translate }}">
+      <mat-error *ngIf="controls.username.errors?.required">{{ 'error.required' | translate }}</mat-error>
+
+      <backend-errors fieldName="username" [errors]="backendErrors"></backend-errors>
+    </mat-form-field>
+
+    <mat-form-field class="form__field">
+      <input type="password" formControlName="password" matInput placeholder="{{ 'userForm.password' | translate }}">
+      <mat-error *ngIf="controls.password.errors?.required">{{ 'error.required' | translate }}</mat-error>
+
+      <backend-errors fieldName="password" [errors]="backendErrors"></backend-errors>
+    </mat-form-field>
+
+    <mat-form-field class="form__field">
+      <mat-select formControlName="userType" placeholder="{{'userForm.userType' | translate}}">
+        <mat-option value="CUSTOMER">{{'userType.customer' | translate}}</mat-option>
+        <mat-option value="RECEPTIONIST">{{'userType.receptionist' | translate}}</mat-option>
+        <mat-option value="DIRECTOR">{{'userType.director' | translate}}</mat-option>
+      </mat-select>
+
+      <backend-errors fieldName="userType" [errors]="backendErrors"></backend-errors>
+    </mat-form-field>
+
+    <mat-form-field class="form__field">
+      <input type="email" formControlName="email" matInput placeholder="{{ 'userForm.email' | translate }}">
+      <mat-error *ngIf="controls.email.errors?.required">{{ 'error.required' | translate }}</mat-error>
+      <mat-error *ngIf="controls.email.errors?.email">{{ 'error.email' | translate }}</mat-error>
+
+      <backend-errors fieldName="email" [errors]="backendErrors"></backend-errors>
+    </mat-form-field>
+
+    <mat-form-field class="form__field">
+      <input formControlName="phoneNumber" matInput placeholder="{{ 'userForm.phoneNumber' | translate }}">
+      <mat-error *ngIf="controls.phoneNumber.errors?.required">{{ 'error.required' | translate }}</mat-error>
+
+      <backend-errors fieldName="phoneNumber" [errors]="backendErrors"></backend-errors>
+    </mat-form-field>
+  </div>
+
+  <footer class="form__footer">
+    <button mat-button (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+
+    <button type="submit" mat-button color="primary" [disabled]="isInvalid()" (click)="createUser()">
+      {{ 'common.add' | translate }}
+    </button>
+  </footer>
+</form>

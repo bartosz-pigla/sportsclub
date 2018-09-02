@@ -1,13 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'director-menu',
-  templateUrl: './director-menu.component.html',
-  styleUrls: ['./director-menu.component.scss']
+  templateUrl: './director-menu.component.html'
 })
 export class DirectorMenuComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

@@ -31,7 +31,7 @@ export class AnnouncementFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private errorHandlerService: ErrorHandlerService
-    ) {
+  ) {
   }
 
   ngOnInit(): void {
@@ -59,7 +59,7 @@ export class AnnouncementFormComponent implements OnInit {
     }
   }
 
-  addAnnouncement() {
+  createAnnouncement() {
     this.announcementService.post(this.announcementForm.value).subscribe(
       (announcement) => {
         this.announcementSubmitted.emit(announcement);

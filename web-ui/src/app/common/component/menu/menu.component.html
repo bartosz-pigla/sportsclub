@@ -2,11 +2,11 @@
   <ng-content></ng-content>
 
   <div *ngIf="authenticationService.isSignedIn()" class="menu__authentication">
-    <a mat-button color="primary" (click)="signOut()">{{ 'menu.sign-out' | translate }} ({{authenticationService.getUsername()}})</a>
+    <a mat-button color="primary" (click)="signOut()">{{ 'menu.signOut' | translate }} ({{authenticationService.getUsername()}})</a>
   </div>
 
   <div *ngIf="!authenticationService.isSignedIn()" class="menu__authentication">
-    <a mat-button routerLink="/public/sign-up">{{ 'menu.sign-up' | translate }}</a>
-    <a mat-button color="primary" routerLink="/public/sign-in">{{ 'menu.sign-in' | translate }}</a>
+    <a mat-button routerLink="/public/sign-up">{{ 'menu.signUp' | translate }}</a>
+    <a mat-button color="primary" routerLink="/public/sign-in">{{ 'menu.signIn' | translate }}</a>
   </div>
 </nav>

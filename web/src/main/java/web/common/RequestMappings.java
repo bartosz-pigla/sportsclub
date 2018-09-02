@@ -59,6 +59,9 @@ public final class RequestMappings {
 
     public static final String RECEPTIONIST_API = "/receptionist-api";
 
+    public static final String RECEPTIONIST_API_USER = RECEPTIONIST_API + "/user";
+    public static final String RECEPTIONIST_API_USER_BY_ID = RECEPTIONIST_API_USER + USER_ID_PARAMETER;
+
     public static final String RECEPTIONIST_API_BOOKING = RECEPTIONIST_API + "/booking";
     public static final String RECEPTIONIST_API_BOOKING_BY_ID = RECEPTIONIST_API_BOOKING + BOOKING_ID_PARAMETER;
     public static final String RECEPTIONIST_API_BOOKING_REJECT = RECEPTIONIST_API_BOOKING_BY_ID + "/reject";

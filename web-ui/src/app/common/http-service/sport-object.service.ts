@@ -1,10 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
-import {getUrlParams, PaginationParams, SortingParams} from "./http-service.service";
 import {Observable} from "rxjs";
-import {PageResponse} from "./page-response";
-import {Announcement} from "./announcement-service";
 
 export class Address {
   constructor(public street: string,

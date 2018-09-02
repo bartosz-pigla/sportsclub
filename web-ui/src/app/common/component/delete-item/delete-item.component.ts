@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {IDeletableService} from "../../http-service/http-service.service";
 import {MatDialog} from "@angular/material";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -27,7 +27,7 @@ export class DeleteItemComponent<T> {
   showDeleteConfirmDialog() {
     const dialogRef = this.dialog.open(ConfirmationDialog);
     dialogRef.afterClosed().subscribe(confirmed => {
-      if(confirmed) {
+      if (confirmed) {
         this.delete();
       }
     })

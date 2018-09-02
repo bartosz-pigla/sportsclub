@@ -10,8 +10,8 @@
 
     <mat-form-field class="list-view-header__sort-order">
       <mat-select [(value)]="listModel.sortingParams.sortOrder" (valueChange)="refreshPage()">
-        <mat-option value="ASC">{{'list-view.sorting.ascending' | translate}}</mat-option>
-        <mat-option value="DESC">{{'list-view.sorting.descending' | translate}}</mat-option>
+        <mat-option value="ASC">{{'listView.sorting.ascending' | translate}}</mat-option>
+        <mat-option value="DESC">{{'listView.sorting.descending' | translate}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -21,10 +21,10 @@
 
 <footer class="form__footer" *ngIf="listModel.content.length">
   <button mat-button (click)="previousPage()" [disabled]="!listModel.hasPrevious()">
-    {{'list-view.pagination.previous' | translate}}
+    {{'listView.pagination.previous' | translate}}
   </button>
 
   <button mat-button (click)="nextPage()" [disabled]="!listModel.hasNext()">
-    {{'list-view.pagination.next' | translate}}
+    {{'listView.pagination.next' | translate}}
   </button>
 </footer>

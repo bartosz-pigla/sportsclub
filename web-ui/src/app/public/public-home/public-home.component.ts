@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog} from "@angular/material";
 import {AuthenticationService} from "../../common/security/authentication.service";
 
 @Component({

@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {DefaultPathService} from "../../common/navigation/default-path.service";
+import {ActivatedRoute} from "@angular/router";
 import {AuthenticationService} from "../../common/security/authentication.service";
 import {PreviousPageService} from "../../common/navigation/previous-page.service";
 import {MatDialog} from "@angular/material";
