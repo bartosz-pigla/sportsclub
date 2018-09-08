@@ -18,7 +18,6 @@ export class ListViewComponent<T> implements OnInit {
   @Input() private readonly service: IPageableAndSortableGetService<T>;
   @Input() readonly sortFields: SortField[];
   @Input() defaultSort: SortingParams;
-  @Input() searchParams: T;
   @Output() pageChange: EventEmitter<T[]> = new EventEmitter<T[]>();
 
   listModel: ListViewModel<T>;
@@ -37,7 +36,7 @@ export class ListViewComponent<T> implements OnInit {
   }
 
   ngOnInit() {
-    this.listModel = ListViewModel.createEmpty(this.pageSize, this.defaultSort, this.searchParams);
+    this.listModel = ListViewModel.createEmpty(this.pageSize, this.defaultSort, null);
     this.refreshPage();
   }
 
@@ -51,5 +50,10 @@ export class ListViewComponent<T> implements OnInit {
 
   previousPage() {
     this.listModel.previous(this.service, this.emitPageChange, this.handleError);
+  }
+
+  setSearchParams(searchParams: T) {
+    this.listModel.searchParams = searchParams;
+    this.refreshPage();
   }
 }

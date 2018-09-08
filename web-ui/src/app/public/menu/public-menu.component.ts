@@ -10,12 +10,11 @@ import {HttpErrorResponse} from "@angular/common/http";
 @Component({
   selector: 'public-menu',
   templateUrl: './public-menu.component.html',
-  styleUrls: ['./public-menu.component.scss'],
   providers: [SportObjectService]
 })
 export class PublicMenuComponent implements OnInit {
 
-  menuItems: MenuItem[] = [];
+  menuItems: MenuItem[];
 
   private readonly handleError = (error: HttpErrorResponse) => {
     this.errorHandlerService.showDialog(this.dialog, error);
@@ -31,7 +30,8 @@ export class PublicMenuComponent implements OnInit {
   ngOnInit() {
     this.sportObjectService.get().subscribe(
       (sportObjects) => {
-        sportObjects.forEach((object) => {
+          this.menuItems = [];
+          sportObjects.forEach((object) => {
           this.menuItems.push(new MenuItem(object.name, `public/sport-object/${object.id}`));
         });
       },

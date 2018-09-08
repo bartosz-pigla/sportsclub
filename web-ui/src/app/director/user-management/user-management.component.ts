@@ -1,10 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Announcement, AnnouncementService} from "../../common/http-service/announcement-service";
 import {SortField} from "../../common/component/list-view/list-view.model";
 import {SortingParams, SortOrder} from "../../common/http-service/http-service.service";
 import {ListViewComponent} from "../../common/component/list-view/list-view.component";
 import {TranslateService} from "@ngx-translate/core";
 import {User, UserService} from "../../common/http-service/user.service";
+import {ConfirmationDialog} from "../../common/dialog/confirmation/confirmation.dialog";
+import {MatDialog} from "@angular/material";
+import {ErrorDialog} from "../../common/dialog/error/error.dialog";
+import {HttpErrorResponse} from "@angular/common/http";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'user-management',
@@ -19,31 +23,41 @@ export class UserManagementComponent implements OnInit {
   userFormIsVisible: boolean;
   sortFields: SortField[];
   defaultSort: SortingParams;
-  searchParams = new User();
+  searchForm: FormGroup;
 
   @ViewChild(ListViewComponent)
   private paginationComponent: ListViewComponent<User>;
 
   constructor(
+    private dialog: MatDialog,
+    private formBuilder: FormBuilder,
     public userService: UserService,
     private translate: TranslateService) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.initSortFields();
+    this.initSearchForm();
     this.pageSize = 10;
     this.defaultSort = new SortingParams('username', SortOrder.ASC);
   }
 
-  initSortFields() {
-    let key = "listView.sorting.user";
+  initSearchForm() {
+    this.searchForm = this.formBuilder.group({
+      username: [''],
+      password: [''],
+      userType: [''],
+      email: ['', Validators.email],
+      phoneNumber: ['']
+    });
+  }
 
-    this.translate.get([key]).subscribe((res: any) => {
-      let value = res[key];
+  initSortFields() {
+    this.translate.get('listView.sorting.user').subscribe((res: any) => {
       this.sortFields = [
-        {name: 'username', viewValue: value['username']},
-        {name: 'email', viewValue: value['email']},
-        {name: 'userType', viewValue: value['userType']},
+        {name: 'username', viewValue: res['username']},
+        {name: 'email', viewValue: res['email']},
+        {name: 'userType', viewValue: res['userType']},
       ];
     });
   }
@@ -64,5 +78,37 @@ export class UserManagementComponent implements OnInit {
 
   initUsers(users) {
     this.users = users;
+  }
+
+  showChangeActivationConfirmDialog(userId: string, activated: boolean) {
+    const dialogRef = this.dialog.open(ConfirmationDialog);
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.activate(userId, activated);
+      }
+    });
+  }
+
+  activate(userId: string, activated: boolean) {
+    this.userService.activate(userId, activated).subscribe(
+      () => {
+        this.refreshPage();
+      },
+      (error: HttpErrorResponse) => {
+        this.dialog.open(ErrorDialog, {
+          data: error
+        });
+      }
+    );
+  }
+
+  filterUsers() {
+    this.paginationComponent.setSearchParams(this.searchForm.value);
+  }
+
+  clearFilter() {
+    this.searchForm.reset();
+    this.paginationComponent.setSearchParams(this.searchForm.value);
   }
 }

@@ -61,7 +61,9 @@
     "edit": "Edytuj",
     "cancel": "Anuluj",
     "close": "Zamknij",
-    "delete": "Usuń"
+    "delete": "Usuń",
+    "activate": "Aktywuj",
+    "deactivate": "Deaktywuj"
   },
   "menu": {
     "signIn": "Zaloguj się",
@@ -101,11 +103,19 @@
     "confirmation": {
       "title": "Potwierdzenie",
       "content": "Czy na pewno wykonać tę operację?"
+    },
+    "error": {
+      "title": "Błąd"
     }
   },
   "userType": {
-    "customer": "Klient",
-    "receptionist": "Recepcjonista",
-    "director": "Dyrektor"
+    "CUSTOMER": "Klient",
+    "RECEPTIONIST": "Recepcjonista",
+    "DIRECTOR": "Dyrektor"
+  },
+  "search": {
+    "title": "Filtrowanie wyników",
+    "confirm": "Filtruj",
+    "clear": "Wyczysć"
   }
 }

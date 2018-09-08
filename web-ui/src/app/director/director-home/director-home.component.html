@@ -13,21 +13,23 @@
     [defaultSort]="defaultSort"
     (pageChange)="initAnnouncements($event)">
 
-    <ng-container *ngFor="let item of announcements">
-      <announcement-form
-        *ngIf="item === announcementToEdit"
-        [initialAnnouncement]="announcementToEdit"
-        (announcementSubmitted)="hideEditAnnouncementForm()"
-        (canceled)="announcementToEdit = null">
-      </announcement-form>
+    <div class="announcement-container">
+      <ng-container *ngFor="let item of announcements">
+        <announcement-form
+          *ngIf="item === announcementToEdit"
+          [initialAnnouncement]="announcementToEdit"
+          (announcementSubmitted)="hideEditAnnouncementForm()"
+          (canceled)="announcementToEdit = null">
+        </announcement-form>
 
-      <announcement-item *ngIf="item !== announcementToEdit" [announcement]="item">
-        <div class="item-management-bar">
-          <button mat-button color="primary" (click)="showEditForm(item)">{{ 'common.edit' | translate }}</button>
-          <delete-item [id]="item.id" [service]="announcementService" (deleted)="refreshPage()"></delete-item>
-        </div>
-      </announcement-item>
-    </ng-container>
+        <announcement-item *ngIf="item !== announcementToEdit" [announcement]="item">
+          <div class="item-management-bar">
+            <button mat-button color="primary" (click)="showEditForm(item)">{{ 'common.edit' | translate }}</button>
+            <delete-item [id]="item.id" [service]="announcementService" (deleted)="refreshPage()"></delete-item>
+          </div>
+        </announcement-item>
+      </ng-container>
+    </div>
   </list-view>
 </div>
 

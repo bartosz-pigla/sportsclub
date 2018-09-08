@@ -33,6 +33,7 @@ import {ConfirmationDialog} from './common/dialog/confirmation/confirmation.dial
 import {UserManagementComponent} from './director/user-management/user-management.component';
 import { UserFormComponent } from './common/form/user-form/user-form.component';
 import { BackendErrorsComponent } from './common/form/backend-errors/backend-errors.component';
+import {ErrorDialog} from "./common/dialog/error/error.dialog";
 
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -69,6 +70,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AnnouncementFormComponent,
     DeleteItemComponent,
     ConfirmationDialog,
+    ErrorDialog,
     UserManagementComponent,
     UserFormComponent,
     BackendErrorsComponent,
@@ -95,7 +97,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ListViewComponent,
     AnnouncementFormComponent,
     DeleteItemComponent,
-    ConfirmationDialog]
+    ConfirmationDialog,
+    ErrorDialog
+  ]
 })
 export class AppModule {
 }

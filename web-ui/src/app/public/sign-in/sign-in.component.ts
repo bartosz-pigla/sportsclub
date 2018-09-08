@@ -13,7 +13,7 @@ import {MatDialog} from "@angular/material";
 export class SignInComponent implements OnInit {
 
   signInForm: FormGroup;
-  signInFailed: boolean = false;
+  signInFailed: boolean;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -24,6 +24,7 @@ export class SignInComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.signInFailed = false;
     this.initializeForm();
   }
 

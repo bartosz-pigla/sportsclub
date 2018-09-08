@@ -19,7 +19,7 @@
 
 <ng-content></ng-content>
 
-<footer class="form__footer" *ngIf="listModel.content.length">
+<footer class="form__footer" *ngIf="listModel.hasPrevious() || listModel.hasNext()">
   <button mat-button (click)="previousPage()" [disabled]="!listModel.hasPrevious()">
     {{'listView.pagination.previous' | translate}}
   </button>

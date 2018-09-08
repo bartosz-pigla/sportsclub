@@ -35,13 +35,10 @@ export class DirectorHomeComponent implements OnInit {
   }
 
   initSortFields() {
-    let key = "list-view.sorting.announcement";
-
-    this.translate.get([key]).subscribe((res: any) => {
-      let value = res[key];
+    this.translate.get("listView.sorting.announcement").subscribe((res: any) => {
       this.sortFields = [
-        {name: 'title', viewValue: value['title']},
-        {name: 'lastModificationDate', viewValue: value['lastModificationDate']}
+        {name: 'title', viewValue: res['title']},
+        {name: 'lastModificationDate', viewValue: res['lastModificationDate']}
       ];
     });
   }
@@ -71,10 +68,5 @@ export class DirectorHomeComponent implements OnInit {
   hideEditAnnouncementForm() {
     this.announcementToEdit = null;
     this.paginationComponent.refreshPage();
-  }
-
-  foo() {
-    console.log('foo');
-    this.pageSize = 1;
   }
 }

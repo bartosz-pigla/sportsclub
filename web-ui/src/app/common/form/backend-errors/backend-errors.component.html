@@ -1,3 +1,5 @@
 <ng-template ngIf="fieldErrors">
-  <mat-error *ngFor="let error of fieldErrors">{{ error | translate}}</mat-error>
+  <div class="backend-error">
+    <mat-error *ngFor="let code of errorCodes" class="backend-error__code">{{ code | translate}}</mat-error>
+  </div>
 </ng-template>

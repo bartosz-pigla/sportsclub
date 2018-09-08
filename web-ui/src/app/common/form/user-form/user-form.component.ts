@@ -1,12 +1,9 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {HttpErrorResponse} from "@angular/common/http";
 import {TranslateService} from "@ngx-translate/core";
-import {MatDialog} from "@angular/material";
-import {ErrorHandlerService} from "../../error-handler.service";
 import {User, UserService, UserType} from "../../http-service/user.service";
 import {Observable} from "rxjs";
-import {BackendErrors} from "../backend-errors/backend-errors.model";
 
 @Component({
   selector: 'user-form',
@@ -17,18 +14,12 @@ export class UserFormComponent implements OnInit {
   @Output() userSubmitted: EventEmitter<User> = new EventEmitter<User>();
   @Output() canceled = new EventEmitter();
   userForm: FormGroup;
-  backendErrors: any[];
-
-  private readonly handleError = (error: HttpErrorResponse) => {
-    this.errorHandlerService.showDialog(this.dialog, error);
-  };
+  errorResponse: HttpErrorResponse;
 
   constructor(
     public userService: UserService,
     private translate: TranslateService,
-    private formBuilder: FormBuilder,
-    private dialog: MatDialog,
-    private errorHandlerService: ErrorHandlerService
+    private formBuilder: FormBuilder
   ) {
   }
 
@@ -71,41 +62,13 @@ export class UserFormComponent implements OnInit {
         this.userSubmitted.emit(user);
       },
       (error: HttpErrorResponse) => {
-        this.backendErrors = error.error;
+        this.errorResponse = error;
       }
     );
   }
 
   cancel() {
     this.canceled.emit();
-  }
-
-  isInvalid(): boolean {
-    //return Object.keys(this.userForm.controls).find(key => Object.keys(this.userForm.get(key).errors).find(keyError => keyError != 'backendError') !== undefined) !== undefined;
-    //return Object.keys(this.userForm.controls).find(key => true) !== undefined;
-
-
-
-    return Object.keys(this.userForm.controls).(key => {
-      const controlErrors: ValidationErrors = this.userForm.get(key).errors;
-
-      if(controlErrors) {
-        return Object.keys(controlErrors).find(keyError => true);
-      } else {
-        return false;
-      }
-    });
-
-
-    // Object.keys(this.userForm.controls).forEach(key => {
-    //
-    //   const controlErrors: ValidationErrors = this.userForm.get(key).errors;
-    //   if (controlErrors != null) {
-    //     Object.keys(controlErrors).forEach(keyError => {
-    //       console.log('Key control: ' + key + ', keyError: ' + keyError + ', err value: ', controlErrors[keyError]);
-    //     });
-    //   }
-    // });
   }
 }
 

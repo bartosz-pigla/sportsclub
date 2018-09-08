@@ -55,7 +55,8 @@ public class SportsClubApplication {
                         .allowedMethods(HttpMethod.PUT.name(),
                                 HttpMethod.POST.name(),
                                 HttpMethod.DELETE.name(),
-                                HttpMethod.GET.name())
+                                HttpMethod.GET.name(),
+                                HttpMethod.PATCH.name())
                         .allowedOrigins("http://localhost:4200");
             }
         };

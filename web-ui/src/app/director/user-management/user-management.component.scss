@@ -1,5 +1,21 @@
-@import "../../../mixin";
+.user-management-container {
+  display: grid;
+  grid-template-areas:
+    'new-user-form new-user-form new-user-form'
+    'search-form user-list user-list';
+  grid-gap: 50px;
+  grid-template-columns: 200px auto;
+  margin: 0 50px;
 
-:host {
-  @include center();
+  .new-user-form {
+    grid-area: new-user-form;
+  }
+
+  .search-form {
+    grid-area: search-form;
+  }
+
+  .user-list {
+    grid-area: user-list;
+  }
 }

@@ -36,6 +36,9 @@ export class UserService implements IPageableAndSortableGetService<User>, IDelet
   private readonly userReceptionistApi: string =
     `${environment.apiUrl}/receptionist-api/user`;
 
+  private readonly userDirectorApi: string =
+    `${environment.apiUrl}/director-api/user`;
+
   private readonly customerDirectorApi: string =
     `${environment.apiUrl}/director-api/customer`;
 
@@ -43,7 +46,7 @@ export class UserService implements IPageableAndSortableGetService<User>, IDelet
     `${environment.apiUrl}/director-api/receptionist`;
 
   private readonly directorDirectorApi: string =
-    `${environment.apiUrl}/director-api/receptionist`;
+    `${environment.apiUrl}/director-api/director`;
 
   constructor(private http: HttpClient) {
   }
@@ -71,6 +74,10 @@ export class UserService implements IPageableAndSortableGetService<User>, IDelet
 
   postDirector(director: User): Observable<User> {
     return this.http.post<User>(this.directorDirectorApi, director);
+  }
+
+  activate(userId: string, activated: boolean): Observable<void> {
+    return this.http.patch<void>(`${this.userDirectorApi}/${userId}/activate`, {activated: activated});
   }
 
   private static getSearchUrlParams(params: HttpParams, searchParams: User): HttpParams {

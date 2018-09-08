@@ -1,39 +1,28 @@
-import {Component, EventEmitter, Input, OnChanges, Output, SimpleChanges} from '@angular/core';
+import {Component, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {HttpErrorResponse} from "@angular/common/http";
+import {BackendErrorService} from "../../backend-error.service";
 
 @Component({
   selector: 'backend-errors',
-  templateUrl: './backend-errors.component.html'
+  templateUrl: './backend-errors.component.html',
+  styleUrls: ['./backend-errors.component.scss']
 })
 export class BackendErrorsComponent implements OnChanges {
 
-  private static readonly backendErrorPrefix = 'backendError';
+  @Input() errorResponse: HttpErrorResponse;
+  errorCodes: string[];
 
-  @Input() fieldName: string;
-  @Input() errors: any[];
-  // @Output() markFieldAsInvalid: EventEmitter<boolean> = new EventEmitter<boolean>();
-  fieldErrors: string[];
-
-  constructor() {
+  constructor(private backendErrorService: BackendErrorService) {
   }
 
   ngOnChanges(changes: SimpleChanges) {
     for (let propName in changes) {
-      let currentErrors = changes[propName].currentValue;
+      let currentResponse = changes[propName].currentValue;
 
-      if (propName === 'errors' && currentErrors) {
-        this.errors = currentErrors;
-        this.updateFieldErrors();
+      if (propName === 'errorResponse' && currentResponse) {
+        this.errorResponse = currentResponse;
+        this.errorCodes = this.backendErrorService.getErrorCodes(this.errorResponse);
       }
-    }
-  }
-
-  updateFieldErrors() {
-    this.fieldErrors = this.errors
-      .filter(error => error.field === this.fieldName)
-      .map(error => `${BackendErrorsComponent.backendErrorPrefix}.${this.fieldName}.${error.code}`);
-
-    if (this.fieldErrors.length > 0) {
-      // this.markFieldAsInvalid.emit(true);
     }
   }
 }

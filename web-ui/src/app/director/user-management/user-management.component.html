@@ -1,29 +1,71 @@
-<div class="page-layout__content page-layout__content--one-column">
+<div class="user-management-container">
   <user-form
+    class="new-user-form"
     *ngIf="userFormIsVisible"
     (userSubmitted)="hideUserForm()"
     (canceled)="hideUserForm()">
   </user-form>
 
+  <div class="card form search-form" [formGroup]="searchForm" novalidate>
+    <header class="form__header">
+      <h5 class="header--without-margin header__h5">{{ 'search.title' | translate}}</h5>
+    </header>
+
+    <div class="form__body">
+      <mat-form-field class="form__field">
+        <input formControlName="username" matInput placeholder="{{ 'userForm.username' | translate }}">
+      </mat-form-field>
+
+      <mat-form-field class="form__field">
+        <mat-select formControlName="userType" placeholder="{{'userForm.userType' | translate}}">
+          <mat-option value="CUSTOMER">{{'userType.CUSTOMER' | translate}}</mat-option>
+          <mat-option value="RECEPTIONIST">{{'userType.RECEPTIONIST' | translate}}</mat-option>
+          <mat-option value="DIRECTOR">{{'userType.DIRECTOR' | translate}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="form__field">
+        <input type="email" formControlName="email" matInput placeholder="{{ 'userForm.email' | translate }}">
+        <mat-error *ngIf="searchForm.controls.email.errors?.email">{{ 'error.email' | translate }}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="form__field">
+        <input formControlName="phoneNumber" matInput placeholder="{{ 'userForm.phoneNumber' | translate }}">
+      </mat-form-field>
+    </div>
+
+    <footer class="form__footer">
+      <button type="button" mat-button (click)="clearFilter()">
+        {{ 'search.clear' | translate }}
+      </button>
+
+      <button type="submit" mat-button color="primary" (click)="filterUsers()" [disabled]="searchForm.invalid">
+        {{ 'search.confirm' | translate }}
+      </button>
+    </footer>
+  </div>
+
   <list-view
+    class="user-list"
     title="{{'listView.title.userManagement' | translate}}"
     [pageSize]="pageSize"
     [service]="userService"
     [sortFields]="sortFields"
     [defaultSort]="defaultSort"
-    [searchParams]="searchParams"
     (pageChange)="initUsers($event)">
 
-    <div class="card" *ngFor="let item of users">
-      <header>
-        <h2 class="header__h4">{{item.username}}</h2>
-      </header>
-
-      <footer>
-        <div class="item-management-bar">
-          <delete-item [id]="item.id" [service]="userService" (deleted)="refreshPage()"></delete-item>
-        </div>
-      </footer>
+    <div class="card card--inline" *ngFor="let item of users">
+      <h2 class="header__h4 card--inline__item">{{item.username}}</h2>
+      <span class="card--inline__item">{{ 'userType.' + item.userType | translate}}</span>
+      <span class="card--inline__item">{{ item.email }}</span>
+      <span class="card--inline__item">{{ item.phoneNumber }}</span>
+      <div>
+        <delete-item class="card--inline__item" [id]="item.id" [service]="userService" (deleted)="refreshPage()"></delete-item>
+        <button class="card--inline__item" type="submit" mat-button (click)="showChangeActivationConfirmDialog(item.id, !item.activated)">
+          <ng-container *ngIf="item.activated">{{ 'common.deactivate' | translate }}</ng-container>
+          <ng-container *ngIf="!item.activated">{{ 'common.activate' | translate }}</ng-container>
+        </button>
+      </div>
     </div>
   </list-view>
 </div>

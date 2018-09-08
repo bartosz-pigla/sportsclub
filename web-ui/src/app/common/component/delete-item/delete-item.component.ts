@@ -30,7 +30,7 @@ export class DeleteItemComponent<T> {
       if (confirmed) {
         this.delete();
       }
-    })
+    });
   }
 
   delete() {

@@ -14,7 +14,7 @@ export class CurrentUserDetails {
 })
 export class AuthenticationService {
 
-  private currentUserStorageKey = "currentUser";
+  private readonly currentUserStorageKey = "currentUser";
 
   constructor(private http: HttpClient) {
   }
