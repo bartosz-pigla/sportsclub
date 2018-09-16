@@ -7,7 +7,7 @@ import {NotFoundComponent} from './public/not-found/not-found.component';
 import {UnauthorizedComponent} from './public/unauthorized/unauthorized.component';
 import {PublicComponent} from './public/public.component';
 import {CustomerComponent} from './customer/customer.component';
-import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule} from "@angular/material";
+import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule, MatStepperModule} from "@angular/material";
 
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
@@ -34,13 +34,17 @@ import {UserManagementComponent} from './director/user-management/user-managemen
 import { UserFormComponent } from './common/form/user-form/user-form.component';
 import { BackendErrorsComponent } from './common/form/backend-errors/backend-errors.component';
 import {ErrorDialog} from "./common/dialog/error/error.dialog";
+import { SportObjectManagementComponent } from './director/sport-object-management/sport-object-management.component';
+import {AgmCoreModule, GoogleMapsAPIWrapper} from "@agm/core";
+import {SportObjectCreatorComponent} from "./common/form/sport-object-creator/sport-object-creator.component";
 
 const MATERIAL_MODULES = [
   MatButtonModule,
   MatFormFieldModule,
   MatInputModule,
   MatDialogModule,
-  MatSelectModule
+  MatSelectModule,
+  MatStepperModule
 ];
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -74,6 +78,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     UserManagementComponent,
     UserFormComponent,
     BackendErrorsComponent,
+    SportObjectManagementComponent,
+    SportObjectCreatorComponent
   ],
   imports: [
     BrowserModule,
@@ -89,6 +95,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient],
       },
     }),
+    AgmCoreModule.forRoot({apiKey: 'AIzaSyAyCKx-obJNhZmaTt3Qf5KwmpFd0kmhsQs'})
   ],
   bootstrap: [AppComponent],
   entryComponents: [
@@ -99,6 +106,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DeleteItemComponent,
     ConfirmationDialog,
     ErrorDialog
+  ],
+  providers: [
+    GoogleMapsAPIWrapper
   ]
 })
 export class AppModule {

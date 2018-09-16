@@ -3,7 +3,10 @@
     "required": "Pole wymagane",
     "invalid": "Pole wypełnione nieprawidłowo",
     "maxLength": "Pole nie może zawierać więcej niż {{length}} znaków",
-    "email": "Pole musi być poprawnym adresem e-mail"
+    "positive": "Pole musi być liczbą dodatnią",
+    "max": "Pole nie może być liczbą większą niż {{max}}",
+    "email": "Pole musi być poprawnym adresem e-mail",
+    "unique": "Podana wartość już istnieje"
   },
   "backendError": {
     "username": {
@@ -63,7 +66,10 @@
     "close": "Zamknij",
     "delete": "Usuń",
     "activate": "Aktywuj",
-    "deactivate": "Deaktywuj"
+    "deactivate": "Deaktywuj",
+    "next": "Dalej",
+    "previous": "Wstecz",
+    "noContent": "brak danych do wyświetlenia"
   },
   "menu": {
     "signIn": "Zaloguj się",
@@ -71,7 +77,8 @@
     "signUp": "Zarejestruj się",
     "home": "Strona główna",
     "director": {
-      "userManagement": "Użytkownicy"
+      "userManagement": "Użytkownicy",
+      "sportObjectManagement": "Obiekty sportowe"
     }
   },
   "signIn": {
@@ -117,5 +124,34 @@
     "title": "Filtrowanie wyników",
     "confirm": "Filtruj",
     "clear": "Wyczysć"
+  },
+  "sportObjectCreator": {
+    "basicData": {
+      "header": "Podstawowe informacje",
+      "name": "Nazwa",
+      "description": "Opis",
+      "pictureUrl": "Adres URL zdjęcia"
+    },
+    "map": {
+      "header": "Lokalizacja"
+    },
+    "position": {
+      "header": "Pozycje obiektu sportowego",
+      "name": "Nazwa",
+      "description": "Opis",
+      "positionsCount": "Liczba miejsc"
+    },
+    "openingTime": {
+      "header": "Godziny otwarcia",
+      "monday"
+      "weekday": "Dni robocze",
+      "saturday": "Sobota",
+      "sunday": "Niedziela",
+      "dayOfWeek": "Dzień tygodnia",
+      "price": "Cena",
+      "openingTime": "Godzina otwarcia",
+      "closingTime": "Godzina zamknięcia",
+      "timeInterval": "Przedział czasowy"
+    }
   }
 }

@@ -1,12 +1,12 @@
 package web.sportObject;
 
+import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 import static query.model.sportobject.repository.SportObjectQueryExpressions.sportsclubIdMatches;
 import static web.common.RequestMappings.PUBLIC_API_SPORT_OBJECT;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ final class SportObjectPublicController extends BaseController {
     List<SportObjectDto> get(@PathVariable UUID sportsclubId) {
         return stream(sportObjectRepository.findAll(sportsclubIdMatches(sportsclubId)).spliterator(), false)
                 .map(SportObjectDtoFactory::create)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
 }

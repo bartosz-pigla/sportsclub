@@ -1,5 +1,6 @@
 package query.model.sportobject.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -21,5 +22,12 @@ public final class OpeningTimeQueryExpressions {
         } else {
             return openingTime.isNull();
         }
+    }
+
+    public static BooleanExpression sportObjectIdMatches(UUID objectId) {
+        return Optional.ofNullable(objectId)
+                .map(n -> BaseEntityQueryExpressions.isNotDeleted(openingTime._super)
+                        .and(BaseEntityQueryExpressions.idMatches(objectId, openingTime.sportObject._super)))
+                .orElse(openingTime.isNull());
     }
 }

@@ -28,10 +28,10 @@ export class PublicMenuComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sportObjectService.get().subscribe(
+    this.sportObjectService.get(
       (sportObjects) => {
-          this.menuItems = [];
-          sportObjects.forEach((object) => {
+        this.menuItems = [];
+        sportObjects.forEach((object) => {
           this.menuItems.push(new MenuItem(object.name, `public/sport-object/${object.id}`));
         });
       },

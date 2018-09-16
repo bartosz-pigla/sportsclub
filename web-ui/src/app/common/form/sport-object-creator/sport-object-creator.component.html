@@ -1,0 +1,239 @@
+<mat-horizontal-stepper [linear]="true" #stepper>
+  <mat-step [stepControl]="basicDataForm" [completed]="false">
+    <ng-template matStepLabel>{{ 'sportObjectCreator.basicData.header' | translate}}</ng-template>
+
+    <form [formGroup]="basicDataForm" novalidate>
+      <div class="form__body">
+        <mat-form-field class="form__field">
+          <input formControlName="name" matInput placeholder="{{ 'sportObjectCreator.basicData.name' | translate }}">
+
+          <mat-error *ngIf="basicDataForm.controls.name.errors?.required">
+            {{ 'error.required' | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form__field">
+          <textarea formControlName="description"
+                    matInput
+                    placeholder="{{ 'sportObjectCreator.basicData.description' | translate }}"
+                    rows="10"></textarea>
+
+          <mat-error *ngIf="basicDataForm.controls.description.errors?.required">
+            {{ 'error.required' | translate }}
+          </mat-error>
+
+          <mat-error *ngIf="basicDataForm.controls.description.errors?.maxlength">
+            {{ 'error.maxLength' | translate:{'length': maxContentLength} }}
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form__body">
+          <mat-form-field class="form__field">
+            <input formControlName="url" matInput placeholder="{{ 'sportObjectCreator.basicData.pictureUrl' | translate }}">
+
+            <mat-error *ngIf="basicDataForm.controls.description.errors?.required">
+              {{ 'error.required' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="form__footer form__footer--with-space-between">
+        <button [disabled]="basicDataForm.invalid"
+                mat-button
+                matStepperNext>
+          {{ 'common.next' | translate}}
+        </button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="basicDataForm" [completed]="false">
+    <ng-template matStepLabel>{{ 'sportObjectCreator.map.header' | translate}}</ng-template>
+    <div class="map">
+      <agm-map [(latitude)]="address.latitude"
+               [(longitude)]="address.longitude"
+               [(zoom)]="mapZoom"
+               [disableDefaultUI]="true"
+               [zoomControl]="true">
+        <agm-marker [(latitude)]="address.latitude"
+                    [(longitude)]="address.longitude"
+                    [markerDraggable]="true"
+                    (dragEnd)="updateAddressForm($event)"></agm-marker>
+      </agm-map>
+    </div>
+
+    <div class="form__footer form__footer--with-space-between">
+      <button
+        mat-button
+        matStepperNext>{{ 'common.next' | translate}}</button>
+      <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="positionForm" [completed]="false">
+    <ng-template matStepLabel>{{ 'sportObjectCreator.position.header' | translate}}</ng-template>
+
+    <form [formGroup]="positionForm" novalidate>
+      <div class="form__body">
+        <mat-form-field class="form__field">
+          <input formControlName="name" matInput placeholder="{{ 'sportObjectCreator.position.name' | translate }}">
+
+          <mat-error *ngIf="positionForm.controls.name.errors?.required">
+            {{ 'error.required' | translate }}
+          </mat-error>
+          <mat-error *ngIf="positionForm.controls.name.errors?.uniquePositionName">
+            {{ 'error.unique' | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form__field">
+          <textarea formControlName="description"
+                    matInput
+                    placeholder="{{ 'sportObjectCreator.position.description' | translate }}"
+                    rows="3"></textarea>
+
+          <mat-error *ngIf="positionForm.controls.description.errors?.required">
+            {{ 'error.required' | translate }}
+          </mat-error>
+
+          <mat-error *ngIf="positionForm.controls.description.errors?.maxlength">
+            {{ 'error.maxLength' | translate:{'length': maxContentLength} }}
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form__body">
+          <mat-form-field class="form__field">
+            <input type="number"
+                   min="1"
+                   max="{{maxPositionsCount}}"
+                   formControlName="positionsCount"
+                   matInput
+                   placeholder="{{ 'sportObjectCreator.position.positionsCount' | translate }}">
+
+            <mat-error *ngIf="positionForm.controls.positionsCount.errors?.required">
+              {{ 'error.required' | translate }}
+            </mat-error>
+            <mat-error *ngIf="positionForm.controls.positionsCount.errors?.min">
+              {{ 'error.positive' | translate }}
+            </mat-error>
+            <mat-error *ngIf="positionForm.controls.positionsCount.errors?.max">
+              {{ 'error.max' | translate:{'max': maxPositionsCount} }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form__footer">
+        <button type="submit" mat-button [disabled]="positionForm.invalid" (click)="addPosition()">
+          {{ 'common.add' | translate}}</button>
+      </div>
+    </form>
+
+    <div *ngIf="positions.length > 0" class="sport-object-positions-list">
+      <h2 class="header__h2">{{ 'sportObjectCreator.position.header' | translate}}</h2>
+      <div class="card card--inline" *ngFor="let item of positions">
+        <h2 class="header__h4 card--inline__item">{{item.name}}</h2>
+        <span class="card--inline__item--wider">
+          {{ 'sportObjectCreator.position.positionsCount' | translate }}: {{ item.positionsCount }}
+        </span>
+        <div>
+          <button type="submit" class="card--inline__item" mat-button color="warn" (click)="deletePosition(item)">
+            {{'common.delete' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="positions.length === 0">
+      <h2 class="header__h2 no-content">{{'common.noContent' | translate}}</h2>
+    </div>
+
+    <div class="form__footer form__footer--with-space-between">
+      <button
+        [disabled]="positions.length === 0"
+        mat-button
+        matStepperNext>{{ 'common.next' | translate}}</button>
+      <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
+    </div>
+  </mat-step>
+  <mat-step [stepControl]="openingTimeForm" [completed]="false">
+    <ng-template matStepLabel>{{ 'sportObjectCreator.openingTime.header' | translate}}</ng-template>
+
+    <form [formGroup]="openingTimeForm" novalidate>
+      <div class="form__body">
+        <mat-form-field class="form__field">
+          <mat-select formControlName="userType" placeholder="{{'userForm.userType' | translate}}">
+            <mat-option value="CUSTOMER">{{'userType.CUSTOMER' | translate}}</mat-option>
+            <mat-option value="RECEPTIONIST">{{'userType.RECEPTIONIST' | translate}}</mat-option>
+            <mat-option value="DIRECTOR">{{'userType.DIRECTOR' | translate}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="form__field">
+          <textarea formControlName="description"
+                    matInput
+                    placeholder="{{ 'sportObjectCreator.position.description' | translate }}"
+                    rows="3"></textarea>
+
+          <mat-error *ngIf="positionForm.controls.description.errors?.required">
+            {{ 'error.required' | translate }}
+          </mat-error>
+
+          <mat-error *ngIf="positionForm.controls.description.errors?.maxlength">
+            {{ 'error.maxLength' | translate:{'length': maxContentLength} }}
+          </mat-error>
+        </mat-form-field>
+
+        <div class="form__body">
+          <mat-form-field class="form__field">
+            <input type="number"
+                   min="1"
+                   max="{{maxPositionsCount}}"
+                   formControlName="positionsCount"
+                   matInput
+                   placeholder="{{ 'sportObjectCreator.position.positionsCount' | translate }}">
+
+            <mat-error *ngIf="positionForm.controls.positionsCount.errors?.required">
+              {{ 'error.required' | translate }}
+            </mat-error>
+            <mat-error *ngIf="positionForm.controls.positionsCount.errors?.min">
+              {{ 'error.positive' | translate }}
+            </mat-error>
+            <mat-error *ngIf="positionForm.controls.positionsCount.errors?.max">
+              {{ 'error.max' | translate:{'max': maxPositionsCount} }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="form__footer">
+        <button type="submit" mat-button [disabled]="positionForm.invalid" (click)="addPosition()">
+          {{ 'common.add' | translate}}</button>
+      </div>
+    </form>
+
+    <div *ngIf="positions.length > 0" class="sport-object-positions-list">
+      <h2 class="header__h2">{{ 'sportObjectCreator.position.header' | translate}}</h2>
+      <div class="card card--inline" *ngFor="let item of positions">
+        <h2 class="header__h4 card--inline__item">{{item.name}}</h2>
+        <span class="card--inline__item--wider">
+          {{ 'sportObjectCreator.position.positionsCount' | translate }}: {{ item.positionsCount }}
+        </span>
+        <div>
+          <button type="submit" class="card--inline__item" mat-button color="warn" (click)="deletePosition(item)">
+            {{'common.delete' | translate}}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="positions.length === 0">
+      <h2 class="header__h2 no-content">{{'common.noContent' | translate}}</h2>
+    </div>
+
+    <div class="form__footer form__footer--with-space-between">
+      <button
+        [disabled]="positions.length === 0"
+        mat-button
+        matStepperNext>{{ 'common.next' | translate}}</button>
+      <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

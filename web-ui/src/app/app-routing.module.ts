@@ -10,6 +10,7 @@ import {DirectorAuthorizationGuard} from "./director/director-authorization-guar
 import {DirectorHomeComponent} from "./director/director-home/director-home.component";
 import {PublicHomeComponent} from "./public/public-home/public-home.component";
 import {UserManagementComponent} from "./director/user-management/user-management.component";
+import {SportObjectManagementComponent} from "./director/sport-object-management/sport-object-management.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'public/home', pathMatch: 'full'},
@@ -20,7 +21,7 @@ const routes: Routes = [
       {path: '', redirectTo: 'home', pathMatch: 'prefix'},
       {path: 'home', component: PublicHomeComponent},
       {path: 'sign-in', component: SignInComponent},
-      {path: 'sport-object/:id', component: SportObjectComponent},
+      // {path: 'sport-object/:id', component: SportObjectComponent},
       {path: 'unauthorized', component: UnauthorizedComponent},
       {path: 'not-found', component: NotFoundComponent}
     ]
@@ -30,7 +31,8 @@ const routes: Routes = [
     path: 'director', component: DirectorComponent, canActivate: [DirectorAuthorizationGuard], children: [
       {path: '', redirectTo: 'home', pathMatch: 'prefix'},
       {path: 'home', component: DirectorHomeComponent},
-      {path: 'user-management', component: UserManagementComponent}
+      {path: 'user-management', component: UserManagementComponent},
+      {path: 'sport-object-management', component: SportObjectManagementComponent}
     ]
   }
 ];

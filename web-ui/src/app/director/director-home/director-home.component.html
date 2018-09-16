@@ -13,7 +13,7 @@
     [defaultSort]="defaultSort"
     (pageChange)="initAnnouncements($event)">
 
-    <div class="announcement-container">
+    <div class="list-container">
       <ng-container *ngFor="let item of announcements">
         <announcement-form
           *ngIf="item === announcementToEdit"

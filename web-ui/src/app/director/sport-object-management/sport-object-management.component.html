@@ -1,0 +1,30 @@
+<div class="page-layout__content page-layout__content--one-column">
+  <sport-object-creator *ngIf="createFormIsVisible"
+                        [sportsclub]="sportsclub"
+                        (canceled)="hideCreateForm()"
+                        (submitted)="hideCreateForm()">
+  </sport-object-creator>
+
+  <ng-container *ngFor="let item of sportObjects">
+    <sport-object-creator *ngIf="item === sportObjectToEdit"
+                          [initialSportObject]="item"
+                          (canceled)="sportObjectToEdit = null"
+                          (submitted)="hideEditForm()">
+    </sport-object-creator>
+
+    <div *ngIf="item !== sportObjectToEdit" class="card card--inline">
+      <h2 class="header__h4 card--inline__item">{{item.name}}</h2>
+      <div>
+        <delete-item class="card--inline__item"
+                     [id]="item.id"
+                     [service]="sportObjectService"
+                     (deleted)="deleteSportObject()">
+        </delete-item>
+        <button mat-button color="primary" (click)="showEditForm(item)">{{ 'common.edit' | translate }}</button>
+      </div>
+    </div>
+  </ng-container>
+
+  <new-item-button (buttonClick)="showCreateForm()"></new-item-button>
+</div>
+
