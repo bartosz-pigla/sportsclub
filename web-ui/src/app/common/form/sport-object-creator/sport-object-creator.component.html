@@ -69,7 +69,7 @@
       <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
     </div>
   </mat-step>
-  <mat-step [stepControl]="positionForm" [completed]="false">
+  <mat-step [stepControl]="basicDataForm" [completed]="false">
     <ng-template matStepLabel>{{ 'sportObjectCreator.position.header' | translate}}</ng-template>
 
     <form [formGroup]="positionForm" novalidate>
@@ -135,7 +135,7 @@
           {{ 'sportObjectCreator.position.positionsCount' | translate }}: {{ item.positionsCount }}
         </span>
         <div>
-          <button type="submit" class="card--inline__item" mat-button color="warn" (click)="deletePosition(item)">
+          <button class="card--inline__item" mat-button color="warn" (click)="deletePosition(item)">
             {{'common.delete' | translate}}
           </button>
         </div>
@@ -160,79 +160,71 @@
     <form [formGroup]="openingTimeForm" novalidate>
       <div class="form__body">
         <mat-form-field class="form__field">
-          <mat-select formControlName="userType" placeholder="{{'userForm.userType' | translate}}">
-            <mat-option value="CUSTOMER">{{'userType.CUSTOMER' | translate}}</mat-option>
-            <mat-option value="RECEPTIONIST">{{'userType.RECEPTIONIST' | translate}}</mat-option>
-            <mat-option value="DIRECTOR">{{'userType.DIRECTOR' | translate}}</mat-option>
+          <mat-select formControlName="dayOfWeek" placeholder="{{'sportObjectCreator.openingTime.dayOfWeek' | translate}}">
+            <mat-option *ngFor="let day of daysOfWeek" value="{{day}}">
+              {{'sportObjectCreator.openingTime.' + day | translate}}
+            </mat-option>
           </mat-select>
         </mat-form-field>
 
         <mat-form-field class="form__field">
-          <textarea formControlName="description"
-                    matInput
-                    placeholder="{{ 'sportObjectCreator.position.description' | translate }}"
-                    rows="3"></textarea>
+          <input type="time"
+                 formControlName="startTime"
+                 matInput
+                 placeholder="{{ 'sportObjectCreator.openingTime.startTime' | translate }}">
 
-          <mat-error *ngIf="positionForm.controls.description.errors?.required">
+          <mat-error *ngIf="openingTimeForm.controls.startTime.errors?.required">
             {{ 'error.required' | translate }}
-          </mat-error>
-
-          <mat-error *ngIf="positionForm.controls.description.errors?.maxlength">
-            {{ 'error.maxLength' | translate:{'length': maxContentLength} }}
           </mat-error>
         </mat-form-field>
 
-        <div class="form__body">
-          <mat-form-field class="form__field">
-            <input type="number"
-                   min="1"
-                   max="{{maxPositionsCount}}"
-                   formControlName="positionsCount"
-                   matInput
-                   placeholder="{{ 'sportObjectCreator.position.positionsCount' | translate }}">
+        <mat-form-field class="form__field">
+          <input type="time"
+                 formControlName="finishTime"
+                 matInput
+                 placeholder="{{ 'sportObjectCreator.openingTime.finishTime' | translate }}">
 
-            <mat-error *ngIf="positionForm.controls.positionsCount.errors?.required">
-              {{ 'error.required' | translate }}
-            </mat-error>
-            <mat-error *ngIf="positionForm.controls.positionsCount.errors?.min">
-              {{ 'error.positive' | translate }}
-            </mat-error>
-            <mat-error *ngIf="positionForm.controls.positionsCount.errors?.max">
-              {{ 'error.max' | translate:{'max': maxPositionsCount} }}
-            </mat-error>
-          </mat-form-field>
-        </div>
+          <mat-error *ngIf="openingTimeForm.controls.finishTime.errors?.required">
+            {{ 'error.required' | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="form__field">
+          <mat-select formControlName="timeInterval" placeholder="{{'sportObjectCreator.openingTime.timeInterval' | translate}}">
+            <mat-option value="30">{{'sportObjectCreator.openingTime.timeIntervalType.30' | translate}}</mat-option>
+            <mat-option value="60">{{'sportObjectCreator.openingTime.timeIntervalType.60' | translate}}</mat-option>
+            <mat-option value="90">{{'sportObjectCreator.openingTime.timeIntervalType.90' | translate}}</mat-option>
+            <mat-option value="120">{{'sportObjectCreator.openingTime.timeIntervalType.120' | translate}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="form__field">
+          <input currencyMask
+                 [options]="{ prefix: 'PLN ', align: 'left'}"
+                 formControlName="price"
+                 matInput
+                 placeholder="{{ 'sportObjectCreator.openingTime.price' | translate }}">
+
+          <mat-error *ngIf="openingTimeForm.controls.price.errors?.required">
+            {{ 'error.required' | translate }}
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="form__footer">
-        <button type="submit" mat-button [disabled]="positionForm.invalid" (click)="addPosition()">
+        <button type="submit" mat-button [disabled]="openingTimeForm.invalid" (click)="generateOpeningTimesForDay()">
           {{ 'common.add' | translate}}</button>
       </div>
     </form>
 
-    <div *ngIf="positions.length > 0" class="sport-object-positions-list">
+    <div *ngIf="openingTimes.length > 0" class="opening-times-list">
       <h2 class="header__h2">{{ 'sportObjectCreator.position.header' | translate}}</h2>
-      <div class="card card--inline" *ngFor="let item of positions">
-        <h2 class="header__h4 card--inline__item">{{item.name}}</h2>
-        <span class="card--inline__item--wider">
-          {{ 'sportObjectCreator.position.positionsCount' | translate }}: {{ item.positionsCount }}
-        </span>
-        <div>
-          <button type="submit" class="card--inline__item" mat-button color="warn" (click)="deletePosition(item)">
-            {{'common.delete' | translate}}
-          </button>
-        </div>
+      <div class="card card--inline" *ngFor="let item of openingTimes">
+        <h2 class="header__h4 card--inline__item">{{item.startTime}}</h2>
       </div>
     </div>
 
-    <div *ngIf="positions.length === 0">
-      <h2 class="header__h2 no-content">{{'common.noContent' | translate}}</h2>
-    </div>
-
     <div class="form__footer form__footer--with-space-between">
-      <button
-        [disabled]="positions.length === 0"
-        mat-button
-        matStepperNext>{{ 'common.next' | translate}}</button>
+      <button mat-button matStepperNext>{{ 'common.confirm' | translate}}</button>
       <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
     </div>
   </mat-step>

@@ -143,15 +143,24 @@
     },
     "openingTime": {
       "header": "Godziny otwarcia",
-      "monday"
-      "weekday": "Dni robocze",
-      "saturday": "Sobota",
-      "sunday": "Niedziela",
+      "Monday": "poniedziałek",
+      "Tuesday": "wtorek",
+      "Wednesday": "środa",
+      "Thursday": "czwartek",
+      "Friday": "piątek",
+      "Saturday": "sobota",
+      "Sunday": "niedziela",
       "dayOfWeek": "Dzień tygodnia",
       "price": "Cena",
-      "openingTime": "Godzina otwarcia",
-      "closingTime": "Godzina zamknięcia",
-      "timeInterval": "Przedział czasowy"
+      "startTime": "Godzina otwarcia",
+      "finishTime": "Godzina zamknięcia",
+      "timeInterval": "Przedział czasowy",
+      "timeIntervalType": {
+        "30": "0.5h",
+        "60": "1h",
+        "90": "1.5h",
+        "120": "2h"
+      }
     }
   }
 }

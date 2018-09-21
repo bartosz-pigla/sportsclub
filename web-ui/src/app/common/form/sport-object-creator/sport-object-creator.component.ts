@@ -1,13 +1,15 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Form, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Address, Sportsclub} from "../../http-service/sportsclub.service";
 import {SportObject} from "../../http-service/sport-object.service";
-import {OpeningTime, OpeningTimeService} from "../../http-service/opening-time-service";
+import {OpeningTime, OpeningTimeService, Time} from "../../http-service/opening-time-service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ErrorHandlerService} from "../../error-handler.service";
 import {MatDialog} from "@angular/material";
 import {SportObjectPosition} from "../../http-service/sport-object-position-service";
 import {uniquePositionNameValidator} from "./unique-position-name-validator";
+import {WeekDay} from "@angular/common";
+import {generateOpeningTimesForDay} from "../../opening-time-generator";
 
 @Component({
   selector: 'sport-object-creator',
@@ -19,6 +21,7 @@ export class SportObjectCreatorComponent implements OnInit {
 
   @Input() readonly initialSportObject: SportObject;
   @Input() readonly initialSportObjectPositions: SportObjectPosition[];
+  @Input() readonly initialOpeningTimes: OpeningTime[];
   @Input() readonly sportsclub: Sportsclub;
   @Output() submitted: EventEmitter<SportObject> = new EventEmitter<SportObject>();
   @Output() canceled = new EventEmitter();
@@ -27,8 +30,9 @@ export class SportObjectCreatorComponent implements OnInit {
   positionForm: FormGroup;
   openingTimeForm: FormGroup;
   positions: SportObjectPosition[] = [];
-  private positionsToDelete: number[] = [];
-  // openingTimes: OpeningTime[];
+  private positionsToDelete: string[] = [];
+  openingTimes: OpeningTime[] = [];
+  private openingTimesToDelete: string[] = [];
 
   get maxContentLength() {
     return 3000;
@@ -40,6 +44,12 @@ export class SportObjectCreatorComponent implements OnInit {
 
   get mapZoom() {
     return 8;
+  }
+
+  get daysOfWeek() {
+    return Object.keys(WeekDay).filter(
+      (type) => isNaN(<any>type) && type !== 'values'
+    );
   }
 
   private readonly handleError = (error: HttpErrorResponse) => {
@@ -61,7 +71,11 @@ export class SportObjectCreatorComponent implements OnInit {
       this.positions = this.initialSportObjectPositions;
     }
 
-    // this.initOpeningTimes();
+    if(this.initialOpeningTimes) {
+      this.openingTimes = this.initialOpeningTimes;
+    }
+
+    this.initOpeningTimeForm();
   }
 
   initBasicDataForm() {
@@ -89,23 +103,14 @@ export class SportObjectCreatorComponent implements OnInit {
     });
   }
 
-  initOpeningTimeForm() {
-    this.openingTimeForm = this._formBuilder.group({
-      dayOfWeek: ['', Validators.required],
-      openingTime: ['', Validators.required],
-      closingTime: ['', Validators.required],
-      timeInterval: ['', Validators.required],
-      price: ['', [Validators.required, Validators.min(1)]]
-    });
-  }
-
   addPosition() {
     this.positions.push(this.positionForm.value);
     this.resetPositionForm();
   }
 
   deletePosition(position) {
-    this.positions = this.positions.filter(p => p!==position);
+    const positionIdxToDelete = this.positions.indexOf(position);
+    this.positions.splice(positionIdxToDelete, 1);
     if(position.id) {
       this.positionsToDelete.push(position.id);
     }
@@ -115,6 +120,50 @@ export class SportObjectCreatorComponent implements OnInit {
     const lastPositionsCount = this.positionForm.controls.positionsCount.value;
     this.positionForm.reset();
     this.positionForm.controls.positionsCount.setValue(lastPositionsCount);
+  }
+
+  initOpeningTimeForm() {
+    this.openingTimeForm = this._formBuilder.group({
+      dayOfWeek: ['', Validators.required],
+      startTime: ['', Validators.required],
+      finishTime: ['', Validators.required],
+      timeInterval: ['', Validators.required],
+      price: [10, [Validators.required, Validators.min(1)]]
+    });
+  }
+
+  generateOpeningTimesForDay() {
+    console.log(`startTimeValue: ${JSON.stringify(Time.createFromString(this.openingTimeForm.controls.startTime.value))}`);
+    console.log(`startTimehour: ${Time.createFromString(this.openingTimeForm.controls.startTime.value).hour}`);
+    console.log(`startTimeminute: ${Time.createFromString(this.openingTimeForm.controls.startTime.value).minute}`);
+
+    console.log(`intervalTimehour: ${Time.createFromMinutes(this.openingTimeForm.controls.timeInterval.value).hour}`);
+    console.log(`price: ${this.openingTimeForm.controls.price.value}`);
+
+    const dayOfWeek = this.openingTimeForm.controls.dayOfWeek.value;
+
+    const dayOpeningTimes = generateOpeningTimesForDay(
+      dayOfWeek,
+      Time.createFromString(this.openingTimeForm.controls.startTime.value),
+      Time.createFromString(this.openingTimeForm.controls.finishTime.value),
+      Time.createFromMinutes(this.openingTimeForm.controls.timeInterval.value),
+      this.openingTimeForm.controls.price.value);
+
+    console.log(`opening times: ${JSON.stringify(dayOpeningTimes)}`);
+
+    this.deleteOpeningTimes(dayOfWeek);
+    this.openingTimes = this.openingTimes.concat(dayOpeningTimes);
+  }
+
+  deleteOpeningTimes(dayOfWeek: WeekDay) {
+    this.openingTimes
+      .filter(openingTime => openingTime.dayOfWeek === dayOfWeek)
+      .forEach((openingTime, idx, array) => {
+        if (openingTime.id) {
+          this.openingTimesToDelete.push(openingTime.id);
+        }
+        array.splice(idx, 1);
+      });
   }
 
   // initOpeningTimes() {

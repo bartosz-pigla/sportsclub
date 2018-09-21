@@ -8,11 +8,19 @@ import {WeekDay} from "@angular/common";
 //   SUNDAY
 // }
 
-export function generateOpeningTimeForDay(day: WeekDay,
+export function generateOpeningTimesForDay(day: WeekDay,
                                           startTime: Time,
                                           finishTime: Time,
                                           interval: Time,
                                           price: number): OpeningTime[] {
+  console.log(`
+    day: ${JSON.stringify(day)}
+    startTime: ${JSON.stringify(startTime)}
+    finishTime: ${JSON.stringify(finishTime)}
+    interval: ${JSON.stringify(interval)}
+    price: ${JSON.stringify(price)}
+  `);
+
   let openingTimes: OpeningTime[] = [];
   let currentTime = Time.of(startTime);
   let nextTime: Time;
@@ -24,4 +32,19 @@ export function generateOpeningTimeForDay(day: WeekDay,
   }
 
   return openingTimes;
+}
+
+export function getStartTimes(openingTimes: OpeningTime[]): Set<Time> {
+  return new Set(openingTimes
+    .sort((o1, o2) => {
+      const timeDifference = o1.startTime.getTimeDifference(o2.startTime);
+      if (timeDifference > 0) {
+        return 1;
+      } else if (timeDifference < 0) {
+        return -1;
+      } else {
+        return 0
+      }
+    })
+    .map(openingTime => openingTime.startTime));
 }

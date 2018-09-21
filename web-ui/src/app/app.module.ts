@@ -37,6 +37,7 @@ import {ErrorDialog} from "./common/dialog/error/error.dialog";
 import { SportObjectManagementComponent } from './director/sport-object-management/sport-object-management.component';
 import {AgmCoreModule, GoogleMapsAPIWrapper} from "@agm/core";
 import {SportObjectCreatorComponent} from "./common/form/sport-object-creator/sport-object-creator.component";
+import {CurrencyMaskModule} from "ng2-currency-mask";
 
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -87,6 +88,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MATERIAL_MODULES,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    CurrencyMaskModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {

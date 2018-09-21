@@ -1,8 +1,7 @@
 import {WeekDay} from "@angular/common";
 import {Injectable} from "@angular/core";
 import {environment} from "../../../environments/environment";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {SportObject} from "./sport-object.service";
+import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
 // export enum DayOfWeek {
@@ -25,6 +24,16 @@ export class Time {
   public static of(time: Time): Time {
     return new Time(time.hour, time.minute);
   }
+
+  public static createFromMinutes(minutes: number): Time {
+    return new Time(Math.floor(minutes / 60), minutes % 60);
+  }
+
+  public static createFromString(str: string): Time {
+    const hourMinuteArray = str.split(':');
+    return new Time(Number(hourMinuteArray[0]), Number(hourMinuteArray[1]));
+  }
+
   //
   // isBefore(time: Time): boolean {
   //   if (this.hour < time.hour) {
@@ -37,8 +46,14 @@ export class Time {
   // }
 
   getTimeDifference(time: Time): number {
+    console.log(`time: ${time.hour}`);
+    console.log(`thistime: ${this.hour}`);
+
     const hourDifference = (time.hour - this.hour) * 60;
     const minuteDifference = time.minute - this.minute;
+
+    console.log(`time difference: ${hourDifference + minuteDifference}`);
+
     return hourDifference + minuteDifference;
   }
 
