@@ -4,17 +4,6 @@ import {environment} from "../../../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 
-// export enum DayOfWeek {
-//
-//   MONDAY = 'MONDAY',
-//   TUESDAY = 'TUESDAY',
-//   WEDNESDAY = 'WEDNESDAY',
-//   THURSDAY = 'THURSDAY',
-//   FRIDAY = 'FRIDAY',
-//   SATURDAY = 'SATURDAY',
-//   SUNDAY = 'SUNDAY'
-// }
-
 export class Time {
   constructor(public hour: number,
               public minute: number) {
@@ -33,17 +22,6 @@ export class Time {
     const hourMinuteArray = str.split(':');
     return new Time(Number(hourMinuteArray[0]), Number(hourMinuteArray[1]));
   }
-
-  //
-  // isBefore(time: Time): boolean {
-  //   if (this.hour < time.hour) {
-  //     return true;
-  //   } else if (this.hour > time.hour) {
-  //     return false;
-  //   } else {
-  //     return this.minute < time.minute;
-  //   }
-  // }
 
   getTimeDifference(time: Time): number {
     console.log(`time: ${time.hour}`);
@@ -64,16 +42,18 @@ export class Time {
   getMinutes(): number {
     return this.hour * 60 + this.minute;
   }
+
+  equals(time: Time) {
+    return this.hour === time.hour && this.minute === time.minute;
+  }
 }
 
-export class OpeningTime {
-  constructor(public id: string,
-              public dayOfWeek: WeekDay,
+export class DayOpeningTime {
+  constructor(public dayOfWeek: WeekDay,
               public startTime: Time,
               public finishTime: Time,
-              public price: number) {
-
-  }
+              public timeInterval: Time,
+              public price: number ) {}
 }
 
 @Injectable()
@@ -85,8 +65,8 @@ export class OpeningTimeService {
   constructor(private http: HttpClient) {
   }
 
-  get(sportObjectId: string): Observable<OpeningTime[]> {
-    return this.http.get<OpeningTime[]>(`${this.sportObjectPublicApi}/${sportObjectId}/opening-time`);
+  get(sportObjectId: string): Observable<DayOpeningTime[]> {
+    return this.http.get<DayOpeningTime[]>(`${this.sportObjectPublicApi}/${sportObjectId}/opening-time`);
   }
 }
 

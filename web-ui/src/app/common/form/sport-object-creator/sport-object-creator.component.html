@@ -211,15 +211,21 @@
         </mat-form-field>
       </div>
       <div class="form__footer">
-        <button type="submit" mat-button [disabled]="openingTimeForm.invalid" (click)="generateOpeningTimesForDay()">
+        <button type="submit" mat-button [disabled]="openingTimeForm.invalid" (click)="addOpeningTime()">
           {{ 'common.add' | translate}}</button>
       </div>
     </form>
 
-    <div *ngIf="openingTimes.length > 0" class="opening-times-list">
-      <h2 class="header__h2">{{ 'sportObjectCreator.position.header' | translate}}</h2>
-      <div class="card card--inline" *ngFor="let item of openingTimes">
-        <h2 class="header__h4 card--inline__item">{{item.startTime}}</h2>
+    <div class="card card--inline" *ngFor="let item of getSortedOpeningTimes()">
+      <h2 class="header__h4 card--inline__item">{{'sportObjectCreator.openingTime.' + item.dayOfWeek | translate}}</h2>
+      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.startTime' | translate}}: {{item.startTime}}</span>
+      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.finishTime' | translate}}: {{item.finishTime}}</span>
+      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.price' | translate}}: {{item.price}}</span>
+      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.timeInterval' | translate}}: {{item.timeInterval}} </span>
+      <div>
+        <button class="card--inline__item" type="submit" mat-button color="warn" (click)="deleteOpeningTime(item.dayOfWeek)">
+          {{ 'common.delete' | translate }}
+        </button>
       </div>
     </div>
 

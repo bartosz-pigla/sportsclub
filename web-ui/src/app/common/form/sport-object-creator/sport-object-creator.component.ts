@@ -1,15 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Address, Sportsclub} from "../../http-service/sportsclub.service";
 import {SportObject} from "../../http-service/sport-object.service";
-import {OpeningTime, OpeningTimeService, Time} from "../../http-service/opening-time-service";
+import {DayOpeningTime, OpeningTimeService, Time} from "../../http-service/opening-time-service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ErrorHandlerService} from "../../error-handler.service";
 import {MatDialog} from "@angular/material";
 import {SportObjectPosition} from "../../http-service/sport-object-position-service";
 import {uniquePositionNameValidator} from "./unique-position-name-validator";
 import {WeekDay} from "@angular/common";
-import {generateOpeningTimesForDay} from "../../opening-time-generator";
+import {ListViewComponent} from "../../component/list-view/list-view.component";
+import {Announcement} from "../../http-service/announcement-service";
 
 @Component({
   selector: 'sport-object-creator',
@@ -21,7 +22,7 @@ export class SportObjectCreatorComponent implements OnInit {
 
   @Input() readonly initialSportObject: SportObject;
   @Input() readonly initialSportObjectPositions: SportObjectPosition[];
-  @Input() readonly initialOpeningTimes: OpeningTime[];
+  @Input() readonly initialOpeningTimes: DayOpeningTime[];
   @Input() readonly sportsclub: Sportsclub;
   @Output() submitted: EventEmitter<SportObject> = new EventEmitter<SportObject>();
   @Output() canceled = new EventEmitter();
@@ -31,8 +32,7 @@ export class SportObjectCreatorComponent implements OnInit {
   openingTimeForm: FormGroup;
   positions: SportObjectPosition[] = [];
   private positionsToDelete: string[] = [];
-  openingTimes: OpeningTime[] = [];
-  private openingTimesToDelete: string[] = [];
+  openingTimes: DayOpeningTime[] = [];
 
   get maxContentLength() {
     return 3000;
@@ -132,56 +132,33 @@ export class SportObjectCreatorComponent implements OnInit {
     });
   }
 
-  generateOpeningTimesForDay() {
-    console.log(`startTimeValue: ${JSON.stringify(Time.createFromString(this.openingTimeForm.controls.startTime.value))}`);
-    console.log(`startTimehour: ${Time.createFromString(this.openingTimeForm.controls.startTime.value).hour}`);
-    console.log(`startTimeminute: ${Time.createFromString(this.openingTimeForm.controls.startTime.value).minute}`);
-
-    console.log(`intervalTimehour: ${Time.createFromMinutes(this.openingTimeForm.controls.timeInterval.value).hour}`);
-    console.log(`price: ${this.openingTimeForm.controls.price.value}`);
-
-    const dayOfWeek = this.openingTimeForm.controls.dayOfWeek.value;
-
-    const dayOpeningTimes = generateOpeningTimesForDay(
-      dayOfWeek,
-      Time.createFromString(this.openingTimeForm.controls.startTime.value),
-      Time.createFromString(this.openingTimeForm.controls.finishTime.value),
-      Time.createFromMinutes(this.openingTimeForm.controls.timeInterval.value),
-      this.openingTimeForm.controls.price.value);
-
-    console.log(`opening times: ${JSON.stringify(dayOpeningTimes)}`);
-
-    this.deleteOpeningTimes(dayOfWeek);
-    this.openingTimes = this.openingTimes.concat(dayOpeningTimes);
+  addOpeningTime() {
+    const openingTime: DayOpeningTime = this.openingTimeForm.value;
+    this.deleteOpeningTime(openingTime.dayOfWeek);
+    this.openingTimes.push(openingTime);
+    this.openingTimeForm.reset();
   }
 
-  deleteOpeningTimes(dayOfWeek: WeekDay) {
-    this.openingTimes
-      .filter(openingTime => openingTime.dayOfWeek === dayOfWeek)
-      .forEach((openingTime, idx, array) => {
-        if (openingTime.id) {
-          this.openingTimesToDelete.push(openingTime.id);
-        }
-        array.splice(idx, 1);
-      });
+  deleteOpeningTime(day: WeekDay) {
+    this.openingTimes = this.openingTimes.filter(o => o.dayOfWeek == day);
   }
-
-  // initOpeningTimes() {
-  //   if (this.initialSportObject) {
-  //     this.openingTimeService.get(this.initialSportObject.id).subscribe(
-  //       (openingTimes: OpeningTime[]) => {
-  //         this.openingTimes = openingTimes;
-  //       },
-  //       (error: HttpErrorResponse) => {
-  //         this.handleError(error);
-  //       }
-  //     )
-  //   }
-  // }
 
   updateAddressForm(newMarkerData) {
     this.address.latitude = newMarkerData.coords.lat;
     this.address.longitude = newMarkerData.coords.lng;
     console.log(`updated address: ${JSON.stringify(this.address)}`);
+  }
+
+  getSortedOpeningTimes(): DayOpeningTime[]{
+    return this.openingTimes
+      .sort((o1, o2) => {
+        if (o1.dayOfWeek > o2.dayOfWeek) {
+          return -1;
+        } else if (o1.dayOfWeek < o2.dayOfWeek) {
+          return 1;
+        } else {
+          return 0
+        }
+      });
   }
 }
