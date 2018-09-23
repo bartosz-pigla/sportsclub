@@ -1,22 +1,22 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Address, Sportsclub} from "../../http-service/sportsclub.service";
-import {SportObject} from "../../http-service/sport-object.service";
+import {SportObject, SportObjectService} from "../../http-service/sport-object.service";
 import {DayOpeningTime, OpeningTimeService, Time} from "../../http-service/opening-time-service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ErrorHandlerService} from "../../error-handler.service";
 import {MatDialog} from "@angular/material";
-import {SportObjectPosition} from "../../http-service/sport-object-position-service";
+import {SportObjectPosition, SportObjectPositionService} from "../../http-service/sport-object-position-service";
 import {uniquePositionNameValidator} from "./unique-position-name-validator";
 import {WeekDay} from "@angular/common";
-import {ListViewComponent} from "../../component/list-view/list-view.component";
-import {Announcement} from "../../http-service/announcement-service";
+import {environment} from "../../../../environments/environment";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'sport-object-creator',
   templateUrl: './sport-object-creator.component.html',
   styleUrls: ['./sport-object-creator.component.scss'],
-  providers: [OpeningTimeService]
+  providers: [OpeningTimeService, SportObjectService, SportObjectPositionService]
 })
 export class SportObjectCreatorComponent implements OnInit {
 
@@ -52,14 +52,14 @@ export class SportObjectCreatorComponent implements OnInit {
     );
   }
 
-  private readonly handleError = (error: HttpErrorResponse) => {
-    this.errorHandlerService.showDialog(this.dialog, error);
-  };
+  private errorHandler = (error: HttpErrorResponse) => this.errorHandlerService.showDialog(this.dialog, error);
 
   constructor(private _formBuilder: FormBuilder,
               private openingTimeService: OpeningTimeService,
               private errorHandlerService: ErrorHandlerService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private sportObjectService: SportObjectService,
+              private sportObjectPositionService: SportObjectPositionService) {
   }
 
   ngOnInit() {
@@ -88,7 +88,7 @@ export class SportObjectCreatorComponent implements OnInit {
         this.initialSportObject ? this.initialSportObject.description : '',
         [Validators.required, Validators.maxLength(this.maxContentLength)]
       ],
-      url: [
+      imageUrl: [
         this.initialSportObject ? this.initialSportObject.description : '',
         Validators.required
       ]
@@ -133,14 +133,23 @@ export class SportObjectCreatorComponent implements OnInit {
   }
 
   addOpeningTime() {
-    const openingTime: DayOpeningTime = this.openingTimeForm.value;
+    const openingTime = new DayOpeningTime(
+      this.openingTimeForm.controls.dayOfWeek.value,
+      Time.createFromString(this.openingTimeForm.controls.startTime.value),
+      Time.createFromString(this.openingTimeForm.controls.finishTime.value),
+      this.openingTimeForm.controls.timeInterval.value,
+      this.openingTimeForm.controls.price.value
+    );
+
+    console.log(`opening time: ${JSON.stringify(this.openingTimeForm)}`);
+
     this.deleteOpeningTime(openingTime.dayOfWeek);
     this.openingTimes.push(openingTime);
     this.openingTimeForm.reset();
   }
 
   deleteOpeningTime(day: WeekDay) {
-    this.openingTimes = this.openingTimes.filter(o => o.dayOfWeek == day);
+    this.openingTimes = this.openingTimes.filter(o => o.dayOfWeek !== day);
   }
 
   updateAddressForm(newMarkerData) {
@@ -160,5 +169,40 @@ export class SportObjectCreatorComponent implements OnInit {
           return 0
         }
       });
+  }
+
+  confirm() {
+    const sportObject: SportObject = this.basicDataForm.value;
+    sportObject.address = this.address;
+    sportObject.sportsclubId = environment.sportsclubId;
+
+    this.sportObjectService.post(sportObject).subscribe(
+      (sportObject) => {
+        console.log(`sport object save success: ${JSON.stringify(sportObject)}`);
+
+        if (this.positionsToDelete.length === 0) {
+          this.confirmPositionsAndOpeningTimes(sportObject);
+        } else {
+          forkJoin(this.positionsToDelete.map(positionId => this.sportObjectPositionService.delete(sportObject.id, positionId)))
+            .subscribe(() => {
+                console.log(`sport object position delete success: ${JSON.stringify(this.positionsToDelete)}`);
+                this.confirmPositionsAndOpeningTimes(sportObject);
+              },
+              this.errorHandler);
+        }
+      },
+      this.errorHandler
+    );
+  }
+
+  confirmPositionsAndOpeningTimes(sportObject: SportObject) {
+    forkJoin(this.positions.map(position => this.sportObjectPositionService.post(sportObject.id, position)))
+      .subscribe(() => {
+        console.log(`sport object position save success: ${JSON.stringify(sportObject)}`);
+        forkJoin(this.openingTimes.map(openingTime => this.openingTimeService.post(sportObject.id, openingTime)))
+          .subscribe(() => {
+            this.submitted.emit(sportObject);
+          }, this.errorHandler);
+      }, this.errorHandler);
   }
 }

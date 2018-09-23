@@ -1,5 +1,6 @@
 package query.model.sportobject.repository;
 
+import java.time.DayOfWeek;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,5 +30,9 @@ public final class OpeningTimeQueryExpressions {
                 .map(n -> BaseEntityQueryExpressions.isNotDeleted(openingTime._super)
                         .and(BaseEntityQueryExpressions.idMatches(objectId, openingTime.sportObject._super)))
                 .orElse(openingTime.isNull());
+    }
+    
+    public static BooleanExpression sportObjectIdAndDayMatches(UUID objectId, DayOfWeek day) {
+        return sportObjectIdMatches(objectId).and(openingTime.timeRange.dayOfWeek.eq(day));
     }
 }

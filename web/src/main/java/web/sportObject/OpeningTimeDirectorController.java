@@ -1,14 +1,21 @@
 package web.sportObject;
 
+import static com.google.common.collect.Lists.newArrayList;
+import static java.util.Comparator.comparing;
 import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
+import static web.common.RequestMappings.DIRECTOR_API_DAY_OPENING_TIME;
 import static web.common.RequestMappings.DIRECTOR_API_OPENING_TIME;
 import static web.common.RequestMappings.DIRECTOR_API_OPENING_TIME_BY_ID;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import api.sportObject.openingTime.command.CreateOpeningTimeCommand;
@@ -26,6 +33,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,18 +43,21 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import query.model.embeddable.OpeningTimeRange;
 import query.model.embeddable.Price;
+import query.model.sportobject.OpeningTimeEntity;
 import query.model.sportobject.repository.OpeningTimeEntityRepository;
 import query.model.sportobject.repository.OpeningTimeQueryExpressions;
 import query.model.sportobject.repository.SportObjectEntityRepository;
 import query.model.sportobject.repository.SportObjectQueryExpressions;
 import query.model.sportsclub.repository.SportsclubEntityRepository;
 import query.model.sportsclub.repository.SportsclubQueryExpressions;
+import web.common.BaseController;
+import web.common.dto.FieldErrorDto;
+import web.sportObject.dto.DayOpeningTimeDto;
+import web.sportObject.dto.DayOpeningTimeDtoFactory;
 import web.sportObject.dto.OpeningTimeDto;
 import web.sportObject.dto.OpeningTimeDtoFactory;
 import web.sportObject.dto.TimeDto;
 import web.sportObject.service.OpeningTimeRangeDtoValidator;
-import web.common.BaseController;
-import web.common.dto.FieldErrorDto;
 
 @RestController
 @Setter(onMethod_ = { @Autowired })
@@ -159,6 +170,69 @@ final class OpeningTimeDirectorController extends BaseController {
         } else {
             return false;
         }
+    }
+
+    @GetMapping(DIRECTOR_API_DAY_OPENING_TIME)
+    @ResponseStatus(HttpStatus.OK)
+    public List<DayOpeningTimeDto> get(@PathVariable UUID sportObjectId) {
+        List<OpeningTimeEntity> openingTimes = newArrayList(openingTimeRepository.findAll(
+                OpeningTimeQueryExpressions.sportObjectIdMatches(sportObjectId)));
+
+        return getDayOpeningTimes(openingTimes);
+    }
+
+    @PostMapping(DIRECTOR_API_DAY_OPENING_TIME)
+    public ResponseEntity<?> create(@PathVariable UUID sportObjectId,
+                                  @RequestBody DayOpeningTimeDto dayOpeningTimeDto) {
+        DayOfWeek day = DayOfWeek.valueOf(dayOpeningTimeDto.getDayOfWeek().toUpperCase());
+
+        openingTimeRepository.findAll(OpeningTimeQueryExpressions.sportObjectIdAndDayMatches(sportObjectId, day))
+                .forEach(openingTime -> commandGateway.send(new DeleteOpeningTimeCommand(sportObjectId, openingTime.getId())));
+
+        int timeInterval = dayOpeningTimeDto.getTimeInterval();
+        LocalTime finishTime = LocalTime.of(dayOpeningTimeDto.getFinishTime().getHour(), dayOpeningTimeDto.getFinishTime().getMinute());
+        LocalTime currentTime = LocalTime.of(dayOpeningTimeDto.getStartTime().getHour(), dayOpeningTimeDto.getStartTime().getMinute());
+        LocalTime nextTime;
+
+        while ((nextTime = currentTime.plusMinutes(timeInterval)).compareTo(finishTime) < 0) {
+            commandGateway.send(CreateOpeningTimeCommand.builder()
+                    .sportObjectId(sportObjectId)
+                    .timeRange(new OpeningTimeRange(day, currentTime, nextTime))
+                    .price(new Price(new BigDecimal(dayOpeningTimeDto.getPrice())))
+                    .build());
+            currentTime = nextTime;
+        }
+
+        List<DayOpeningTimeDto> dayOpeningTimes = getDayOpeningTimes(
+                newArrayList(openingTimeRepository.findAll(OpeningTimeQueryExpressions.sportObjectIdAndDayMatches(sportObjectId, day))));
+
+        if (dayOpeningTimes.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        } else {
+            return ok(dayOpeningTimes.get(0));
+        }
+    }
+
+    private List<DayOpeningTimeDto> getDayOpeningTimes(List<OpeningTimeEntity> openingTimes) {
+        Comparator<OpeningTimeEntity> startTimeComparator = comparing(o -> o.getTimeRange().getStartTime());
+        List<DayOpeningTimeDto> dayOpeningTimes = new ArrayList<>();
+
+        for (DayOfWeek day : DayOfWeek.values()) {
+            Optional<OpeningTimeEntity> firstOpeningTimeForDayOptional = openingTimes.stream()
+                    .filter(o -> o.getTimeRange().getDayOfWeek() == day)
+                    .min(startTimeComparator);
+
+            if (firstOpeningTimeForDayOptional.isPresent()) {
+                OpeningTimeEntity firstOpeningTimeForDay = firstOpeningTimeForDayOptional.get();
+                OpeningTimeEntity lastOpeningTimeForDay = openingTimes.stream()
+                        .filter(o -> o.getTimeRange().getDayOfWeek() == day)
+                        .max(startTimeComparator).get();
+
+                dayOpeningTimes.add(DayOpeningTimeDtoFactory.create(day, firstOpeningTimeForDay, lastOpeningTimeForDay));
+            }
+        }
+
+        return dayOpeningTimes;
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)

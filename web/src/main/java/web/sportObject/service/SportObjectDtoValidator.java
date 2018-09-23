@@ -7,7 +7,6 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import query.model.embeddable.validation.CityValidator;
 import query.model.embeddable.validation.CoordinatesValidator;
 import web.sportObject.dto.AddressDto;
 import web.sportObject.dto.SportObjectDto;
@@ -43,7 +42,7 @@ public class SportObjectDtoValidator implements Validator {
     }
 
     private void validateAddress(AddressDto address, Errors errors) {
-        CityValidator.validate(address.getCity(), errors);
+//        CityValidator.validate(address.getCity(), errors);
         CoordinatesValidator.validate(address.getLatitude(), address.getLongitude(), errors);
     }
 }

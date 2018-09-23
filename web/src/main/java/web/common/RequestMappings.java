@@ -54,7 +54,8 @@ public final class RequestMappings {
     public static final String DIRECTOR_API_SPORT_OBJECT_BY_ID = DIRECTOR_API_SPORT_OBJECT + SPORT_OBJECT_ID_PARAMETER;
     public static final String DIRECTOR_API_OPENING_TIME = DIRECTOR_API_SPORT_OBJECT_BY_ID + "/opening-time";
     public static final String DIRECTOR_API_OPENING_TIME_BY_ID = DIRECTOR_API_OPENING_TIME + OPENING_TIME_ID_PARAMETER;
-    public static final String DIRECTOR_API_SPORT_OBJECT_POSITION = DIRECTOR_API_SPORT_OBJECT_BY_ID + "sport-object-position";
+    public static final String DIRECTOR_API_DAY_OPENING_TIME = DIRECTOR_API_SPORT_OBJECT_BY_ID + "/day-opening-time";
+    public static final String DIRECTOR_API_SPORT_OBJECT_POSITION = DIRECTOR_API_SPORT_OBJECT_BY_ID + "/sport-object-position";
     public static final String DIRECTOR_API_SPORT_OBJECT_POSITION_BY_ID = DIRECTOR_API_SPORT_OBJECT_POSITION + SPORT_OBJECT_POSITION_ID_PARAMETER;
 
     //RECEPTIONIST API

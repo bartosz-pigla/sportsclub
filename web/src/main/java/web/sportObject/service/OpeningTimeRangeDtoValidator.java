@@ -8,6 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import query.model.embeddable.validation.OpeningTimeRangeValidator;
 import query.model.embeddable.validation.PriceValidator;
+import web.sportObject.dto.DayOpeningTimeDto;
 import web.sportObject.dto.OpeningTimeDto;
 
 @Service
@@ -15,7 +16,7 @@ public class OpeningTimeRangeDtoValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
-        return OpeningTimeDto.class.equals(aClass);
+        return OpeningTimeDto.class.equals(aClass) || DayOpeningTimeDto.class.equals(aClass);
     }
 
     @Override

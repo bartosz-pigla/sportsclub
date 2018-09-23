@@ -29,9 +29,9 @@
 
         <div class="form__body">
           <mat-form-field class="form__field">
-            <input formControlName="url" matInput placeholder="{{ 'sportObjectCreator.basicData.pictureUrl' | translate }}">
+            <input formControlName="imageUrl" matInput placeholder="{{ 'sportObjectCreator.basicData.imageUrl' | translate }}">
 
-            <mat-error *ngIf="basicDataForm.controls.description.errors?.required">
+            <mat-error *ngIf="basicDataForm.controls.imageUrl.errors?.required">
               {{ 'error.required' | translate }}
             </mat-error>
           </mat-form-field>
@@ -220,8 +220,8 @@
       <h2 class="header__h4 card--inline__item">{{'sportObjectCreator.openingTime.' + item.dayOfWeek | translate}}</h2>
       <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.startTime' | translate}}: {{item.startTime}}</span>
       <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.finishTime' | translate}}: {{item.finishTime}}</span>
-      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.price' | translate}}: {{item.price}}</span>
-      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.timeInterval' | translate}}: {{item.timeInterval}} </span>
+      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.price' | translate}}: PLN {{item.price}}</span>
+      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.timeInterval' | translate}}: {{item.timeInterval}} min</span>
       <div>
         <button class="card--inline__item" type="submit" mat-button color="warn" (click)="deleteOpeningTime(item.dayOfWeek)">
           {{ 'common.delete' | translate }}
@@ -230,7 +230,7 @@
     </div>
 
     <div class="form__footer form__footer--with-space-between">
-      <button mat-button matStepperNext>{{ 'common.confirm' | translate}}</button>
+      <button mat-button (click)="confirm()">{{ 'common.confirm' | translate}}</button>
       <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
     </div>
   </mat-step>

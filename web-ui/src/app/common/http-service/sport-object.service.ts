@@ -2,6 +2,8 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Address} from "./sportsclub.service";
+import {Observable} from "rxjs";
+import {User} from "./user.service";
 
 export class SportObject {
   constructor(public id: string,
@@ -20,6 +22,9 @@ export class SportObjectService {
 
   private readonly sportObjectPublicApi: string =
     `${environment.apiUrl}/public-api/sportsclub/${environment.sportsclubId}/sport-object`;
+
+  private readonly sportObjectDirectorApi: string =
+    `${environment.apiUrl}/director-api/sportsclub/${environment.sportsclubId}/sport-object`;
 
   constructor(private http: HttpClient) {
   }
@@ -41,6 +46,10 @@ export class SportObjectService {
         }
       );
     }
+  }
+
+  post(sportObject: SportObject): Observable<SportObject> {
+    return this.http.post<SportObject>(this.sportObjectDirectorApi, sportObject);
   }
 
   private static tryToGetSportObjectFromSession(): SportObject[] {

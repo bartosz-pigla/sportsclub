@@ -130,7 +130,7 @@
       "header": "Podstawowe informacje",
       "name": "Nazwa",
       "description": "Opis",
-      "pictureUrl": "Adres URL zdjęcia"
+      "imageUrl": "Adres URL zdjęcia"
     },
     "map": {
       "header": "Lokalizacja"
