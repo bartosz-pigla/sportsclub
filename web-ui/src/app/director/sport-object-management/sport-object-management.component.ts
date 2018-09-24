@@ -5,12 +5,14 @@ import {SportObject, SportObjectService} from "../../common/http-service/sport-o
 import {HttpErrorResponse} from "@angular/common/http";
 import {ErrorHandlerService} from "../../common/error-handler.service";
 import {MatDialog} from "@angular/material";
+import {SportObjectPosition, SportObjectPositionService} from "../../common/http-service/sport-object-position-service";
+import {OpeningTimeService} from "../../common/http-service/opening-time-service";
 
 @Component({
   selector: 'sport-object-management',
   templateUrl: './sport-object-management.component.html',
   styleUrls: ['./sport-object-management.component.scss'],
-  providers: [SportsclubService, SportObjectService]
+  providers: [SportsclubService, SportObjectService, SportObjectPositionService, OpeningTimeService]
 })
 export class SportObjectManagementComponent implements OnInit {
 
@@ -27,6 +29,8 @@ export class SportObjectManagementComponent implements OnInit {
   constructor(
     private sportsclubService: SportsclubService,
     public sportObjectService: SportObjectService,
+    private sportObjectPositionService: SportObjectPositionService,
+    private openingTimeService: OpeningTimeService,
     private errorHandlerService: ErrorHandlerService,
     private dialog: MatDialog) {
   }
@@ -84,5 +88,19 @@ export class SportObjectManagementComponent implements OnInit {
   hideCreateForm() {
     this.createFormIsVisible = false;
     this.initSportObjects();
+  }
+
+  updateSportObject(sportObject) {
+    console.log('update sport object');
+    const idx = this.sportObjects.findIndex(s => s.id === sportObject.id);
+    this.sportObjects.splice(idx, 1);
+    this.sportObjects.push(sportObject);
+    this.hideEditForm();
+  }
+
+  createSportObject(sportObject) {
+    console.log('create sport object');
+    this.sportObjects.push(sportObject);
+    this.hideCreateForm();
   }
 }

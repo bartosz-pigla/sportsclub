@@ -44,6 +44,7 @@
                 matStepperNext>
           {{ 'common.next' | translate}}
         </button>
+        <button mat-button (click)="cancel()">{{ 'common.cancel' | translate}}</button>
       </div>
     </form>
   </mat-step>
@@ -66,7 +67,10 @@
       <button
         mat-button
         matStepperNext>{{ 'common.next' | translate}}</button>
-      <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
+      <div>
+        <button mat-button (click)="cancel()">{{ 'common.cancel' | translate}}</button>
+        <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
+      </div>
     </div>
   </mat-step>
   <mat-step [stepControl]="basicDataForm" [completed]="false">
@@ -151,7 +155,10 @@
         [disabled]="positions.length === 0"
         mat-button
         matStepperNext>{{ 'common.next' | translate}}</button>
-      <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
+      <div>
+        <button mat-button (click)="cancel()">{{ 'common.cancel' | translate}}</button>
+        <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
+      </div>
     </div>
   </mat-step>
   <mat-step [stepControl]="openingTimeForm" [completed]="false">
@@ -218,9 +225,12 @@
 
     <div class="card card--inline" *ngFor="let item of getSortedOpeningTimes()">
       <h2 class="header__h4 card--inline__item">{{'sportObjectCreator.openingTime.' + item.dayOfWeek | translate}}</h2>
-      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.startTime' | translate}}: {{item.startTime}}</span>
-      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.finishTime' | translate}}: {{item.finishTime}}</span>
-      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.price' | translate}}: PLN {{item.price}}</span>
+      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.startTime' | translate}}: {{item.startTime.hour | number:'2.0-0'}}:{{item.startTime.minute | number:'2.0-0'}}</span>
+      <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.finishTime' | translate}}: {{item.finishTime.hour | number:'2.0-0'}}:{{item.finishTime.minute | number:'2.0-0'}}</span>
+      <div class="card--inline__item">
+        <div>{{ 'sportObjectCreator.openingTime.price' | translate}}:</div>
+        <div>PLN {{item.price}}</div>
+      </div>
       <span class="card--inline__item">{{ 'sportObjectCreator.openingTime.timeInterval' | translate}}: {{item.timeInterval}} min</span>
       <div>
         <button class="card--inline__item" type="submit" mat-button color="warn" (click)="deleteOpeningTime(item.dayOfWeek)">
@@ -230,8 +240,11 @@
     </div>
 
     <div class="form__footer form__footer--with-space-between">
-      <button mat-button (click)="confirm()">{{ 'common.confirm' | translate}}</button>
-      <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
+      <button mat-button color="primary" (click)="confirm()">{{ 'common.confirm' | translate}}</button>
+      <div>
+        <button mat-button (click)="cancel()">{{ 'common.cancel' | translate}}</button>
+        <button mat-button matStepperPrevious>{{ 'common.previous' | translate}}</button>
+      </div>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

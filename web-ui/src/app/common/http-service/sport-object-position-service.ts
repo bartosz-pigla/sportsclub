@@ -24,6 +24,10 @@ export class SportObjectPositionService {
   constructor(private http: HttpClient) {
   }
 
+  get(objectId: string): Observable<SportObjectPosition[]> {
+    return this.http.get<SportObjectPosition[]>(`${this.sportObjectPublicApi}/${objectId}/sport-object-position`);
+  }
+
   post(objectId: string, position: SportObjectPosition): Observable<SportObjectPosition> {
     return this.http.post<SportObjectPosition>(`${this.sportObjectDirectorApi}/${objectId}/sport-object-position`, position);
   }

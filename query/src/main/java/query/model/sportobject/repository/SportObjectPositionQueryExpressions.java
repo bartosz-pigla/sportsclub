@@ -23,4 +23,10 @@ public final class SportObjectPositionQueryExpressions {
     public static BooleanExpression idMatches(UUID id) {
         return BaseEntityQueryExpressions.idMatches(id, sportObjectPosition._super);
     }
+
+    public static BooleanExpression sportObjectIdMatches(UUID objectId) {
+        return Optional.ofNullable(objectId)
+                .map(o -> isNotDeleted(sportObjectPosition._super).and(BaseEntityQueryExpressions.idMatches(objectId, sportObjectPosition.sportObject._super)))
+                .orElse(sportObjectPosition.isNull());
+    }
 }

@@ -55,6 +55,6 @@ public class SportObjectEntityEventHandler {
         logger.info("Deleting sport object with id: {} from database", sportObjectId);
         SportObjectEntity sportObject = sportObjectRepository.getOne(sportObjectId);
         sportObject.setDeleted(true);
-        sportObjectRepository.deleteById(sportObjectId);
+        sportObjectRepository.save(sportObject);
     }
 }

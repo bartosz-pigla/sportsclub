@@ -20,16 +20,16 @@ import {forkJoin} from "rxjs";
 })
 export class SportObjectCreatorComponent implements OnInit {
 
-  @Input() readonly initialSportObject: SportObject;
-  @Input() readonly initialSportObjectPositions: SportObjectPosition[];
-  @Input() readonly initialOpeningTimes: DayOpeningTime[];
+  @Input() readonly sportObject: SportObject;
   @Input() readonly sportsclub: Sportsclub;
   @Output() submitted: EventEmitter<SportObject> = new EventEmitter<SportObject>();
   @Output() canceled = new EventEmitter();
+
   basicDataForm: FormGroup;
   address: Address;
   positionForm: FormGroup;
   openingTimeForm: FormGroup;
+
   positions: SportObjectPosition[] = [];
   private positionsToDelete: string[] = [];
   openingTimes: DayOpeningTime[] = [];
@@ -63,33 +63,45 @@ export class SportObjectCreatorComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.sportObject) {
+      this.initPositions(this.sportObject.id);
+      this.initOpeningTimes(this.sportObject.id);
+    }
+
     this.initBasicDataForm();
     this.address = this.sportsclub.address;
     this.initPositionForm();
-
-    if(this.initialSportObjectPositions) {
-      this.positions = this.initialSportObjectPositions;
-    }
-
-    if(this.initialOpeningTimes) {
-      this.openingTimes = this.initialOpeningTimes;
-    }
-
     this.initOpeningTimeForm();
+  }
+
+  initPositions(objectId: string) {
+    console.log('get positions:');
+    this.sportObjectPositionService.get(objectId).subscribe(
+      positions => {
+        console.log('get positions success');
+        this.positions = positions
+      },
+      error => this.errorHandler(error));
+  }
+
+  initOpeningTimes(objectId: string) {
+    this.openingTimeService.get(objectId).subscribe(
+      openingTimes => this.openingTimes = openingTimes,
+      error => this.errorHandler(error));
   }
 
   initBasicDataForm() {
     this.basicDataForm = this._formBuilder.group({
       name: [
-        this.initialSportObject ? this.initialSportObject.name : '',
+        this.sportObject ? this.sportObject.name : '',
         Validators.required
       ],
       description: [
-        this.initialSportObject ? this.initialSportObject.description : '',
+        this.sportObject ? this.sportObject.description : '',
         [Validators.required, Validators.maxLength(this.maxContentLength)]
       ],
       imageUrl: [
-        this.initialSportObject ? this.initialSportObject.description : '',
+        this.sportObject ? this.sportObject.description : '',
         Validators.required
       ]
     });
@@ -111,7 +123,7 @@ export class SportObjectCreatorComponent implements OnInit {
   deletePosition(position) {
     const positionIdxToDelete = this.positions.indexOf(position);
     this.positions.splice(positionIdxToDelete, 1);
-    if(position.id) {
+    if (position.id) {
       this.positionsToDelete.push(position.id);
     }
   }
@@ -141,7 +153,7 @@ export class SportObjectCreatorComponent implements OnInit {
       this.openingTimeForm.controls.price.value
     );
 
-    console.log(`opening time: ${JSON.stringify(this.openingTimeForm)}`);
+    console.log(`opening time: ${JSON.stringify(openingTime)}`);
 
     this.deleteOpeningTime(openingTime.dayOfWeek);
     this.openingTimes.push(openingTime);
@@ -158,7 +170,7 @@ export class SportObjectCreatorComponent implements OnInit {
     console.log(`updated address: ${JSON.stringify(this.address)}`);
   }
 
-  getSortedOpeningTimes(): DayOpeningTime[]{
+  getSortedOpeningTimes(): DayOpeningTime[] {
     return this.openingTimes
       .sort((o1, o2) => {
         if (o1.dayOfWeek > o2.dayOfWeek) {
@@ -171,32 +183,61 @@ export class SportObjectCreatorComponent implements OnInit {
       });
   }
 
+  cancel() {
+    this.canceled.emit();
+  }
+
   confirm() {
     const sportObject: SportObject = this.basicDataForm.value;
     sportObject.address = this.address;
     sportObject.sportsclubId = environment.sportsclubId;
 
+    if (this.sportObject) {
+      sportObject.id = this.sportObject.id;
+      this.updateSportObject(sportObject);
+    } else {
+      this.createSportObject(sportObject);
+    }
+  }
+
+  createSportObject(sportObject: SportObject) {
     this.sportObjectService.post(sportObject).subscribe(
       (sportObject) => {
+        this.sportObjectService.addSportObjectToSession(sportObject);
         console.log(`sport object save success: ${JSON.stringify(sportObject)}`);
-
-        if (this.positionsToDelete.length === 0) {
-          this.confirmPositionsAndOpeningTimes(sportObject);
-        } else {
-          forkJoin(this.positionsToDelete.map(positionId => this.sportObjectPositionService.delete(sportObject.id, positionId)))
-            .subscribe(() => {
-                console.log(`sport object position delete success: ${JSON.stringify(this.positionsToDelete)}`);
-                this.confirmPositionsAndOpeningTimes(sportObject);
-              },
-              this.errorHandler);
-        }
+        this.handleCreateOrUpdateSportObjectSuccess(sportObject);
       },
       this.errorHandler
     );
   }
 
+  updateSportObject(sportObject: SportObject) {
+    this.sportObjectService.put(sportObject.id, sportObject).subscribe(
+      () => {
+        this.sportObjectService.updateSportObjectInSession(sportObject);
+        console.log(`sport object update success: ${JSON.stringify(sportObject)}`);
+        this.handleCreateOrUpdateSportObjectSuccess(sportObject);
+      },
+      this.errorHandler);
+  }
+
+  handleCreateOrUpdateSportObjectSuccess(sportObject: SportObject) {
+    if (this.positionsToDelete.length === 0) {
+      this.confirmPositionsAndOpeningTimes(sportObject);
+    } else {
+      forkJoin(this.positionsToDelete.map(positionId => this.sportObjectPositionService.delete(sportObject.id, positionId)))
+        .subscribe(() => {
+            console.log(`sport object position delete success: ${JSON.stringify(this.positionsToDelete)}`);
+            this.confirmPositionsAndOpeningTimes(sportObject);
+          },
+          this.errorHandler);
+    }
+  }
+
   confirmPositionsAndOpeningTimes(sportObject: SportObject) {
-    forkJoin(this.positions.map(position => this.sportObjectPositionService.post(sportObject.id, position)))
+    forkJoin(this.positions
+      .filter(position => position.id === undefined || position.id === null)
+      .map(position => this.sportObjectPositionService.post(sportObject.id, position)))
       .subscribe(() => {
         console.log(`sport object position save success: ${JSON.stringify(sportObject)}`);
         forkJoin(this.openingTimes.map(openingTime => this.openingTimeService.post(sportObject.id, openingTime)))
@@ -204,5 +245,9 @@ export class SportObjectCreatorComponent implements OnInit {
             this.submitted.emit(sportObject);
           }, this.errorHandler);
       }, this.errorHandler);
+
+    if(this.positions.filter(position => position.id === undefined || position.id === null).length === 0){
+      this.submitted.emit(sportObject);
+    }
   }
 }

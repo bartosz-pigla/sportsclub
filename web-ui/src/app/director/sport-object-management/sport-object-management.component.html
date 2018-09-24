@@ -1,15 +1,18 @@
-<div class="page-layout__content">
+<div class="page-layout__content page-layout__content--one-column">
+  <h1 class="header__h1 list-view-header__title">{{'menu.director.sportObjectManagement' | translate}}</h1>
+
   <sport-object-creator *ngIf="createFormIsVisible"
                         [sportsclub]="sportsclub"
                         (canceled)="hideCreateForm()"
-                        (submitted)="hideCreateForm()">
+                        (submitted)="createSportObject($event)">
   </sport-object-creator>
 
   <ng-container *ngFor="let item of sportObjects">
     <sport-object-creator *ngIf="item === sportObjectToEdit"
-                          [initialSportObject]="item"
+                          [sportsclub]="sportsclub"
+                          [sportObject]="item"
                           (canceled)="sportObjectToEdit = null"
-                          (submitted)="hideEditForm()">
+                          (submitted)="updateSportObject($event)">
     </sport-object-creator>
 
     <div *ngIf="item !== sportObjectToEdit" class="card card--inline">

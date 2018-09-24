@@ -24,6 +24,7 @@ public final class RequestMappings {
     public static final String PUBLIC_API_ANNOUNCEMENT = PUBLIC_API_SPORTSCLUB_BY_ID + "/announcement";
     public static final String PUBLIC_API_SPORT_OBJECT = PUBLIC_API_SPORTSCLUB_BY_ID + "/sport-object";
     public static final String PUBLIC_API_SPORT_OBJECT_BY_ID = PUBLIC_API_SPORTSCLUB_BY_ID + "/sport-object" + SPORT_OBJECT_ID_PARAMETER;
+    public static final String PUBLIC_API_SPORT_OBJECT_POSITION = PUBLIC_API_SPORT_OBJECT_BY_ID + "/sport-object-position";
     public static final String PUBLIC_API_OPENING_TIME = PUBLIC_API_SPORT_OBJECT_BY_ID + "/opening-time" + OPENING_TIME_ID_PARAMETER;
 
     //DIRECTOR API

@@ -1,3 +1,9 @@
+@import "../../../mixin";
+
+:host {
+  @include center();
+}
+
 agm-map {
   height: 300px;
 }
