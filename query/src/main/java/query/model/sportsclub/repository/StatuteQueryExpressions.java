@@ -19,6 +19,12 @@ public final class StatuteQueryExpressions {
                 .orElse(statute.isNull());
     }
 
+    public static BooleanExpression sportsclubIdMatches(UUID sportsclubId) {
+        return Optional.ofNullable(sportsclubId)
+                .map(i -> BaseEntityQueryExpressions.idMatches(sportsclubId, statute.sportsclub._super))
+                .orElse(statute.isNull());
+    }
+
     public static BooleanExpression titleAndSportsclubIdMatches(String title, UUID sportsclubId) {
         if (isNotBlank(title) && sportsclubId != null) {
             return statute.title.eq(title).and(BaseEntityQueryExpressions.idMatches(sportsclubId, statute.sportsclub._super));

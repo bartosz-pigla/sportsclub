@@ -1,0 +1,164 @@
+[
+  {
+    "positionId": "f77ec857-fa68-4a3b-bb9e-b9e0a042e9db",
+    "name": "a1",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "b1e9cf65-5429-49b9-b186-e15ff73ac4fb",
+    "startTime": "08:00:00",
+    "finishTime": "09:00:00"
+  },
+  {
+    "positionId": "00c1f584-12d0-48b5-a78d-0bd399c1c022",
+    "name": "a2",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "b1e9cf65-5429-49b9-b186-e15ff73ac4fb",
+    "startTime": "08:00:00",
+    "finishTime": "09:00:00"
+  },
+  {
+    "positionId": "f77ec857-fa68-4a3b-bb9e-b9e0a042e9db",
+    "name": "a1",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "a779370d-d55c-47ea-86a8-50c09a36a3cb",
+    "startTime": "09:00:00",
+    "finishTime": "10:00:00"
+  },
+  {
+    "positionId": "00c1f584-12d0-48b5-a78d-0bd399c1c022",
+    "name": "a2",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "a779370d-d55c-47ea-86a8-50c09a36a3cb",
+    "startTime": "09:00:00",
+    "finishTime": "10:00:00"
+  },
+  {
+    "positionId": "f77ec857-fa68-4a3b-bb9e-b9e0a042e9db",
+    "name": "a1",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "d575ba25-5ba7-4bee-b09c-7a0461cd2ff9",
+    "startTime": "10:00:00",
+    "finishTime": "11:00:00"
+  },
+  {
+    "positionId": "00c1f584-12d0-48b5-a78d-0bd399c1c022",
+    "name": "a2",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "d575ba25-5ba7-4bee-b09c-7a0461cd2ff9",
+    "startTime": "10:00:00",
+    "finishTime": "11:00:00"
+  },
+  {
+    "positionId": "f77ec857-fa68-4a3b-bb9e-b9e0a042e9db",
+    "name": "a1",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "353660db-e922-42b6-8a8e-ce63c183bc19",
+    "startTime": "11:00:00",
+    "finishTime": "12:00:00"
+  },
+  {
+    "positionId": "00c1f584-12d0-48b5-a78d-0bd399c1c022",
+    "name": "a2",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "353660db-e922-42b6-8a8e-ce63c183bc19",
+    "startTime": "11:00:00",
+    "finishTime": "12:00:00"
+  },
+  {
+    "positionId": "f77ec857-fa68-4a3b-bb9e-b9e0a042e9db",
+    "name": "a1",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "434853fd-6a2b-436a-b6d5-b7c8bc83c5c0",
+    "startTime": "12:00:00",
+    "finishTime": "13:00:00"
+  },
+  {
+    "positionId": "00c1f584-12d0-48b5-a78d-0bd399c1c022",
+    "name": "a2",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "434853fd-6a2b-436a-b6d5-b7c8bc83c5c0",
+    "startTime": "12:00:00",
+    "finishTime": "13:00:00"
+  },
+  {
+    "positionId": "f77ec857-fa68-4a3b-bb9e-b9e0a042e9db",
+    "name": "a1",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "28f25ecf-20c9-4165-9ce3-ff8b716259a9",
+    "startTime": "13:00:00",
+    "finishTime": "14:00:00"
+  },
+  {
+    "positionId": "00c1f584-12d0-48b5-a78d-0bd399c1c022",
+    "name": "a2",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "28f25ecf-20c9-4165-9ce3-ff8b716259a9",
+    "startTime": "13:00:00",
+    "finishTime": "14:00:00"
+  },
+  {
+    "positionId": "f77ec857-fa68-4a3b-bb9e-b9e0a042e9db",
+    "name": "a1",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "9118d1fc-d5c3-4e55-96d8-a39e29df498e",
+    "startTime": "14:00:00",
+    "finishTime": "15:00:00"
+  },
+  {
+    "positionId": "00c1f584-12d0-48b5-a78d-0bd399c1c022",
+    "name": "a2",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "9118d1fc-d5c3-4e55-96d8-a39e29df498e",
+    "startTime": "14:00:00",
+    "finishTime": "15:00:00"
+  },
+  {
+    "positionId": "f77ec857-fa68-4a3b-bb9e-b9e0a042e9db",
+    "name": "a1",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "a5ab07c9-e1df-4bc5-b604-b7dc61ad700b",
+    "startTime": "15:00:00",
+    "finishTime": "16:00:00"
+  },
+  {
+    "positionId": "00c1f584-12d0-48b5-a78d-0bd399c1c022",
+    "name": "a2",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "a5ab07c9-e1df-4bc5-b604-b7dc61ad700b",
+    "startTime": "15:00:00",
+    "finishTime": "16:00:00"
+  },
+  {
+    "positionId": "f77ec857-fa68-4a3b-bb9e-b9e0a042e9db",
+    "name": "a1",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "60e4233b-f7da-4012-83ec-3c1161382bc5",
+    "startTime": "16:00:00",
+    "finishTime": "17:00:00"
+  },
+  {
+    "positionId": "00c1f584-12d0-48b5-a78d-0bd399c1c022",
+    "name": "a2",
+    "bookedPositionsCount": 0,
+    "positionsCount": 1,
+    "openingTimeId": "60e4233b-f7da-4012-83ec-3c1161382bc5",
+    "startTime": "16:00:00",
+    "finishTime": "17:00:00"
+  }
+]

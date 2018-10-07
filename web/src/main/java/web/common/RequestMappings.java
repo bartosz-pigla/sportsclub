@@ -21,11 +21,13 @@ public final class RequestMappings {
     public static final String PUBLIC_API_CUSTOMER = PUBLIC_API + "/customer";
     public static final String PUBLIC_API_CUSTOMER_ACTIVATE = PUBLIC_API_CUSTOMER + USER_ID_PARAMETER + "/activate";
     public static final String PUBLIC_API_SPORTSCLUB_BY_ID = PUBLIC_API + "/sportsclub" + SPORTSCLUB_ID_PARAMETER;
+    public static final String PUBLIC_API_STATUTE = PUBLIC_API_SPORTSCLUB_BY_ID + "/statute";
     public static final String PUBLIC_API_ANNOUNCEMENT = PUBLIC_API_SPORTSCLUB_BY_ID + "/announcement";
     public static final String PUBLIC_API_SPORT_OBJECT = PUBLIC_API_SPORTSCLUB_BY_ID + "/sport-object";
     public static final String PUBLIC_API_SPORT_OBJECT_BY_ID = PUBLIC_API_SPORTSCLUB_BY_ID + "/sport-object" + SPORT_OBJECT_ID_PARAMETER;
     public static final String PUBLIC_API_SPORT_OBJECT_POSITION = PUBLIC_API_SPORT_OBJECT_BY_ID + "/sport-object-position";
-    public static final String PUBLIC_API_OPENING_TIME = PUBLIC_API_SPORT_OBJECT_BY_ID + "/opening-time" + OPENING_TIME_ID_PARAMETER;
+    public static final String PUBLIC_API_OPENING_TIME = PUBLIC_API_SPORT_OBJECT_BY_ID + "/opening-time";
+    public static final String PUBLIC_API_OPENING_TIMES_WITH_BOOKINGS = PUBLIC_API_SPORT_OBJECT_BY_ID + "/opening-times-with-bookings";
 
     //DIRECTOR API
 

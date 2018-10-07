@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +27,7 @@ final class SportObjectPositionPublicController {
     List<SportObjectPositionDto> get(@PathVariable UUID sportObjectId) {
         List<SportObjectPositionDto> positions = new ArrayList<>();
         sportObjectPositionRepository
-                .findAll(sportObjectIdMatches(sportObjectId))
+                .findAll(sportObjectIdMatches(sportObjectId), Sort.by("name"))
                 .forEach(p -> positions.add(create(p)));
         return positions;
     }

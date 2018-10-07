@@ -2,6 +2,9 @@ package boot.populator;
 
 import static query.model.sportsclub.repository.SportsclubQueryExpressions.nameMatches;
 
+import java.time.DayOfWeek;
+import java.util.UUID;
+
 import api.sportsclub.command.CreateSportsclubCommand;
 import lombok.AllArgsConstructor;
 import org.axonframework.commandhandling.gateway.CommandGateway;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 import query.model.embeddable.Address;
 import query.model.embeddable.City;
 import query.model.embeddable.Coordinates;
+import query.model.sportobject.repository.OpeningTimeEntityRepository;
 import query.model.sportsclub.repository.SportsclubEntityRepository;
 
 @Service

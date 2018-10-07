@@ -16,8 +16,8 @@ public final class OpeningTimeDtoFactory {
                 .id(openingTime.getId().toString())
                 .price(openingTime.getPrice().getPrice().doubleValue())
                 .dayOfWeek(dateRange.getDayOfWeek())
-                .startTime(new TimeDto(startTime.getHour(), startTime.getMinute()))
-                .finishTime(new TimeDto(finishTime.getHour(), finishTime.getMinute()))
+                .startTime(TimeDto.create(startTime))
+                .finishTime(TimeDto.create(finishTime))
                 .build();
     }
 }

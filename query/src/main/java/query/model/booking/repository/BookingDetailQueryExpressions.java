@@ -1,8 +1,10 @@
 package query.model.booking.repository;
 
+import static org.apache.commons.lang3.ObjectUtils.allNotNull;
 import static query.model.baseEntity.repository.BaseEntityQueryExpressions.isNotDeleted;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -59,5 +61,16 @@ public final class BookingDetailQueryExpressions {
 
     public static BooleanExpression idMatches(UUID id) {
         return BaseEntityQueryExpressions.idMatches(id, bookingDetail._super);
+    }
+
+    public static BooleanExpression bookingDateAndSportObjectMatchesAndIsInOpeningTimeRange(LocalDate date, LocalTime startTime, LocalTime finishTime, UUID sportObjectId) {
+        if (allNotNull(date, startTime, finishTime, sportObjectId)) {
+            return bookingDetail.date.eq(date)
+                    .and(BaseEntityQueryExpressions.idMatches(sportObjectId, bookingDetail.position.sportObject._super))
+                    .and(bookingDetail.openingTime.timeRange.startTime.goe(startTime))
+                    .and(bookingDetail.openingTime.timeRange.finishTime.loe(finishTime));
+        } else {
+            return bookingDetail.isNull();
+        }
     }
 }

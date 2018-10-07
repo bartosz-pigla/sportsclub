@@ -69,7 +69,8 @@
     "deactivate": "Deaktywuj",
     "next": "Dalej",
     "previous": "Wstecz",
-    "noContent": "brak danych do wyświetlenia"
+    "noContent": "brak danych do wyświetlenia",
+    "update": "Aktualizuj"
   },
   "menu": {
     "signIn": "Zaloguj się",
@@ -78,7 +79,8 @@
     "home": "Strona główna",
     "director": {
       "userManagement": "Użytkownicy",
-      "sportObjectManagement": "Obiekty sportowe"
+      "sportObjectManagement": "Obiekty sportowe",
+      "statuteManagement": "Regulamin"
     }
   },
   "signIn": {
@@ -162,5 +164,15 @@
         "120": "2h"
       }
     }
+  },
+  "statuteForm": {
+    "header": "Regulamin klubu sportowego",
+    "title": "Tytuł",
+    "content": "Treść"
+  },
+  "sportObject": {
+    "book": "Zarezerwuj",
+    "freePositions": "wolne miejsca",
+    "allBooked": "brak wolnych miejsc"
   }
 }

@@ -35,6 +35,27 @@ export class SportObjectService implements IDeletableService<User> {
     return this.http.delete<void>(`${this.sportObjectDirectorApi}/${id}`);
   }
 
+  getOne(objectId: string,
+         successCallback: (sportObjects: SportObject) => void,
+         errorCallback: (errorResponse: HttpErrorResponse) => void): void {
+    const sportObjects = SportObjectService.tryToGetSportObjectFromSession();
+
+    if (sportObjects) {
+      successCallback(sportObjects.find(s => s.id === objectId));
+    } else {
+      this.http.get<SportObject[]>(this.sportObjectPublicApi).subscribe(
+        (sportObjects) => {
+          sessionStorage.setItem(SportObjectService.sportObjectsStorageKey, JSON.stringify(sportObjects));
+          successCallback(sportObjects.find(s => s.id === objectId));
+        },
+        (error) => {
+          errorCallback(error);
+        }
+      );
+    }
+  }
+
+
   get(successCallback: (sportObjects: SportObject[]) => void,
       errorCallback: (errorResponse: HttpErrorResponse) => void): void {
     const sportObjects = SportObjectService.tryToGetSportObjectFromSession();

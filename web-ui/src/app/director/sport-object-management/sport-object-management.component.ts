@@ -12,7 +12,7 @@ import {OpeningTimeService} from "../../common/http-service/opening-time-service
   selector: 'sport-object-management',
   templateUrl: './sport-object-management.component.html',
   styleUrls: ['./sport-object-management.component.scss'],
-  providers: [SportsclubService, SportObjectService, SportObjectPositionService, OpeningTimeService]
+  providers: [SportsclubService, SportObjectService, SportObjectPositionService]
 })
 export class SportObjectManagementComponent implements OnInit {
 
@@ -30,7 +30,6 @@ export class SportObjectManagementComponent implements OnInit {
     private sportsclubService: SportsclubService,
     public sportObjectService: SportObjectService,
     private sportObjectPositionService: SportObjectPositionService,
-    private openingTimeService: OpeningTimeService,
     private errorHandlerService: ErrorHandlerService,
     private dialog: MatDialog) {
   }

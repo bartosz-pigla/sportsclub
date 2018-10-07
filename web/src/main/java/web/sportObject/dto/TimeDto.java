@@ -1,5 +1,7 @@
 package web.sportObject.dto;
 
+import java.time.LocalTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -17,4 +19,8 @@ public final class TimeDto {
 
     private int hour;
     private int minute;
+
+    public static TimeDto create(LocalTime time) {
+        return new TimeDto(time.getHour(), time.getMinute());
+    }
 }

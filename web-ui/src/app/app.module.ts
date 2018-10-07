@@ -38,6 +38,7 @@ import { SportObjectManagementComponent } from './director/sport-object-manageme
 import {AgmCoreModule, GoogleMapsAPIWrapper} from "@agm/core";
 import {SportObjectCreatorComponent} from "./common/form/sport-object-creator/sport-object-creator.component";
 import {CurrencyMaskModule} from "ng2-currency-mask";
+import { StatuteManagementComponent } from './director/statute-management/statute-management.component';
 
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -45,7 +46,8 @@ const MATERIAL_MODULES = [
   MatInputModule,
   MatDialogModule,
   MatSelectModule,
-  MatStepperModule
+  MatStepperModule,
+  MatIconModule
 ];
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -80,7 +82,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     UserFormComponent,
     BackendErrorsComponent,
     SportObjectManagementComponent,
-    SportObjectCreatorComponent
+    SportObjectCreatorComponent,
+    StatuteManagementComponent
   ],
   imports: [
     BrowserModule,

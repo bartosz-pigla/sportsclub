@@ -1,0 +1,29 @@
+<div class="page-layout__content page-layout__content--one-column">
+  <form class="form card" [formGroup]="statuteForm" novalidate>
+    <header class="form__header">
+      <label class="header__h2">{{ 'statuteForm.header' | translate }}</label>
+    </header>
+
+    <div class="form__body">
+      <mat-form-field class="form__field">
+        <input formControlName="title" matInput placeholder="{{ 'statuteForm.title' | translate }}">
+        <mat-error *ngIf="statuteForm.controls.title.errors?.required">{{ 'error.required' | translate }}</mat-error>
+      </mat-form-field>
+      <mat-form-field class="form__field">
+        <textarea formControlName="description"
+                  matInput
+                  placeholder="{{ 'statuteForm.content' | translate }}"
+                  rows="20"></textarea>
+        <mat-error *ngIf="statuteForm.controls.description.errors?.required">{{ 'error.required' | translate }}</mat-error>
+      </mat-form-field>
+    </div>
+
+    <footer class="form__footer">
+      <button mat-button (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+      <button type="submit" mat-button color="primary" [disabled]="statuteForm.invalid" (click)="updateStatute()">
+        {{ 'common.update' | translate }}
+      </button>
+    </footer>
+  </form>
+
+</div>

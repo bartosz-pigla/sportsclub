@@ -47,9 +47,7 @@ export class SportObjectCreatorComponent implements OnInit {
   }
 
   get daysOfWeek() {
-    return Object.keys(WeekDay).filter(
-      (type) => isNaN(<any>type) && type !== 'values'
-    );
+    return Object.keys(WeekDay).filter(type => isNaN(<any>type) && type !== 'values');
   }
 
   private errorHandler = (error: HttpErrorResponse) => this.errorHandlerService.showDialog(this.dialog, error);
@@ -75,17 +73,13 @@ export class SportObjectCreatorComponent implements OnInit {
   }
 
   initPositions(objectId: string) {
-    console.log('get positions:');
     this.sportObjectPositionService.get(objectId).subscribe(
-      positions => {
-        console.log('get positions success');
-        this.positions = positions
-      },
+      positions => this.positions = positions,
       error => this.errorHandler(error));
   }
 
   initOpeningTimes(objectId: string) {
-    this.openingTimeService.get(objectId).subscribe(
+    this.openingTimeService.getDayOpeningTimes(objectId).subscribe(
       openingTimes => this.openingTimes = openingTimes,
       error => this.errorHandler(error));
   }
@@ -101,7 +95,7 @@ export class SportObjectCreatorComponent implements OnInit {
         [Validators.required, Validators.maxLength(this.maxContentLength)]
       ],
       imageUrl: [
-        this.sportObject ? this.sportObject.description : '',
+        this.sportObject ? this.sportObject.imageUrl : '',
         Validators.required
       ]
     });
@@ -153,8 +147,6 @@ export class SportObjectCreatorComponent implements OnInit {
       this.openingTimeForm.controls.price.value
     );
 
-    console.log(`opening time: ${JSON.stringify(openingTime)}`);
-
     this.deleteOpeningTime(openingTime.dayOfWeek);
     this.openingTimes.push(openingTime);
     this.openingTimeForm.reset();
@@ -167,7 +159,6 @@ export class SportObjectCreatorComponent implements OnInit {
   updateAddressForm(newMarkerData) {
     this.address.latitude = newMarkerData.coords.lat;
     this.address.longitude = newMarkerData.coords.lng;
-    console.log(`updated address: ${JSON.stringify(this.address)}`);
   }
 
   getSortedOpeningTimes(): DayOpeningTime[] {
@@ -204,7 +195,6 @@ export class SportObjectCreatorComponent implements OnInit {
     this.sportObjectService.post(sportObject).subscribe(
       (sportObject) => {
         this.sportObjectService.addSportObjectToSession(sportObject);
-        console.log(`sport object save success: ${JSON.stringify(sportObject)}`);
         this.handleCreateOrUpdateSportObjectSuccess(sportObject);
       },
       this.errorHandler
@@ -215,7 +205,6 @@ export class SportObjectCreatorComponent implements OnInit {
     this.sportObjectService.put(sportObject.id, sportObject).subscribe(
       () => {
         this.sportObjectService.updateSportObjectInSession(sportObject);
-        console.log(`sport object update success: ${JSON.stringify(sportObject)}`);
         this.handleCreateOrUpdateSportObjectSuccess(sportObject);
       },
       this.errorHandler);
@@ -226,10 +215,8 @@ export class SportObjectCreatorComponent implements OnInit {
       this.confirmPositionsAndOpeningTimes(sportObject);
     } else {
       forkJoin(this.positionsToDelete.map(positionId => this.sportObjectPositionService.delete(sportObject.id, positionId)))
-        .subscribe(() => {
-            console.log(`sport object position delete success: ${JSON.stringify(this.positionsToDelete)}`);
-            this.confirmPositionsAndOpeningTimes(sportObject);
-          },
+        .subscribe(
+          () => this.confirmPositionsAndOpeningTimes(sportObject),
           this.errorHandler);
     }
   }
@@ -238,16 +225,19 @@ export class SportObjectCreatorComponent implements OnInit {
     forkJoin(this.positions
       .filter(position => position.id === undefined || position.id === null)
       .map(position => this.sportObjectPositionService.post(sportObject.id, position)))
-      .subscribe(() => {
-        console.log(`sport object position save success: ${JSON.stringify(sportObject)}`);
-        forkJoin(this.openingTimes.map(openingTime => this.openingTimeService.post(sportObject.id, openingTime)))
-          .subscribe(() => {
-            this.submitted.emit(sportObject);
-          }, this.errorHandler);
-      }, this.errorHandler);
+      .subscribe(
+        () => this.confirmOpeningTimes(sportObject),
+        this.errorHandler);
 
-    if(this.positions.filter(position => position.id === undefined || position.id === null).length === 0){
-      this.submitted.emit(sportObject);
+    if (this.positions.filter(position => position.id === undefined || position.id === null).length === 0) {
+      this.confirmOpeningTimes(sportObject);
     }
+  }
+
+  confirmOpeningTimes(sportObject: SportObject) {
+    forkJoin(this.openingTimes.map(openingTime => this.openingTimeService.post(sportObject.id, openingTime)))
+      .subscribe(() => {
+        this.submitted.emit(sportObject);
+      }, this.errorHandler);
   }
 }
