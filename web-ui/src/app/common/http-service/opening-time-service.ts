@@ -10,8 +10,24 @@ export const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FR
 //   return new Date(date.getDate() + day);
 // }
 
-export function addDayToDate(date: Date, day: number) {
-  return new Date(date.getTime() + day * 24 * 60 * 60 * 1000);
+export function addDayToDate(previousDate: Date, day: number) {
+  return new Date(previousDate.getTime() + day * 24 * 60 * 60 * 1000);
+}
+
+export function currentDate() {
+  let currentDate = new Date();
+  return currentDate;
+  // return currentDate.getUTCDate();
+}
+
+// function getDateWithoutTime(date: Date) {
+//   date.setHours(3,0,0,0);
+//   return date;
+// }
+
+export function dateEquals(date1: Date, date2: Date) {
+  console.log(`date1: ${typeof date1} date2: ${typeof date2}`);
+  return date1.getDate() === date2.getDate() && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear();
 }
 
 export class Time {

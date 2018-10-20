@@ -1,3 +1,17 @@
+.booking-container {
+  display: flex;
+
+  .booking-view {
+    width: 100%;
+  }
+
+  .booking-summary {
+    width: 600px;
+    margin-left: 20px;
+  }
+}
+
+
 .booking-view {
   &__date-bar {
     display: flex;
@@ -34,6 +48,7 @@
 .sport-object-header {
   display: flex;
   height: 200px;
+  margin-bottom: 20px;
 
   &__image {
     width: 70%;

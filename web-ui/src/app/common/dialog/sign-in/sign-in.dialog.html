@@ -1,0 +1,11 @@
+<ng-container class="dialog">
+  <h2 class="dialog__header header__h2" mat-dialog-title>{{ 'dialog.signIn.title' | translate}}</h2>
+  <div mat-dialog-content class="dialog--centered">
+    <p>{{ 'dialog.signIn.content' | translate}}</p>
+  </div>
+  <div class="dialog__action" mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close(false)">{{ 'common.close' | translate}}</button>
+    <button mat-button color="primary" (click)="redirectToSignInPage()">{{ 'menu.signIn' | translate}}</button>
+    <button mat-button color="primary" (click)="redirectToSignUpPage()">{{ 'menu.signUp' | translate}}</button>
+  </div>
+</ng-container>

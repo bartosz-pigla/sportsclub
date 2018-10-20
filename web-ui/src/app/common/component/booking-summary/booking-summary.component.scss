@@ -1,0 +1,42 @@
+.detail {
+  margin: 15px 0;
+}
+
+.booking-summary-content {
+  margin-top: 0;
+  margin-bottom: 0;
+  list-style: none;
+  padding-left: 0;
+
+  .booking-detail {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+
+    .info {
+      display: flex;
+      flex-direction: column;
+
+      &__place {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      &__date-time {
+        font-style: italic;
+        margin-bottom: 5px;
+      }
+
+      &__price {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+    }
+
+    .delete-btn {
+      margin-left: 10px;
+    }
+  }
+
+
+}

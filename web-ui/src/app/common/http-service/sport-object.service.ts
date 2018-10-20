@@ -55,7 +55,6 @@ export class SportObjectService implements IDeletableService<User> {
     }
   }
 
-
   get(successCallback: (sportObjects: SportObject[]) => void,
       errorCallback: (errorResponse: HttpErrorResponse) => void): void {
     const sportObjects = SportObjectService.tryToGetSportObjectFromSession();
@@ -104,7 +103,6 @@ export class SportObjectService implements IDeletableService<User> {
 
   private static tryToGetSportObjectFromSession(): SportObject[] {
     const sportObjects = sessionStorage.getItem(SportObjectService.sportObjectsStorageKey);
-    console.log(`tryToGetSportObjectFromSession: ${sportObjects}`);
     if (sportObjects) {
       return JSON.parse(sportObjects);
     } else {

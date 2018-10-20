@@ -39,6 +39,8 @@ import {AgmCoreModule, GoogleMapsAPIWrapper} from "@agm/core";
 import {SportObjectCreatorComponent} from "./common/form/sport-object-creator/sport-object-creator.component";
 import {CurrencyMaskModule} from "ng2-currency-mask";
 import { StatuteManagementComponent } from './director/statute-management/statute-management.component';
+import {SignInDialog} from "./common/dialog/sign-in/sign-in.dialog";
+import { BookingSummaryComponent } from './common/component/booking-summary/booking-summary.component';
 
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -78,12 +80,14 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DeleteItemComponent,
     ConfirmationDialog,
     ErrorDialog,
+    SignInDialog,
     UserManagementComponent,
     UserFormComponent,
     BackendErrorsComponent,
     SportObjectManagementComponent,
     SportObjectCreatorComponent,
-    StatuteManagementComponent
+    StatuteManagementComponent,
+    BookingSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -108,9 +112,11 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     NewItemButtonComponent,
     ListViewComponent,
     AnnouncementFormComponent,
+    BookingSummaryComponent,
     DeleteItemComponent,
     ConfirmationDialog,
-    ErrorDialog
+    ErrorDialog,
+    SignInDialog
   ],
   providers: [
     GoogleMapsAPIWrapper

@@ -1,12 +1,16 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {BookingDetailWithOpeningTimeAndPosition, BookingService} from "../../common/http-service/booking-service";
+import {BookingDetail, BookingDetailWithOpeningTimeAndPosition, BookingService} from "../../common/http-service/booking-service";
 import {MatDialog} from "@angular/material";
 import {ErrorHandlerService} from "../../common/error-handler.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SportObject, SportObjectService} from "../../common/http-service/sport-object.service";
-import {addDayToDate, days, OpeningTime, OpeningTimeService} from "../../common/http-service/opening-time-service";
+import {addDayToDate, currentDate, days, OpeningTime, OpeningTimeService} from "../../common/http-service/opening-time-service";
 import {SportObjectPosition, SportObjectPositionService} from "../../common/http-service/sport-object-position-service";
+import {AuthenticationService} from "../../common/security/authentication.service";
+import {SignInDialog} from "../../common/dialog/sign-in/sign-in.dialog";
+import {BookingSummaryService} from "../../common/booking-summary.service";
+import {BookingSummaryComponent} from "../../common/component/booking-summary/booking-summary.component";
 
 @Component({
   selector: 'app-sport-object',
@@ -25,6 +29,9 @@ export class SportObjectComponent implements OnInit {
   previousDate: Date;
   nextDate: Date;
 
+  @ViewChild(BookingSummaryComponent)
+  private bookingSummaryComponent: BookingSummaryComponent;
+
   private readonly handleError = (error: HttpErrorResponse) => this.errorHandlerService.showDialog(this.dialog, error);
 
   constructor(private route: ActivatedRoute,
@@ -33,11 +40,13 @@ export class SportObjectComponent implements OnInit {
               private sportObjectPositionService: SportObjectPositionService,
               private openingTimeService: OpeningTimeService,
               private dialog: MatDialog,
-              private errorHandlerService: ErrorHandlerService) {
+              private errorHandlerService: ErrorHandlerService,
+              public authenticationService: AuthenticationService,
+              public bookingSummaryService: BookingSummaryService) {
   }
 
   ngOnInit() {
-    this.date = new Date();
+    this.date = currentDate();
     this.previousDate = addDayToDate(this.date, -1);
     this.nextDate = addDayToDate(this.date, 1);
 
@@ -95,7 +104,7 @@ export class SportObjectComponent implements OnInit {
     this.nextDate = addDayToDate(this.nextDate, day);
   }
 
-  getBookingForOpeningTime(openingTimeId) {
+  getDetailsForOpeningTime(openingTimeId): BookingDetailWithOpeningTimeAndPosition[] {
     return this.bookingDetails.filter(b => b.openingTimeId === openingTimeId);
   }
 
@@ -105,6 +114,27 @@ export class SportObjectComponent implements OnInit {
   }
 
   getFreePositions(detail: BookingDetailWithOpeningTimeAndPosition) {
-    return detail.positionsCount - detail.bookedPositionsCount;
+    let freePositions = detail.positionsCount - detail.bookedPositionsCount;
+    return this.bookingSummaryService.detailExists(detail, this.sportObject.id, this.date) ? freePositions - 1 : freePositions;
+  }
+
+  book(detail: BookingDetailWithOpeningTimeAndPosition) {
+    if(this.authenticationService.isSignedIn()) {
+      detail.bookedPositionsCount++;
+      this.bookingSummaryService.addDetail(BookingDetail.createFrom(detail, this.date), this.sportObject.id);
+      this.bookingSummaryComponent.refresh();
+    } else {
+      this.dialog.open(SignInDialog);
+    }
+  }
+
+  getOpeningTime(id: string): OpeningTime {
+    return this.openingTimes.find(o => o.id === id);
+  }
+
+  updateBookedPositionsCount(detail: BookingDetail) {
+    let detailsForOpeningTime = this.getDetailsForOpeningTime(detail.openingTimeId);
+    let detailToUpdate = detailsForOpeningTime.find(d => d.positionId === detail.sportObjectPositionId);
+    detailToUpdate.bookedPositionsCount--;
   }
 }

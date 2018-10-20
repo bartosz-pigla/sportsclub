@@ -8,9 +8,9 @@
   &__action {
     display: flex;
     justify-content: space-between;
+  }
 
-    &--centered {
-      @include center();
-    }
+  &--centered {
+    @include center();
   }
 }

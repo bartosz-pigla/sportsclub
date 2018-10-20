@@ -115,6 +115,10 @@
     },
     "error": {
       "title": "Błąd"
+    },
+    "signIn": {
+      "title": "Zaloguj się",
+      "content": "Musisz zalogować się, aby wykonać tę akcję."
     }
   },
   "userType": {
@@ -174,5 +178,13 @@
     "book": "Zarezerwuj",
     "freePositions": "wolne miejsca",
     "allBooked": "brak wolnych miejsc"
+  },
+  "bookingSummary": {
+    "header": "Twoje rezerwacje",
+    "totalPrice": "Koszt rezerwacji",
+    "book": "Zarezerwuj"
+  },
+  "currency": {
+    "PLN": "PLN"
   }
 }

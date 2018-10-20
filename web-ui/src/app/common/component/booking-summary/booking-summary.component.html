@@ -1,0 +1,28 @@
+<div class="card form">
+  <header class="form__header">
+    <h5 class="header__h5 header--bolded">{{'bookingSummary.header' | translate}}</h5>
+  </header>
+  <ul class="form__body booking-summary-content">
+    <li *ngFor="let sessionDetail of bookingDetails" class="booking-detail">
+      <div class="info">
+        <span class="info__place">{{getSportObjectPosition(sessionDetail.bookingDetail.sportObjectPositionId).name}}, {{getSportObject(sessionDetail.sportObjectId).name}}</span>
+        <div class="info__date-time">
+          <span>{{getOpeningTime(sessionDetail.bookingDetail.openingTimeId).startTime.hour | number:'2.0-0'}}:{{getOpeningTime(sessionDetail.bookingDetail.openingTimeId).startTime.minute | number:'2.0-0'}} - {{getOpeningTime(sessionDetail.bookingDetail.openingTimeId).finishTime.hour | number:'2.0-0'}}:{{getOpeningTime(sessionDetail.bookingDetail.openingTimeId).finishTime.minute | number:'2.0-0'}}</span>
+          &nbsp;
+          <span>{{sessionDetail.bookingDetail.date | date: 'yyyy-MM-dd'}}</span>
+        </div>
+        <span class="info__price">{{'currency.PLN' | translate}} {{getOpeningTime(sessionDetail.bookingDetail.openingTimeId).price | number:'2.0-0'}}</span>
+      </div>
+      <button class="delete-btn" mat-button color="warn" (click)="delete(sessionDetail.bookingDetail)">
+        {{'common.delete' | translate}}
+      </button>
+    </li>
+  </ul>
+  <div>
+    <p>{{'bookingSummary.totalPrice' | translate}}: {{'currency.PLN' | translate}} {{sumPrices()}}</p>
+  </div>
+  <footer class="form__footer">
+    <button mat-button (click)="cancel()">{{ 'common.cancel' | translate }}</button>
+    <button mat-button color="primary" (click)="confirm()">{{ 'bookingSummary.book' | translate }}</button>
+  </footer>
+</div>
