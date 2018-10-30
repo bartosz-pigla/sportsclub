@@ -35,8 +35,6 @@ export class StatuteManagementComponent implements OnInit {
 
     this.statuteService.get().subscribe(
       statute => {
-        console.log(`statute: ${JSON.stringify(statute)}`);
-
         this.statuteForm.setValue({
           title: statute.title,
           description: statute.description

@@ -5,15 +5,16 @@ import {MatDialog} from "@angular/material";
 import {ErrorHandlerService} from "../../common/error-handler.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {SportObject, SportObjectService} from "../../common/http-service/sport-object.service";
-import {addDayToDate, currentDate, days, OpeningTime, OpeningTimeService} from "../../common/http-service/opening-time-service";
+import {OpeningTime, OpeningTimeService} from "../../common/http-service/opening-time-service";
 import {SportObjectPosition, SportObjectPositionService} from "../../common/http-service/sport-object-position-service";
 import {AuthenticationService} from "../../common/security/authentication.service";
 import {SignInDialog} from "../../common/dialog/sign-in/sign-in.dialog";
-import {BookingSummaryService} from "../../common/booking-summary.service";
+import {BookingSummaryService, SessionBookingDetail, SessionDate} from "../../common/booking-summary.service";
 import {BookingSummaryComponent} from "../../common/component/booking-summary/booking-summary.component";
+import {addDayToDate, currentDate, days} from "../../common/date-time.utils";
 
 @Component({
-  selector: 'app-sport-object',
+  selector: 'sport-object',
   templateUrl: './sport-object.component.html',
   styleUrls: ['./sport-object.component.scss'],
   providers: [BookingService, SportObjectService, SportObjectPositionService, OpeningTimeService]
@@ -128,13 +129,15 @@ export class SportObjectComponent implements OnInit {
     }
   }
 
-  getOpeningTime(id: string): OpeningTime {
-    return this.openingTimes.find(o => o.id === id);
+  onDeleteBookedPosition(detail: SessionBookingDetail) {
+    // if(SessionDate.dateEquals(detail.date, this.date)) {
+    //   let detailToUpdate = this.bookingDetails.find(d => d.openingTimeId === detail.openingTimeId && d.positionId === detail.sportObjectPositionId);
+    //   detailToUpdate.bookedPositionsCount--;
+    // }
+    this.initBookingDetails(this.sportObject.id);
   }
 
-  updateBookedPositionsCount(detail: BookingDetail) {
-    let detailsForOpeningTime = this.getDetailsForOpeningTime(detail.openingTimeId);
-    let detailToUpdate = detailsForOpeningTime.find(d => d.positionId === detail.sportObjectPositionId);
-    detailToUpdate.bookedPositionsCount--;
+  canBook() {
+    return currentDate() <= this.date;
   }
 }

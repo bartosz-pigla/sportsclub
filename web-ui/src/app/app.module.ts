@@ -10,7 +10,7 @@ import {CustomerComponent} from './customer/customer.component';
 import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule, MatStepperModule} from "@angular/material";
 
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -31,16 +31,18 @@ import {AnnouncementFormComponent} from './common/form/announcement-form/announc
 import {DeleteItemComponent} from './common/component/delete-item/delete-item.component';
 import {ConfirmationDialog} from './common/dialog/confirmation/confirmation.dialog';
 import {UserManagementComponent} from './director/user-management/user-management.component';
-import { UserFormComponent } from './common/form/user-form/user-form.component';
-import { BackendErrorsComponent } from './common/form/backend-errors/backend-errors.component';
+import {UserFormComponent} from './common/form/user-form/user-form.component';
+import {BackendErrorsComponent} from './common/form/backend-errors/backend-errors.component';
 import {ErrorDialog} from "./common/dialog/error/error.dialog";
-import { SportObjectManagementComponent } from './director/sport-object-management/sport-object-management.component';
+import {SportObjectManagementComponent} from './director/sport-object-management/sport-object-management.component';
 import {AgmCoreModule, GoogleMapsAPIWrapper} from "@agm/core";
 import {SportObjectCreatorComponent} from "./common/form/sport-object-creator/sport-object-creator.component";
 import {CurrencyMaskModule} from "ng2-currency-mask";
-import { StatuteManagementComponent } from './director/statute-management/statute-management.component';
+import {StatuteManagementComponent} from './director/statute-management/statute-management.component';
 import {SignInDialog} from "./common/dialog/sign-in/sign-in.dialog";
-import { BookingSummaryComponent } from './common/component/booking-summary/booking-summary.component';
+import {BookingSummaryComponent} from './common/component/booking-summary/booking-summary.component';
+import {BookingSuccessDialog} from './common/dialog/booking-success/booking-success.dialog';
+import {JwtInterceptor} from "./common/security/jwt-interceptor.service";
 
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -81,6 +83,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ConfirmationDialog,
     ErrorDialog,
     SignInDialog,
+    BookingSuccessDialog,
     UserManagementComponent,
     UserFormComponent,
     BackendErrorsComponent,
@@ -116,10 +119,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     DeleteItemComponent,
     ConfirmationDialog,
     ErrorDialog,
-    SignInDialog
+    SignInDialog,
+    BookingSuccessDialog
   ],
   providers: [
-    GoogleMapsAPIWrapper
+    GoogleMapsAPIWrapper,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ]
 })
 export class AppModule {

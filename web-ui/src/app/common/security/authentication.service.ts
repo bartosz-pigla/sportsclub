@@ -4,7 +4,7 @@ import {environment} from "../../../environments/environment";
 import {User, UserType} from "../http-service/user.service";
 
 export class CurrentUserDetails {
-  constructor(public token,
+  constructor(public accessToken,
               public user: User) {
   }
 }
@@ -32,9 +32,7 @@ export class AuthenticationService {
         localStorage.setItem(this.currentUserStorageKey, JSON.stringify(data));
         success();
       },
-      () => {
-        fail();
-      });
+      () => fail());
   }
 
   signOut() {
@@ -46,7 +44,7 @@ export class AuthenticationService {
   }
 
   getToken() {
-    return this.getDetails().token;
+    return this.getDetails().accessToken;
   }
 
   getUserType(): UserType {

@@ -1,12 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {AgmMap, MapsAPILoader} from "@agm/core";
+import {Component, OnInit} from '@angular/core';
 import {Sportsclub, SportsclubService} from "../../common/http-service/sportsclub.service";
 import {SportObject, SportObjectService} from "../../common/http-service/sport-object.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ErrorHandlerService} from "../../common/error-handler.service";
 import {MatDialog} from "@angular/material";
-import {SportObjectPosition, SportObjectPositionService} from "../../common/http-service/sport-object-position-service";
-import {OpeningTimeService} from "../../common/http-service/opening-time-service";
+import {SportObjectPositionService} from "../../common/http-service/sport-object-position-service";
 
 @Component({
   selector: 'sport-object-management',
@@ -41,27 +39,14 @@ export class SportObjectManagementComponent implements OnInit {
 
   private initSportsclub() {
     this.sportsclubService.get(
-      (sportsclub) => {
-        console.log(`initSportsclub: ${JSON.stringify(sportsclub)}`);
-        this.sportsclub = sportsclub;
-      },
-      (error) => {
-        this.handleError(error);
-      }
-    )
+      (sportsclub) => this.sportsclub = sportsclub,
+      (error) => this.handleError(error));
   }
 
   private initSportObjects() {
     this.sportObjectService.get(
-      (sportObjects) => {
-        console.log(`get sport objects success: ${JSON.stringify(sportObjects)}`);
-        this.sportObjects = sportObjects
-      },
-      (error) => {
-        console.log('get sport objects fail');
-
-        this.handleError(error);
-      }
+      (sportObjects) => this.sportObjects = sportObjects,
+      (error) => this.handleError(error)
     );
   }
 
@@ -90,7 +75,6 @@ export class SportObjectManagementComponent implements OnInit {
   }
 
   updateSportObject(sportObject) {
-    console.log('update sport object');
     const idx = this.sportObjects.findIndex(s => s.id === sportObject.id);
     this.sportObjects.splice(idx, 1);
     this.sportObjects.push(sportObject);
@@ -98,7 +82,6 @@ export class SportObjectManagementComponent implements OnInit {
   }
 
   createSportObject(sportObject) {
-    console.log('create sport object');
     this.sportObjects.push(sportObject);
     this.hideCreateForm();
   }

@@ -56,13 +56,6 @@ export class SportsclubService {
 
   private static tryToGetSportsclubFromSession(): Sportsclub {
     const sportsclub = JSON.parse(sessionStorage.getItem(SportsclubService.sportsclubStorageKey));
-    console.log(`tryToGetSportsclubFromSession: ${sportsclub}`);
-    if (!sportsclub || sportsclub.length == 0) {
-      console.log('session storage empty');
-      return undefined;
-
-    } else {
-      return sportsclub;
-    }
+    return !sportsclub || sportsclub.length == 0 ? undefined : sportsclub;
   }
 }

@@ -3,26 +3,26 @@
     <h5 class="header__h5 header--bolded">{{'bookingSummary.header' | translate}}</h5>
   </header>
   <ul class="form__body booking-summary-content">
+
     <li *ngFor="let sessionDetail of bookingDetails" class="booking-detail">
       <div class="info">
-        <span class="info__place">{{getSportObjectPosition(sessionDetail.bookingDetail.sportObjectPositionId).name}}, {{getSportObject(sessionDetail.sportObjectId).name}}</span>
+        <span class="info__place">{{getSportObjectPosition(sessionDetail.sportObjectPositionId).name}}, {{getSportObject(sessionDetail.sportObjectId).name}}</span>
         <div class="info__date-time">
-          <span>{{getOpeningTime(sessionDetail.bookingDetail.openingTimeId).startTime.hour | number:'2.0-0'}}:{{getOpeningTime(sessionDetail.bookingDetail.openingTimeId).startTime.minute | number:'2.0-0'}} - {{getOpeningTime(sessionDetail.bookingDetail.openingTimeId).finishTime.hour | number:'2.0-0'}}:{{getOpeningTime(sessionDetail.bookingDetail.openingTimeId).finishTime.minute | number:'2.0-0'}}</span>
+          <span>{{getOpeningTime(sessionDetail.openingTimeId).startTime.hour | number:'2.0-0'}}:{{getOpeningTime(sessionDetail.openingTimeId).startTime.minute | number:'2.0-0'}} - {{getOpeningTime(sessionDetail.openingTimeId).finishTime.hour | number:'2.0-0'}}:{{getOpeningTime(sessionDetail.openingTimeId).finishTime.minute | number:'2.0-0'}}</span>
           &nbsp;
-          <span>{{sessionDetail.bookingDetail.date | date: 'yyyy-MM-dd'}}</span>
+          <span>{{sessionDetail.date.year}}-{{sessionDetail.date.month | number:'2.0-0'}}-{{sessionDetail.date.day | number:'2.0-0'}}</span>
         </div>
-        <span class="info__price">{{'currency.PLN' | translate}} {{getOpeningTime(sessionDetail.bookingDetail.openingTimeId).price | number:'2.0-0'}}</span>
+        <span class="info__price">{{'currency.PLN' | translate}} {{getOpeningTime(sessionDetail.openingTimeId).price | number:'2.2-2'}}</span>
       </div>
-      <button class="delete-btn" mat-button color="warn" (click)="delete(sessionDetail.bookingDetail)">
+      <button class="delete-btn" mat-button color="warn" (click)="delete(sessionDetail)">
         {{'common.delete' | translate}}
       </button>
     </li>
   </ul>
   <div>
-    <p>{{'bookingSummary.totalPrice' | translate}}: {{'currency.PLN' | translate}} {{sumPrices()}}</p>
+    <p>{{'bookingSummary.totalPrice' | translate}}: {{'currency.PLN' | translate}} {{sumPrices() | number:'2.2-2'}}</p>
   </div>
   <footer class="form__footer">
-    <button mat-button (click)="cancel()">{{ 'common.cancel' | translate }}</button>
     <button mat-button color="primary" (click)="confirm()">{{ 'bookingSummary.book' | translate }}</button>
   </footer>
 </div>

@@ -2,24 +2,27 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {SportObject, SportObjectService} from "../../http-service/sport-object.service";
 import {SportObjectPosition} from "../../http-service/sport-object-position-service";
 import {OpeningTime} from "../../http-service/opening-time-service";
-import {BookingDetail} from "../../http-service/booking-service";
 import {BookingSummaryService, SessionBookingDetail} from "../../booking-summary.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatDialog} from "@angular/material";
 import {ErrorHandlerService} from "../../error-handler.service";
+import {BookingDetail, BookingService} from "../../http-service/booking-service";
+import {BookingSuccessDialog} from "../../dialog/booking-success/booking-success.dialog";
+import {forkJoin} from "rxjs";
+import {createFromSessionDate} from "../../date-time.utils";
 
 @Component({
   selector: 'booking-summary',
   templateUrl: './booking-summary.component.html',
   styleUrls: ['./booking-summary.component.scss'],
-  providers: [SportObjectService, ErrorHandlerService, BookingSummaryService]
+  providers: [SportObjectService, ErrorHandlerService, BookingSummaryService, BookingService]
 })
 export class BookingSummaryComponent implements OnInit {
 
   @Input() sportObjectPositions: SportObjectPosition[];
   @Input() openingTimes: OpeningTime[];
 
-  @Output() deleted = new EventEmitter<BookingDetail>();
+  @Output() deleted = new EventEmitter<SessionBookingDetail>();
 
   sportObjects: SportObject[];
   bookingDetails: SessionBookingDetail[];
@@ -27,6 +30,7 @@ export class BookingSummaryComponent implements OnInit {
   private readonly handleError = (error: HttpErrorResponse) => this.errorHandlerService.showDialog(this.dialog, error);
 
   constructor(private bookingSummaryService: BookingSummaryService,
+              private bookingService: BookingService,
               private sportObjectService: SportObjectService,
               private dialog: MatDialog,
               private errorHandlerService: ErrorHandlerService) {
@@ -55,9 +59,9 @@ export class BookingSummaryComponent implements OnInit {
     return this.sportObjects.find(o => o.id === id);
   }
 
-  delete(detail: BookingDetail) {
-    this.bookingDetails = this.bookingDetails.filter(b => b.bookingDetail !== detail);
+  delete(detail: SessionBookingDetail) {
     this.bookingSummaryService.delete(detail);
+    this.bookingDetails = this.bookingDetails.filter(d => !SessionBookingDetail.equals(d, detail));
     this.deleted.emit(detail);
   }
 
@@ -66,6 +70,26 @@ export class BookingSummaryComponent implements OnInit {
   }
 
   sumPrices() {
-    return this.bookingDetails.map(b => this.getOpeningTime(b.bookingDetail.openingTimeId).price).reduce((a, b) => a + b, 0);
+    return this.bookingDetails.map(b => this.getOpeningTime(b.openingTimeId).price).reduce((a, b) => a + b, 0);
+  }
+
+  confirm() {
+    this.bookingService.create().subscribe(
+      (booking) => {
+        forkJoin(this.bookingDetails.map(sessionDetail => {
+          const detail = new BookingDetail('', sessionDetail.sportObjectPositionId, sessionDetail.openingTimeId, createFromSessionDate(sessionDetail.date));
+          return this.bookingService.addDetail(booking.id, detail);
+        }))
+          .subscribe(
+            () => this.bookingService.submit(booking.id)
+              .subscribe(
+                () => {
+                  this.bookingSummaryService.deleteAll();
+                  this.dialog.open(BookingSuccessDialog);
+                },
+                this.handleError),
+            this.handleError);
+      },
+      this.handleError);
   }
 }

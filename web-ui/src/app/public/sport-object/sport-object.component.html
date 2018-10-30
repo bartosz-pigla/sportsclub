@@ -30,7 +30,7 @@
           <th>{{openingTime.startTime.hour | number:'2.0-0'}}:{{openingTime.startTime.minute | number:'2.0-0'}}</th>
           <td *ngFor="let detail of getDetailsForOpeningTime(openingTime.id)">
             <div *ngIf="getFreePositions(detail) > 0" class="booking-view__detail">
-              <button mat-button color="primary" (click)="book(detail)">{{'sportObject.book' | translate}}</button>
+              <button *ngIf="canBook()" mat-button color="primary" (click)="book(detail)">{{'sportObject.book' | translate}}</button>
               <span>{{'sportObject.freePositions' | translate}}: {{getFreePositions(detail)}}</span>
             </div>
             <div *ngIf="getFreePositions(detail) <= 0" class="booking-view__detail">
@@ -45,7 +45,6 @@
       </div>
     </div>
 
-    <booking-summary *ngIf="authenticationService.isSignedIn() && bookingSummaryService.detailsExists()" class="booking-summary" [openingTimes]="openingTimes" [sportObjectPositions]="sportObjectPositions" (deleted)="updateBookedPositionsCount($event)"></booking-summary>
+    <booking-summary *ngIf="authenticationService.isSignedIn() && bookingSummaryService.detailsExists()" class="booking-summary" [openingTimes]="openingTimes" [sportObjectPositions]="sportObjectPositions" (deleted)="onDeleteBookedPosition($event)"></booking-summary>
   </div>
 </div>
-

@@ -6,12 +6,6 @@ import {AuthenticationService} from "../../common/security/authentication.servic
   templateUrl: './public-home.component.html',
   styleUrls: ['./public-home.component.scss']
 })
-export class PublicHomeComponent implements OnInit {
+export class PublicHomeComponent {
 
-  constructor(private authenticationService: AuthenticationService) {
-  }
-
-  ngOnInit() {
-    console.log(`home: is signed in: ${this.authenticationService.isSignedIn()}`);
-  }
 }

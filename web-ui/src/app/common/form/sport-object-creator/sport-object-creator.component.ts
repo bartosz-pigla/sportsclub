@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Address, Sportsclub} from "../../http-service/sportsclub.service";
 import {SportObject, SportObjectService} from "../../http-service/sport-object.service";
-import {DayOpeningTime, OpeningTimeService, Time} from "../../http-service/opening-time-service";
+import {DayOpeningTime, OpeningTimeService} from "../../http-service/opening-time-service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ErrorHandlerService} from "../../error-handler.service";
 import {MatDialog} from "@angular/material";
@@ -11,6 +11,7 @@ import {uniquePositionNameValidator} from "./unique-position-name-validator";
 import {WeekDay} from "@angular/common";
 import {environment} from "../../../../environments/environment";
 import {forkJoin} from "rxjs";
+import {Time} from "../../date-time.utils";
 
 @Component({
   selector: 'sport-object-creator',
@@ -34,17 +35,9 @@ export class SportObjectCreatorComponent implements OnInit {
   private positionsToDelete: string[] = [];
   openingTimes: DayOpeningTime[] = [];
 
-  get maxContentLength() {
-    return 3000;
-  }
-
-  get maxPositionsCount() {
-    return 10;
-  }
-
-  get mapZoom() {
-    return 8;
-  }
+  maxContentLength = 3000;
+  maxPositionsCount = 10;
+  mapZoom = 8;
 
   get daysOfWeek() {
     return Object.keys(WeekDay).filter(type => isNaN(<any>type) && type !== 'values');

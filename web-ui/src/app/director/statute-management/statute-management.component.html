@@ -19,7 +19,6 @@
     </div>
 
     <footer class="form__footer">
-      <button mat-button (click)="cancel()">{{ 'common.cancel' | translate }}</button>
       <button type="submit" mat-button color="primary" [disabled]="statuteForm.invalid" (click)="updateStatute()">
         {{ 'common.update' | translate }}
       </button>

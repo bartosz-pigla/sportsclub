@@ -1,13 +1,13 @@
 package web.booking;
 
 import static com.google.common.collect.Lists.newArrayList;
+import static java.time.format.DateTimeFormatter.ofPattern;
 import static java.util.stream.Collectors.toList;
 import static query.model.booking.repository.BookingDetailQueryExpressions.bookingDateAndSportObjectMatchesAndIsInOpeningTimeRange;
 import static web.booking.dto.BookingDetailWithOpeningTimeAndPositionDto.createFrom;
 import static web.common.RequestMappings.PUBLIC_API_OPENING_TIMES_WITH_BOOKINGS;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,8 +32,8 @@ final class BookingPublicController extends BookingBaseController {
 
     @GetMapping(PUBLIC_API_OPENING_TIMES_WITH_BOOKINGS)
     List<BookingDetailWithOpeningTimeAndPositionDto> getPositionsWithOpeningTimes(@PathVariable UUID sportObjectId,
-                                                                                  @RequestParam String dateTime) {
-        LocalDateTime date = DateTimeFormatter.RFC_1123_DATE_TIME.parse(dateTime, LocalDateTime::from);
+                                                                                  @RequestParam(name = "date") String dateString) {
+        LocalDate date = LocalDate.parse(dateString, ofPattern("EEE MMM dd yyyy"));
 
         List<PositionsWithOpeningTimes> positionsWithOpeningTimes = this.openingTimeRepository
                 .getPositionsWithOpeningTimes(sportObjectId, date.getDayOfWeek());
@@ -42,7 +42,7 @@ final class BookingPublicController extends BookingBaseController {
             return positionsWithOpeningTimes.stream().map(p -> createFrom(p, 0)).collect(toList());
         } else {
             List<BookingDetailEntity> bookingDetails = newArrayList(bookingDetailRepository.findAll(bookingDateAndSportObjectMatchesAndIsInOpeningTimeRange(
-                    date.toLocalDate(),
+                    date,
                     positionsWithOpeningTimes.get(0).getStartTime(),
                     positionsWithOpeningTimes.get(positionsWithOpeningTimes.size() - 1).getFinishTime(),
                     sportObjectId)));

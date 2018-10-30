@@ -119,6 +119,10 @@
     "signIn": {
       "title": "Zaloguj się",
       "content": "Musisz zalogować się, aby wykonać tę akcję."
+    },
+    "bookingSuccess": {
+      "title": "Rezerwacja zakończona pomyślnie",
+      "content": "Jeżeli jesteś nowym klientem, to na numer podany przez Ciebie w trakcie rejestracji zadzwoni recepcjonista, aby potwierdzić rezerwację."
     }
   },
   "userType": {
