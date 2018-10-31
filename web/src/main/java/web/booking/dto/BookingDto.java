@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import query.model.booking.BookingState;
+import web.user.dto.UserDto;
 
 @Getter
 @Setter
@@ -22,4 +23,5 @@ public final class BookingDto {
     private String customerId;
     private LocalDateTime date;
     private BookingState state;
+    private UserDto customer;
 }

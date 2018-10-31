@@ -40,6 +40,7 @@ public class SportsClubApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(SportsClubApplication.class, args);
         context.getBean(UserPopulator.class).initializeDirector();
+        context.getBean(UserPopulator.class).initializeReceptionist();
         context.getBean(UserPopulator.class).initializeCustomer();
         context.getBean(SportsclubPopulator.class).initializeSportsclub();
     }

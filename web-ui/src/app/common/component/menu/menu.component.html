@@ -1,12 +1,20 @@
 <nav class="menu">
-  <ng-content></ng-content>
-
-  <div *ngIf="authenticationService.isSignedIn()" class="menu__authentication">
-    <a mat-button color="primary" (click)="signOut()">{{ 'menu.signOut' | translate }} ({{authenticationService.getUsername()}})</a>
+  <div class="menu__left-nav">
+    <ng-content></ng-content>
   </div>
 
-  <div *ngIf="!authenticationService.isSignedIn()" class="menu__authentication">
-    <a mat-button routerLink="/public/sign-up">{{ 'menu.signUp' | translate }}</a>
-    <a mat-button color="primary" routerLink="/public/sign-in">{{ 'menu.signIn' | translate }}</a>
+  <div class="menu__right-nav">
+    <div *ngIf="customerIsSignedIn()">
+      <a mat-button routerLink="/customer/bookings">{{ 'menu.bookings' | translate }}</a>
+    </div>
+
+    <div *ngIf="authenticationService.isSignedIn()">
+      <a mat-button color="primary" (click)="signOut()">{{ 'menu.signOut' | translate }} ({{authenticationService.getUsername()}})</a>
+    </div>
+
+    <div *ngIf="!authenticationService.isSignedIn()">
+      <a mat-button routerLink="/public/sign-up">{{ 'menu.signUp' | translate }}</a>
+      <a mat-button color="primary" routerLink="/public/sign-in">{{ 'menu.signIn' | translate }}</a>
+    </div>
   </div>
 </nav>

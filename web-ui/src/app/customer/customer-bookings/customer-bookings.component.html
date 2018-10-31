@@ -1,0 +1,46 @@
+<div class="booking-list-container">
+  <form class="card form search-form" [formGroup]="searchForm" novalidate>
+    <header class="form__header">
+      <h5 class="header--without-margin header__h5">{{ 'search.title' | translate}}</h5>
+    </header>
+
+    <div class="form__body">
+      <mat-form-field class="form__field">
+        <mat-select formControlName="state" placeholder="{{'search.booking.state' | translate}}">
+          <mat-option>{{'bookingState.ALL' | translate}}</mat-option>
+          <mat-option value="CREATED">{{'bookingState.CREATED' | translate}}</mat-option>
+          <mat-option value="SUBMITTED">{{'bookingState.SUBMITTED' | translate}}</mat-option>
+          <mat-option value="CONFIRMED">{{'bookingState.CONFIRMED' | translate}}</mat-option>
+          <mat-option value="CANCELED">{{'bookingState.CANCELED' | translate}}</mat-option>
+          <mat-option value="REJECTED">{{'bookingState.REJECTED' | translate}}</mat-option>
+          <mat-option value="FINISHED">{{'bookingState.FINISHED' | translate}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <footer class="form__footer">
+      <button type="button" mat-button (click)="clearFilter()">
+        {{ 'search.clear' | translate }}
+      </button>
+      <button type="submit" mat-button color="primary" (click)="filterBookings()" [disabled]="searchForm.invalid">
+        {{ 'search.confirm' | translate }}
+      </button>
+    </footer>
+  </form>
+
+  <list-view
+    class="booking-list"
+    title="{{'listView.title.booking' | translate}}"
+    [pageSize]="pageSize"
+    [service]="bookingService"
+    [sortFields]="sortFields"
+    [defaultSort]="defaultSort"
+    (pageChange)="initBookings($event)">
+
+    <booking-item *ngFor="let item of bookings" [booking]="item" [isReceptionist]="false" (updated)="paginationComponent.refreshPage()"></booking-item>
+
+    <div *ngIf="bookings.length === 0">
+      <h2 class="header__h2 no-content">{{'common.noContent' | translate}}</h2>
+    </div>
+  </list-view>
+</div>

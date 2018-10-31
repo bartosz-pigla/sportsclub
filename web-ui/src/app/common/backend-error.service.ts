@@ -1,8 +1,5 @@
 import {Injectable} from "@angular/core";
-import {MatDialog} from "@angular/material";
-import {TranslateService} from "@ngx-translate/core";
 import {HttpErrorResponse} from "@angular/common/http";
-import {UndefinedErrorDialog} from "./dialog/undefined-error/undefined-error.dialog";
 
 @Injectable({
   providedIn: 'root',

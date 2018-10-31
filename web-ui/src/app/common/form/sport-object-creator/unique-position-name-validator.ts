@@ -1,7 +1,6 @@
 import {SportObjectPosition} from "../../http-service/sport-object-position-service";
 import {AbstractControl, ValidatorFn} from "@angular/forms";
-import {Observable} from "rxjs";
-import { of } from 'rxjs';
+import {of} from "rxjs";
 import {map} from "rxjs/operators";
 
 export function uniquePositionNameValidator(positions: SportObjectPosition[]): ValidatorFn {

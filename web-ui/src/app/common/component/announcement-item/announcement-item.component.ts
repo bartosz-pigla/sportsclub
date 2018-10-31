@@ -9,8 +9,4 @@ import {Announcement} from "../../http-service/announcement-service";
 export class AnnouncementItemComponent {
 
   @Input() announcement: Announcement;
-
-  constructor() {
-  }
-
 }

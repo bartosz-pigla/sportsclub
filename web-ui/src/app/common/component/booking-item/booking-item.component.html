@@ -1,0 +1,26 @@
+<div class="card card--inline">
+  <h2 class="booking-column header--bolded card--inline__item--wider">{{booking.date | date: 'yyyy-MM-dd HH:MM'}}</h2>
+  <p class="booking-column card--inline__item--wider ">{{'bookingState.' + booking.state | translate}}</p>
+  <ng-container *ngIf="isReceptionist">
+    <p class="booking-column card--inline__item--wider ">{{booking.customer.username}}</p>
+    <p class="booking-column card--inline__item--wider ">{{booking.customer.phoneNumber}}</p>
+    <p class="booking-column card--inline__item--wider ">{{booking.customer.email}}</p>
+  </ng-container>
+
+  <footer class="booking-buttons-container">
+    <button *ngIf="!isReceptionist && bookingState.canCancel(booking.state)" mat-button color="primary" (click)="showCancelBookingDialog()">
+      {{ 'listView.booking.cancel' | translate }}
+    </button>
+    <ng-container *ngIf="isReceptionist">
+      <button *ngIf="bookingState.canConfirm(booking.state)" mat-button color="primary" (click)="showConfirmBookingDialog()">
+        {{ 'listView.booking.confirm' | translate }}
+      </button>
+      <button *ngIf="bookingState.canFinish(booking.state)" mat-button color="primary" (click)="showFinishBookingDialog()">
+        {{ 'listView.booking.finish' | translate }}
+      </button>
+      <button *ngIf="bookingState.canReject(booking.state)" mat-button color="primary" (click)="showRejectBookingDialog()">
+        {{ 'listView.booking.reject' | translate }}
+      </button>
+    </ng-container>
+  </footer>
+</div>

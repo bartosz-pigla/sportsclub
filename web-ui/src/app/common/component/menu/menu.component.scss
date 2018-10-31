@@ -5,12 +5,13 @@
 .menu {
   display: flex;
   justify-content: space-between;
+  //
+  //&__left-nav {
+  //  display: flex;
+  //}
 
-  &__item {
-
-  }
-
-  &__authentication {
-    margin-left: auto;
+  &__right-nav {
+    //margin-left: auto;
+    display: flex;
   }
 }

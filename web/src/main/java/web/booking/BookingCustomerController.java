@@ -22,6 +22,7 @@ import api.booking.bookingDetail.command.DeleteBookingDetailCommand;
 import api.booking.command.CancelBookingCommand;
 import api.booking.command.CreateBookingCommand;
 import api.booking.command.SubmitBookingCommand;
+import com.querydsl.core.types.Predicate;
 import commons.ErrorCode;
 import domain.booking.exception.AllSportObjectPositionsAlreadyBookedException;
 import domain.booking.exception.BookingDetailsLimitExceededException;
@@ -33,12 +34,16 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,8 +54,11 @@ import query.model.booking.BookingDetailEntity;
 import query.model.booking.BookingEntity;
 import query.model.booking.repository.BookingDetailEntityRepository;
 import query.model.booking.repository.BookingDetailQueryExpressions;
+import query.model.booking.repository.BookingEntityRepository;
+import query.model.booking.repository.BookingQueryExpressions;
 import web.booking.dto.BookingDetailDto;
 import web.booking.dto.BookingDetailDtoFactory;
+import web.booking.dto.BookingDto;
 import web.booking.dto.BookingDtoFactory;
 import web.common.dto.FieldErrorDto;
 import web.signIn.dto.UserPrincipal;
@@ -60,6 +68,7 @@ import web.signIn.dto.UserPrincipal;
 final class BookingCustomerController extends BookingBaseController {
 
     private BookingDetailEntityRepository bookingDetailRepository;
+    private BookingEntityRepository bookingRepository;
 
     @PostMapping(CUSTOMER_API_BOOKING)
     ResponseEntity<?> create(@AuthenticationPrincipal UserPrincipal principal) {
@@ -122,7 +131,6 @@ final class BookingCustomerController extends BookingBaseController {
                 .bookingDetailId(bookingDetailId)
                 .customerId(fromString(principal.getId()))
                 .build());
-
         return noContent().build();
     }
 
@@ -135,12 +143,21 @@ final class BookingCustomerController extends BookingBaseController {
             commandGateway.sendAndWait(getCommandFunction.apply(
                     bookingId,
                     fromString(currentlySignedInUser.getId())));
-
             return noContent().build();
         } else {
             return badRequest().build();
         }
     }
+
+    @GetMapping(CUSTOMER_API_BOOKING)
+    Page<BookingDto> get(@AuthenticationPrincipal UserPrincipal principal,
+                         @QuerydslPredicate(root = BookingEntity.class) Predicate predicate,
+                         @PageableDefault(sort = "date", direction = Sort.Direction.DESC) Pageable pageable) {
+        return this.bookingRepository
+                .findAll(BookingQueryExpressions.userIdMatches(principal.getUser().getId()).and(predicate), pageable)
+                .map(BookingDtoFactory::create);
+    }
+
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(AllSportObjectPositionsAlreadyBookedException.class)

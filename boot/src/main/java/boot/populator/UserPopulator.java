@@ -24,35 +24,46 @@ public final class UserPopulator {
 
     public void initializeDirector() {
         String username = "superuser";
-
         if (!userRepository.exists(usernameMatches(username))) {
             commandGateway.sendAndWait(CreateUserCommand.builder()
                     .username(username)
                     .password(passwordEncoder.encode("password"))
                     .userType(UserType.DIRECTOR)
                     .email(new Email("bartek217a@wp.pl"))
-                    .phoneNumber(new PhoneNumber("+48664220607")).build());
-
+                    .phoneNumber(new PhoneNumber("+48664220607"))
+                    .build());
             UserEntity user = userRepository.findOne(usernameMatches(username)).get();
-            commandGateway.sendAndWait(ActivateUserCommand.builder()
-                    .userId(user.getId()).build());
+            commandGateway.sendAndWait(new ActivateUserCommand(user.getId()));
+        }
+    }
+
+    public void initializeReceptionist() {
+        String username = "receptionist";
+        if (!userRepository.exists(usernameMatches(username))) {
+            commandGateway.sendAndWait(CreateUserCommand.builder()
+                    .username(username)
+                    .password(passwordEncoder.encode("password"))
+                    .userType(UserType.RECEPTIONIST)
+                    .email(new Email("receptionist@wp.pl"))
+                    .phoneNumber(new PhoneNumber("+48664220607"))
+                    .build());
+            UserEntity user = userRepository.findOne(usernameMatches(username)).get();
+            commandGateway.sendAndWait(new ActivateUserCommand(user.getId()));
         }
     }
 
     public void initializeCustomer() {
         String username = "customer";
-
         if (!userRepository.exists(usernameMatches(username))) {
             commandGateway.sendAndWait(CreateUserCommand.builder()
                     .username(username)
                     .password(passwordEncoder.encode("password"))
                     .userType(UserType.CUSTOMER)
                     .email(new Email("customer@wp.pl"))
-                    .phoneNumber(new PhoneNumber("+48123456789")).build());
-
+                    .phoneNumber(new PhoneNumber("+48123456789"))
+                    .build());
             UserEntity user = userRepository.findOne(usernameMatches(username)).get();
-            commandGateway.sendAndWait(ActivateUserCommand.builder()
-                    .userId(user.getId()).build());
+            commandGateway.sendAndWait(new ActivateUserCommand(user.getId()));
         }
     }
 }

@@ -48,7 +48,8 @@ export class AuthenticationService {
   }
 
   getUserType(): UserType {
-    return this.getDetails().user.userType;
+    const details = this.getDetails();
+    return details ? details.user.userType : null;
   }
 
   getUsername() {
@@ -57,5 +58,9 @@ export class AuthenticationService {
 
   getDetails(): CurrentUserDetails {
     return JSON.parse(localStorage.getItem(this.currentUserStorageKey));
+  }
+
+  isSignedInAsReceptionist() {
+    return this.isSignedIn ? this.getUserType() === UserType.RECEPTIONIST : false;
   }
 }

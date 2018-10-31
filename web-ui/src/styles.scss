@@ -91,3 +91,20 @@ body {
   padding: 40px 0;
   text-align: center;
 }
+
+.booking-list-container {
+  display: grid;
+  grid-template-areas:
+    'search-form booking-list booking-list';
+  grid-gap: 50px;
+  grid-template-columns: 200px auto;
+  margin: 0 50px;
+
+  .search-form {
+    grid-area: search-form;
+  }
+
+  .booking-list {
+    grid-area: booking-list;
+  }
+}

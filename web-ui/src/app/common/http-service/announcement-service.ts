@@ -4,7 +4,8 @@ import {environment} from "../../../environments/environment";
 import {PageResponse} from "./page-response";
 import {Observable} from "rxjs";
 import {
-  getPaginationUrlParams, getSortingUrlParams,
+  getPaginationUrlParams,
+  getSortingUrlParams,
   IDeletableService,
   IPageableAndSortableGetService,
   PaginationParams,
@@ -40,7 +41,6 @@ export class AnnouncementService implements IPageableAndSortableGetService<Annou
     let urlParams = new HttpParams();
     urlParams = getPaginationUrlParams(urlParams, paginationParams);
     urlParams = getSortingUrlParams(urlParams, sortingParams);
-
     return this.http.get<PageResponse<Announcement>>(this.announcementPublicApi, {params: urlParams});
   }
 

@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {BookingDetail, BookingDetailWithOpeningTimeAndPosition} from "./http-service/booking-service";
+import {BookingDetail, BookingDetailWithOpeningTimeAndPosition} from "./http-service/booking.model";
 
 export class SessionDate {
   constructor(public year: number,

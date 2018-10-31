@@ -6,6 +6,7 @@ import {PreviousPageService} from "../../common/navigation/previous-page.service
 import {SportObjectService} from "../../common/http-service/sport-object.service";
 import {ErrorHandlerService} from "../../common/error-handler.service";
 import {HttpErrorResponse} from "@angular/common/http";
+import {AuthenticationService} from "../../common/security/authentication.service";
 
 @Component({
   selector: 'public-menu',
@@ -24,7 +25,8 @@ export class PublicMenuComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private previousPageService: PreviousPageService,
               private dialog: MatDialog,
-              private errorHandlerService: ErrorHandlerService) {
+              private errorHandlerService: ErrorHandlerService,
+              public authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {

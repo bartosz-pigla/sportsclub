@@ -47,15 +47,28 @@
         "title": "Tytuł",
         "lastModificationDate": "Data ostatniej modyfikacji"
       },
+      "booking": {
+        "date": "Data utworzenia rezerwacji",
+        "username": "Nazwa użytkownika",
+        "email": "Adres e-mail użytkownika"
+      },
       "user": {
         "username": "Nazwa użytkownika",
         "email": "Adres e-mail",
         "userType": "Typ użytkownika"
       }
     },
+    "booking": {
+      "confirm": "Potwierdź rezerwację",
+      "finish": "Zakończ rezerację",
+      "cancel": "Anuluj rezerwację",
+      "reject": "Odrzuć rezerwację"
+    },
     "title": {
       "announcementManagement": "Zarządzanie ogłoszeniami",
-      "userManagement": "Zarządzanie użytkownikami"
+      "userManagement": "Zarządzanie użytkownikami",
+      "booking": "Twoje rezerwacje",
+      "bookingManagement": "Zarządzanie rezerwacjami"
     }
   },
   "common": {
@@ -73,6 +86,7 @@
     "update": "Aktualizuj"
   },
   "menu": {
+    "bookings": "Twoje rezerwacje",
     "signIn": "Zaloguj się",
     "signOut": "Wyloguj się",
     "signUp": "Zarejestruj się",
@@ -81,6 +95,9 @@
       "userManagement": "Użytkownicy",
       "sportObjectManagement": "Obiekty sportowe",
       "statuteManagement": "Regulamin"
+    },
+    "receptionist": {
+      "bookingManagement": "Zarządzanie rezerwacjami"
     }
   },
   "signIn": {
@@ -128,12 +145,16 @@
   "userType": {
     "CUSTOMER": "Klient",
     "RECEPTIONIST": "Recepcjonista",
-    "DIRECTOR": "Dyrektor"
+    "DIRECTOR": "Dyrektor",
+    "ALL": "Dowolny"
   },
   "search": {
     "title": "Filtrowanie wyników",
     "confirm": "Filtruj",
-    "clear": "Wyczysć"
+    "clear": "Wyczysć",
+    "booking": {
+      "state": "Status rezerwacji"
+    }
   },
   "sportObjectCreator": {
     "basicData": {
@@ -187,6 +208,15 @@
     "header": "Twoje rezerwacje",
     "totalPrice": "Koszt rezerwacji",
     "book": "Zarezerwuj"
+  },
+  "bookingState": {
+    "ALL": "Dowolny",
+    "CREATED": "Utworzona",
+    "SUBMITTED": "Złożona",
+    "CONFIRMED": "Potwierdzona",
+    "CANCELED": "Anulowana",
+    "REJECTED": "Odrzucona",
+    "FINISHED": "Zrealizowana"
   },
   "currency": {
     "PLN": "PLN"

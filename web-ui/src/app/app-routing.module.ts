@@ -12,6 +12,12 @@ import {PublicHomeComponent} from "./public/public-home/public-home.component";
 import {UserManagementComponent} from "./director/user-management/user-management.component";
 import {SportObjectManagementComponent} from "./director/sport-object-management/sport-object-management.component";
 import {StatuteManagementComponent} from "./director/statute-management/statute-management.component";
+import {CustomerComponent} from "./customer/customer.component";
+import {CustomerAuthorizationGuard} from "./customer/customer-authorization-guard.service";
+import {CustomerBookingsComponent} from "./customer/customer-bookings/customer-bookings.component";
+import {ReceptionistComponent} from "./receptionist/receptionist.component";
+import {ReceptionistAuthorizationGuard} from "./receptionist/receptionist-authorization-guard.service";
+import {BookingManagementComponent} from "./receptionist/booking-management/booking-management.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'public/home', pathMatch: 'full'},
@@ -27,7 +33,18 @@ const routes: Routes = [
       {path: 'not-found', component: NotFoundComponent}
     ]
   },
-
+  {
+    path: 'customer', component: CustomerComponent, canActivate: [CustomerAuthorizationGuard], children: [
+      {path: '', redirectTo: 'bookings', pathMatch: 'prefix'},
+      {path: 'bookings', component: CustomerBookingsComponent}
+    ]
+  },
+  {
+    path: 'receptionist', component: ReceptionistComponent, canActivate: [ReceptionistAuthorizationGuard], children: [
+      {path: '', redirectTo: 'booking-management', pathMatch: 'prefix'},
+      {path: 'booking-management', component: BookingManagementComponent}
+    ]
+  },
   {
     path: 'director', component: DirectorComponent, canActivate: [DirectorAuthorizationGuard], children: [
       {path: '', redirectTo: 'home', pathMatch: 'prefix'},

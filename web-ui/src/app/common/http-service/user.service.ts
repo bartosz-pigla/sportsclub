@@ -11,7 +11,6 @@ import {
 import {Observable} from "rxjs";
 import {environment} from "../../../environments/environment";
 import {PageResponse} from "./page-response";
-import {Announcement} from "./announcement-service";
 
 export enum UserType {
   CUSTOMER = "CUSTOMER",

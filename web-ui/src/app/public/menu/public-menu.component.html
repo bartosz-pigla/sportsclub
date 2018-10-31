@@ -1,3 +1,4 @@
 <menu>
+  <menu-item *ngIf="authenticationService.isSignedInAsReceptionist()" path="receptionist/booking-management" name="{{'menu.receptionist.bookingManagement' | translate}}"></menu-item>
   <menu-item *ngFor="let item of menuItems" [path]="item.path" [name]="item.name"></menu-item>
 </menu>

@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {BookingDetail, BookingDetailWithOpeningTimeAndPosition, BookingService} from "../../common/http-service/booking-service";
+import {CustomerBookingService} from "../../common/http-service/customer-booking.service";
 import {MatDialog} from "@angular/material";
 import {ErrorHandlerService} from "../../common/error-handler.service";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -9,15 +9,16 @@ import {OpeningTime, OpeningTimeService} from "../../common/http-service/opening
 import {SportObjectPosition, SportObjectPositionService} from "../../common/http-service/sport-object-position-service";
 import {AuthenticationService} from "../../common/security/authentication.service";
 import {SignInDialog} from "../../common/dialog/sign-in/sign-in.dialog";
-import {BookingSummaryService, SessionBookingDetail, SessionDate} from "../../common/booking-summary.service";
+import {BookingSummaryService, SessionBookingDetail} from "../../common/booking-summary.service";
 import {BookingSummaryComponent} from "../../common/component/booking-summary/booking-summary.component";
 import {addDayToDate, currentDate, days} from "../../common/date-time.utils";
+import {BookingDetail, BookingDetailWithOpeningTimeAndPosition} from "../../common/http-service/booking.model";
 
 @Component({
   selector: 'sport-object',
   templateUrl: './sport-object.component.html',
   styleUrls: ['./sport-object.component.scss'],
-  providers: [BookingService, SportObjectService, SportObjectPositionService, OpeningTimeService]
+  providers: [CustomerBookingService, SportObjectService, SportObjectPositionService, OpeningTimeService]
 })
 export class SportObjectComponent implements OnInit {
 
@@ -36,7 +37,7 @@ export class SportObjectComponent implements OnInit {
   private readonly handleError = (error: HttpErrorResponse) => this.errorHandlerService.showDialog(this.dialog, error);
 
   constructor(private route: ActivatedRoute,
-              private bookingService: BookingService,
+              private bookingService: CustomerBookingService,
               private sportObjectService: SportObjectService,
               private sportObjectPositionService: SportObjectPositionService,
               private openingTimeService: OpeningTimeService,
@@ -65,7 +66,7 @@ export class SportObjectComponent implements OnInit {
   }
 
   initBookingDetails(objectId) {
-    this.bookingService.get(objectId, this.date).subscribe(
+    this.bookingService.getBookingDetail(objectId, this.date).subscribe(
       details => this.bookingDetails = details,
       this.handleError);
   }
@@ -120,7 +121,7 @@ export class SportObjectComponent implements OnInit {
   }
 
   book(detail: BookingDetailWithOpeningTimeAndPosition) {
-    if(this.authenticationService.isSignedIn()) {
+    if (this.authenticationService.isSignedIn()) {
       detail.bookedPositionsCount++;
       this.bookingSummaryService.addDetail(BookingDetail.createFrom(detail, this.date), this.sportObject.id);
       this.bookingSummaryComponent.refresh();

@@ -43,6 +43,10 @@ import {SignInDialog} from "./common/dialog/sign-in/sign-in.dialog";
 import {BookingSummaryComponent} from './common/component/booking-summary/booking-summary.component';
 import {BookingSuccessDialog} from './common/dialog/booking-success/booking-success.dialog';
 import {JwtInterceptor} from "./common/security/jwt-interceptor.service";
+import {CustomerBookingsComponent} from './customer/customer-bookings/customer-bookings.component';
+import {BookingItemComponent} from './common/component/booking-item/booking-item.component';
+import {ReceptionistComponent} from './receptionist/receptionist.component';
+import {BookingManagementComponent} from './receptionist/booking-management/booking-management.component';
 
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -90,7 +94,11 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     SportObjectManagementComponent,
     SportObjectCreatorComponent,
     StatuteManagementComponent,
-    BookingSummaryComponent
+    BookingSummaryComponent,
+    CustomerBookingsComponent,
+    BookingItemComponent,
+    ReceptionistComponent,
+    BookingManagementComponent
   ],
   imports: [
     BrowserModule,
@@ -124,7 +132,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   ],
   providers: [
     GoogleMapsAPIWrapper,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
   ]
 })
 export class AppModule {

@@ -6,16 +6,17 @@ import {BookingSummaryService, SessionBookingDetail} from "../../booking-summary
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatDialog} from "@angular/material";
 import {ErrorHandlerService} from "../../error-handler.service";
-import {BookingDetail, BookingService} from "../../http-service/booking-service";
+import {CustomerBookingService} from "../../http-service/customer-booking.service";
 import {BookingSuccessDialog} from "../../dialog/booking-success/booking-success.dialog";
 import {forkJoin} from "rxjs";
 import {createFromSessionDate} from "../../date-time.utils";
+import {BookingDetail} from "../../http-service/booking.model";
 
 @Component({
   selector: 'booking-summary',
   templateUrl: './booking-summary.component.html',
   styleUrls: ['./booking-summary.component.scss'],
-  providers: [SportObjectService, ErrorHandlerService, BookingSummaryService, BookingService]
+  providers: [SportObjectService, ErrorHandlerService, BookingSummaryService, CustomerBookingService]
 })
 export class BookingSummaryComponent implements OnInit {
 
@@ -30,7 +31,7 @@ export class BookingSummaryComponent implements OnInit {
   private readonly handleError = (error: HttpErrorResponse) => this.errorHandlerService.showDialog(this.dialog, error);
 
   constructor(private bookingSummaryService: BookingSummaryService,
-              private bookingService: BookingService,
+              private bookingService: CustomerBookingService,
               private sportObjectService: SportObjectService,
               private dialog: MatDialog,
               private errorHandlerService: ErrorHandlerService) {

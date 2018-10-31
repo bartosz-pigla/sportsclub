@@ -22,9 +22,7 @@ export class ListViewComponent<T> implements OnInit {
 
   listModel: ListViewModel<T>;
 
-  private readonly emitPageChange = () => {
-    this.pageChange.emit(this.listModel.content);
-  };
+  private readonly emitPageChange = () => this.pageChange.emit(this.listModel.content);
 
   private readonly handleError = (error: HttpErrorResponse) => {
     this.errorHandlerService.showDialog(this.dialog, error);
@@ -41,6 +39,7 @@ export class ListViewComponent<T> implements OnInit {
   }
 
   refreshPage() {
+    console.log('refresh page');
     this.listModel.refresh(this.service, this.emitPageChange, this.handleError);
   }
 

@@ -18,7 +18,6 @@ export class SportObjectManagementComponent implements OnInit {
   sportObjectToEdit: SportObject;
   createFormIsVisible: boolean;
   sportsclub: Sportsclub;
-  // @ViewChild(AgmMap) map: AgmMap;
 
   private readonly handleError = (error: HttpErrorResponse) => {
     this.errorHandlerService.showDialog(this.dialog, error);
