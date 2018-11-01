@@ -58,39 +58,3 @@ export class CustomerBookingService implements IPageableAndSortableGetService<Bo
     return searchParams && searchParams.state ? params.set('state', searchParams.state) : params;
   }
 }
-//
-// @Injectable()
-// export class BookingManagementService implements IPageableAndSortableGetService<Booking> {
-//
-//   private readonly bookingReceptionistApi: string =
-//     `${environment.apiUrl}/receptionist-api/booking`;
-//
-//   constructor(private http: HttpClient) {
-//   }
-//
-//   get(paginationParams: PaginationParams,
-//       sortingParams: SortingParams,
-//       searchParams: Booking): Observable<PageResponse<Booking>> {
-//     let urlParams = new HttpParams();
-//     urlParams = getPaginationUrlParams(urlParams, paginationParams);
-//     urlParams = getSortingUrlParams(urlParams, sortingParams);
-//     urlParams = BookingManagementService.getSearchUrlParams(urlParams, searchParams);
-//     return this.http.get<PageResponse<Booking>>(this.bookingReceptionistApi, {params: urlParams});
-//   }
-//
-//   confirm(bookingId: string): Observable<void> {
-//     return this.http.patch<void>(`${this.bookingReceptionistApi}/${bookingId}/confirm`, null);
-//   }
-//
-//   finish(bookingId: string): Observable<void> {
-//     return this.http.patch<void>(`${this.bookingReceptionistApi}/${bookingId}/finish`, null);
-//   }
-//
-//   reject(bookingId: string): Observable<void> {
-//     return this.http.patch<void>(`${this.bookingReceptionistApi}/${bookingId}/reject`, null);
-//   }
-//
-//   private static getSearchUrlParams(params: HttpParams, searchParams: Booking): HttpParams {
-//     return searchParams && searchParams.state ? params.set('state', searchParams.state) : params;
-//   }
-// }

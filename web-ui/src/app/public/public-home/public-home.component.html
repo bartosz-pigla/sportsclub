@@ -1,3 +1,15 @@
-<p>
-  home-page works!
-</p>
+<div class="page-layout__content page-layout__content--one-column">
+  <list-view
+    title="{{'listView.title.announcement' | translate}}"
+    [pageSize]="pageSize"
+    [service]="announcementService"
+    [sortFields]="sortFields"
+    [defaultSort]="defaultSort"
+    (pageChange)="initAnnouncements($event)">
+
+    <div class="list-container">
+      <announcement-item *ngFor="let item of announcements" [announcement]="item">
+      </announcement-item>
+    </div>
+  </list-view>
+</div>

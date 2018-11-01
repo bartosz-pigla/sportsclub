@@ -9,7 +9,7 @@ import {OpeningTime, OpeningTimeService} from "../../common/http-service/opening
 import {SportObjectPosition, SportObjectPositionService} from "../../common/http-service/sport-object-position-service";
 import {AuthenticationService} from "../../common/security/authentication.service";
 import {SignInDialog} from "../../common/dialog/sign-in/sign-in.dialog";
-import {BookingSummaryService, SessionBookingDetail} from "../../common/booking-summary.service";
+import {BookingSummaryService} from "../../common/booking-summary.service";
 import {BookingSummaryComponent} from "../../common/component/booking-summary/booking-summary.component";
 import {addDayToDate, currentDate, days} from "../../common/date-time.utils";
 import {BookingDetail, BookingDetailWithOpeningTimeAndPosition} from "../../common/http-service/booking.model";
@@ -26,10 +26,10 @@ export class SportObjectComponent implements OnInit {
   sportObjectPositions: SportObjectPosition[];
   bookingDetails: BookingDetailWithOpeningTimeAndPosition[];
   openingTimes: OpeningTime[];
-
   date: Date;
   previousDate: Date;
   nextDate: Date;
+  mapZoom = 8;
 
   @ViewChild(BookingSummaryComponent)
   private bookingSummaryComponent: BookingSummaryComponent;
@@ -130,15 +130,15 @@ export class SportObjectComponent implements OnInit {
     }
   }
 
-  onDeleteBookedPosition(detail: SessionBookingDetail) {
-    // if(SessionDate.dateEquals(detail.date, this.date)) {
-    //   let detailToUpdate = this.bookingDetails.find(d => d.openingTimeId === detail.openingTimeId && d.positionId === detail.sportObjectPositionId);
-    //   detailToUpdate.bookedPositionsCount--;
-    // }
+  onDeleteBookedPosition() {
     this.initBookingDetails(this.sportObject.id);
   }
 
   canBook() {
     return currentDate() <= this.date;
+  }
+
+  clickExample() {
+    console.log(`address: ${JSON.stringify(this.sportObject.address)}`);
   }
 }

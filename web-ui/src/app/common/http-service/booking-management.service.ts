@@ -47,10 +47,6 @@ export class BookingManagementService implements IPageableAndSortableGetService<
         params = params.set('state', searchParams.state)
       }
 
-      // if (searchParams.date) {
-      //   params = params.set('date', searchParams.date);
-      // }
-
       if (searchParams.customer) {
         if (searchParams.customer.username) {
           params = params.set('customer.username', searchParams.customer.username);

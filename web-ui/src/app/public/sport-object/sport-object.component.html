@@ -6,21 +6,20 @@
       <p>{{sportObject.description}}</p>
     </section>
   </div>
-
+  <h2 class="header__h2">{{'sportObject.header.booking' | translate}}</h2>
   <div class="booking-container">
     <div class="card booking-view">
       <div class="booking-view__date-bar">
         <button mat-button (click)="previousDay()">
-          <mat-icon>fast_rewind</mat-icon>
+          <mat-icon class="previous-day-btn">fast_rewind</mat-icon>
           <span>{{previousDate | date: 'yyyy-MM-dd'}} ({{'sportObjectCreator.openingTime.' + getNameOfDayFromDate(previousDate) | translate}})</span>
         </button>
         <h4 class="header__h4 header--bolded booking-view__current-date">{{date | date: 'yyyy-MM-dd'}} ({{'sportObjectCreator.openingTime.' + getNameOfDayFromDate(date) | translate}})</h4>
         <button mat-button (click)="nextDay()">
           <span>{{nextDate | date: 'yyyy-MM-dd'}} ({{'sportObjectCreator.openingTime.' + getNameOfDayFromDate(nextDate) | translate}})</span>
-          <mat-icon>fast_forward</mat-icon>
+          <mat-icon class="next-day-btn">fast_forward</mat-icon>
         </button>
       </div>
-
       <table *ngIf="sportObjectPositions.length > 0 && getOpeningTimesInCurrentDate().length > 0" class="booking-view__content">
         <tr>
           <th></th>
@@ -39,12 +38,22 @@
           </td>
         </tr>
       </table>
-
       <div *ngIf="sportObjectPositions.length === 0 || getOpeningTimesInCurrentDate().length === 0">
-        <h2 class="header__h2 no-content">{{'common.noContent' | translate}}</h2>
+        <h2 class="header__h2 no-content">{{'sportObject.closed' | translate}}</h2>
       </div>
     </div>
-
     <booking-summary *ngIf="authenticationService.isSignedIn() && bookingSummaryService.detailsExists()" class="booking-summary" [openingTimes]="openingTimes" [sportObjectPositions]="sportObjectPositions" (deleted)="onDeleteBookedPosition($event)"></booking-summary>
+  </div>
+  <h2 class="header__h2">{{'sportObject.header.location' | translate}}</h2>
+  <div class="sport-object-location" (click)="clickExample()">
+    <agm-map [(latitude)]="sportObject.address.latitude"
+             [(longitude)]="sportObject.address.longitude"
+             [(zoom)]="mapZoom"
+             [disableDefaultUI]="true"
+             [zoomControl]="true">
+      <agm-marker [(latitude)]="sportObject.address.latitude"
+                  [(longitude)]="sportObject.address.longitude"
+                  [markerDraggable]="false"></agm-marker>
+    </agm-map>
   </div>
 </div>

@@ -45,7 +45,8 @@
       "descending": "Malejąco",
       "announcement": {
         "title": "Tytuł",
-        "lastModificationDate": "Data ostatniej modyfikacji"
+        "lastModificationDate": "Data ostatniej modyfikacji",
+        "publicationDate": "Data publikacji"
       },
       "booking": {
         "date": "Data utworzenia rezerwacji",
@@ -65,6 +66,7 @@
       "reject": "Odrzuć rezerwację"
     },
     "title": {
+      "announcement": "Ogłoszenia",
       "announcementManagement": "Zarządzanie ogłoszeniami",
       "userManagement": "Zarządzanie użytkownikami",
       "booking": "Twoje rezerwacje",
@@ -82,7 +84,7 @@
     "deactivate": "Deaktywuj",
     "next": "Dalej",
     "previous": "Wstecz",
-    "noContent": "brak danych do wyświetlenia",
+    "noContent": "Brak danych do wyświetlenia.",
     "update": "Aktualizuj"
   },
   "menu": {
@@ -200,9 +202,14 @@
     "content": "Treść"
   },
   "sportObject": {
+    "header": {
+      "booking": "Rezerwacja",
+      "location": "Lokalizacja obiektu"
+    },
     "book": "Zarezerwuj",
     "freePositions": "wolne miejsca",
-    "allBooked": "brak wolnych miejsc"
+    "allBooked": "brak wolnych miejsc",
+    "closed": "Obiekt sportowy jest w tym dniu zamknięty."
   },
   "bookingSummary": {
     "header": "Twoje rezerwacje",

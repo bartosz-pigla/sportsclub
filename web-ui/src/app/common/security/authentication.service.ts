@@ -63,4 +63,8 @@ export class AuthenticationService {
   isSignedInAsReceptionist() {
     return this.isSignedIn ? this.getUserType() === UserType.RECEPTIONIST : false;
   }
+
+  isSignedInAsCustomer() {
+    return this.isSignedIn ? this.getUserType() === UserType.CUSTOMER : false;
+  }
 }

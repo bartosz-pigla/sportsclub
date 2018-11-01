@@ -2,14 +2,6 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 
-// export class Address {
-//   constructor(public street: string,
-//               public city: string,
-//               public latitude: number,
-//               public longitude: number) {
-//   }
-// }
-
 export class Address {
   constructor(public latitude: number,
               public longitude: number) {
