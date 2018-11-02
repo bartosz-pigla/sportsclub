@@ -1,9 +1,5 @@
-<ng-container class="dialog">
-  <h2 class="dialog__header header__h2" mat-dialog-title>{{ 'dialog.bookingSuccess.title' | translate}}</h2>
-  <div mat-dialog-content>
-    <p>{{ 'dialog.bookingSuccess.content' | translate}}</p>
-  </div>
-  <div class="dialog__action dialog--centered" mat-dialog-actions>
-    <button mat-button (click)="dialogRef.close()">{{ 'common.close' | translate}}</button>
-  </div>
-</ng-container>
+<abstract-info-dialog
+  title="{{ 'dialog.bookingSuccess.title' | translate}}"
+  content="{{ 'dialog.bookingSuccess.content' | translate}}"
+  (closed)="dialogRef.close()">
+</abstract-info-dialog>

@@ -7,7 +7,16 @@ import {NotFoundComponent} from './public/not-found/not-found.component';
 import {UnauthorizedComponent} from './public/unauthorized/unauthorized.component';
 import {PublicComponent} from './public/public.component';
 import {CustomerComponent} from './customer/customer.component';
-import {MatButtonModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule, MatStepperModule} from "@angular/material";
+import {
+  MatButtonModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule,
+  MatStepperModule
+} from "@angular/material";
 
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
@@ -47,6 +56,13 @@ import {CustomerBookingsComponent} from './customer/customer-bookings/customer-b
 import {BookingItemComponent} from './common/component/booking-item/booking-item.component';
 import {ReceptionistComponent} from './receptionist/receptionist.component';
 import {BookingManagementComponent} from './receptionist/booking-management/booking-management.component';
+import {SignUpComponent} from './public/sign-up/sign-up.component';
+import {RecaptchaModule} from "ng-recaptcha";
+import {RecaptchaFormsModule} from "ng-recaptcha/forms";
+import {ActivationLinkSentDialog} from './common/dialog/activation-link-sent/activation-link-sent.dialog';
+import {UsernameAlreadyExistsDialog} from './common/dialog/username-already-exists/username-already-exists.dialog';
+import {AbstractInfoDialog} from "./common/dialog/abstract-info/abstract-info.dialog";
+import { StatuteComponent } from './public/statute/statute.component';
 
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -98,7 +114,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CustomerBookingsComponent,
     BookingItemComponent,
     ReceptionistComponent,
-    BookingManagementComponent
+    BookingManagementComponent,
+    SignUpComponent,
+    ActivationLinkSentDialog,
+    UsernameAlreadyExistsDialog,
+    AbstractInfoDialog,
+    StatuteComponent
   ],
   imports: [
     BrowserModule,
@@ -108,6 +129,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ReactiveFormsModule,
     CurrencyMaskModule,
     HttpClientModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -128,7 +151,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ConfirmationDialog,
     ErrorDialog,
     SignInDialog,
-    BookingSuccessDialog
+    BookingSuccessDialog,
+    ActivationLinkSentDialog,
+    UsernameAlreadyExistsDialog,
+    AbstractInfoDialog
   ],
   providers: [
     GoogleMapsAPIWrapper,

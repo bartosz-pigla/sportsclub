@@ -3,6 +3,7 @@ package web.signUp;
 import static org.springframework.http.ResponseEntity.ok;
 import static query.model.user.repository.UserQueryExpressions.usernameMatches;
 import static web.common.RequestMappings.PUBLIC_API_SIGN_UP;
+import static web.user.dto.UserDtoFactory.create;
 
 import java.util.Optional;
 
@@ -21,10 +22,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import query.model.user.UserEntity;
 import query.model.user.UserType;
-import web.user.service.CreateUserService;
 import web.user.UserBaseController;
 import web.user.dto.CreateUserWebCommand;
-import web.user.dto.UserDtoFactory;
+import web.user.service.CreateUserService;
 import web.user.service.CreateUserWebCommandValidator;
 
 @RestController
@@ -53,7 +53,7 @@ final class SignUpController extends UserBaseController {
         if (customerOptional.isPresent()) {
             UserEntity customer = customerOptional.get();
             commandGateway.sendAndWait(new SendActivationLinkCommand(customer.getId()));
-            return ok(UserDtoFactory.create(customer));
+            return ok(create(customer));
         } else {
             return errorResponseService.create("username", ErrorCode.NOT_EXISTS, HttpStatus.CONFLICT);
         }

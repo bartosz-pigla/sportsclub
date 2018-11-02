@@ -34,6 +34,7 @@ public final class RequestMappings {
     public static final String DIRECTOR_API = "/director-api";
 
     public static final String DIRECTOR_API_USER = DIRECTOR_API + "/user";
+    public static final String DIRECTOR_API_USER_BY_ID = DIRECTOR_API + "/user" + USER_ID_PARAMETER;
     public static final String DIRECTOR_API_USER_ACTIVATE = DIRECTOR_API_USER + USER_ID_PARAMETER + "/activate";
 
     public static final String DIRECTOR_API_CUSTOMER = DIRECTOR_API + "/customer";

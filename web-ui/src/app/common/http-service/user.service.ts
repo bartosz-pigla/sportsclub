@@ -29,6 +29,15 @@ export class User {
   }
 }
 
+export class SignUpUserCommand {
+  constructor(public username: string,
+              public email: string,
+              public phoneNumber: string,
+              public password: string) {
+
+  }
+}
+
 @Injectable()
 export class UserService implements IPageableAndSortableGetService<User>, IDeletableService<User> {
 
@@ -51,7 +60,7 @@ export class UserService implements IPageableAndSortableGetService<User>, IDelet
   }
 
   delete(id: string): Observable<void> {
-    return undefined;
+    return this.http.delete<void>(`${this.userDirectorApi}/${id}`);
   }
 
   get(paginationParams: PaginationParams, sortingParams: SortingParams, searchParams: User): Observable<PageResponse<User>> {
@@ -77,6 +86,10 @@ export class UserService implements IPageableAndSortableGetService<User>, IDelet
 
   activate(userId: string, activated: boolean): Observable<void> {
     return this.http.patch<void>(`${this.userDirectorApi}/${userId}/activate`, {activated: activated});
+  }
+
+  signUp(command: SignUpUserCommand): Observable<User> {
+    return this.http.post<User>(`${environment.apiUrl}/public-api/sign-up`, command);
   }
 
   private static getSearchUrlParams(params: HttpParams, searchParams: User): HttpParams {

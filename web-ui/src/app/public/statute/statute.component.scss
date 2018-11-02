@@ -1,0 +1,9 @@
+@import "../../../mixin";
+
+:host {
+  @include center();
+}
+
+.header {
+  text-align: center;
+}

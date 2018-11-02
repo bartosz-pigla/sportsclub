@@ -18,6 +18,8 @@ import {CustomerBookingsComponent} from "./customer/customer-bookings/customer-b
 import {ReceptionistComponent} from "./receptionist/receptionist.component";
 import {ReceptionistAuthorizationGuard} from "./receptionist/receptionist-authorization-guard.service";
 import {BookingManagementComponent} from "./receptionist/booking-management/booking-management.component";
+import {SignUpComponent} from "./public/sign-up/sign-up.component";
+import {StatuteComponent} from "./public/statute/statute.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'public/home', pathMatch: 'full'},
@@ -28,7 +30,9 @@ const routes: Routes = [
       {path: '', redirectTo: 'home', pathMatch: 'prefix'},
       {path: 'home', component: PublicHomeComponent},
       {path: 'sign-in', component: SignInComponent},
+      {path: 'sign-up', component: SignUpComponent},
       {path: 'sport-object/:id', component: SportObjectComponent},
+      {path: 'statute', component: StatuteComponent},
       {path: 'unauthorized', component: UnauthorizedComponent},
       {path: 'not-found', component: NotFoundComponent}
     ]

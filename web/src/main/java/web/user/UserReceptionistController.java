@@ -2,6 +2,8 @@ package web.user;
 
 import static org.springframework.http.ResponseEntity.notFound;
 import static org.springframework.http.ResponseEntity.ok;
+import static query.model.baseEntity.repository.BaseEntityQueryExpressions.isNotDeleted;
+import static query.model.user.QUserEntity.userEntity;
 import static query.model.user.repository.UserQueryExpressions.idMatches;
 import static web.common.RequestMappings.RECEPTIONIST_API_USER;
 import static web.common.RequestMappings.RECEPTIONIST_API_USER_BY_ID;
@@ -32,7 +34,9 @@ public class UserReceptionistController extends UserBaseController {
     public Page<UserDto> get(
             @QuerydslPredicate(root = UserEntity.class) Predicate predicate,
             @PageableDefault(sort = "username", direction = Sort.Direction.ASC) Pageable pageable) {
-        return this.userRepository.findAll(predicate, pageable).map(UserDtoFactory::create);
+        return this.userRepository
+                .findAll(isNotDeleted(userEntity._super).and(predicate), pageable)
+                .map(UserDtoFactory::create);
     }
 
     @GetMapping(RECEPTIONIST_API_USER_BY_ID)

@@ -98,7 +98,7 @@ body {
     'search-form booking-list booking-list';
   grid-gap: 50px;
   grid-template-columns: 200px auto;
-  margin: 0 50px;
+  margin: 50px 50px 0 50px;
 
   .search-form {
     grid-area: search-form;

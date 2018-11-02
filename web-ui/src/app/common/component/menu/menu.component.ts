@@ -19,8 +19,4 @@ export class MenuComponent {
     this.authenticationService.signOut();
     this.router.navigate(['public/sign-in']);
   }
-
-  customerIsSignedIn() {
-    return this.authenticationService.getUserType() === UserType.CUSTOMER;
-  }
 }

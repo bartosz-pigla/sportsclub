@@ -4,8 +4,12 @@
   </div>
 
   <div class="menu__right-nav">
-    <div *ngIf="customerIsSignedIn()">
+    <div *ngIf="authenticationService.isSignedInAsCustomer()">
       <a mat-button routerLink="/customer/bookings">{{ 'menu.bookings' | translate }}</a>
+    </div>
+
+    <div *ngIf="authenticationService.isSignedInAsCustomer() || !authenticationService.isSignedIn()">
+      <a mat-button routerLink="/public/statute">{{ 'menu.statute' | translate }}</a>
     </div>
 
     <div *ngIf="authenticationService.isSignedIn()">

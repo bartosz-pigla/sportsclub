@@ -6,7 +6,9 @@
     "positive": "Pole musi być liczbą dodatnią",
     "max": "Pole nie może być liczbą większą niż {{max}}",
     "email": "Pole musi być poprawnym adresem e-mail",
-    "unique": "Podana wartość już istnieje"
+    "unique": "Podana wartość już istnieje",
+    "passwordNotMatches": "Podane hasła nie pasują do siebie",
+    "usernameAlreadyExists": "Podana nazwa użytkownika już istnieje"
   },
   "backendError": {
     "username": {
@@ -89,6 +91,7 @@
   },
   "menu": {
     "bookings": "Twoje rezerwacje",
+    "statute": "Regulamin",
     "signIn": "Zaloguj się",
     "signOut": "Wyloguj się",
     "signUp": "Zarejestruj się",
@@ -108,6 +111,18 @@
     "password": "Hasło",
     "notExists": "Nieprawidłowa nazwa użytkownika lub hasło",
     "confirm": "Zaloguj się"
+  },
+  "signUp": {
+    "header": "Rejestracja",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło",
+    "confirmPassword": "Potwierdzenie hasła",
+    "email": "Adres e-mail",
+    "phoneNumber": "Numer telefonu",
+    "statute": "Zapoznałem się z",
+    "statuteLink": "regulaminem",
+    "error": "Podane dane są nieprawidłowe",
+    "confirm": "Zarejestruj się"
   },
   "announcementForm": {
     "createAnnouncementHeader": "Dodaj nowe ogłoszenie",
@@ -142,6 +157,14 @@
     "bookingSuccess": {
       "title": "Rezerwacja zakończona pomyślnie",
       "content": "Jeżeli jesteś nowym klientem, to na numer podany przez Ciebie w trakcie rejestracji zadzwoni recepcjonista, aby potwierdzić rezerwację."
+    },
+    "activationLinkSent": {
+      "title": "Dokończenie rejestracji",
+      "content": "Proszę otworzyć link aktywacyjny, który został wysłany na adres e-mail podany przez Ciebie w trakcie rejestracji."
+    },
+    "usernameAlreadyExists": {
+      "title": "Rejestracja zakończona niepowodzeniem",
+      "content": "Użytkownik o podanej nazwie użytkownika już istnieje. Proszę podać inną nazwę użytkownika."
     }
   },
   "userType": {

@@ -1,0 +1,54 @@
+<form class="form card" [formGroup]="signUpForm" novalidate>
+  <header class="form__header">
+    <label class="header__h2">{{ 'signUp.header' | translate }}</label>
+  </header>
+
+  <div class="form__body">
+    <mat-error *ngIf="signUpFailed">{{ 'signUp.error ' | translate }}</mat-error>
+
+    <mat-form-field class="form__field">
+      <input formControlName="username" matInput placeholder="{{ 'signUp.username' | translate }}">
+      <mat-error *ngIf="controls.username.errors?.required">{{ 'error.required' | translate }}</mat-error>
+      <mat-error *ngIf="controls.username.errors?.usernameAlreadyExists">{{ 'error.usernameAlreadyExists' | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form__field">
+      <input type="password" formControlName="password" matInput placeholder="{{ 'signUp.password' | translate }}">
+      <mat-error *ngIf="controls.password.errors?.required">{{ 'error.required' | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form__field">
+      <input type="password" formControlName="confirmPassword" matInput placeholder="{{ 'signUp.confirmPassword' | translate }}">
+      <mat-error *ngIf="controls.confirmPassword.errors?.required">{{ 'error.required' | translate }}</mat-error>
+      <mat-error *ngIf="controls.confirmPassword.errors?.passwordsNotMatches">{{ 'error.passwordNotMatches' | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form__field">
+      <input type="email" formControlName="email" matInput placeholder="{{ 'signUp.email' | translate }}">
+      <mat-error *ngIf="controls.email.errors?.required">{{ 'error.required' | translate }}</mat-error>
+      <mat-error *ngIf="controls.email.errors?.email">{{ 'error.email' | translate }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="form__field">
+      <input formControlName="phoneNumber" matInput placeholder="{{ 'signUp.phoneNumber' | translate }}">
+      <mat-error *ngIf="controls.phoneNumber.errors?.required">{{ 'error.required' | translate }}</mat-error>
+    </mat-form-field>
+
+    <div class="form__checkbox-field">
+      <input type="checkbox" formControlName="statuteAccepted">
+      <span>{{ 'signUp.statute' | translate }}</span>
+      &nbsp;
+      <a routerLink="/public/statute">{{ 'signUp.statuteLink' | translate }}</a>
+    </div>
+
+    <re-captcha [siteKey]="siteKey" formControlName="captcha" class="captcha"></re-captcha>
+  </div>
+
+  <footer class="form__footer">
+    <button mat-button (click)="goToPreviousPage()">{{ 'common.cancel' | translate }}</button>
+
+    <button type="submit" mat-button color="primary" [disabled]="signUpForm.invalid" (click)="signUp()">
+      {{ 'signUp.confirm' | translate }}
+    </button>
+  </footer>
+</form>
