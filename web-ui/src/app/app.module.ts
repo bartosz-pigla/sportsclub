@@ -63,6 +63,7 @@ import {ActivationLinkSentDialog} from './common/dialog/activation-link-sent/act
 import {UsernameAlreadyExistsDialog} from './common/dialog/username-already-exists/username-already-exists.dialog';
 import {AbstractInfoDialog} from "./common/dialog/abstract-info/abstract-info.dialog";
 import { StatuteComponent } from './public/statute/statute.component';
+import { CustomerActivationComponent } from './public/customer-activation/customer-activation.component';
 
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -119,7 +120,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ActivationLinkSentDialog,
     UsernameAlreadyExistsDialog,
     AbstractInfoDialog,
-    StatuteComponent
+    StatuteComponent,
+    CustomerActivationComponent
   ],
   imports: [
     BrowserModule,

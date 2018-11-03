@@ -56,6 +56,9 @@ export class UserService implements IPageableAndSortableGetService<User>, IDelet
   private readonly directorDirectorApi: string =
     `${environment.apiUrl}/director-api/director`;
 
+  private readonly customerPublicApi: string =
+    `${environment.apiUrl}/public-api/customer`;
+
   constructor(private http: HttpClient) {
   }
 
@@ -86,6 +89,10 @@ export class UserService implements IPageableAndSortableGetService<User>, IDelet
 
   activate(userId: string, activated: boolean): Observable<void> {
     return this.http.patch<void>(`${this.userDirectorApi}/${userId}/activate`, {activated: activated});
+  }
+
+  activateCustomer(activationKey: string): Observable<void> {
+    return this.http.patch<void>(`${this.customerPublicApi}/activate`, {activationKey: activationKey});
   }
 
   signUp(command: SignUpUserCommand): Observable<User> {

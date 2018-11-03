@@ -8,7 +8,8 @@
     "email": "Pole musi być poprawnym adresem e-mail",
     "unique": "Podana wartość już istnieje",
     "passwordNotMatches": "Podane hasła nie pasują do siebie",
-    "usernameAlreadyExists": "Podana nazwa użytkownika już istnieje"
+    "usernameAlreadyExists": "Podana nazwa użytkownika już istnieje",
+    "phoneNumber": "Pole musi być poprawnym numerem telefonu"
   },
   "backendError": {
     "username": {
@@ -250,5 +251,17 @@
   },
   "currency": {
     "PLN": "PLN"
+  },
+  "customerActivation": {
+    "title": {
+      "success": "Konto zostało pomyślnie aktywowane",
+      "fail": "Aktywacja konta zakończona niepowodzeniem"
+    },
+    "content": {
+      "success": "Możesz zalogować się używając danych podanych w trakcie rejestracji.",
+      "expired": "Link aktywacyjny do konta wygasł. Link był ważny przez 24 godziny.",
+      "invalid": "Link aktywacyjny do konta jest nieprawidłow.",
+      "alreadyActivated": "Konto zostało już aktywowane."
+    }
   }
 }

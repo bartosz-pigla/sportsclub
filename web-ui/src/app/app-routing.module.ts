@@ -20,6 +20,7 @@ import {ReceptionistAuthorizationGuard} from "./receptionist/receptionist-author
 import {BookingManagementComponent} from "./receptionist/booking-management/booking-management.component";
 import {SignUpComponent} from "./public/sign-up/sign-up.component";
 import {StatuteComponent} from "./public/statute/statute.component";
+import {CustomerActivationComponent} from "./public/customer-activation/customer-activation.component";
 
 const routes: Routes = [
   {path: '', redirectTo: 'public/home', pathMatch: 'full'},
@@ -33,6 +34,7 @@ const routes: Routes = [
       {path: 'sign-up', component: SignUpComponent},
       {path: 'sport-object/:id', component: SportObjectComponent},
       {path: 'statute', component: StatuteComponent},
+      {path: 'customer-activation/:id', component: CustomerActivationComponent},
       {path: 'unauthorized', component: UnauthorizedComponent},
       {path: 'not-found', component: NotFoundComponent}
     ]

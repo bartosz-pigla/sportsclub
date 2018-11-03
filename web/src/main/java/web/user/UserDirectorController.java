@@ -53,9 +53,9 @@ final class UserDirectorController extends UserBaseController {
     private CreateUserService createUserService;
     private CreateUserWebCommandValidator validator;
 
-    @InitBinder
+    @InitBinder("createUserWebCommand")
     private void initValidation(WebDataBinder binder) {
-        binder.setValidator(validator);
+        binder.addValidators(validator);
     }
 
     @PostMapping(DIRECTOR_API_CUSTOMER)

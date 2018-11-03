@@ -4,6 +4,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {TranslateService} from "@ngx-translate/core";
 import {User, UserService, UserType} from "../../http-service/user.service";
 import {Observable} from "rxjs";
+import {CustomValidators} from "../../validator/custom-validators";
 
 @Component({
   selector: 'user-form',
@@ -19,8 +20,7 @@ export class UserFormComponent implements OnInit {
   constructor(
     public userService: UserService,
     private translate: TranslateService,
-    private formBuilder: FormBuilder
-  ) {
+    private formBuilder: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class UserFormComponent implements OnInit {
       password: ['', Validators.required],
       userType: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', Validators.required]
+      phoneNumber: ['', Validators.required, CustomValidators.phoneNumber]
     });
   }
 
@@ -58,13 +58,8 @@ export class UserFormComponent implements OnInit {
     }
 
     userCreatedObservable.subscribe(
-      (user) => {
-        this.userSubmitted.emit(user);
-      },
-      (error: HttpErrorResponse) => {
-        this.errorResponse = error;
-      }
-    );
+      user => this.userSubmitted.emit(user),
+      (error: HttpErrorResponse) => this.errorResponse = error);
   }
 
   cancel() {

@@ -1,0 +1,18 @@
+{
+  "headers": {
+    "normalizedNames": {},
+    "lazyUpdate": null
+  },
+  "status": 409,
+  "statusText": "OK",
+  "url": "http://localhost:8080/public-api/customer/activate",
+  "ok": false,
+  "name": "HttpErrorResponse",
+  "message": "Http failure response for http://localhost:8080/public-api/customer/activate: 409 OK",
+  "error": [
+    {
+      "field": "activationKey",
+      "code": "alreadyActivated"
+    }
+  ]
+}

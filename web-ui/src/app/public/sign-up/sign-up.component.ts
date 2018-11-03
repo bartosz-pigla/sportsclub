@@ -4,11 +4,12 @@ import {ActivatedRoute} from "@angular/router";
 import {PreviousPageService} from "../../common/navigation/previous-page.service";
 import {MatDialog} from "@angular/material";
 import {AuthenticationService} from "../../common/security/authentication.service";
-import {CustomValidator} from "../../common/validator/confirm-password.validator";
+import {CustomValidators} from "../../common/validator/custom-validators";
 import {SignUpUserCommand, UserService} from "../../common/http-service/user.service";
 import {ActivationLinkSentDialog} from "../../common/dialog/activation-link-sent/activation-link-sent.dialog";
 import {HttpErrorResponse} from "@angular/common/http";
 import {UsernameAlreadyExistsDialog} from "../../common/dialog/username-already-exists/username-already-exists.dialog";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-sign-up',
@@ -20,7 +21,7 @@ export class SignUpComponent implements OnInit {
 
   signUpForm: FormGroup;
   signUpFailed: boolean;
-  readonly siteKey = '6LdpW3gUAAAAANPleTOA_laeGD5pOUo32wmj483w';
+  readonly siteKey = environment.captchaSiteKey;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -43,11 +44,11 @@ export class SignUpComponent implements OnInit {
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phoneNumber: ['', Validators.required],
+      phoneNumber: ['', [Validators.required, CustomValidators.phoneNumber]],
       statuteAccepted: [false, Validators.requiredTrue],
       captcha: [null, Validators.required]
     }, {
-      validator: CustomValidator.confirmPassword
+      validator: CustomValidators.confirmPassword
     });
   }
 
@@ -69,12 +70,9 @@ export class SignUpComponent implements OnInit {
     this.userService.signUp(signUpCommand).subscribe(
       () => this.dialog.open(ActivationLinkSentDialog).afterClosed().subscribe(() => this.goToPreviousPage()),
       (errorResponse: HttpErrorResponse) => {
-        console.log(`error: ${JSON.stringify(errorResponse)}`);
         if (errorResponse.status === 409) {
           this.dialog.open(UsernameAlreadyExistsDialog).afterClosed().subscribe(
-            () => {
-              this.signUpForm.get('username').setErrors({usernameAlreadyExists: true})
-            });
+            () => this.signUpForm.get('username').setErrors({usernameAlreadyExists: true}));
         }
       }
     );
