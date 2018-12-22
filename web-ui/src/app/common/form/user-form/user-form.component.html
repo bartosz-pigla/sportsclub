@@ -33,6 +33,7 @@
     <mat-form-field class="form__field">
       <input formControlName="phoneNumber" matInput placeholder="{{ 'userForm.phoneNumber' | translate }}">
       <mat-error *ngIf="controls.phoneNumber.errors?.required">{{ 'error.required' | translate }}</mat-error>
+      <mat-error *ngIf="controls.phoneNumber.errors?.phoneNumber">{{ 'error.phoneNumber' | translate }}</mat-error>
     </mat-form-field>
   </div>
 

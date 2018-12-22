@@ -28,7 +28,7 @@ export class PublicHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.initSortFields();
-    this.pageSize = 10;
+    this.pageSize = 3;
     this.defaultSort = new SortingParams('lastModificationDate', SortOrder.DESC);
   }
 

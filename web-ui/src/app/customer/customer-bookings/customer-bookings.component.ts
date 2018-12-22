@@ -34,7 +34,7 @@ export class CustomerBookingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pageSize = 15;
+    this.pageSize = 5;
     this.defaultSort = new SortingParams('date', SortOrder.DESC);
     this.initSortFields();
     this.initSearchForm();

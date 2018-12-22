@@ -37,7 +37,7 @@ export class SportObjectCreatorComponent implements OnInit {
 
   maxContentLength = 3000;
   maxPositionsCount = 10;
-  mapZoom = 8;
+  mapZoom = 15;
 
   get daysOfWeek() {
     return Object.keys(WeekDay).filter(type => isNaN(<any>type) && type !== 'values');
@@ -155,16 +155,15 @@ export class SportObjectCreatorComponent implements OnInit {
   }
 
   getSortedOpeningTimes(): DayOpeningTime[] {
-    return this.openingTimes
-      .sort((o1, o2) => {
-        if (o1.dayOfWeek > o2.dayOfWeek) {
-          return -1;
-        } else if (o1.dayOfWeek < o2.dayOfWeek) {
-          return 1;
-        } else {
-          return 0
-        }
-      });
+    return this.openingTimes.sort((o1, o2) => {
+      if (o1.dayOfWeek > o2.dayOfWeek) {
+        return -1;
+      } else if (o1.dayOfWeek < o2.dayOfWeek) {
+        return 1;
+      } else {
+        return 0
+      }
+    });
   }
 
   cancel() {
@@ -186,7 +185,7 @@ export class SportObjectCreatorComponent implements OnInit {
 
   createSportObject(sportObject: SportObject) {
     this.sportObjectService.post(sportObject).subscribe(
-      (sportObject) => {
+      sportObject => {
         this.sportObjectService.addSportObjectToSession(sportObject);
         this.handleCreateOrUpdateSportObjectSuccess(sportObject);
       },
@@ -207,10 +206,9 @@ export class SportObjectCreatorComponent implements OnInit {
     if (this.positionsToDelete.length === 0) {
       this.confirmPositionsAndOpeningTimes(sportObject);
     } else {
-      forkJoin(this.positionsToDelete.map(positionId => this.sportObjectPositionService.delete(sportObject.id, positionId)))
-        .subscribe(
-          () => this.confirmPositionsAndOpeningTimes(sportObject),
-          this.errorHandler);
+      forkJoin(this.positionsToDelete.map(positionId => this.sportObjectPositionService.delete(sportObject.id, positionId))).subscribe(
+        () => this.confirmPositionsAndOpeningTimes(sportObject),
+        this.errorHandler);
     }
   }
 
@@ -228,9 +226,8 @@ export class SportObjectCreatorComponent implements OnInit {
   }
 
   confirmOpeningTimes(sportObject: SportObject) {
-    forkJoin(this.openingTimes.map(openingTime => this.openingTimeService.post(sportObject.id, openingTime)))
-      .subscribe(() => {
-        this.submitted.emit(sportObject);
-      }, this.errorHandler);
+    forkJoin(this.openingTimes.map(openingTime => this.openingTimeService.post(sportObject.id, openingTime))).subscribe(
+      () => this.submitted.emit(sportObject),
+      this.errorHandler);
   }
 }

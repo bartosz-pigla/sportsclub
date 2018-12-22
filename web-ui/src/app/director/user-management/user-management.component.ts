@@ -38,7 +38,7 @@ export class UserManagementComponent implements OnInit {
   ngOnInit() {
     this.initSortFields();
     this.initSearchForm();
-    this.pageSize = 10;
+    this.pageSize = 5;
     this.defaultSort = new SortingParams('username', SortOrder.ASC);
   }
 
@@ -92,9 +92,7 @@ export class UserManagementComponent implements OnInit {
 
   activate(userId: string, activated: boolean) {
     this.userService.activate(userId, activated).subscribe(
-      () => {
-        this.refreshPage();
-      },
+      () => this.refreshPage(),
       (error: HttpErrorResponse) => {
         this.dialog.open(ErrorDialog, {
           data: error

@@ -14,7 +14,7 @@ public final class SportObjectDtoFactory {
                         object.getAddress().getCity().getCity(),
                         object.getAddress().getCoordinates().getLatitude(),
                         object.getAddress().getCoordinates().getLongitude()))
-                .imageUrl(object.getImageUrl().toString())
+                .imageUrl(object.getImageUrl().getImageUrl().toString())
                 .sportsclubId(object.getHeadquarter().getId().toString())
                 .build();
     }

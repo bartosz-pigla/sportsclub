@@ -1,12 +1,12 @@
 <div class="page-layout__content page-layout__content--one-column">
+  <div *ngIf="createFormIsVisible" class="new-sport-object-creator">
+    <h1 class="header__h1">{{'sportObjectCreator.header' | translate}}</h1>
+    <sport-object-creator [sportsclub]="sportsclub"
+                          (canceled)="hideCreateForm()"
+                          (submitted)="createSportObject($event)">
+    </sport-object-creator>
+  </div>
   <h1 class="header__h1 list-view-header__title">{{'menu.director.sportObjectManagement' | translate}}</h1>
-
-  <sport-object-creator *ngIf="createFormIsVisible"
-                        [sportsclub]="sportsclub"
-                        (canceled)="hideCreateForm()"
-                        (submitted)="createSportObject($event)">
-  </sport-object-creator>
-
   <ng-container *ngFor="let item of sportObjects">
     <sport-object-creator *ngIf="item === sportObjectToEdit"
                           [sportsclub]="sportsclub"
@@ -14,9 +14,8 @@
                           (canceled)="sportObjectToEdit = null"
                           (submitted)="updateSportObject($event)">
     </sport-object-creator>
-
     <div *ngIf="item !== sportObjectToEdit" class="card card--inline">
-      <h2 class="header__h4 card--inline__item">{{item.name}}</h2>
+      <h2 class="header__h4 card--inline__item--wider">{{item.name}}</h2>
       <div>
         <delete-item class="card--inline__item"
                      [id]="item.id"
@@ -27,7 +26,7 @@
       </div>
     </div>
   </ng-container>
-
+  <h2 *ngIf="sportObjects.length === 0" class="header__h2 no-content">{{'common.noContent' | translate}}</h2>
   <new-item-button (buttonClick)="showCreateForm()"></new-item-button>
 </div>
 

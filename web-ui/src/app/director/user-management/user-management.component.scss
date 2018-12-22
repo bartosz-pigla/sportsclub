@@ -1,15 +1,10 @@
 .user-management-container {
   display: grid;
   grid-template-areas:
-    'new-user-form new-user-form new-user-form'
     'search-form user-list user-list';
   grid-gap: 50px;
   grid-template-columns: 200px auto;
-  margin: 0 50px;
-
-  .new-user-form {
-    grid-area: new-user-form;
-  }
+  margin: 50px;
 
   .search-form {
     grid-area: search-form;
@@ -18,5 +13,15 @@
 
   .user-list {
     grid-area: user-list;
+  }
+
+  &--with-new-user-form {
+    grid-template-areas:
+      'new-user-form new-user-form new-user-form'
+      'search-form user-list user-list';
+
+    .new-user-form {
+      grid-area: new-user-form;
+    }
   }
 }

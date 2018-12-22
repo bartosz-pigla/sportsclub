@@ -2,6 +2,7 @@ package query.model.sportobject;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -23,6 +24,7 @@ import query.model.sportsclub.SportsclubEntity;
 public class SportObjectEntity extends BaseEntity {
 
     private String name;
+    @Column(length = LONG_STRING_MAX_LENGTH)
     private String description;
     @Embedded
     private Address address;

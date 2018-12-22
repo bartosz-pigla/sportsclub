@@ -12,7 +12,7 @@ import {UsernameAlreadyExistsDialog} from "../../common/dialog/username-already-
 import {environment} from "../../../environments/environment";
 
 @Component({
-  selector: 'app-sign-up',
+  selector: 'sign-up',
   templateUrl: './sign-up.component.html',
   styleUrls: ['./sign-up.component.scss'],
   providers: [UserService]

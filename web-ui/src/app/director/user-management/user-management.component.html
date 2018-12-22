@@ -1,4 +1,4 @@
-<div class="user-management-container">
+<div class="user-management-container" [ngClass]="{'user-management-container--with-new-user-form' : userFormIsVisible}">
   <user-form
     class="new-user-form"
     *ngIf="userFormIsVisible"
@@ -68,6 +68,8 @@
         </button>
       </div>
     </div>
+
+    <h2 *ngIf="users.length === 0" class="header__h2 no-content">{{'common.noContent' | translate}}</h2>
   </list-view>
 </div>
 

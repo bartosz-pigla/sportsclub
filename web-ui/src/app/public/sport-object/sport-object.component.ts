@@ -29,7 +29,7 @@ export class SportObjectComponent implements OnInit {
   date: Date;
   previousDate: Date;
   nextDate: Date;
-  mapZoom = 8;
+  mapZoom = 15;
 
   @ViewChild(BookingSummaryComponent)
   private bookingSummaryComponent: BookingSummaryComponent;

@@ -20,7 +20,7 @@ import query.model.sportsclub.SportsclubEntity;
 public class AnnouncementEntity extends BaseEntity {
 
     private String title;
-    @Column(length = LONG_STRONG_MAX_LENGTH)
+    @Column(length = LONG_STRING_MAX_LENGTH)
     private String content;
     private LocalDateTime lastModificationDate;
     @ManyToOne(fetch = FetchType.LAZY)

@@ -9,7 +9,7 @@
     "unique": "Podana wartość już istnieje",
     "passwordNotMatches": "Podane hasła nie pasują do siebie",
     "usernameAlreadyExists": "Podana nazwa użytkownika już istnieje",
-    "phoneNumber": "Pole musi być poprawnym numerem telefonu"
+    "phoneNumber": "Pole musi być poprawnym numerem telefonu, np. +48664220607"
   },
   "backendError": {
     "username": {
@@ -183,6 +183,7 @@
     }
   },
   "sportObjectCreator": {
+    "header": "Kreator dodawania nowego obiektu sportowego",
     "basicData": {
       "header": "Podstawowe informacje",
       "name": "Nazwa",

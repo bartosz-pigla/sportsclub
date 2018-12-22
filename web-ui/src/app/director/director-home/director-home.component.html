@@ -30,6 +30,8 @@
         </announcement-item>
       </ng-container>
     </div>
+
+    <h2 *ngIf="announcements.length === 0" class="header__h2 no-content">{{'common.noContent' | translate}}</h2>
   </list-view>
 </div>
 
