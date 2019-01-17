@@ -39,7 +39,7 @@
       <input type="checkbox" formControlName="statuteAccepted">
       <span>{{ 'signUp.statute' | translate }}</span>
       &nbsp;
-      <a routerLink="/public/statute">{{ 'signUp.statuteLink' | translate }}</a>
+      <a target="_blank" routerLink="/public/statute">{{ 'signUp.statuteLink' | translate }}</a>
     </div>
 
     <re-captcha [siteKey]="siteKey" formControlName="captcha" class="captcha"></re-captcha>

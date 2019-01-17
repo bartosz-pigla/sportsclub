@@ -24,6 +24,7 @@ export class BookingSummaryComponent implements OnInit {
   @Input() openingTimes: OpeningTime[];
 
   @Output() deleted = new EventEmitter<SessionBookingDetail>();
+  @Output() submitted = new EventEmitter();
 
   sportObjects: SportObject[];
   bookingDetails: SessionBookingDetail[];
@@ -62,7 +63,7 @@ export class BookingSummaryComponent implements OnInit {
 
   delete(detail: SessionBookingDetail) {
     this.bookingSummaryService.delete(detail);
-    this.bookingDetails = this.bookingDetails.filter(d => !SessionBookingDetail.equals(d, detail));
+    this.bookingDetails = this.bookingSummaryService.getDetails();
     this.deleted.emit(detail);
   }
 
@@ -87,6 +88,7 @@ export class BookingSummaryComponent implements OnInit {
                 () => {
                   this.bookingSummaryService.deleteAll();
                   this.dialog.open(BookingSuccessDialog);
+                  this.submitted.emit();
                 },
                 this.handleError),
             this.handleError);

@@ -39,7 +39,6 @@ export class ListViewComponent<T> implements OnInit {
   }
 
   refreshPage() {
-    console.log('refresh page');
     this.listModel.refresh(this.service, this.emitPageChange, this.handleError);
   }
 

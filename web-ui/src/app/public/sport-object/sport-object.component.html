@@ -1,6 +1,6 @@
 <div class="sport-object-container">
   <div class="card sport-object-header">
-    <img class="sport-object-header__image" src="https://images.pexels.com/photos/248797/pexels-photo-248797.jpeg" />
+    <img class="sport-object-header__image" [src]="sportObject.imageUrl" />
     <section class="sport-object-header__description">
       <h5 class="header header--bolded header__h5">{{sportObject.name}}</h5>
       <p class="description">{{sportObject.description}}</p>
@@ -42,10 +42,16 @@
         <h2 class="header__h2 no-content">{{'sportObject.closed' | translate}}</h2>
       </div>
     </div>
-    <booking-summary *ngIf="authenticationService.isSignedIn() && bookingSummaryService.detailsExists()" class="booking-summary" [openingTimes]="openingTimes" [sportObjectPositions]="sportObjectPositions" (deleted)="onDeleteBookedPosition($event)"></booking-summary>
+    <booking-summary *ngIf="authenticationService.isSignedIn() && bookingSummaryService.detailsExists()"
+                     [openingTimes]="openingTimes"
+                     [sportObjectPositions]="sportObjectPositions"
+                     (deleted)="onDeleteBookedPosition($event)"
+                     (submitted)="init(sportObject.id)"
+                     class="booking-summary">
+    </booking-summary>
   </div>
   <h2 class="header__h2">{{'sportObject.header.location' | translate}}</h2>
-  <div class="sport-object-location" (click)="clickExample()">
+  <div class="sport-object-location">
     <agm-map [(latitude)]="sportObject.address.latitude"
              [(longitude)]="sportObject.address.longitude"
              [(zoom)]="mapZoom"

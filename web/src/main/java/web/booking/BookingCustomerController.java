@@ -1,5 +1,6 @@
 package web.booking;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static java.util.UUID.fromString;
 import static org.springframework.http.ResponseEntity.badRequest;
 import static org.springframework.http.ResponseEntity.noContent;
@@ -114,12 +115,11 @@ final class BookingCustomerController extends BookingBaseController {
                 .date(bookingDetail.getDate())
                 .build());
 
-        Optional<BookingDetailEntity> detail = bookingDetailRepository.findOne(BookingDetailQueryExpressions.bookingIdMatches(bookingId)
+        List<BookingDetailEntity> details = newArrayList(bookingDetailRepository.findAll(BookingDetailQueryExpressions.bookingIdMatches(bookingId)
                 .and(BookingDetailQueryExpressions.sportObjectPositionIdMatches(sportObjectPositionId))
-                .and(BookingDetailQueryExpressions.openingTimeIdMatches(openingTimeId)));
+                .and(BookingDetailQueryExpressions.openingTimeIdMatches(openingTimeId))));
 
-        return detail.map(bookingDetailEntity -> ok(BookingDetailDtoFactory.create(bookingDetailEntity)))
-                .orElseGet(() -> noContent().build());
+        return details.isEmpty() ? noContent().build() : ok(BookingDetailDtoFactory.create(details.get(0)));
     }
 
     @DeleteMapping(CUSTOMER_API_BOOKING_DETAIL_BY_ID)

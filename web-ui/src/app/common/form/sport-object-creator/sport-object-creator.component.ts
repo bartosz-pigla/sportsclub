@@ -185,20 +185,14 @@ export class SportObjectCreatorComponent implements OnInit {
 
   createSportObject(sportObject: SportObject) {
     this.sportObjectService.post(sportObject).subscribe(
-      sportObject => {
-        this.sportObjectService.addSportObjectToSession(sportObject);
-        this.handleCreateOrUpdateSportObjectSuccess(sportObject);
-      },
+      sportObject => this.handleCreateOrUpdateSportObjectSuccess(sportObject),
       this.errorHandler
     );
   }
 
   updateSportObject(sportObject: SportObject) {
     this.sportObjectService.put(sportObject.id, sportObject).subscribe(
-      () => {
-        this.sportObjectService.updateSportObjectInSession(sportObject);
-        this.handleCreateOrUpdateSportObjectSuccess(sportObject);
-      },
+      () => this.handleCreateOrUpdateSportObjectSuccess(sportObject),
       this.errorHandler);
   }
 

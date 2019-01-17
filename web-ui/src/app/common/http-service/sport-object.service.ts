@@ -19,8 +19,6 @@ export class SportObject {
 @Injectable()
 export class SportObjectService implements IDeletableService<User> {
 
-  private static readonly sportObjectsStorageKey = 'sportObjects';
-
   private readonly sportObjectPublicApi: string =
     `${environment.apiUrl}/public-api/sportsclub/${environment.sportsclubId}/sport-object`;
 
@@ -31,48 +29,32 @@ export class SportObjectService implements IDeletableService<User> {
   }
 
   delete(id: string): Observable<void> {
-    this.deleteSportObjectFromSession(id);
     return this.http.delete<void>(`${this.sportObjectDirectorApi}/${id}`);
   }
 
   getOne(objectId: string,
          successCallback: (sportObjects: SportObject) => void,
          errorCallback: (errorResponse: HttpErrorResponse) => void): void {
-    const sportObjects = SportObjectService.tryToGetSportObjectFromSession();
-
-    if (sportObjects) {
-      successCallback(sportObjects.find(s => s.id === objectId));
-    } else {
-      this.http.get<SportObject[]>(this.sportObjectPublicApi).subscribe(
-        (sportObjects) => {
-          sessionStorage.setItem(SportObjectService.sportObjectsStorageKey, JSON.stringify(sportObjects));
-          successCallback(sportObjects.find(s => s.id === objectId));
-        },
-        (error) => {
-          errorCallback(error);
-        }
-      );
-    }
+    this.http.get<SportObject[]>(this.sportObjectPublicApi).subscribe(
+      (sportObjects) => {
+        successCallback(sportObjects.find(s => s.id === objectId));
+      },
+      (error) => {
+        errorCallback(error);
+      }
+    )
   }
 
   get(successCallback: (sportObjects: SportObject[]) => void,
       errorCallback: (errorResponse: HttpErrorResponse) => void): void {
-    const sportObjects = SportObjectService.tryToGetSportObjectFromSession();
-
-    if (sportObjects) {
-      successCallback(sportObjects);
-    } else {
-      this.http.get<SportObject[]>(this.sportObjectPublicApi).subscribe(
-        (sportObjects) => {
-          sessionStorage.setItem(SportObjectService.sportObjectsStorageKey, JSON.stringify(sportObjects));
-          successCallback(sportObjects);
-        },
-        (error) => {
-          errorCallback(error);
-        }
-      );
-    }
-  }
+    this.http.get<SportObject[]>(this.sportObjectPublicApi).subscribe(
+      (sportObjects) => {
+        successCallback(sportObjects);
+      },
+      (error) => {
+        errorCallback(error);
+      }
+    )  }
 
   post(sportObject: SportObject): Observable<SportObject> {
     return this.http.post<SportObject>(this.sportObjectDirectorApi, sportObject);
@@ -80,33 +62,5 @@ export class SportObjectService implements IDeletableService<User> {
 
   put(sportObjectId: string, sportObject: SportObject): Observable<SportObject> {
     return this.http.put<SportObject>(`${this.sportObjectDirectorApi}/${sportObjectId}`, sportObject);
-  }
-
-  addSportObjectToSession(sportObject: SportObject) {
-    let sportObjects = SportObjectService.tryToGetSportObjectFromSession();
-    sportObjects.push(sportObject);
-    sessionStorage.setItem(SportObjectService.sportObjectsStorageKey, JSON.stringify(sportObjects));
-  }
-
-  updateSportObjectInSession(sportObject: SportObject) {
-    let sportObjects = SportObjectService.tryToGetSportObjectFromSession();
-    sportObjects = sportObjects.filter(o => o.id !== sportObject.id);
-    sportObjects.push(sportObject);
-    sessionStorage.setItem(SportObjectService.sportObjectsStorageKey, JSON.stringify(sportObjects));
-  }
-
-  deleteSportObjectFromSession(objectId: string) {
-    let sportObjects = SportObjectService.tryToGetSportObjectFromSession();
-    sportObjects = sportObjects.filter(o => o.id !== objectId);
-    sessionStorage.setItem(SportObjectService.sportObjectsStorageKey, JSON.stringify(sportObjects));
-  }
-
-  private static tryToGetSportObjectFromSession(): SportObject[] {
-    const sportObjects = sessionStorage.getItem(SportObjectService.sportObjectsStorageKey);
-    if (sportObjects) {
-      return JSON.parse(sportObjects);
-    } else {
-      return null;
-    }
   }
 }

@@ -54,11 +54,15 @@ export class SportObjectComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       const objectId = params['id'];
-      this.initSportObject(objectId);
-      this.initOpeningTimes(objectId);
-      this.initSportObjectPositions(objectId);
-      this.initBookingDetails(objectId);
+      this.init(objectId);
     });
+  }
+
+  init(objectId) {
+    this.initSportObject(objectId);
+    this.initOpeningTimes(objectId);
+    this.initSportObjectPositions(objectId);
+    this.initBookingDetails(objectId);
   }
 
   initSportObject(objectId) {
@@ -116,14 +120,14 @@ export class SportObjectComponent implements OnInit {
   }
 
   getFreePositions(detail: BookingDetailWithOpeningTimeAndPosition) {
-    let freePositions = detail.positionsCount - detail.bookedPositionsCount;
-    return this.bookingSummaryService.detailExists(detail, this.sportObject.id, this.date) ? freePositions - 1 : freePositions;
+    return detail.positionsCount - detail.bookedPositionsCount - this.bookingSummaryService.getDetailsCount(detail, this.sportObject.id, this.date);
   }
 
   book(detail: BookingDetailWithOpeningTimeAndPosition) {
     if (this.authenticationService.isSignedIn()) {
       detail.bookedPositionsCount++;
       this.bookingSummaryService.addDetail(BookingDetail.createFrom(detail, this.date), this.sportObject.id);
+      this.init(this.sportObject.id);
       this.bookingSummaryComponent.refresh();
     } else {
       this.dialog.open(SignInDialog);
@@ -136,9 +140,5 @@ export class SportObjectComponent implements OnInit {
 
   canBook() {
     return currentDate() <= this.date;
-  }
-
-  clickExample() {
-    console.log(`address: ${JSON.stringify(this.sportObject.address)}`);
   }
 }

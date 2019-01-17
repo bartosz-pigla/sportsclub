@@ -56,7 +56,9 @@ export class BookingSummaryService {
   delete(detail: SessionBookingDetail) {
     let sessionDetails = this.getDetails();
     if (sessionDetails !== null) {
-      sessionDetails = sessionDetails.filter(d => !SessionBookingDetail.equals(d, detail));
+      // sessionDetails = sessionDetails.filter(d => !SessionBookingDetail.equals(d, detail));
+      const idxToDelete = sessionDetails.findIndex(d => SessionBookingDetail.equals(d, detail));
+      sessionDetails.splice(idxToDelete, 1);
       sessionStorage.setItem(BookingSummaryService.bookingDetailsKey, JSON.stringify(sessionDetails));
     }
   }
@@ -74,6 +76,12 @@ export class BookingSummaryService {
     const details = this.getDetails();
     return details === null ? false : details.findIndex(d =>
       SessionDate.dateEquals(d.date, date) && d.openingTimeId === detail.openingTimeId && d.sportObjectPositionId === detail.positionId) !== -1;
+  }
+
+  getDetailsCount(detail: BookingDetailWithOpeningTimeAndPosition, objectId: string, date: Date) {
+    const details = this.getDetails();
+    return details === null ? 0 : details.filter(
+      d => SessionDate.dateEquals(d.date, date) && d.openingTimeId === detail.openingTimeId && d.sportObjectPositionId === detail.positionId).length;
   }
 
   detailsExists(): boolean {

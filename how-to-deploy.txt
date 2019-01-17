@@ -1,0 +1,11 @@
+﻿1. Założyć bazę danych (PostgreSQL) z następującymi danymi:
+nazwa bazy danych: sportsclubdb
+nazwa użytkownika:sportsclubdbuser
+hasło:AbGeDs
+2. Zbudować projekt backendowy za pomocą polecenia: mvn clean install -DskipTests
+3. Uruchomić projekt backendowy po raz pierwszy: mvn spring-boot:run
+4. Numer id klubu sportowego z tabeli sportsclub zamienić w plikach environment.ts i environment.prod.ts znajdujących się w ścieżce web-ui/src/environments
+5. Zbudować projekt frontendowy: npm install w katalogu web-ui.
+6. Uruchomić projekt frontendowy: ng serve w katalogu web-ui.
+7. Uruchomić po raz drugi projekt backendowy: mvn spring-boot:run
+8. Otworzyć w przeglądarce system wpisając w pasku adresu: http://localhost:4200

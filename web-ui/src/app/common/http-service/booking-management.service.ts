@@ -18,13 +18,10 @@ export class BookingManagementService implements IPageableAndSortableGetService<
   get(paginationParams: PaginationParams,
       sortingParams: SortingParams,
       searchParams: Booking): Observable<PageResponse<Booking>> {
-    console.log('log: get');
-
     let urlParams = new HttpParams();
     urlParams = getPaginationUrlParams(urlParams, paginationParams);
     urlParams = getSortingUrlParams(urlParams, sortingParams);
     urlParams = BookingManagementService.getSearchUrlParams(urlParams, searchParams);
-    console.log(`url params: ${urlParams}`);
     return this.http.get<PageResponse<Booking>>(this.bookingReceptionistApi, {params: urlParams});
   }
 
@@ -41,7 +38,6 @@ export class BookingManagementService implements IPageableAndSortableGetService<
   }
 
   private static getSearchUrlParams(params: HttpParams, searchParams: Booking): HttpParams {
-    console.log(`search params: ${JSON.stringify(searchParams)}`);
     if (searchParams) {
       if (searchParams.state) {
         params = params.set('state', searchParams.state)

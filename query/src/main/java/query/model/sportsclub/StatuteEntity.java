@@ -1,5 +1,6 @@
 package query.model.sportsclub;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
@@ -16,6 +17,7 @@ import query.model.baseEntity.BaseEntity;
 public class StatuteEntity extends BaseEntity {
 
     private String title;
+    @Column(length = LONG_STRING_MAX_LENGTH)
     private String description;
     @OneToOne(fetch = FetchType.LAZY)
     private SportsclubEntity sportsclub;

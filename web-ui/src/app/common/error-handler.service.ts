@@ -23,13 +23,5 @@ export class ErrorHandlerService {
   }
 
   private handleBadRequestError(error: HttpErrorResponse) {
-    // this.translate.get([key]).subscribe((res: any) => {
-    //   let value = res[key];
-    //   this.sortFields = [
-    //     {name: 'title', viewValue: value.title},
-    //     {name: 'lastModificationDate', viewValue: value.lastModificationDate}
-    //   ];
-    // });
-    console.log('bad request error');
   }
 }
